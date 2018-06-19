@@ -14,6 +14,16 @@ import { FooterComponent } from './footer/footer.component';
 import 'hammerjs';
 import { TeamComponent } from './team/team.component';
 import { Ng2CarouselamosModule } from 'ng2-carouselamos';
+import { NewsComponent } from './news/news.component';
+import { ChampionshipComponent } from './championship/championship.component';
+import { GalleryComponent } from './gallery/gallery.component';
+import { SocialmediaComponent } from './socialmedia/socialmedia.component';
+import { DonationsComponent } from './donations/donations.component';
+import { AboutComponent } from './about/about.component';
+import { ContactComponent } from './contact/contact.component';
+import { FanshopComponent } from './fanshop/fanshop.component';
+import { MembershipComponent } from './membership/membership.component';
+import { HalloffameComponent } from './halloffame/halloffame.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +31,17 @@ import { Ng2CarouselamosModule } from 'ng2-carouselamos';
     HomeComponent,
     HeaderComponent,
     FooterComponent,
-    TeamComponent
+    TeamComponent,
+    NewsComponent,
+    ChampionshipComponent,
+    GalleryComponent,
+    SocialmediaComponent,
+    DonationsComponent,
+    AboutComponent,
+    ContactComponent,
+    FanshopComponent,
+    MembershipComponent,
+    HalloffameComponent
   ],
   imports: [
     BrowserModule ,
