@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PLAYERS, Player } from '../shared/player';
 
 @Component({
   selector: 'app-team',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TeamComponent implements OnInit {
 
-  constructor() { }
+  players: Player[];
+
+  constructor() {
+
+   }
 
   ngOnInit() {
+    this.players = PLAYERS
   }
 
 }

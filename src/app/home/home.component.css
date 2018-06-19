@@ -1,0 +1,25 @@
+
+#container {
+    width: 80%;
+    margin: 5em auto;
+    padding: 0;
+    background:#fff;
+}
+
+.items {
+    min-width:900;
+    max-width:900;
+    align-content: center
+    /* height:400px; */
+    /* background:#ECECEC; */
+}
+
+#left, #right {
+    margin: 30px;
+}
+
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}

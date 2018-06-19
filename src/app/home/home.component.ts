@@ -7,9 +7,27 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  title = 'HVTDP';
+
+  items: Array<any> = []
+  
+  constructor() { 
+    this.items = [
+      { name: 'assets/images/schnitti.JPG' },
+      { name: 'assets/images/sinci.JPG' },
+      { name: 'assets/images/schnitti.JPG' },
+      { name: 'assets/images/sinci.JPG' },
+      { name: 'assets/images/schnitti.JPG' },
+      { name: 'assets/images/schnitti.JPG' },
+      { name: 'assets/images/schnitti.JPG' },
+      { name: 'assets/images/schnitti.JPG' },
+      { name: 'assets/images/schnitti.JPG' },
+      { name: 'assets/images/sinci.JPG' }
+    ]
+  }
 
   ngOnInit() {
+
   }
 
 }
