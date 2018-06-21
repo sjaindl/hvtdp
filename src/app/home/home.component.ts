@@ -13,16 +13,8 @@ export class HomeComponent implements OnInit {
   
   constructor() { 
     this.items = [
-      { name: 'assets/images/schnitti.JPG' },
-      { name: 'assets/images/sinci.JPG' },
-      { name: 'assets/images/schnitti.JPG' },
-      { name: 'assets/images/sinci.JPG' },
-      { name: 'assets/images/schnitti.JPG' },
-      { name: 'assets/images/schnitti.JPG' },
-      { name: 'assets/images/schnitti.JPG' },
-      { name: 'assets/images/schnitti.JPG' },
-      { name: 'assets/images/schnitti.JPG' },
-      { name: 'assets/images/sinci.JPG' }
+      { name: 'assets/images/news/news1.jpg' },
+      { name: 'assets/images/news/news2.jpg' }
     ]
   }
 
