@@ -1,31 +1,67 @@
-<mat-toolbar color="primary">
-  <span><img src="/assets/images/logo.jpg" height="40px" width="40px"></span>
-  <span class="flex-spacer"></span>
-  <a md-button routerLink="/home" routerLinkActive="active"><span class="fa fa-home fa-sm"></span>Home</a>
-  <span class="flex-spacer"></span>
-  <a md-button routerLink="/news" routerLinkActive="active"><span class="fa fa-info fa-lg"></span>News</a>
-  <span class="flex-spacer"></span>
-  <a md-button routerLink="/team" routerLinkActive="active"><span class="fa fa-info fa-lg"></span>Mannschaft</a>
-  <span class="flex-spacer"></span>
-  <a md-button routerLink="/championship" routerLinkActive="active"><span class="fa fa-info fa-lg"></span>Meisterschaft</a>
-  <span class="flex-spacer"></span>
-  <a md-button routerLink="/gallery" routerLinkActive="active"><span class="fa fa-info fa-lg"></span>Gallerie</a>
-  <span class="flex-spacer"></span>
-  <a md-button routerLink="/social" routerLinkActive="active"><span class="fa fa-info fa-lg"></span>Social Media</a>
-  <span class="flex-spacer"></span>
-  <a md-button routerLink="/donation" routerLinkActive="active"><span class="fa fa-info fa-lg"></span>Matchballspende</a>
-  <span class="flex-spacer"></span>
-  <a md-button routerLink="/about" routerLinkActive="active"><span class="fa fa-info fa-lg"></span>Über uns</a>
-  <span class="flex-spacer"></span>
-  <a md-button routerLink="/contact" routerLinkActive="active"><span class="fa fa-info fa-lg"></span>Kontakt</a>
-  <span class="flex-spacer"></span>
-  <a md-button routerLink="/fanshop" routerLinkActive="active"><span class="fa fa-info fa-lg"></span>Fanshop</a>
-  <span class="flex-spacer"></span>
-  <a md-button routerLink="/membership" routerLinkActive="active"><span class="fa fa-info fa-lg"></span>Mitgliedschaft</a>
-  <span class="flex-spacer"></span>
-  <a md-button routerLink="/halloffame" routerLinkActive="active"><span class="fa fa-info fa-lg"></span>Hall of Fame</a>
-  <span class="flex-spacer"></span>
-
-  <!-- <a md-button (click)="openSignInForm()"><span class="fa fa-sign-in fa-lg"></span>Login</a> -->
-
-</mat-toolbar>
+<div >
+    <mat-toolbar color="primary">
+      <mat-toolbar-row>
+        <button mat-icon-button (click)="sidenav.toggle()" fxShow="true" fxHide.gt-sm>
+          <mat-icon>menu</mat-icon>
+        </button>
+        <div fxShow="true" fxHide.lt-md="true">
+            <span><img src="/assets/images/logo.jpg" height="40px" width="40px"></span>
+            <span class="flex-spacer"></span>
+            <a md-button routerLink="/home" routerLinkActive="active"><span class="fa fa-home fa-sm"></span>Home</a>
+            <span class="flex-spacer"></span>
+            <a md-button routerLink="/news" routerLinkActive="active"><span class="fa fa-info fa-lg"></span>News</a>
+            <span class="flex-spacer"></span>
+            <a md-button routerLink="/team" routerLinkActive="active"><span class="fa fa-info fa-lg"></span>Mannschaft</a>
+            <span class="flex-spacer"></span>
+            <a md-button routerLink="/championship" routerLinkActive="active"><span class="fa fa-info fa-lg"></span>Meisterschaft</a>
+            <span class="flex-spacer"></span>
+            <a md-button routerLink="/gallery" routerLinkActive="active"><span class="fa fa-info fa-lg"></span>Gallerie</a>
+            <span class="flex-spacer"></span>
+            <a md-button routerLink="/social" routerLinkActive="active"><span class="fa fa-info fa-lg"></span>Social Media</a>
+            <span class="flex-spacer"></span>
+            <a md-button routerLink="/donation" routerLinkActive="active"><span class="fa fa-info fa-lg"></span>Matchballspende</a>
+            <span class="flex-spacer"></span>
+            <a md-button routerLink="/about" routerLinkActive="active"><span class="fa fa-info fa-lg"></span>Über uns</a>
+            <span class="flex-spacer"></span>
+            <a md-button routerLink="/contact" routerLinkActive="active"><span class="fa fa-info fa-lg"></span>Kontakt</a>
+            <span class="flex-spacer"></span>
+            <a md-button routerLink="/fanshop" routerLinkActive="active"><span class="fa fa-info fa-lg"></span>Fanshop</a>
+            <span class="flex-spacer"></span>
+            <a md-button routerLink="/membership" routerLinkActive="active"><span class="fa fa-info fa-lg"></span>Mitgliedschaft</a>
+            <span class="flex-spacer"></span>
+            <a md-button routerLink="/halloffame" routerLinkActive="active"><span class="fa fa-info fa-lg"></span>Hall of Fame</a>
+            <span class="flex-spacer"></span>
+        </div>
+      </mat-toolbar-row>
+    </mat-toolbar>
+  
+    <mat-sidenav-container fxFlexFill style="position: absolute;top: 1;left: 0;width: 100%;height: 100%;z-index: 10;background-color: rgba(0,0,0,0.0);">
+      <mat-sidenav #sidenav>
+        <mat-nav-list>
+          <a md-button routerLink="/home" routerLinkActive="active" mat-list-item>
+            <span class="fa fa-home fa-sm"></span>
+            Home
+          </a>
+          <a md-button routerLink="/news" routerLinkActive="active" mat-list-item>
+            <span class="fa fa-info fa-lg"></span>
+            News
+          </a>
+          <a md-button routerLink="/team" routerLinkActive="active" mat-list-item><span class="fa fa-info fa-lg"></span>Mannschaft</a>
+          <a md-button routerLink="/championship" routerLinkActive="active" mat-list-item><span class="fa fa-info fa-lg"></span>Meisterschaft</a>
+          <a md-button routerLink="/gallery" routerLinkActive="active" mat-list-item><span class="fa fa-info fa-lg"></span>Gallerie</a>
+          <a md-button routerLink="/social" routerLinkActive="active" mat-list-item><span class="fa fa-info fa-lg"></span>Social Media</a>
+          <a md-button routerLink="/donation" routerLinkActive="active" mat-list-item><span class="fa fa-info fa-lg"></span>Matchballspende</a>
+          <a md-button routerLink="/about" routerLinkActive="active" mat-list-item><span class="fa fa-info fa-lg"></span>Über uns</a>
+          <a md-button routerLink="/contact" routerLinkActive="active" mat-list-item><span class="fa fa-info fa-lg"></span>Kontakt</a>
+          <a md-button routerLink="/fanshop" routerLinkActive="active" mat-list-item><span class="fa fa-info fa-lg"></span>Fanshop</a>
+          <a md-button routerLink="/membership" routerLinkActive="active" mat-list-item><span class="fa fa-info fa-lg"></span>Mitgliedschaft</a>
+          <a md-button routerLink="/halloffame" routerLinkActive="active" mat-list-item><span class="fa fa-info fa-lg"></span>Hall of Fame</a>
+          <a (click)="sidenav.toggle()" mat-list-item>
+              <mat-icon>close</mat-icon> Close
+          </a>
+        </mat-nav-list>
+      </mat-sidenav>
+      <mat-sidenav-content fxFlexFill></mat-sidenav-content>
+    </mat-sidenav-container>
+  </div>
+  
