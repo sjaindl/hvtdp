@@ -1,6 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~@angular/material/prebuilt-themes/pink-bluegrey.css';
 
+/* Material Theme */
+
 $lt-gray:              #ddd;
 $background-dark:      #512DA8;
 $background-light:     #9575CD;
@@ -47,7 +49,33 @@ body {
     z-index: 1;
     transform: scale(1.01);
 }
+/* Material Lists */
 
 .mat-list .mat-list-item .mat-list-text>*, .mat-list .mat-list-option .mat-list-text.hover>*, .mat-nav-list .mat-list-item .mat-list-text>*, .mat-nav-list .mat-list-option .mat-list-text>*, .mat-selection-list .mat-list-item .mat-list-text>*, .mat-selection-list .mat-list-option .mat-list-text>* {
-    color: blueviolet;
+    color: darkorchid;
+     /* blueviolet;  */
+}
+
+ .mat-list .mat-list-item .mat-list-avatar.img-preview { 
+    height: 75px;
+    width: 75px;
+}
+
+.mat-list .mat-list-item {
+    color: blue
+}
+
+.mat-list .mat-list-item .mat-divider {
+    border-top-color: rgba(194, 24, 91, 0.5);
+}
+
+.mat-list {
+    margin-top: 1em;
+    margin-bottom: 5em;
+}
+
+/* General */
+
+body {
+    color: darkorchid;
 }
