@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout'
 
-import { MatToolbarModule, MatListModule, MatDividerModule, MatSidenavModule, MatIconModule } from '@angular/material';
+import { MatToolbarModule, MatListModule, MatDividerModule, MatSidenavModule, MatIconModule, MatGridListModule } from '@angular/material';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
@@ -53,7 +53,8 @@ import { HalloffameComponent } from './halloffame/halloffame.component';
     AppRoutingModule,
     Ng2CarouselamosModule,
     MatSidenavModule,
-    MatIconModule
+    MatIconModule,
+    MatGridListModule
   ],
   providers: [],
   bootstrap: [AppComponent]

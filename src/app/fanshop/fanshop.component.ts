@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ITEMS } from '../shared/items';
 
 @Component({
   selector: 'app-fanshop',
@@ -7,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FanshopComponent implements OnInit {
 
+  items = ITEMS
+
   constructor() { }
 
   ngOnInit() {
   }
-
 }
