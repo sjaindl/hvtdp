@@ -1,3 +1,5 @@
+/* Carousel */
+
 #container {
     width: 80%;
     margin: 5em auto;
@@ -14,7 +16,10 @@
 }
 
 #left, #right {
-    margin: 30px;
+	margin: 30px;
+	width: 100%;
+	z-index: 11;
+
 }
 
 img {
@@ -88,7 +93,8 @@ img {
     height: 4rem;
     background-color: rgba(0, 0, 0, 0.9);
     padding-left: 100%;
-    box-sizing: content-box;
+	box-sizing: content-box;
+	z-index: 8;
   }
   .ticker-wrap .ticker {
     display: inline-block;
