@@ -1,7 +1,7 @@
 <div>
     <mat-toolbar color="primary">
       <mat-toolbar-row>
-        <button mat-icon-button (click)="sidenav.toggle()" fxShow="true" fxHide.gt-sm>
+        <button mat-icon-button (click)="sidenav.toggle(); setSideNavigationWidth();" fxShow="true" fxHide.gt-sm>
           <mat-icon>menu</mat-icon>
         </button>
         <div fxShow="true" fxHide.lt-md="true">
@@ -35,7 +35,10 @@
       </mat-toolbar-row>
     </mat-toolbar>
   
-    <mat-sidenav-container fxFlexFill style="position: absolute;top: 1;left: 0;width: 100%;height: 100%;z-index: 10;background-color: rgba(1,0,0,0.0);">
+    <!-- <mat-sidenav-container #sidenavContainer fxFlexFill style="position: absolute;top: 1;left: 0;width: 10px;height: 100%;z-index: 10;background-color: rgba(1,0,0,0.0);"> -->
+        <mat-sidenav-container #sidenavContainer  [ngStyle]="{'width': width}">
+   
+    <!-- <mat-sidenav-container #sidenavContainer fxFlexFill> -->
       <mat-sidenav #sidenav>
         <mat-nav-list>
           <a md-button routerLink="/home" routerLinkActive="active" mat-list-item>
@@ -56,7 +59,7 @@
           <a md-button routerLink="/fanshop" routerLinkActive="active" mat-list-item><span class="fa fa-info fa-lg"></span>Fanshop</a>
           <a md-button routerLink="/membership" routerLinkActive="active" mat-list-item><span class="fa fa-info fa-lg"></span>Mitgliedschaft</a>
           <a md-button routerLink="/halloffame" routerLinkActive="active" mat-list-item><span class="fa fa-info fa-lg"></span>Hall of Fame</a>
-          <a (click)="sidenav.toggle()" mat-list-item>
+          <a (click)="sidenav.toggle(); setSideNavigationWidth();" mat-list-item>
               <mat-icon>close</mat-icon> Close
           </a>
         </mat-nav-list>
@@ -64,4 +67,3 @@
       <mat-sidenav-content fxFlexFill></mat-sidenav-content>
     </mat-sidenav-container>
   </div>
-  
