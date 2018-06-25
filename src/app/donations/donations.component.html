@@ -1,6 +1,21 @@
 <h1 style="text-align: center;">
-    COMING SOON!
+    Matchballspenden
 </h1>
-<img class="center" src="assets/images/comingsoon.jpg">
+
+<p class="normal">
+    Wir sagen herzlichen Dank für die Unterstützung des Hobbyverein TDP Stainz durch Matchballspenden. 
+    Durch Förderung bzw. Unterstützung ist es dem Verein möglich, einen reibungslosen Spielbetrieb aufrecht zu erhalten.
+</p>
+
+<div *ngFor="let donation of donations">
+    <p class="large">
+        {{donation.date}}
+    </p>
+    <p class="normal">
+        {{donation.description}}
+    </p>
+    <img class="center" src="{{donation.imagePath}}" alt={{donation.donator}}>
+</div>
+
 <br>
 <br>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DONATIONS } from '../shared/donations';
 
 @Component({
   selector: 'app-donations',
@@ -7,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DonationsComponent implements OnInit {
 
+  donations = DONATIONS
+  
   constructor() { }
 
   ngOnInit() {
