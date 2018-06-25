@@ -35,8 +35,7 @@
       </mat-toolbar-row>
     </mat-toolbar>
   
-    <!-- <mat-sidenav-container #sidenavContainer fxFlexFill style="position: absolute;top: 1;left: 0;width: 10px;height: 100%;z-index: 10;background-color: rgba(1,0,0,0.0);"> -->
-        <mat-sidenav-container #sidenavContainer  [ngStyle]="{'width': width}">
+    <mat-sidenav-container #sidenavContainer style="position: absolute;top: 1;left: 0;height: 100%;z-index: 10;background-color: rgba(1,0,0,0.0); min-width: 1%;" [ngStyle]="{'width': width}">
    
     <!-- <mat-sidenav-container #sidenavContainer fxFlexFill> -->
       <mat-sidenav #sidenav>

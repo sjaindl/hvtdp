@@ -21,12 +21,6 @@ $divider-color:        #BDBDBD;
     padding: $pad-up-down $pad-left-right;
 }
 
-body {
-    padding: 0;
-    margin: 0;
-    font-family: Roboto, sans-serif
-}
-
 .background-primary {
     background-color: $background-dark!important;
 }
@@ -77,7 +71,17 @@ body {
 /* General */
 
 body {
-    color: darkorchid;
+    margin: 0px;
+    font-family: Roboto, sans-serif;
+    color: darkblue;
+    /* color: darkorchid; */
+    
+    /* background-color: rgba(194, 24, 91, 0.1); */
+    /* background-image: "url(assets/images/tdp.jpg)"; */
+
+    /* background-repeat: no-repeat;
+    background-position: right top;
+    margin-right: 200px; */
 }
 
 .center {
@@ -87,14 +91,21 @@ body {
     width: 50%;
 }
 
+.imageSmallCenter {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 10%;
+}
+
 .small {
     /* font-size: 2vw; */
-    font-size: 100%;
+    font-size: 120%;
 }
 
 .normal {
     /* font-size: 2.5vw; */
-    font-size: 125%;
+    font-size: 150%;
 }
 
 .large {

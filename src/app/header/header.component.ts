@@ -13,14 +13,14 @@ export class HeaderComponent implements OnInit {
 
     ngAfterContentInit() {
         this.sidenav._animationStarted.subscribe(() => {
-            this.setSideNavigationWidth();
+          this.setSideNavigationWidth();
         });
     }
 
    width = '0px'
 
    setSideNavigationWidth() {
-    this.width = this.sidenav.opened ? '100%' : '0px'
+    this.width = this.sidenav.opened ? '100%' : '0px';
    }
 
   constructor() { }

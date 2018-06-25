@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout'
 
-import { MatToolbarModule, MatListModule, MatDividerModule, MatSidenavModule, MatIconModule, MatGridListModule } from '@angular/material';
+import { MatToolbarModule, MatListModule, MatDividerModule, MatSidenavModule, MatIconModule, MatGridListModule, MatInputModule, MatFormFieldModule, MatSlideToggleModule, MatSelectModule, MatOptionModule } from '@angular/material';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
@@ -24,6 +24,12 @@ import { ContactComponent } from './contact/contact.component';
 import { FanshopComponent } from './fanshop/fanshop.component';
 import { MembershipComponent } from './membership/membership.component';
 import { HalloffameComponent } from './halloffame/halloffame.component';
+import { AgmCoreModule } from '@agm/core';
+import { GOOGLE_MAPS_API_KEY } from './shared/keys';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RestangularModule, Restangular } from 'ngx-restangular';
+import { RestangularConfigFactory } from './shared/restConfig';
+import { FeedbackService } from './services/feedback.service';
 
 @NgModule({
   declarations: [
@@ -49,14 +55,25 @@ import { HalloffameComponent } from './halloffame/halloffame.component';
     MatListModule,
     MatDividerModule,
     MatToolbarModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatSlideToggleModule,
+    MatSelectModule,
+    MatOptionModule,
     FlexLayoutModule, 
     AppRoutingModule,
     Ng2CarouselamosModule,
     MatSidenavModule,
     MatIconModule,
-    MatGridListModule
+    MatGridListModule,
+    AgmCoreModule.forRoot({
+      apiKey: GOOGLE_MAPS_API_KEY
+    }),
+    FormsModule,
+    ReactiveFormsModule,
+    RestangularModule.forRoot(RestangularConfigFactory),
   ],
-  providers: [],
+  providers: [FeedbackService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
