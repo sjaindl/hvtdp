@@ -1,11 +1,10 @@
-
 <div class="container"
 fxLayout="column"
 fxLayoutGap="10px">
 
   <div fxFlex>
     <div>
-      <h1>Fanshop</h1>
+      <h3 class="header">Fanshop</h3>
     <hr>
     </div>
   </div>
@@ -29,15 +28,15 @@ fxLayoutGap="10px">
   <div fxFlex>
     <mat-grid-list cols="2" rowHeight="510px">
       <mat-grid-tile *ngFor="let item of items" appHighlight >
-        <img height="400px" src="{{item.imagePath}}" alt={{item.name}} style="z-index: 15">
+        <img height="400px" src="{{item.imagePath}}" alt={{item.name}}>
         <mat-grid-tile-header>
-          <h1 mat-line>{{item.name | uppercase}}</h1>
-          <h2 style="text-align: right;" mat-line>{{item.price}}</h2>
+          <h1 mat-line style="font-size: 2em;">{{item.name | uppercase}}</h1>
+          <h2 style="text-align: right; font-size: 1.5em;" mat-line>{{item.price}}</h2>
         </mat-grid-tile-header>
-        <mat-grid-tile-footer style="text-align: center">
+        <mat-grid-tile-footer style="text-align: center; font-size: 1em;">
           {{item.description}}
         </mat-grid-tile-footer>
-        &nbsp; <a md-icon-button class="btn-mail" href="mailto:ratedrko3@gmx.at?subject=Bestellung {{item.name}}&body={{item.description}}"><i class="fa fa-envelope-o fa-lg" ></i></a>
+        &nbsp; <a md-icon-button class="btn-mail" href="mailto:hvtdpstainz@gmx.at?subject=Bestellung {{item.name}}&body={{item.description}} Bitte um Angabe von Anzahl und Größe."><i class="fa fa-envelope" ></i></a>
       </mat-grid-tile>
     </mat-grid-list>
   </div>

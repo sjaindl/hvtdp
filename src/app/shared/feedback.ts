@@ -1,11 +1,9 @@
 export class Feedback {
     firstname: string;
     lastname: string;
-    telnum: number;
     email: string;
-    agree: boolean;
-    contacttype: string;
+    agreeContact: boolean;
+    agreeGDPR: boolean
     message: string;
-}
 
-export const ContactType = ['Kein Kontakt', 'Telefon', 'E-Mail'];
+}

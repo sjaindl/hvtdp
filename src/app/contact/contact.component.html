@@ -1,18 +1,10 @@
-<div style="text-align:center; ">
-    <h1>
-        Kontakt
-    </h1>
-    <img width="300" alt="HVTDP Logo" src="assets/images/logo.jpg">
-</div>
-
-
 <div class="container"
      fxLayout="column"
      fxLayoutGap="10px">
 
      <div fxFlex>
             <div>
-               <h3>Kontaktiere den 1. HVTDP Stainz</h3>
+               <h3 class="header">Kontaktiere den HV TDP Stainz</h3>
                <hr>
             </div>
      </div>
@@ -20,20 +12,23 @@
     <div fxFlex>
       <div fxLayout="column" fxLayout.gt-sm="row">
           <div fxFlex="50" fxFlexOffset="10px">
-                <h3>Unsere Addresse</h3>
+                <h3>Rechnungsadresse</h3>
                 <address>
 		              Engelweingartenstraße 12d/14<br>
 		              A-8510 Stainz<br>
 		              Österreich<br>
-		              <i class="fa fa-phone"></i>: +43 (660) 6878818<br>
 		              <i class="fa fa-envelope"></i>: 
                         <a href="mailto:hvtdpstainz@gmx.at">hvtdpstainz@gmx.at</a>
 		           </address>
                <p></p>
-                <div>
-                    <a md-raised-button href="tel:+436606878818"><i class="fa fa-phone"></i> Anruf</a>
-                    <a md-raised-button href="mailto:hvtdpstainz@gmx.at"><i class="fa fa-envelope-o"></i> Email</a>
-                </div>
+
+                <h3>Stadionadresse</h3>
+                <address>
+		              Sauerbrunnstraße 75<br>
+		              A-8510 Stainz<br>
+		              Österreich<br>
+		           </address>
+
             </div>
           <div fxFlex="50" fxFlexOffset="25px">
             <h3 style="text-align: center;">Hier findest du unser Stadion:</h3>
@@ -49,11 +44,11 @@
       <div fxFlex fxFlexOffset="20px" class="form-size" >
           <h3>Sende uns dein Feedback</h3>
           <!-- <p>{{ feedbackForm.value | json }} {{ feedbackForm.status | json }}</p> -->
-          <form novalidate [formGroup]="feedbackForm" (ngSubmit)="onSubmit()" style="background-color: darkblue;color: rgba(255,255,255,.7);"> 
+          <form novalidate [formGroup]="feedbackForm" (ngSubmit)="onSubmit()" style="background-color: darkblue;color: rgba(255,255,255,.7);border: 27.4px solid;"> 
             <p>
               <mat-input-container class="half-width"
               dividerColor="{{(formErrors.firstname) ? 'warn' : 'primary'}}">
-                <input class="formElement" matInput type="text" formControlName="firstname" placeholder="VorName" required>
+                <input class="formElement" matInput type="text" formControlName="firstname" placeholder="Vorname" required>
                 <mat-hint>
                   <span [hidden]="!(formErrors.firstname)">
                     {{formErrors.firstname}}</span>
@@ -70,14 +65,6 @@
             </p>
             <p>
               <mat-input-container class="half-width"
-               dividerColor="{{(formErrors.telnum) ? 'warn' : 'primary'}}">
-                <input class="formElement" matInput formControlName="telnum" placeholder="TelefonNummer" type="tel" pattern="[0-9]*" required>
-                <mat-hint>
-                  <span [hidden]="!(formErrors.telnum)">
-                    {{formErrors.telnum}}</span>
-                </mat-hint>
-              </mat-input-container>
-              <mat-input-container class="half-width"
                dividerColor="{{(formErrors.email) ? 'warn' : 'primary'}}">
                 <input matInput formControlName="email" placeholder="E-Mail" type="email" email required>
                 <mat-hint>
@@ -86,35 +73,34 @@
                 </mat-hint>
               </mat-input-container>
             </p>
-            <table class="form-size">
-              <td>
-              <mat-slide-toggle formControlName="agree">Dürfen wir dich kontaktieren?</mat-slide-toggle>
-              </td>
-              <td>
-              <mat-select class="formElement" matInput name="contactType" placeholder="Wie?" formControlName="contacttype">
-                <mat-option *ngFor="let ctype of contactType" [value]="ctype">
-                  {{ ctype }}
-                </mat-option>
-              </mat-select>
-              </td>
-              </table>
+
+            <mat-slide-toggle formControlName="agreeContact">Dürfen wir dich kontaktieren?</mat-slide-toggle>
             <p>
               <mat-input-container class="full-width">
                 <textarea class="formElement" matInput formControlName="message" placeholder="Dein Feedback" rows=12></textarea>
               </mat-input-container>
             </p>
+            <p>
+                <!-- <mat-input-container class="full-width" dividerColor="{{(formErrors.gdpr) ? 'warn' : 'primary'}}"> -->
+                <mat-checkbox matInput formControlName="agreeGDPR">Mit dem Absenden dieser Nachrichten akzeptiere ich die Bestimmungen der Datenschutzgrundverordnung.</mat-checkbox>
+                <mat-hint>
+                    <span [hidden]="(formErrors.gdpr)">
+                        {{formErrors.gdpr}}
+                    </span>
+                </mat-hint>
+                <!-- </mat-input-container> -->
+            </p>
 
-              <button style="margin: 100 auto;float: right; font-size: 20px" class="formElement" type="submit" mat-button class="background-primary" [disabled]="feedbackForm.invalid" >Senden</button>
+            <button style="margin: 100 auto;float: right; font-size: 20px" class="formElement" type="submit" mat-button class="background-primary" [disabled]="feedbackForm.invalid || feedbackForm.controls['agreeGDPR'].value == false" >Senden</button>
 
           </form>
+
           <div *ngIf="submittedFeedback">
               <h2>Dein Feedback:</h2>
               <p>Vorname: {{submittedFeedback.firstname}}</p>
               <p>Nachname: {{submittedFeedback.lastname}}</p>
-              <p>Telefonnummer: {{submittedFeedback.telnum}}</p>
               <p>E-Mail: {{submittedFeedback.email}}</p>
               <p>Dürfen wir dich kontaktieren?: {{submittedFeedback.agree}}</p>
-              <p>Wie?: {{submittedFeedback.contacttype}}</p>
               <p>Feedback: {{submittedFeedback.message}}</p>
           </div>
         </div>

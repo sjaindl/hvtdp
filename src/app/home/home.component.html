@@ -3,10 +3,10 @@
 <div class="ticker-wrap">
     <div class="ticker">
       <div class="ticker__item">BREAKING NEWS:</div>
-      <div class="ticker__item">Dezember 2017: Der 1. HVTDP Stainz ist offiziell ein Verein!</div>
-      <div class="ticker__item">Der 1. HVTDP Stainz ist Meister 2018 im Südweststeirercup!</div>
+      <div class="ticker__item">Dezember 2017: Der HV TDP Stainz ist offiziell ein Verein!</div>
+      <div class="ticker__item">Der HV TDP Stainz ist Meister 2018 im Südweststeirercup!</div>
       <div class="ticker__item">Save the date: 30.06.2018, Stainzer Kleinfeldturnier</div>
-      <div class="ticker__item">Nicht verpassen: 14.07.2018, Meisterfeier vom 1. HVTDP in der Village Bar</div>
+      <div class="ticker__item">Nicht verpassen: 14.07.2018, Meisterfeier vom HV TDP in der Village Bar</div>
     </div>
 </div>
 
@@ -22,24 +22,21 @@
       
       <p>Ticker content c/o <a href="http://hipsum.co/">Hipsum.co</a></p> -->
 
-<!-- Social feed -->
-<div class="icon-bar">
-  <a href="https://www.facebook.com/hvtdpstainz/" target="_blank" class="facebook"><i class="fa fa-facebook"></i></a> 
-  <a href="https://twitter.com/HvStainz/" target="_blank" class="twitter"><i class="fa fa-twitter"></i></a> 
-  <a href="mailto:hvtdpstainz@gmx.at" class="mail"><i class="fa fa-envelope"></i></a> 
-  <a href="https://www.instagram.com/hvtdpstainz_2014/" target="_blank" class="instagram"><i class="fa fa-instagram"></i></a> 
+<div class="logo">
+  <img src="/assets/images/logo.gif" height="125px" width="125px">
 </div>
 
-<div style="text-align:center">
-  <h1>
-    Willkommen auf der Homepage vom {{ title }}!
-  </h1>
-  <img width="300" alt="HVTDP Logo" src="assets/images/logo.jpg">
+<!-- Social feed -->
+<div class="icon-bar">
+  <a href="https://www.facebook.com/hvtdpstainz/" target="_blank" class="facebook"><i class="fab fa-facebook"></i></a> 
+  <a href="https://twitter.com/HvStainz/" target="_blank" class="twitter"><i class="fab fa-twitter"></i></a> 
+  <a href="mailto:hvtdpstainz@gmx.at" class="mail"><i class="fa fa-envelope"></i></a> 
+  <a href="https://www.instagram.com/hvtdpstainz_2014/" target="_blank" class="instagram"><i class="fab fa-instagram"></i></a> 
 </div>
 
 <!-- Image Slider -->
 
-<div id="container">
+<div id="container" style="background-color: transparent;">
     <div
       ng2-carouselamos
       class="slides-wrapper"
@@ -51,15 +48,17 @@
     </div>
 
   <ng-template #prev>
-    <img src="assets/images/chevron_left.svg" id="left" />
+      <i class="fas fa-chevron-left" style="font-size: 5em;"></i>
+    <!-- <img src="assets/images/chevron_left.svg" id="left" /> -->
   </ng-template>
   <ng-template #next>
-    <img src="assets/images/chevron_right.svg" id="right" />
+      <i class="fas fa-chevron-right fa-xlg" style="font-size: 5em;"></i>
+    <!-- <img src="assets/images/chevron_right.svg" id="right" /> -->
   </ng-template>
   <ng-template #item let-item let-i="index">
 
       <div class="items">
-        <img src="{{ item.name }}" width="700" height="825">
+        <img src="{{ item.name }}" width="700" height="490">
       </div>
 
   </ng-template>

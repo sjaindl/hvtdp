@@ -3,7 +3,7 @@
   <mat-list-item *ngFor="let player of players">  
     
     <img matListAvatar class='img-preview' src="{{player.imagePath}}" alt="{{player.firstName}} {{player.lastName}}">
-    <h1 style="font-size:xx-large;font-weight:bold;" matLine class='txt-preview'>{{player.number}} {{player.firstName}} {{player.lastName | uppercase}}</h1>
+    <h1 style="font-size:xx-large;font-weight:bold;" matLine class='txt-preview'>{{player.firstName}} {{player.lastName | uppercase}}</h1>
     <h1 style="font-size:x-large;" matLine class='txt-preview'>Position: {{player.position}}</h1> <!-- [style.font-weight]="400" -->
     
     <p matLine>

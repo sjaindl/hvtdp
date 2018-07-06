@@ -5,32 +5,30 @@
           <mat-icon>menu</mat-icon>
         </button>
         <div fxShow="true" fxHide.lt-md="true">
-            <span><img src="/assets/images/logo.jpg" height="40px" width="40px"></span>
+            &nbsp;<a md-button routerLink="/home" routerLinkActive="active"><span class="fa fa-home fa-sm"></span> Home</a>
             <span class="flex-spacer"></span>
-            <a md-button routerLink="/home" routerLinkActive="active"><span class="fa fa-home fa-sm"></span>Home</a>
+            &nbsp;<a md-button routerLink="/news" routerLinkActive="active"><span class="fa fa-bookmark fa-sm"></span> News</a>
             <span class="flex-spacer"></span>
-            <a md-button routerLink="/news" routerLinkActive="active"><span class="fa fa-info fa-lg"></span>News</a>
+            &nbsp;<a md-button routerLink="/team" routerLinkActive="active"><span class="fa fa-portrait fa-sm"></span> Mannschaft</a>
             <span class="flex-spacer"></span>
-            <a md-button routerLink="/team" routerLinkActive="active"><span class="fa fa-info fa-lg"></span>Mannschaft</a>
+            &nbsp;<a md-button routerLink="/championship" routerLinkActive="active"><span class="fa fa-award fa-sm"></span> Meisterschaft</a>
             <span class="flex-spacer"></span>
-            <a md-button routerLink="/championship" routerLinkActive="active"><span class="fa fa-info fa-lg"></span>Meisterschaft</a>
+            &nbsp;<a md-button routerLink="/gallery" routerLinkActive="active"><span class="fa fa-camera fa-sm"></span> Gallerie</a>
             <span class="flex-spacer"></span>
-            <a md-button routerLink="/gallery" routerLinkActive="active"><span class="fa fa-info fa-lg"></span>Gallerie</a>
+            &nbsp;<a md-button routerLink="/social" routerLinkActive="active"><span class="fa fa-video fa-sm"></span> Videos</a>
             <span class="flex-spacer"></span>
-            <a md-button routerLink="/social" routerLinkActive="active"><span class="fa fa-info fa-lg"></span>Social</a>
+            &nbsp;<a md-button routerLink="/donation" routerLinkActive="active"><span class="fa fa-futbol fa-sm"></span> Matchballspende</a>
             <span class="flex-spacer"></span>
-            <a md-button routerLink="/donation" routerLinkActive="active"><span class="fa fa-info fa-lg"></span>Matchballspende</a>
+            &nbsp;<a md-button routerLink="/about" routerLinkActive="active"><span class="fa fa-info fa-sm"></span> Über uns</a>
             <span class="flex-spacer"></span>
-            <a md-button routerLink="/about" routerLinkActive="active"><span class="fa fa-info fa-lg"></span>Über uns</a>
+            &nbsp;<a md-button routerLink="/contact" routerLinkActive="active"><span class="fa fa-users fa-sm"></span> Kontakt</a>
             <span class="flex-spacer"></span>
-            <a md-button routerLink="/contact" routerLinkActive="active"><span class="fa fa-info fa-lg"></span>Kontakt</a>
+            &nbsp;<a md-button routerLink="/fanshop" routerLinkActive="active"><span class="fa fa-shopping-cart fa-sm"></span> Fanshop</a>
             <span class="flex-spacer"></span>
-            <a md-button routerLink="/fanshop" routerLinkActive="active"><span class="fa fa-info fa-lg"></span>Fanshop</a>
+            &nbsp;<a md-button routerLink="/membership" routerLinkActive="active"><span class="fa fa-flag fa-sm"></span> Mitgliedschaft</a>
             <span class="flex-spacer"></span>
-            <a md-button routerLink="/membership" routerLinkActive="active"><span class="fa fa-info fa-lg"></span>Mitgliedschaft</a>
-            <span class="flex-spacer"></span>
-            <a md-button routerLink="/halloffame" routerLinkActive="active"><span class="fa fa-info fa-lg"></span>Hall of Fame</a>
-            <span class="flex-spacer"></span>
+            <!-- <a md-button routerLink="/halloffame" routerLinkActive="active"><span class="fa fa-award fa-sm"></span>Hall of Fame</a>
+            <span class="flex-spacer"></span> -->
         </div>
       </mat-toolbar-row>
     </mat-toolbar>
@@ -42,22 +40,51 @@
         <mat-nav-list>
           <a md-button routerLink="/home" routerLinkActive="active" mat-list-item>
             <span class="fa fa-home fa-sm"></span>
-            Home
+            &nbsp;Home
           </a>
           <a md-button routerLink="/news" routerLinkActive="active" mat-list-item>
-            <span class="fa fa-info fa-lg"></span>
-            News
+            <span class="fa fa-bookmark fa-sm"></span>
+            &nbsp;News
           </a>
-          <a md-button routerLink="/team" routerLinkActive="active" mat-list-item><span class="fa fa-info fa-lg"></span>Mannschaft</a>
-          <a md-button routerLink="/championship" routerLinkActive="active" mat-list-item><span class="fa fa-info fa-lg"></span>Meisterschaft</a>
-          <a md-button routerLink="/gallery" routerLinkActive="active" mat-list-item><span class="fa fa-info fa-lg"></span>Gallerie</a>
-          <a md-button routerLink="/social" routerLinkActive="active" mat-list-item><span class="fa fa-info fa-lg"></span>Social</a>
-          <a md-button routerLink="/donation" routerLinkActive="active" mat-list-item><span class="fa fa-info fa-lg"></span>Matchballspende</a>
-          <a md-button routerLink="/about" routerLinkActive="active" mat-list-item><span class="fa fa-info fa-lg"></span>Über uns</a>
-          <a md-button routerLink="/contact" routerLinkActive="active" mat-list-item><span class="fa fa-info fa-lg"></span>Kontakt</a>
-          <a md-button routerLink="/fanshop" routerLinkActive="active" mat-list-item><span class="fa fa-info fa-lg"></span>Fanshop</a>
-          <a md-button routerLink="/membership" routerLinkActive="active" mat-list-item><span class="fa fa-info fa-lg"></span>Mitgliedschaft</a>
-          <a md-button routerLink="/halloffame" routerLinkActive="active" mat-list-item><span class="fa fa-info fa-lg"></span>Hall of Fame</a>
+          <a md-button routerLink="/team" routerLinkActive="active" mat-list-item>
+            <span class="fa fa-portrait fa-sm"></span>
+            &nbsp;Mannschaft
+          </a>
+          <a md-button routerLink="/championship" routerLinkActive="active" mat-list-item>
+            <span class="fa fa-award fa-sm"></span>
+            &nbsp;Meisterschaft
+          </a>
+          <a md-button routerLink="/gallery" routerLinkActive="active" mat-list-item>
+            <span class="fa fa-camera fa-sm"></span>
+            &nbsp;Gallerie
+          </a>
+          <a md-button routerLink="/social" routerLinkActive="active" mat-list-item>
+            <span class="fa fa-video fa-sm"></span>
+            &nbsp;Videos
+          </a>
+          <a md-button routerLink="/donation" routerLinkActive="active" mat-list-item>
+            <span class="fa fa-futbol fa-sm"></span>
+            &nbsp;Matchballspende</a>
+          <a md-button routerLink="/about" routerLinkActive="active" mat-list-item>
+            <span class="fa fa-info fa-sm"></span>
+            &nbsp;Über uns
+          </a>
+          <a md-button routerLink="/contact" routerLinkActive="active" mat-list-item>
+            <span class="fa fa-users fa-sm"></span>
+            &nbsp;Kontakt
+          </a>
+          <a md-button routerLink="/fanshop" routerLinkActive="active" mat-list-item>
+            <span class="fa fa-shopping-cart fa-sm"></span>
+            &nbsp;Fanshop
+          </a>
+          <a md-button routerLink="/membership" routerLinkActive="active" mat-list-item>
+            <span class="fa fa-flag fa-sm"></span>
+            &nbsp;Mitgliedschaft
+          </a>
+          <!-- <a md-button routerLink="/halloffame" routerLinkActive="active" mat-list-item>
+            <span class="fa fa-award fa-sm"></span>
+            &nbsp;Hall of Fame
+          </a> -->
           <a (click)="sidenav.toggle(); setSideNavigationWidth();" mat-list-item>
               <mat-icon>close</mat-icon> Close
           </a>
@@ -66,3 +93,8 @@
       <mat-sidenav-content fxFlexFill></mat-sidenav-content>
     </mat-sidenav-container>
   </div>
+
+  <!-- <div class="logo">
+      <img src="/assets/images/logo.gif" height="120px" width="120px">
+  </div> -->
+  

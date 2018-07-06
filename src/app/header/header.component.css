@@ -8,3 +8,24 @@
     background-color: rgba(0,0,0,0.0);
   }
   
+/* Links */
+  
+/* unvisited link */
+a:link {
+  color: whitesmoke;
+}
+
+/* visited link */
+a:visited {
+  color: whitesmoke;
+}
+
+/* mouse over link */
+a:hover {
+  color: hotpink;
+}
+
+/* selected link */
+a:active {
+  color: red;
+}

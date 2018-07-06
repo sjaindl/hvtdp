@@ -43,11 +43,33 @@ $divider-color:        #BDBDBD;
     z-index: 1;
     transform: scale(1.01);
 }
+
+/* Links */
+  
+/* unvisited link */
+a:link {
+    color: hotpink;
+}
+
+/* visited link */
+a:visited {
+    color: hotpink;
+}
+
+/* mouse over link */
+a:hover {
+    color: red;
+}
+
+/* selected link */
+a:active {
+    color: red;
+}
+
 /* Material Lists */
 
 .mat-list .mat-list-item .mat-list-text>*, .mat-list .mat-list-option .mat-list-text.hover>*, .mat-nav-list .mat-list-item .mat-list-text>*, .mat-nav-list .mat-list-option .mat-list-text>*, .mat-selection-list .mat-list-item .mat-list-text>*, .mat-selection-list .mat-list-option .mat-list-text>* {
-    color: darkorchid;
-     /* blueviolet;  */
+    color: whitesmoke; 
 }
 
  .mat-list .mat-list-item .mat-list-avatar.img-preview { 
@@ -56,7 +78,7 @@ $divider-color:        #BDBDBD;
 }
 
 .mat-list .mat-list-item {
-    color: blue
+    color: blue;
 }
 
 .mat-list .mat-list-item .mat-divider {
@@ -73,15 +95,16 @@ $divider-color:        #BDBDBD;
 body {
     margin: 0px;
     font-family: Roboto, sans-serif;
-    color: darkblue;
-    /* color: darkorchid; */
+    color: whitesmoke;
+    background-color: navy;
     
-    /* background-color: rgba(194, 24, 91, 0.1); */
-    /* background-image: "url(assets/images/tdp.jpg)"; */
+    /* background-image: "url(assets/images/logo.gif)";
+    background-repeat: no-repeat;
+    background-position: left top; */
+}
 
-    /* background-repeat: no-repeat;
-    background-position: right top;
-    margin-right: 200px; */
+h1.header, h2.header, h3.header {
+    text-align: center;
 }
 
 .center {
@@ -91,6 +114,30 @@ body {
     width: 50%;
 }
 
+.small {
+    /* font-size: 2vw; */
+    font-size: 120%;
+    padding-left: 10px;
+}
+
+.normal {
+    /* font-size: 2.5vw; */
+    font-size: 150%;
+    padding-left: 10px;
+}
+
+.large {
+    /* font-size: 3.5vw; */
+    font-size: 200%;
+    padding-left: 10px;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+/* images */
+
 .imageSmallCenter {
     display: block;
     margin-left: auto;
@@ -98,21 +145,11 @@ body {
     width: 10%;
 }
 
-.small {
-    /* font-size: 2vw; */
-    font-size: 120%;
-}
-
-.normal {
-    /* font-size: 2.5vw; */
-    font-size: 150%;
-}
-
-.large {
-    /* font-size: 3.5vw; */
-    font-size: 200%;
-}
-
-.bold {
-    font-weight: bold;
+.logo {
+    position: fixed;
+    top: 22%;
+    left: 1%;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
 }

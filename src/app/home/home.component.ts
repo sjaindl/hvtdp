@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  title = '1. HVTDP Stainz';
+  title = 'HV TDP Stainz';
 
   items: Array<any> = []
   

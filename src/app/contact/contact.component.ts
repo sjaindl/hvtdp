@@ -1,8 +1,7 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { Feedback, ContactType } from '../shared/feedback';
+import { Component, OnInit } from '@angular/core';
+import { Feedback } from '../shared/feedback';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FeedbackService } from '../services/feedback.service';
-import { MatFormField } from '@angular/material';
 
 @Component({
   selector: 'app-contact',
@@ -19,13 +18,12 @@ export class ContactComponent implements OnInit {
   feedbackForm: FormGroup;
   feedback: Feedback;
   submittedFeedback = null;
-  contactType = ContactType;
 
   formErrors = {
     'firstname': '',
     'lastname': '',
-    'telnum': '',
-    'email': ''
+    'email': '',
+    'gdpr': ''
   };
 
   validationMessages = {
@@ -39,14 +37,13 @@ export class ContactComponent implements OnInit {
       'minlength':     'Der Nachname muss mindestens 2 Zeichen lang sein.',
       'maxlength':     'Der Nachname darf maximal 25 Zeichen lang sein.'
     },
-    'telnum': {
-      'required':      'Die Telefonnummer ist verpflichtend.',
-      'pattern':       'Telefonnummer darf nur Ziffern enthalten.'
-    },
     'email': {
       'required':      'Die E-Mail ist verpflichtend.',
       'email':         'E-Mail hat kein gültiges Format.'
     },
+    'gdpr': {
+      'requiredTrue':  'Die DSGVO muss akzeptiert werden.'
+    }
   };
 
   constructor(private formBuilder: FormBuilder, private feedbackService: FeedbackService) {
@@ -60,10 +57,9 @@ export class ContactComponent implements OnInit {
     this.feedbackForm = this.formBuilder.group({
       firstname: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(25)] ],
       lastname: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(25)] ],
-      telnum: ['', [Validators.required, Validators.pattern] ],
       email: ['', [Validators.required, Validators.email] ],
-      agree: false,
-      contacttype: 'None',
+      agreeContact: false,
+      agreeGDPR: [false, [Validators.requiredTrue] ],
       message: ''
     });
 
@@ -92,7 +88,6 @@ export class ContactComponent implements OnInit {
 
   onSubmit() {
     this.feedback = this.feedbackForm.value;
-    console.log(this.feedback);
 
     // this.feedbackService.submitFeedback(this.feedback)
     //   .subscribe(feedback => { 
@@ -102,10 +97,9 @@ export class ContactComponent implements OnInit {
     this.feedbackForm.reset({
       firstname: '',
       lastname: '',
-      telnum: '',
       email: '',
-      agree: false,
-      contacttype: 'None',
+      agreeContact: false,
+      agreeGDPR: false,
       message: ''
     });
   }
