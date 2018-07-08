@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CHEFS, Chef } from '../shared/chefs';
 
 @Component({
   selector: 'app-about',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AboutComponent implements OnInit {
 
+  chefs: Chef[];
+
   constructor() { }
 
   ngOnInit() {
+    this.chefs = CHEFS;
   }
 
 }
