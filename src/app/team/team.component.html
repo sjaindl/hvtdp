@@ -1,15 +1,19 @@
 
-<mat-list>
-  <mat-list-item *ngFor="let player of players">  
-    
-    <img matListAvatar class='img-preview' src="{{player.imagePath}}" alt="{{player.firstName}} {{player.lastName}}">
-    <h1 style="font-size:xx-large;font-weight:bold;" matLine class='txt-preview'>{{player.firstName}} {{player.lastName | uppercase}}</h1>
-    <h1 style="font-size:x-large;" matLine class='txt-preview'>Position: {{player.position}}</h1> <!-- [style.font-weight]="400" -->
-    
-    <p matLine>
-      <span style="font-size:medium;">beim Verein seit: {{player.memberSinceYear}}</span>
-    </p>
-    <mat-divider></mat-divider>
-    
-  </mat-list-item>
-</mat-list>
+<div fxFlex>
+    <div fxLayout="column" fxLayout.gt-sm="row">
+      <mat-list>
+        <mat-list-item class="listImage" *ngFor="let player of players">  
+          
+          <img matListAvatar class='img-preview' src="{{player.imagePath}}" alt="{{player.firstName}} {{player.lastName}}">
+          <h1 style="font-size:xx-large;font-weight:bold;" matLine class='txt-preview'>{{player.firstName}} {{player.lastName | uppercase}}</h1>
+          <h1 style="font-size:x-large;" matLine class='txt-preview'>Position: {{player.position}}</h1> <!-- [style.font-weight]="400" -->
+          
+          <p matLine>
+            <span style="font-size:medium;">beim Verein seit: {{player.memberSinceYear}}</span>
+          </p>
+          <!-- <mat-divider></mat-divider> -->
+          
+        </mat-list-item>
+      </mat-list>
+    </div>
+</div>

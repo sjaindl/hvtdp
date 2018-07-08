@@ -68,6 +68,12 @@ a:active {
 
 /* Material Lists */
 
+.listImage {
+    float: left; 
+    margin-bottom: 75px;
+    width: 500px;
+}
+
 .mat-list .mat-list-item .mat-list-text>*, .mat-list .mat-list-option .mat-list-text.hover>*, .mat-nav-list .mat-list-item .mat-list-text>*, .mat-nav-list .mat-list-option .mat-list-text>*, .mat-selection-list .mat-list-item .mat-list-text>*, .mat-selection-list .mat-list-option .mat-list-text>* {
     color: whitesmoke; 
 }
@@ -75,6 +81,7 @@ a:active {
  .mat-list .mat-list-item .mat-list-avatar.img-preview { 
     height: 125px;
     width: 92.5px;
+    z-index: 10;
 }
 
 .mat-list .mat-list-item {
