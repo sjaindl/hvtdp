@@ -1,6 +1,24 @@
 <h1 style="text-align: center;">
-    Wir sind Meister!
+    HV TDP News
 </h1>
-<img class="center" src="assets/images/meister.jpg">
-<br>
+
+<mat-accordion>
+
+<mat-expansion-panel *ngFor="let newsItem of news">
+    <mat-expansion-panel-header>
+    {{newsItem.newsDate.toLocaleDateString()}} {{newsItem.title}}
+    </mat-expansion-panel-header>
+
+    <br>
+    <img class="center" style="width: 50vw;" src="{{newsItem.imagePath}}" alt= "{{newsItem.title}}">
+
+    <br>
+    <p *ngFor="let newsLine of newsItem.news">
+        {{newsLine.newsLine}}
+    </p>
+
+</mat-expansion-panel>
+
+</mat-accordion>
+
 <br>
