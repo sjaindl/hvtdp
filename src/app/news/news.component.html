@@ -4,21 +4,51 @@
 
 <mat-accordion>
 
-<mat-expansion-panel *ngFor="let newsItem of news">
-    <mat-expansion-panel-header>
-    {{newsItem.newsDate.toLocaleDateString()}} {{newsItem.title}}
-    </mat-expansion-panel-header>
+<span *ngFor="let newsItem of news">
 
-    <br>
-    <img class="center" style="width: 50vw;" src="{{newsItem.imagePath}}" alt= "{{newsItem.title}}">
+    <mat-expansion-panel *ngIf="news.indexOf(newsItem) >= this.pageEvent.pageIndex * this.pageEvent.pageSize 
+                             && news.indexOf(newsItem) + 1 <= (this.pageEvent.pageIndex + 1) * (this.pageEvent.pageSize)">
 
-    <br>
-    <p *ngFor="let newsLine of newsItem.news">
-        {{newsLine.newsLine}}
-    </p>
+        <mat-expansion-panel-header>
+        {{newsItem.newsDate.toLocaleDateString()}} {{newsItem.title}}
+        </mat-expansion-panel-header>
 
-</mat-expansion-panel>
+        <br>
+        <img class="center" style="width: 50vw;" src="{{newsItem.imagePath}}" alt= "{{newsItem.title}}">
+
+        <br>
+        <p *ngFor="let newsLine of newsItem.news">
+            {{newsLine.newsLine}}
+        </p>
+    
+    </mat-expansion-panel>
+</span>
 
 </mat-accordion>
+
+<br>
+
+<!-- <mat-form-field>
+    List length:
+    <input matInput [(ngModel)]="length">
+</mat-form-field>
+
+<mat-form-field>
+    Page size:
+    <input matInput [(ngModel)]="pageSize">
+</mat-form-field> -->
+
+<mat-paginator [length]="length"
+               [pageSize]="pageSize"
+               [pageSizeOptions]="pageSizeOptions"
+               (page)="pageEvent = $event">
+</mat-paginator>
+
+<!-- <div *ngIf="pageEvent">
+    <h5>Page Change Event Properties</h5>
+    <div>List length: {{pageEvent.length}}</div>
+    <div>Page size: {{pageEvent.pageSize}}</div>
+    <div>Page index: {{pageEvent.pageIndex}}</div>
+</div> -->
 
 <br>

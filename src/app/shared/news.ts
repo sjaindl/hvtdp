@@ -47,6 +47,140 @@ export const NEWS: News[] = [
             }
         ],
         imagePath: '../../assets/images/meister.jpg'
-    }
+    },
+    {
+        newsDate: new Date('2018-07-14'),
+        title: 'WM - Grillabend im Freibad Stainz!',
+        news: [
+            {
+                newsLine: 'Am Samstag haben wir ein tolles Abendprogramm für euch!'
+            },
+            {
+               newsLine: 'Ab 16 Uhr übertragen wir das Spiel um Platz 3 bei der WM LIVE. Um nicht mit leeren Mägen das Spiel schauen zu müssen, gibt es ab 17 Uhr ein ALL YOU CAN EAT Grillbuffet. Auch gegen den Durst haben wir vorgesorgt und es gibt ab 17 Uhr BIER HAPPY HOUR und ab 18 Uhr BOWLE Aktion.', 
+            },
+            {
+                newsLine: 'MARKIERT eure Freunde die unbedingt vorbeischauen müssen und besucht uns! Wir sind gerüstet für einen großen Ansturm! 😎',
+            },
+            {
+                newsLine: '#freibadstainz #grillabend #wm #allyoucaneat'
+            }
+        ],
+        imagePath: '../../assets/images/news/news1_1.jpg'
+    },
+    {
+        newsDate: new Date('2018-07-14'),
+        title: 'WM - Grillabend im Freibad Stainz!',
+        news: [
+            {
+                newsLine: 'Am Samstag haben wir ein tolles Abendprogramm für euch!'
+            },
+            {
+               newsLine: 'Ab 16 Uhr übertragen wir das Spiel um Platz 3 bei der WM LIVE. Um nicht mit leeren Mägen das Spiel schauen zu müssen, gibt es ab 17 Uhr ein ALL YOU CAN EAT Grillbuffet. Auch gegen den Durst haben wir vorgesorgt und es gibt ab 17 Uhr BIER HAPPY HOUR und ab 18 Uhr BOWLE Aktion.', 
+            },
+            {
+                newsLine: 'MARKIERT eure Freunde die unbedingt vorbeischauen müssen und besucht uns! Wir sind gerüstet für einen großen Ansturm! 😎',
+            },
+            {
+                newsLine: '#freibadstainz #grillabend #wm #allyoucaneat'
+            }
+        ],
+        imagePath: '../../assets/images/news/news1_1.jpg'
+    },
+    {
+        newsDate: new Date('2018-07-14'),
+        title: 'WM - Grillabend im Freibad Stainz!',
+        news: [
+            {
+                newsLine: 'Am Samstag haben wir ein tolles Abendprogramm für euch!'
+            },
+            {
+               newsLine: 'Ab 16 Uhr übertragen wir das Spiel um Platz 3 bei der WM LIVE. Um nicht mit leeren Mägen das Spiel schauen zu müssen, gibt es ab 17 Uhr ein ALL YOU CAN EAT Grillbuffet. Auch gegen den Durst haben wir vorgesorgt und es gibt ab 17 Uhr BIER HAPPY HOUR und ab 18 Uhr BOWLE Aktion.', 
+            },
+            {
+                newsLine: 'MARKIERT eure Freunde die unbedingt vorbeischauen müssen und besucht uns! Wir sind gerüstet für einen großen Ansturm! 😎',
+            },
+            {
+                newsLine: '#freibadstainz #grillabend #wm #allyoucaneat'
+            }
+        ],
+        imagePath: '../../assets/images/news/news1_1.jpg'
+    },
+    {
+        newsDate: new Date('2018-07-14'),
+        title: 'WM - Grillabend im Freibad Stainz!',
+        news: [
+            {
+                newsLine: 'Am Samstag haben wir ein tolles Abendprogramm für euch!'
+            },
+            {
+               newsLine: 'Ab 16 Uhr übertragen wir das Spiel um Platz 3 bei der WM LIVE. Um nicht mit leeren Mägen das Spiel schauen zu müssen, gibt es ab 17 Uhr ein ALL YOU CAN EAT Grillbuffet. Auch gegen den Durst haben wir vorgesorgt und es gibt ab 17 Uhr BIER HAPPY HOUR und ab 18 Uhr BOWLE Aktion.', 
+            },
+            {
+                newsLine: 'MARKIERT eure Freunde die unbedingt vorbeischauen müssen und besucht uns! Wir sind gerüstet für einen großen Ansturm! 😎',
+            },
+            {
+                newsLine: '#freibadstainz #grillabend #wm #allyoucaneat'
+            }
+        ],
+        imagePath: '../../assets/images/news/news1_1.jpg'
+    },
+    {
+        newsDate: new Date('2018-07-14'),
+        title: 'WM - Grillabend im Freibad Stainz!',
+        news: [
+            {
+                newsLine: 'Am Samstag haben wir ein tolles Abendprogramm für euch!'
+            },
+            {
+               newsLine: 'Ab 16 Uhr übertragen wir das Spiel um Platz 3 bei der WM LIVE. Um nicht mit leeren Mägen das Spiel schauen zu müssen, gibt es ab 17 Uhr ein ALL YOU CAN EAT Grillbuffet. Auch gegen den Durst haben wir vorgesorgt und es gibt ab 17 Uhr BIER HAPPY HOUR und ab 18 Uhr BOWLE Aktion.', 
+            },
+            {
+                newsLine: 'MARKIERT eure Freunde die unbedingt vorbeischauen müssen und besucht uns! Wir sind gerüstet für einen großen Ansturm! 😎',
+            },
+            {
+                newsLine: '#freibadstainz #grillabend #wm #allyoucaneat'
+            }
+        ],
+        imagePath: '../../assets/images/news/news1_1.jpg'
+    },
+    {
+        newsDate: new Date('2018-07-14'),
+        title: 'WM - Grillabend im Freibad Stainz!',
+        news: [
+            {
+                newsLine: 'Am Samstag haben wir ein tolles Abendprogramm für euch!'
+            },
+            {
+               newsLine: 'Ab 16 Uhr übertragen wir das Spiel um Platz 3 bei der WM LIVE. Um nicht mit leeren Mägen das Spiel schauen zu müssen, gibt es ab 17 Uhr ein ALL YOU CAN EAT Grillbuffet. Auch gegen den Durst haben wir vorgesorgt und es gibt ab 17 Uhr BIER HAPPY HOUR und ab 18 Uhr BOWLE Aktion.', 
+            },
+            {
+                newsLine: 'MARKIERT eure Freunde die unbedingt vorbeischauen müssen und besucht uns! Wir sind gerüstet für einen großen Ansturm! 😎',
+            },
+            {
+                newsLine: '#freibadstainz #grillabend #wm #allyoucaneat'
+            }
+        ],
+        imagePath: '../../assets/images/news/news1_1.jpg'
+    },
+    {
+        newsDate: new Date('2018-07-14'),
+        title: 'WM - Grillabend im Freibad Stainz!',
+        news: [
+            {
+                newsLine: 'Am Samstag haben wir ein tolles Abendprogramm für euch!'
+            },
+            {
+               newsLine: 'Ab 16 Uhr übertragen wir das Spiel um Platz 3 bei der WM LIVE. Um nicht mit leeren Mägen das Spiel schauen zu müssen, gibt es ab 17 Uhr ein ALL YOU CAN EAT Grillbuffet. Auch gegen den Durst haben wir vorgesorgt und es gibt ab 17 Uhr BIER HAPPY HOUR und ab 18 Uhr BOWLE Aktion.', 
+            },
+            {
+                newsLine: 'MARKIERT eure Freunde die unbedingt vorbeischauen müssen und besucht uns! Wir sind gerüstet für einen großen Ansturm! 😎',
+            },
+            {
+                newsLine: '#freibadstainz #grillabend #wm #allyoucaneat'
+            }
+        ],
+        imagePath: '../../assets/images/news/news1_1.jpg'
+    },
+    
     
 ]
