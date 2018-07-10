@@ -12,7 +12,8 @@ export const PLAYERS : Player[] = [
       lastName: 'Bohacek',
       position: "Tormann",
       memberSinceYear: 2014,
-      imagePath: '../../assets/images/team/BohacekH.JPG'
+      imagePath: '../../assets/images/team/no_photo.jpg'
+      // BohacekH
     }, 
     {
       firstName: "Christian",
@@ -47,7 +48,8 @@ export const PLAYERS : Player[] = [
       lastName: 'Koinegg',
       position: "Verteidiger",
       memberSinceYear: 2014,
-      imagePath: '/assets/images/team/Koinegg.JPG'
+      // imagePath: '/assets/images/team/Koinegg.JPG'
+      imagePath: '../../assets/images/team/no_photo.jpg'
     },
     {
       firstName: "Robert",
@@ -82,7 +84,8 @@ export const PLAYERS : Player[] = [
       lastName: 'Gödl',
       position: "Mittelfeld",
       memberSinceYear: 2018,
-      imagePath: '/assets/images/team/Goedl.JPG'
+      // imagePath: '/assets/images/team/Goedl.JPG'
+      imagePath: '../../assets/images/team/no_photo.jpg'
     },
     {
       firstName: "Erik",
@@ -96,7 +99,8 @@ export const PLAYERS : Player[] = [
       lastName: 'Kohlberger',
       position: "Mittelfeld",
       memberSinceYear: 2017,
-      imagePath: '/assets/images/team/Kohlberger.JPG'
+      // imagePath: '/assets/images/team/Kohlberger.JPG'
+      imagePath: '../../assets/images/team/no_photo.jpg'
     },
     {
       firstName: "Mario",
@@ -128,17 +132,17 @@ export const PLAYERS : Player[] = [
     },
     {
       firstName: "Lukas",
-      lastName: 'Ratswohl',
+      lastName: 'Rathswohl',
       position: "Mittelfeld",
       memberSinceYear: 2017,
-      imagePath: '/assets/images/team/Ratswohl.JPG'
+      imagePath: '/assets/images/team/Rathswohl.JPG'
     },
     {
       firstName: "Nico",
       lastName: 'Reinbacher',
       position: "Mittelfeld",
       memberSinceYear: 2016,
-      imagePath: '/assets/images/team/Reinbacher.JPG'
+      imagePath: '/assets/images/team/ReinbacherN.JPG'
     },
     {
       firstName: "Markus",
@@ -152,7 +156,8 @@ export const PLAYERS : Player[] = [
       lastName: 'Steiner',
       position: "Mittelfeld",
       memberSinceYear: 2017,
-      imagePath: '/assets/images/team/Steiner.JPG'
+      // imagePath: '/assets/images/team/Steiner.JPG'
+      imagePath: '../../assets/images/team/no_photo.jpg'
     },
     {
       firstName: "Andreas",
@@ -209,14 +214,15 @@ export const PLAYERS : Player[] = [
       lastName: 'Pichler',
       position: "Stürmer",
       memberSinceYear: 2014,
-      imagePath: '/assets/images/team/Pichler.JPG'
+      // imagePath: '/assets/images/team/Pichler.JPG'
+      imagePath: '../../assets/images/team/no_photo.jpg'
     },
     {
       firstName: "Patrick",
       lastName: 'Reinbacher',
       position: "Stürmer",
       memberSinceYear: 2015,
-      imagePath: '/assets/images/team/Reinbacher.JPG'
+      imagePath: '/assets/images/team/ReinbacherP.JPG'
     },
     {
       firstName: "Florian",

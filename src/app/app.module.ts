@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout'
 
-import { MatToolbarModule, MatListModule, MatDividerModule, MatSidenavModule, MatIconModule, MatGridListModule, MatInputModule, MatFormFieldModule, MatSlideToggleModule, MatSelectModule, MatOptionModule, MatCheckboxModule } from '@angular/material';
+import { MatToolbarModule, MatListModule, MatDividerModule, MatSidenavModule, MatIconModule, MatGridListModule, MatInputModule, MatFormFieldModule, MatSlideToggleModule, MatSelectModule, MatOptionModule, MatCheckboxModule, MatExpansionModule } from '@angular/material';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
@@ -67,6 +67,7 @@ import { FeedbackService } from './services/feedback.service';
     MatSidenavModule,
     MatIconModule,
     MatGridListModule,
+    MatExpansionModule,
     AgmCoreModule.forRoot({
       apiKey: GOOGLE_MAPS_API_KEY
     }),

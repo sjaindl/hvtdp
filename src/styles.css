@@ -121,6 +121,12 @@ h1.header, h2.header, h3.header {
     width: 50%;
 }
 
+.mini {
+    /* font-size: 2vw; */
+    font-size: 60%;
+    padding-left: 10px;
+}
+
 .small {
     /* font-size: 2vw; */
     font-size: 120%;
