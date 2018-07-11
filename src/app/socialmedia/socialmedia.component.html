@@ -1,6 +1,47 @@
 <h1 style="text-align: center;">
-    COMING SOON!
+    Videos
 </h1>
-<img class="center" src="assets/images/comingsoon.jpg">
+
+<div fxFlex *ngIf="!selectedSeason">
+    <div fxLayout="column" fxLayout.gt-sm="row">
+        <mat-list>
+        <mat-list-item class="matchballListImage" *ngFor="let season of seasons">  
+                <a><h1 style="font-size:xx-large;font-weight:bold;" matLine (click)="selectSeason(season)">{{season.season}}</h1></a>
+        </mat-list-item>
+        </mat-list>
+    </div>
+</div>
+    
+<div *ngFor="let season of seasons">
+    <div *ngIf="selectedSeason == season">
+
+        <p class="large">
+            {{season.season}}
+        </p>
+
+        <div *ngFor="let game of season.games">
+            <p class="normal">
+                Runde {{game.round}}
+            </p>
+            <p class="normal">
+                {{game.date.toLocaleDateString()}}, {{game.description}}
+            </p>
+            
+            <div *ngFor="let link of game.links">
+                <p class="small">
+                    <a href="{{link.link}}" target="_blank">{{link.description}}</a>  
+                </p>
+            </div>
+
+
+        </div>
+        
+        <br>
+
+        <button style="margin-left: 15px; font-size: 20px" mat-button class="background-primary" (click)="back()">Zurück zur Übersicht</button>
+
+    </div>
+</div>
+
 <br>
 <br>
