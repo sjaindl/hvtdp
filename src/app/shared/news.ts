@@ -49,7 +49,7 @@ export const NEWS: News[] = [
         imagePath: '../../assets/images/meister.jpg'
     },
     {
-        newsDate: new Date('2018-07-14'),
+        newsDate: new Date('2018-07-15'),
         title: 'WM - Grillabend im Freibad Stainz!',
         news: [
             {
@@ -68,7 +68,7 @@ export const NEWS: News[] = [
         imagePath: '../../assets/images/news/news1_1.jpg'
     },
     {
-        newsDate: new Date('2018-07-14'),
+        newsDate: new Date('2018-07-16'),
         title: 'WM - Grillabend im Freibad Stainz!',
         news: [
             {
@@ -87,7 +87,7 @@ export const NEWS: News[] = [
         imagePath: '../../assets/images/news/news1_1.jpg'
     },
     {
-        newsDate: new Date('2018-07-14'),
+        newsDate: new Date('2018-07-17'),
         title: 'WM - Grillabend im Freibad Stainz!',
         news: [
             {
@@ -106,7 +106,7 @@ export const NEWS: News[] = [
         imagePath: '../../assets/images/news/news1_1.jpg'
     },
     {
-        newsDate: new Date('2018-07-14'),
+        newsDate: new Date('2018-07-18'),
         title: 'WM - Grillabend im Freibad Stainz!',
         news: [
             {
@@ -125,7 +125,7 @@ export const NEWS: News[] = [
         imagePath: '../../assets/images/news/news1_1.jpg'
     },
     {
-        newsDate: new Date('2018-07-14'),
+        newsDate: new Date('2018-07-19'),
         title: 'WM - Grillabend im Freibad Stainz!',
         news: [
             {
@@ -144,7 +144,7 @@ export const NEWS: News[] = [
         imagePath: '../../assets/images/news/news1_1.jpg'
     },
     {
-        newsDate: new Date('2018-07-14'),
+        newsDate: new Date('2018-07-20'),
         title: 'WM - Grillabend im Freibad Stainz!',
         news: [
             {
@@ -163,7 +163,7 @@ export const NEWS: News[] = [
         imagePath: '../../assets/images/news/news1_1.jpg'
     },
     {
-        newsDate: new Date('2018-07-14'),
+        newsDate: new Date('2018-07-21'),
         title: 'WM - Grillabend im Freibad Stainz!',
         news: [
             {
@@ -181,6 +181,4 @@ export const NEWS: News[] = [
         ],
         imagePath: '../../assets/images/news/news1_1.jpg'
     },
-    
-    
 ]

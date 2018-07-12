@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Season, SEASONS } from '../shared/games';
+import { GameSeason, GAMES } from '../shared/games';
 
 @Component({
   selector: 'app-socialmedia',
@@ -8,11 +8,11 @@ import { Season, SEASONS } from '../shared/games';
 })
 export class SocialmediaComponent implements OnInit {
 
-  seasons: Season[]
-  selectedSeason: Season = null
+  seasons: GameSeason[]
+  selectedSeason: GameSeason = null
 
   constructor() {
-    this.seasons = SEASONS.sort((a, b) => {
+    this.seasons = GAMES.sort((a, b) => {
 
       if (a.season < b.season) {
         return 1;
@@ -29,7 +29,7 @@ export class SocialmediaComponent implements OnInit {
   ngOnInit() {
   }
 
-  selectSeason(season: Season) {
+  selectSeason(season: GameSeason) {
     this.selectedSeason = season
   }
 

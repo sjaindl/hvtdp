@@ -1,6 +1,80 @@
 <h1 style="text-align: center;">
-    COMING SOON!
+    Gallerie
 </h1>
-<img class="center" src="assets/images/comingsoon.jpg">
+
+<p class="normal" *ngIf="!selectedSeason">
+    Für unsere Fans haben wir alle HV TDP-Veranstaltungen archiviert. Viel Spaß beim Durchstöbern der offiziellen HV TDP-Gallerie.
+</p>
+
+<div fxFlex *ngIf="!selectedSeason">
+    <div fxLayout="column" fxLayout.gt-sm="row">
+        <mat-list>
+        <mat-list-item *ngFor="let season of seasons">  
+                <a><h1 style="font-size:xx-large;font-weight:bold;" matLine (click)="selectSeason(season)">{{season.season}}</h1></a>
+        </mat-list-item>
+        </mat-list>
+    </div>
+</div>
+    
+<div *ngFor="let season of seasons">
+    <div *ngIf="selectedSeason == season">
+
+        <p class="large" *ngIf="!selectedAlbum">
+            {{season.season}}
+        </p>
+        
+        <div *ngFor="let album of season.albums">
+            <p class="normal" (click)="selectAlbum(album)" *ngIf="!selectedAlbum" style="color: hotpink;">
+                    <a>{{album.date.toLocaleDateString()}}, {{album.name}}</a>
+            </p>
+            
+            <span *ngIf="album == selectedAlbum">
+                <p class="normal">
+                    {{album.date.toLocaleDateString()}}, {{album.name}}
+                </p>
+
+                <div id="container" style="background-color: transparent;">
+                    <div
+                        ng2-carouselamos
+                        class="slides-wrapper"
+                        [items]="album.photos"
+                        [width]="700"
+                        [$prev]="prev"
+                        [$next]="next"
+                        [$item]="item">
+                    </div>
+                
+                    <ng-template #prev>
+                        <i class="fas fa-chevron-left" style="font-size: 5em;"></i>
+                    </ng-template>
+                    <ng-template #next>
+                        <i class="fas fa-chevron-right fa-xlg" style="font-size: 5em;"></i>
+                    </ng-template>
+                    <ng-template #item let-item let-i="index">
+                
+                        <div class="items">
+                            <img src="{{item.imagePath}}" alt="{{item.description}}" width="700" height="490">
+                            <p class="small" style="text-align: center;">
+                                {{item.description}}
+                            </p>
+                        </div>
+                
+                    </ng-template>
+                </div>
+
+                <br>
+                <button style="margin-left: 15px; font-size: 20px" mat-button class="background-primary" (click)="backFromPhotos()">Zurück zu den Alben</button>
+            </span>
+
+
+        </div>
+        
+        <br>
+
+        <button *ngIf="!selectedAlbum" style="margin-left: 15px; font-size: 20px" mat-button class="background-primary" (click)="backFromAlbums()">Zurück zur Übersicht</button>
+
+    </div>
+</div>
+
 <br>
 <br>

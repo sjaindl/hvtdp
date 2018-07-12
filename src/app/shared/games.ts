@@ -10,12 +10,12 @@ export class Game {
     links: Link[]
 }
 
-export class Season {
+export class GameSeason {
     season: string
     games: Game[]
 }
 
-export const SEASONS : Season[] = [ 
+export const GAMES : GameSeason[] = [ 
     {
         season: '2017/2018',
         games: [
