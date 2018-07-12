@@ -12,8 +12,7 @@ export const PLAYERS : Player[] = [
       lastName: 'Bohacek',
       position: "Tormann",
       memberSinceYear: 2014,
-      imagePath: '../../assets/images/team/no_photo.jpg'
-      // BohacekH
+      imagePath: '../../assets/images/team/BohacekH.JPG'
     }, 
     {
       firstName: "Christian",
@@ -48,8 +47,7 @@ export const PLAYERS : Player[] = [
       lastName: 'Koinegg',
       position: "Verteidiger",
       memberSinceYear: 2014,
-      // imagePath: '/assets/images/team/Koinegg.JPG'
-      imagePath: '../../assets/images/team/no_photo.jpg'
+      imagePath: '/assets/images/team/Koinegg.JPG'
     },
     {
       firstName: "Robert",
@@ -214,8 +212,7 @@ export const PLAYERS : Player[] = [
       lastName: 'Pichler',
       position: "Stürmer",
       memberSinceYear: 2014,
-      // imagePath: '/assets/images/team/Pichler.JPG'
-      imagePath: '../../assets/images/team/no_photo.jpg'
+      imagePath: '/assets/images/team/Pichler.JPG'
     },
     {
       firstName: "Patrick",
