@@ -94,6 +94,19 @@ export class ContactComponent implements OnInit {
         this.submittedFeedback = this.feedback;
       // });
 
+      var mailSubject = 'Feedback '
+      mailSubject += this.submittedFeedback.firstname + ' ' 
+      + this.submittedFeedback.lastname + ', '
+      + this.submittedFeedback.email
+
+      if (this.submittedFeedback.agreeContact) {
+        mailSubject += ', Kontaktaufnahme erlaubt'
+      }
+
+      window.location.href = 'mailto:hvtdpstainz@gmx.at?subject='
+        + mailSubject
+        + "&body=" + this.submittedFeedback.message;
+
     this.feedbackForm.reset({
       firstname: '',
       lastname: '',
