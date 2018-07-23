@@ -30,6 +30,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RestangularModule, Restangular } from 'ngx-restangular';
 import { RestangularConfigFactory } from './shared/restConfig';
 import { FeedbackService } from './services/feedback.service';
+import { DocumentsComponent } from './documents/documents.component';
+import { DeviceDetectorModule } from 'ngx-device-detector';
 
 @NgModule({
   declarations: [
@@ -47,7 +49,8 @@ import { FeedbackService } from './services/feedback.service';
     ContactComponent,
     FanshopComponent,
     MembershipComponent,
-    HalloffameComponent
+    HalloffameComponent,
+    DocumentsComponent
   ],
   imports: [
     BrowserModule ,
@@ -75,6 +78,7 @@ import { FeedbackService } from './services/feedback.service';
     FormsModule,
     ReactiveFormsModule,
     RestangularModule.forRoot(RestangularConfigFactory),
+    DeviceDetectorModule.forRoot()
   ],
   providers: [FeedbackService],
   bootstrap: [AppComponent]

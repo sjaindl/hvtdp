@@ -30,17 +30,6 @@ export class NewsComponent implements OnInit {
     this.pageEvent.pageIndex = 0
     this.pageEvent.pageSize = this.pageSize
 
-    this.news = NEWS.sort((a, b) => {
-
-      if (a.newsDate < b.newsDate) {
-        return 1;
-      } 
-      else if (a.newsDate > b.newsDate) {
-        return -1;
-      }
-      else {
-          return 0;
-      }
-    });
+    this.news = NEWS
   }
 }

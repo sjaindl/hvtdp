@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NEWS, News } from '../shared/news';
 
 @Component({
   selector: 'app-home',
@@ -12,14 +13,10 @@ export class HomeComponent implements OnInit {
   items: Array<any> = []
   
   constructor() { 
-    this.items = [
-      { name: 'assets/images/news/news1.jpg' },
-      { name: 'assets/images/news/news2.jpg' }
-    ]
+    this.items = NEWS
   }
 
   ngOnInit() {
-
   }
 
 }

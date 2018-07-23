@@ -23,19 +23,27 @@ export const PHOTOS : AlbumSeason[] = [
             date: new Date('2015-07-14'),
             photos: [
                 {
-                    description: 'Hilli 0,000 Promilli',
+                    description: 'Unser Grillmeister Jimmi Hilli 0,0 Promilli',
                     imagePath: '../../assets/images/gallery/meisterfeier/1.jpg'
                 },
                 {
-                    description: 'Party!',
+                    description: '',
                     imagePath: '../../assets/images/gallery/meisterfeier/2.jpg'
                 },
                 {
-                    description: 'Grillerei',
+                    description: '',
                     imagePath: '../../assets/images/gallery/meisterfeier/3.jpg'
                 }
             ]
             }
         ]
-    }   
+    },
+    {
+        season: '2016/2017',
+        albums: []
+    },
+    {
+        season: '2017/2018',
+        albums: []
+    }
 ]

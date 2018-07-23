@@ -21,7 +21,7 @@
             
             <img matListAvatar class='matchball-preview' src="{{donation.matchBallImagePath}}" alt="{{donation}}" (click)="selectDonation(donation)">
             <br>
-            <h1 style="font-size:xx-large;font-weight:bold;" matLine>{{donation.date}}</h1>
+            <h1 style="font-size:xx-large;font-weight:bold;" matLine>{{donation.date.toLocaleDateString()}}</h1>
             <h1 style="font-size:x-large;" matLine>{{donation.donator}}</h1>
             <h1 style="font-size:x-large;" matLine>{{donation.match}}</h1>
 

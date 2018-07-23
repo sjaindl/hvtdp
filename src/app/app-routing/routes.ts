@@ -12,6 +12,7 @@ import { ContactComponent } from '../contact/contact.component';
 import { FanshopComponent } from '../fanshop/fanshop.component';
 import { MembershipComponent } from '../membership/membership.component';
 import { HalloffameComponent } from '../halloffame/halloffame.component';
+import { DocumentsComponent } from '../documents/documents.component';
 
 export const routes : Routes = [
     {path: "home", component: HomeComponent},
@@ -26,5 +27,6 @@ export const routes : Routes = [
     {path: "contact", component: ContactComponent},
     {path: "fanshop", component: FanshopComponent},
     {path: "membership", component: MembershipComponent},
-    {path: "halloffame", component: HalloffameComponent}
+    {path: "halloffame", component: HalloffameComponent},
+    {path: "documents", component: DocumentsComponent},
 ];

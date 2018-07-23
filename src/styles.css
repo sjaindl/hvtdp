@@ -81,7 +81,6 @@ a:active {
  .mat-list .mat-list-item .mat-list-avatar.img-preview { 
     height: 125px;
     width: 92.5px;
-    z-index: 10;
 }
 
 .mat-list .mat-list-item {
@@ -158,11 +157,18 @@ h1.header, h2.header, h3.header {
     width: 10%;
 }
 
-.logo {
+/* .logo {
     position: fixed;
     top: 22%;
     left: 1%;
     -webkit-transform: translateY(-50%);
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);
-}
+} */
+
+@media (min-width:320px)  { /* smartphones, iPhone, portrait 480x320 phones */ }
+@media (min-width:481px)  { /* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */ }
+@media (min-width:641px)  { /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */ }
+@media (min-width:961px)  { /* tablet, landscape iPad, lo-res laptops ands desktops */ }
+@media (min-width:1025px) { /* big landscape tablets, laptops, and desktops */ }
+@media (min-width:1281px) { /* hi-res laptops and desktops */ }

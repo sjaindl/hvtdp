@@ -3,10 +3,8 @@
 <div class="ticker-wrap">
     <div class="ticker">
       <div class="ticker__item">BREAKING NEWS:</div>
-      <div class="ticker__item">Dezember 2017: Der HV TDP Stainz ist offiziell ein Verein!</div>
-      <div class="ticker__item">Der HV TDP Stainz ist Meister 2018 im Südweststeirercup!</div>
-      <div class="ticker__item">Save the date: 30.06.2018, Stainzer Kleinfeldturnier</div>
-      <div class="ticker__item">Nicht verpassen: 14.07.2018, Meisterfeier vom HV TDP in der Village Bar</div>
+      <div class="ticker__item">Mittwoch, 25.07.2018, 19:00 - offizieller Trainingsstart vom HV TDP!</div>
+      <div class="ticker__item">Der HV TDP Stainz ist Meister 2017/2018 im Südweststeirercup!</div>
     </div>
 </div>
 
@@ -22,9 +20,7 @@
       
       <p>Ticker content c/o <a href="http://hipsum.co/">Hipsum.co</a></p> -->
 
-<div class="logo">
-  <img src="/assets/images/logo.gif" height="125px" width="125px">
-</div>
+<img class="logo" src="/assets/images/logo.gif">
 
 <!-- Social feed -->
 <div class="icon-bar">
@@ -36,7 +32,7 @@
 
 <!-- Image Slider -->
 
-<div id="container" style="background-color: transparent;">
+<div id="container">
     <div
       ng2-carouselamos
       class="slides-wrapper"
@@ -55,8 +51,9 @@
   </ng-template>
   <ng-template #item let-item let-i="index">
 
-      <div class="items">
-        <img src="{{ item.name }}" width="700" height="490">
+      <div class="items" style="text-align: center">
+        <img src="{{ item.imagePath }}" width="700" height="490">
+        {{ item.title }}
       </div>
 
   </ng-template>

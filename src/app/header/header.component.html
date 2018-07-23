@@ -13,7 +13,7 @@
             <span class="flex-spacer"></span>
             &nbsp;<a md-button routerLink="/championship" routerLinkActive="active"><span class="fa fa-award fa-sm"></span> Meisterschaft</a>
             <span class="flex-spacer"></span>
-            &nbsp;<a md-button routerLink="/gallery" routerLinkActive="active"><span class="fa fa-camera fa-sm"></span> Gallerie</a>
+            &nbsp;<a md-button routerLink="/gallery" routerLinkActive="active"><span class="fa fa-camera fa-sm"></span> Galerie</a>
             <span class="flex-spacer"></span>
             &nbsp;<a md-button routerLink="/social" routerLinkActive="active"><span class="fa fa-video fa-sm"></span> Videos</a>
             <span class="flex-spacer"></span>
@@ -29,6 +29,8 @@
             <span class="flex-spacer"></span>
             <!-- <a md-button routerLink="/halloffame" routerLinkActive="active"><span class="fa fa-award fa-sm"></span>Hall of Fame</a>
             <span class="flex-spacer"></span> -->
+            &nbsp;<a md-button routerLink="/documents" routerLinkActive="active"><span class="fa fa-file fa-sm"></span> Dokumente</a>
+            <span class="flex-spacer"></span>
         </div>
       </mat-toolbar-row>
     </mat-toolbar>
@@ -38,48 +40,53 @@
     <!-- <mat-sidenav-container #sidenavContainer fxFlexFill> -->
       <mat-sidenav #sidenav>
         <mat-nav-list>
-          <a md-button routerLink="/home" routerLinkActive="active" mat-list-item>
+          <a (click)="sidenav.toggle();" md-button routerLink="/home" routerLinkActive="active" mat-list-item>
             <span class="fa fa-home fa-sm"></span>
             &nbsp;Home
           </a>
-          <a md-button routerLink="/news" routerLinkActive="active" mat-list-item>
+          <a (click)="sidenav.toggle();" md-button routerLink="/news" routerLinkActive="active" mat-list-item>
             <span class="fa fa-bookmark fa-sm"></span>
             &nbsp;News
           </a>
-          <a md-button routerLink="/team" routerLinkActive="active" mat-list-item>
+          <a (click)="sidenav.toggle();" md-button routerLink="/team" routerLinkActive="active" mat-list-item>
             <span class="fa fa-portrait fa-sm"></span>
             &nbsp;Mannschaft
           </a>
-          <a md-button routerLink="/championship" routerLinkActive="active" mat-list-item>
+          <a (click)="sidenav.toggle();" md-button routerLink="/championship" routerLinkActive="active" mat-list-item>
             <span class="fa fa-award fa-sm"></span>
             &nbsp;Meisterschaft
           </a>
-          <a md-button routerLink="/gallery" routerLinkActive="active" mat-list-item>
+          <a (click)="sidenav.toggle();" md-button routerLink="/gallery" routerLinkActive="active" mat-list-item>
             <span class="fa fa-camera fa-sm"></span>
-            &nbsp;Gallerie
+            &nbsp;Galerie
           </a>
-          <a md-button routerLink="/social" routerLinkActive="active" mat-list-item>
+          <a (click)="sidenav.toggle();" md-button routerLink="/social" routerLinkActive="active" mat-list-item>
             <span class="fa fa-video fa-sm"></span>
             &nbsp;Videos
           </a>
-          <a md-button routerLink="/donation" routerLinkActive="active" mat-list-item>
+          <a (click)="sidenav.toggle();" md-button routerLink="/donation" routerLinkActive="active" mat-list-item>
             <span class="fa fa-futbol fa-sm"></span>
             &nbsp;Matchballspende</a>
-          <a md-button routerLink="/about" routerLinkActive="active" mat-list-item>
+          <a (click)="sidenav.toggle();" md-button routerLink="/about" routerLinkActive="active" mat-list-item>
             <span class="fa fa-info fa-sm"></span>
             &nbsp;Über uns
           </a>
-          <a md-button routerLink="/contact" routerLinkActive="active" mat-list-item>
+          <a (click)="sidenav.toggle();" md-button routerLink="/contact" routerLinkActive="active" mat-list-item>
             <span class="fa fa-users fa-sm"></span>
             &nbsp;Kontakt
           </a>
-          <a md-button routerLink="/fanshop" routerLinkActive="active" mat-list-item>
+          <a (click)="sidenav.toggle();" md-button routerLink="/fanshop" routerLinkActive="active" mat-list-item>
             <span class="fa fa-shopping-cart fa-sm"></span>
             &nbsp;Fanshop
           </a>
-          <a md-button routerLink="/membership" routerLinkActive="active" mat-list-item>
+          <a (click)="sidenav.toggle();" md-button routerLink="/membership" routerLinkActive="active" mat-list-item>
             <span class="fa fa-flag fa-sm"></span>
             &nbsp;Mitgliedschaft
+          </a>
+
+          <a (click)="sidenav.toggle();" md-button routerLink="/documents" routerLinkActive="active" mat-list-item>
+            <span class="fa fa-file fa-sm"></span>
+            &nbsp;Dokumente
           </a>
           <!-- <a md-button routerLink="/halloffame" routerLinkActive="active" mat-list-item>
             <span class="fa fa-award fa-sm"></span>
