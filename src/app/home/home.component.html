@@ -37,7 +37,7 @@
       ng2-carouselamos
       class="slides-wrapper"
       [items]="items"
-      [width]="700"
+      [width]="carouselWidth"
       [$prev]="prev"
       [$next]="next"
       [$item]="item">
@@ -52,7 +52,7 @@
   <ng-template #item let-item let-i="index">
 
       <div class="items" style="text-align: center">
-        <img src="{{ item.imagePath }}" width="700" height="490">
+        <img src="{{ item.imagePath }}" [style.width.px] = "imageWidth" [style.height.px] = "imageHeight">
         {{ item.title }}
       </div>
 
