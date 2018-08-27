@@ -8,13 +8,6 @@ export class Player {
 
 export const PLAYERS : Player[] = [
     {
-      firstName: 'Horst',
-      lastName: 'Bohacek',
-      position: 'Tormann',
-      memberSinceYear: 2014,
-      imagePath: '../../assets/images/team/BohacekH.JPG'
-    }, 
-    {
       firstName: 'Christian',
       lastName: 'Schnitter',
       position: 'Tormann',
@@ -86,6 +79,14 @@ export const PLAYERS : Player[] = [
       imagePath: '../../assets/images/team/no_photo.jpg'
     },
     {
+      firstName: 'Christian',
+      lastName: 'Maderthoner',
+      position: 'Mittelfeld',
+      memberSinceYear: 2018,
+      // imagePath: '/assets/images/team/Maderthoner.JPG'
+      imagePath: '../../assets/images/team/no_photo.jpg'
+    },
+    {
       firstName: 'Erik',
       lastName: 'Hilberger',
       position: 'Mittelfeld',
@@ -150,13 +151,6 @@ export const PLAYERS : Player[] = [
       imagePath: '/assets/images/team/Sackl.JPG'
     },
     {
-      firstName: 'Sebastian',
-      lastName: 'Steiner',
-      position: 'Mittelfeld',
-      memberSinceYear: 2017,
-      imagePath: '/assets/images/team/Steiner.JPG'
-    },
-    {
       firstName: 'Andreas',
       lastName: 'Stelzer',
       position: 'Mittelfeld',
@@ -184,13 +178,6 @@ export const PLAYERS : Player[] = [
       position: 'Stürmer',
       memberSinceYear: 2014,
       imagePath: '/assets/images/team/Fabian.JPG'
-    },
-    {
-      firstName: 'Philipp',
-      lastName: 'Haberl',
-      position: 'Stürmer',
-      memberSinceYear: 2017,
-      imagePath: '/assets/images/team/Haberl.JPG'
     },
     {
       firstName: 'David',

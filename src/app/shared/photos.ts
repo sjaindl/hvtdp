@@ -44,6 +44,121 @@ export const PHOTOS : AlbumSeason[] = [
     },
     {
         season: '2017/2018',
-        albums: []
+        albums: [
+            {
+                name: 'Meisterfeier',
+                date: new Date('2018-07-14'),
+                photos: [
+                    {
+                        description: '',
+                        imagePath: '../../assets/images/gallery/meisterfeier_2018/001.jpg'
+                    },
+                    {
+                        description: '',
+                        imagePath: '../../assets/images/gallery/meisterfeier_2018/003.jpg'
+                    },
+                    {
+                        description: '',
+                        imagePath: '../../assets/images/gallery/meisterfeier_2018/004.jpg'
+                    },
+                    {
+                        description: '',
+                        imagePath: '../../assets/images/gallery/meisterfeier_2018/006.jpg'
+                    },
+                    {
+                        description: '',
+                        imagePath: '../../assets/images/gallery/meisterfeier_2018/007.jpg'
+                    },
+                    {
+                        description: '',
+                        imagePath: '../../assets/images/gallery/meisterfeier_2018/008.jpg'
+                    },
+                    {
+                        description: '',
+                        imagePath: '../../assets/images/gallery/meisterfeier_2018/010.jpg'
+                    },
+                    {
+                        description: '',
+                        imagePath: '../../assets/images/gallery/meisterfeier_2018/011.jpg'
+                    },
+                    {
+                        description: '',
+                        imagePath: '../../assets/images/gallery/meisterfeier_2018/013.jpg'
+                    },
+                    {
+                        description: '',
+                        imagePath: '../../assets/images/gallery/meisterfeier_2018/014.jpg'
+                    },
+                    {
+                        description: '',
+                        imagePath: '../../assets/images/gallery/meisterfeier_2018/015.jpg'
+                    },
+                    {
+                        description: '',
+                        imagePath: '../../assets/images/gallery/meisterfeier_2018/017.jpg'
+                    },
+                    {
+                        description: '',
+                        imagePath: '../../assets/images/gallery/meisterfeier_2018/019.jpg'
+                    },
+                    {
+                        description: '',
+                        imagePath: '../../assets/images/gallery/meisterfeier_2018/020.jpg'
+                    },
+                    {
+                        description: '',
+                        imagePath: '../../assets/images/gallery/meisterfeier_2018/021.jpg'
+                    },
+                    {
+                        description: '',
+                        imagePath: '../../assets/images/gallery/meisterfeier_2018/023.jpg'
+                    },
+                    {
+                        description: '',
+                        imagePath: '../../assets/images/gallery/meisterfeier_2018/024.jpg'
+                    },
+                    {
+                        description: '',
+                        imagePath: '../../assets/images/gallery/meisterfeier_2018/025.jpg'
+                    },
+                    {
+                        description: '',
+                        imagePath: '../../assets/images/gallery/meisterfeier_2018/026.jpg'
+                    },
+                    {
+                        description: '',
+                        imagePath: '../../assets/images/gallery/meisterfeier_2018/027.jpg'
+                    },
+                    {
+                        description: '',
+                        imagePath: '../../assets/images/gallery/meisterfeier_2018/028.jpg'
+                    },
+                    {
+                        description: '',
+                        imagePath: '../../assets/images/gallery/meisterfeier_2018/029.jpg'
+                    },
+                    {
+                        description: '',
+                        imagePath: '../../assets/images/gallery/meisterfeier_2018/030.jpg'
+                    },
+                    {
+                        description: '',
+                        imagePath: '../../assets/images/gallery/meisterfeier_2018/031.jpg'
+                    },
+                    {
+                        description: '',
+                        imagePath: '../../assets/images/gallery/meisterfeier_2018/032.jpg'
+                    },
+                    {
+                        description: '',
+                        imagePath: '../../assets/images/gallery/meisterfeier_2018/033.jpg'
+                    },
+                    {
+                        description: '',
+                        imagePath: '../../assets/images/gallery/meisterfeier_2018/035.jpg'
+                    }
+                ]
+                }
+        ]
     }
 ]

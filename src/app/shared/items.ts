@@ -29,5 +29,11 @@ export const ITEMS : Items[] = [
         description: 'Das Ausgehpolo, welches auch unsere Spieler tragen. Das in Navy Blue gehaltene Polo gibt es sowohl für Männer, als auch für Frauen.',
         price: '12,90 €',
         imagePath: '../../assets/images/fanshop/polo.jpg'
+    },
+    {
+        name: 'Meisterleiberl',
+        description: 'Wer möchte sich das einzigartige Meisterleiberl von der vergangenen Saison 2017/2018 sichern? Ein Shirt für Sport und Freizeit in super Qualität.',
+        price: '19,90 €',
+        imagePath: '../../assets/images/fanshop/meisterleiberl_2018.jpg'
     }
 ];
