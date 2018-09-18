@@ -31,6 +31,8 @@
             <span class="flex-spacer"></span> -->
             &nbsp;<a md-button routerLink="/documents" routerLinkActive="active"><span class="fa fa-file fa-sm"></span> Dokumente</a>
             <span class="flex-spacer"></span>
+            &nbsp;<a md-button routerLink="/surveys" routerLinkActive="active"><span class="fa fa-list-ol fa-sm"></span> Umfragen</a>
+            <span class="flex-spacer"></span>
         </div>
       </mat-toolbar-row>
     </mat-toolbar>
@@ -83,11 +85,15 @@
             <span class="fa fa-flag fa-sm"></span>
             &nbsp;Mitgliedschaft
           </a>
-
           <a (click)="sidenav.toggle();" md-button routerLink="/documents" routerLinkActive="active" mat-list-item>
             <span class="fa fa-file fa-sm"></span>
             &nbsp;Dokumente
           </a>
+          <a (click)="sidenav.toggle();" md-button routerLink="/surveys" routerLinkActive="active" mat-list-item>
+            <span class="fa fa-list-ol fa-sm"></span>
+            &nbsp;Umfragen
+          </a>
+
           <!-- <a md-button routerLink="/halloffame" routerLinkActive="active" mat-list-item>
             <span class="fa fa-award fa-sm"></span>
             &nbsp;Hall of Fame

@@ -75,6 +75,22 @@ export const NEWS: News[] = [
         ],
         imagePath: '../../assets/images/news/news1.jpg'
     },
+    {
+        newsDate: new Date('2018-09-08'),
+        title: '4. Runde GLC: HV TDP Stainz – HC Kaindorf/Oberhaag 6:0 (5:0)',
+        news: [
+            {
+                newsLine: 'Torschützen: Fabian (4), Nöstel, Puchleitner'
+            },
+            {
+               newsLine: 'Nach dem schlechten Saisonstart mit zwei Niederlagen, vorallem am vergangenen Donnerstag musste man bei der Heimpremiere eine heftige 2:8 Niederlage gegen SV Fresing-Kitzeck einstecken und so wollte der HV TDP Stainz ﻿umso mehr am vergangenen Samstag mit allen Mitteln erstmals anzuschreiben. Ein Kader von 16 Leuten komplettierte einen tollen Mannschaftszusammenhalt.', 
+            },
+            {
+                newsLine: 'Eine Gelb-Rote Karte für das Auswärtsteam erleichterte dem HV TDP das Spiel in Halbzeit zwei. Die zweite Halbzeit verflachte von Minute zu Minute. Die vielen Wechsel der Stainzer merkte man und somit kam es nur mehr zu wenigen konstruktiven Torchancen. Den einzigen Treffer in Halbzeit zwei erzielte Florian Puchleitner, der einen Elfmeter nach Foulspiel an Nöstel souverän traf. Am Ende gab es an diesem Sieg überhaupt keine Diskussion und der HV TDP Stainz schaffte somit endlich den ersten Erfolg in der neuen Liga. Jetzt heißt es nach vorne schauen und das gute Gefühl für die kommenden Partien mitnehmen.'
+            }
+        ],
+        imagePath: '../../assets/images/news/news6.JPG'
+    },
 ].sort((a, b) => {
 
     if (a.newsDate < b.newsDate) {

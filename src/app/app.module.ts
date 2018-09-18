@@ -32,6 +32,7 @@ import { RestangularConfigFactory } from './shared/restConfig';
 import { FeedbackService } from './services/feedback.service';
 import { DocumentsComponent } from './documents/documents.component';
 import { DeviceDetectorModule } from 'ngx-device-detector';
+import { SurveysComponent } from './surveys/surveys.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { DeviceDetectorModule } from 'ngx-device-detector';
     FanshopComponent,
     MembershipComponent,
     HalloffameComponent,
-    DocumentsComponent
+    DocumentsComponent,
+    SurveysComponent
   ],
   imports: [
     BrowserModule ,

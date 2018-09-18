@@ -50,7 +50,7 @@ export const PLAYERS : Player[] = [
       imagePath: '/assets/images/team/Ronegg.JPG'
     },
     {
-      firstName: 'Hrovje',
+      firstName: 'Hrvoje',
       lastName: 'Sincek',
       position: 'Verteidiger',
       memberSinceYear: 2014,
@@ -64,27 +64,26 @@ export const PLAYERS : Player[] = [
       imagePath: '/assets/images/team/Thomann.JPG'
     },
     {
-      firstName: 'Albert',
-      lastName: 'Ademi',
-      position: 'Mittelfeld',
-      memberSinceYear: 2014,
-      imagePath: '/assets/images/team/Ademi.JPG'
-    },
-    {
       firstName: 'Patrick',
       lastName: 'Gödl',
       position: 'Mittelfeld',
       memberSinceYear: 2018,
-      // imagePath: '/assets/images/team/Goedl.JPG'
-      imagePath: '../../assets/images/team/no_photo.jpg'
+      imagePath: '/assets/images/team/Goedl.JPG'
+      // imagePath: '../../assets/images/team/no_photo.jpg'
+    },
+    {
+      firstName: 'Michael',
+      lastName: 'Kremser',
+      position: 'Verteidigung',
+      memberSinceYear: 2018,
+      imagePath: '/assets/images/team/Kremser.JPG'
     },
     {
       firstName: 'Christian',
       lastName: 'Maderthoner',
       position: 'Mittelfeld',
       memberSinceYear: 2018,
-      // imagePath: '/assets/images/team/Maderthoner.JPG'
-      imagePath: '../../assets/images/team/no_photo.jpg'
+      imagePath: '/assets/images/team/Maderthoner.JPG'
     },
     {
       firstName: 'Erik',
@@ -98,8 +97,7 @@ export const PLAYERS : Player[] = [
       lastName: 'Kohlberger',
       position: 'Mittelfeld',
       memberSinceYear: 2017,
-      // imagePath: '/assets/images/team/Kohlberger.JPG'
-      imagePath: '../../assets/images/team/no_photo.jpg'
+      imagePath: '/assets/images/team/Kohlberger.JPG'
     },
     {
       firstName: 'Mario',

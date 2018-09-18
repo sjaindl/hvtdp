@@ -31,6 +31,30 @@ export const DONATIONS : Donations[] = [
         description: 'Wir möchten uns auf diesem Weg nochmals ganz herzlich bei Julian Kainz und seinem Unternehmen Studo - Die App für dein Studium für das Sponsoring eines brandneuen Matchballes bedanken. Der Ball kam am vergangenen Samstag gegen den HFC Schilcher erfolgreich zum Einsatz! Unser Kapitän durfte den Ball von der Mitarbeiterin des Unternehmens, Jasmin Fabian, entgegennehmen.',
         imagePath: '../../assets/images/matchballspende/spende_studo.jpg',
         matchBallImagePath: '../../assets/images/matchballspende/studo.gif'
+    }, 
+    {
+        donator: 'Gartenpflege Reinbacher Patrick',
+        date: new Date('2018-09-08'),
+        match: 'HV TDP - HC Kaindorf/Oberhaag',
+        description: 'Auch an diesem Wochenende durften wir wieder ein Sponsoring entgegennehmen. Ein Dank ergeht an unseren Spieler Patrick Reinbacher, der mit seiner Firma „Gartenpflege Reinbacher“ die Matchballspende für das vergangene Heimspiel gegen HC Kaindorf/Oberhaag übernahm. Vielen Dank dafür und wir freuen uns wenn du wieder am Platz stehst für den HV TDP Stainz! ;) #hvtdpstainz #matchballspende #gartenpflegereinbacher #stadionstainz',
+        imagePath: '../../assets/images/matchballspende/spende_gartenpflegereinbacher.jpg',
+        matchBallImagePath: '../../assets/images/matchballspende/gartenpflegereinbacher.gif'
+    }, 
+    {
+        donator: 'Steiermärkische Sparkasse Stainz',
+        date: new Date('2018-09-06'),
+        match: 'HV TDP - SV Fresing-Kitzeck',
+        description: 'Beim gestrigen Spiel gegen SV Fresing-Kitzeck durften wir wieder eine Matchballspende entgegennehmen! Vielen Dank an die Steiermärkische Sparkasse Stainz für das Sponsoring. Unser Spieler und Mitarbeiter der Sparkasse Florian Puchleitner übergab den Ball an unseren Obmann. Vielen Dank! 😎',
+        imagePath: '../../assets/images/matchballspende/spende_sparkasse.jpg',
+        matchBallImagePath: '../../assets/images/matchballspende/Sparkasse.gif'
+    }, 
+    {
+        donator: 'Holzschlägerung Dudek & Wiener',
+        date: new Date('2018-09-15'),
+        match: 'HV TDP - Stainztal',
+        description: '',
+        imagePath: '../../assets/images/matchballspende/spende_dudek.jpg',
+        matchBallImagePath: '../../assets/images/matchballspende/dudek.gif'
     }
 ].sort((a, b) => {
 
