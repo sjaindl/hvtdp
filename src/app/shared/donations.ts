@@ -52,9 +52,25 @@ export const DONATIONS : Donations[] = [
         donator: 'Holzschlägerung Dudek & Wiener',
         date: new Date('2018-09-15'),
         match: 'HV TDP - Stainztal',
-        description: '',
+        description: 'Beim Stainzer Derby im heimischen Stadion durften wir auch dieses Mal wieder eine Matchballspende entgegennehmen. Wir bedanken uns bei der Firma Holzschlägerung Dudek & Wiener für die Matchballspende. Miteigentümer Patrick Dudek war beim Spiel vor Ort und unser Obmann nahm das Sponsoring dankend entgegen. Vielen Dank! 😎 #hvtdpstainz #matchballspende #stadionstainz',
         imagePath: '../../assets/images/matchballspende/spende_dudek.jpg',
         matchBallImagePath: '../../assets/images/matchballspende/dudek.gif'
+    }, 
+    {
+        donator: 'Schnattls Restaurant Marktplatz 2',
+        date: new Date('2018-10-06'),
+        match: 'HV TDP - FC Gasselsdorf',
+        description: '⚽ Matchballsponsoring : Schnattls Restaurant Marktplatz 2 Groß St. Florian. Bedanken möchten wir uns noch bei Gerlinde Gödl von Schnattl´s Restaurant, die den Matchball für dieses Spiel gesponsert hat.',
+        imagePath: '../../assets/images/matchballspende/spende_schnattl.jpg',
+        matchBallImagePath: '../../assets/images/matchballspende/schnattl.gif'
+    }, 
+    {
+        donator: 'frei.stil',
+        date: new Date('2018-10-22'),
+        match: 'HV TDP - HFC Leutschach',
+        description: 'frei.stil. Ein Herzliches Dankeschön ergeht an Maximilian Grandtner, der mit seinem frisch übernommenen Lokal frei.stil das Matchballsponsoring des Spiels übernahm! 😎 ',
+        imagePath: '../../assets/images/matchballspende/spende_freistil.jpg',
+        matchBallImagePath: '../../assets/images/matchballspende/freistil.gif'
     }
 ].sort((a, b) => {
 
