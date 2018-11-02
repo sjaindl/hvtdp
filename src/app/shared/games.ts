@@ -62,6 +62,114 @@ export const GAMES : GameSeason[] = [
             ]
         },
         ]
-    }   
-]
+    },
+    {
+        season: '2018/2019',
+        games: [
+            {
+                round: 4,
+                description: 'HV TDP Stainz - HC Kaindorf/Oberhaag',
+                date: new Date('2018-08-08'),
+                links: [
+                    {
+                        link: 'https://www.youtube.com/watch?v=kMli8BjNcUA',
+                        description: '4:0 Nöstel'
+                    },
+                    {
+                        link: 'https://www.youtube.com/watch?v=yytoIdvp_iU',
+                        description: '5:0 Fabian'
+                    },
+                    {
+                        link: 'https://www.youtube.com/watch?v=FZzO5SxjCiQ',
+                        description: '6:0 Puchleitner'
+                    }
+                ]
+            },
+            {
+                round: 5,
+                description: 'HV TDP Stainz - FC Stainztal',
+                date: new Date('2018-09-15'),
+                links: [
+                    {
+                        link: 'https://www.youtube.com/watch?v=Uxr18fztOUk',
+                        description: '1:0 Kohlberger'
+                    },
+                    {
+                        link: 'https://www.youtube.com/watch?v=zsubG_CHbdI',
+                        description: '2:0 Fabian'
+                    },
+                    {
+                        link: 'https://www.youtube.com/watch?v=mUfacJJN9BI',
+                        description: '3:0 Nöstel'
+                    }
+                ]
+            },
 
+            {
+                round: 8,
+                description: 'HV TDP Stainz - FC Gasselsdorf',
+                date: new Date('2018-10-06'),
+                links: [
+                    {
+                        link: 'https://www.youtube.com/watch?v=KgWlgJenLlQ',
+                        description: '1:1 Fabian'
+                    },
+                    {
+                        link: 'https://www.youtube.com/watch?v=5hYhHEPCL_U',
+                        description: '2:1 Fabian'
+                    },
+                    {
+                        link: 'https://www.youtube.com/watch?v=2Zosvzdlzck',
+                        description: '3:1 Hilberger'
+                    },
+                    {
+                        link: 'https://www.youtube.com/watch?v=OOfm19gFiAA',
+                        description: '4:1 Wolf'
+                    },
+                    {
+                        link: 'https://www.youtube.com/watch?v=LtjhGeqcHkQ',
+                        description: '5:1 Sackl'
+                    }
+                ]
+            },
+            {
+                round: 9,
+                description: 'Aqua Line Groß St. Florian - HV TDP Stainz',
+                date: new Date('2018-10-14'),
+                links: [
+                    {
+                        link: 'https://www.youtube.com/watch?v=WZC6WrsusJ4&t=2s',
+                        description: '2:1 Fabian'
+                    },
+                    {
+                        link: 'https://www.youtube.com/watch?v=0NBD_lLSWxU',
+                        description: '3:2 Nöstel'
+                    },
+                    {
+                        link: 'https://www.youtube.com/watch?v=2c3b8zGW1yo',
+                        description: '3:3 Sincek'
+                    }
+                ]
+            },
+            {
+                round: 10,
+                description: 'HV TDP Stainz - HFC Leutschach',
+                date: new Date('2018-10-21'),
+                links: [
+                    {
+                        link: 'https://www.youtube.com/watch?v=iZgXM-9TtvM',
+                        description: '1:0 Nöstel'
+                    },
+                    {
+                        link: 'https://www.youtube.com/watch?v=kWBI19IvLSo',
+                        description: '2:0 Nöstel'
+                    },
+                    {
+                        link: 'https://www.youtube.com/watch?v=pJB-GLHfRdc',
+                        description: '3:0 Hilberger'
+                    }
+                ]
+            },
+        ]
+    }
+]
