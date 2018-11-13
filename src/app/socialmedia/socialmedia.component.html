@@ -32,9 +32,16 @@
             </p>
             
             <div *ngFor="let link of game.links">
-                <p class="small">
-                    <a href="{{link.link}}" target="_blank">{{link.description}}</a>  
-                </p>
+                <mat-list>
+                    <div *ngFor="let player of players">
+                        <mat-list-item *ngIf="player.lastName == link.scorer">
+                            <p class="small">
+                                <img matListAvatar class='img-preview' src="{{player.imagePath}}" alt="{{player.firstName}} {{player.lastName}}" style="width: 90; height: 110px;">
+                                <a href="{{link.link}}" target="_blank">{{link.description}} {{link.scorer}}</a>  
+                            </p>
+                        </mat-list-item>
+                    </div>
+                </mat-list>                    
             </div>
 
 

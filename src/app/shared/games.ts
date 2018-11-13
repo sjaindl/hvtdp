@@ -1,6 +1,7 @@
 export class Link {
     link: string
     description: string
+    scorer: string
 }
 
 export class Game {
@@ -26,27 +27,33 @@ export const GAMES : GameSeason[] = [
             links: [
                 {
                     link: 'https://www.youtube.com/watch?v=7WiLVl1NSmY&list=UUQDFAfoc1IdUWkQ7U9PpkDg&index=6',
-                    description: '0:1 Schriebl'
+                    description: '0:1',
+                    scorer: 'Schriebl'
                 },
                 {
                     link: 'https://www.youtube.com/watch?v=t_UoWMNWYAI&list=UUQDFAfoc1IdUWkQ7U9PpkDg&index=5',
-                    description: '0:2 Fabian'
+                    description: '0:2',
+                    scorer: 'Fabian'
                 },
                 {
                     link: 'https://www.youtube.com/watch?v=vCzM613FifE&index=4&list=UUQDFAfoc1IdUWkQ7U9PpkDg',
-                    description: '1:3 Eigentor'
+                    description: '1:3',
+                    scorer: 'Eigentor'
                 },
                 {
                     link: 'https://www.youtube.com/watch?v=xiRa1e0nBuk&index=3&list=UUQDFAfoc1IdUWkQ7U9PpkDg',
-                    description: '1:4 Loscher'
+                    description: '1:4',
+                    scorer: 'Loscher'
                 },
                 {
                     link: 'https://www.youtube.com/watch?v=WuALrPrlB30&list=UUQDFAfoc1IdUWkQ7U9PpkDg',
-                    description: '1:5 Loscher'
+                    description: '1:5',
+                    scorer: 'Loscher'
                 },
                 {
                     link: 'https://www.youtube.com/watch?v=Z4mz8i3t43s&index=2&list=UUQDFAfoc1IdUWkQ7U9PpkDg',
-                    description: '1:6 Primus'
+                    description: '1:6',
+                    scorer: 'Primus'
                 }
             ]
         },
@@ -57,7 +64,8 @@ export const GAMES : GameSeason[] = [
             links: [
                 {
                     link: 'https://www.youtube.com/watch?v=OXtyINGEJSE&index=48&list=UUQDFAfoc1IdUWkQ7U9PpkDg',
-                    description: '1:0 Fabian'
+                    description: '1:0',
+                    scorer: 'Fabian'
                 }
             ]
         },
@@ -73,15 +81,18 @@ export const GAMES : GameSeason[] = [
                 links: [
                     {
                         link: 'https://www.youtube.com/watch?v=kMli8BjNcUA',
-                        description: '4:0 Nöstel'
+                        description: '4:0',
+                        scorer: 'Nöstel'
                     },
                     {
                         link: 'https://www.youtube.com/watch?v=yytoIdvp_iU',
-                        description: '5:0 Fabian'
+                        description: '5:0',
+                        scorer: 'Fabian'
                     },
                     {
                         link: 'https://www.youtube.com/watch?v=FZzO5SxjCiQ',
-                        description: '6:0 Puchleitner'
+                        description: '6:0',
+                        scorer: 'Puchleitner'
                     }
                 ]
             },
@@ -92,15 +103,18 @@ export const GAMES : GameSeason[] = [
                 links: [
                     {
                         link: 'https://www.youtube.com/watch?v=Uxr18fztOUk',
-                        description: '1:0 Kohlberger'
+                        description: '1:0',
+                        scorer: 'Kohlberger'
                     },
                     {
                         link: 'https://www.youtube.com/watch?v=zsubG_CHbdI',
-                        description: '2:0 Fabian'
+                        description: '2:0',
+                        scorer: 'Fabian'
                     },
                     {
                         link: 'https://www.youtube.com/watch?v=mUfacJJN9BI',
-                        description: '3:0 Nöstel'
+                        description: '3:0',
+                        scorer: 'Nöstel'
                     }
                 ]
             },
@@ -112,23 +126,28 @@ export const GAMES : GameSeason[] = [
                 links: [
                     {
                         link: 'https://www.youtube.com/watch?v=KgWlgJenLlQ',
-                        description: '1:1 Fabian'
+                        description: '1:1',
+                        scorer: 'Fabian'
                     },
                     {
                         link: 'https://www.youtube.com/watch?v=5hYhHEPCL_U',
-                        description: '2:1 Fabian'
+                        description: '2:1',
+                        scorer: 'Fabian'
                     },
                     {
                         link: 'https://www.youtube.com/watch?v=2Zosvzdlzck',
-                        description: '3:1 Hilberger'
+                        description: '3:1',
+                        scorer: 'Hilberger'
                     },
                     {
                         link: 'https://www.youtube.com/watch?v=OOfm19gFiAA',
-                        description: '4:1 Wolf'
+                        description: '4:1',
+                        scorer: 'Wolf'
                     },
                     {
                         link: 'https://www.youtube.com/watch?v=LtjhGeqcHkQ',
-                        description: '5:1 Sackl'
+                        description: '5:1',
+                        scorer: 'Sackl'
                     }
                 ]
             },
@@ -139,15 +158,18 @@ export const GAMES : GameSeason[] = [
                 links: [
                     {
                         link: 'https://www.youtube.com/watch?v=WZC6WrsusJ4&t=2s',
-                        description: '2:1 Fabian'
+                        description: '2:1',
+                        scorer: 'Fabian'
                     },
                     {
                         link: 'https://www.youtube.com/watch?v=0NBD_lLSWxU',
-                        description: '3:2 Nöstel'
+                        description: '3:2',
+                        scorer: 'Nöstel'
                     },
                     {
                         link: 'https://www.youtube.com/watch?v=2c3b8zGW1yo',
-                        description: '3:3 Sincek'
+                        description: '3:3',
+                        scorer: 'Sincek'
                     }
                 ]
             },
@@ -158,15 +180,18 @@ export const GAMES : GameSeason[] = [
                 links: [
                     {
                         link: 'https://www.youtube.com/watch?v=iZgXM-9TtvM',
-                        description: '1:0 Nöstel'
+                        description: '1:0',
+                        scorer: 'Nöstel'
                     },
                     {
                         link: 'https://www.youtube.com/watch?v=kWBI19IvLSo',
-                        description: '2:0 Nöstel'
+                        description: '2:0',
+                        scorer: 'Nöstel'
                     },
                     {
                         link: 'https://www.youtube.com/watch?v=pJB-GLHfRdc',
-                        description: '3:0 Hilberger'
+                        description: '3:0',
+                        scorer: 'Hilberger'
                     }
                 ]
             },
