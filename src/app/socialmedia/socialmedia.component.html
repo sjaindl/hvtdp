@@ -28,7 +28,7 @@
                 Runde {{game.round}}
             </p>
             <p class="normal">
-                {{game.date.toLocaleDateString()}}, {{game.description}}
+                {{game.date}}, {{game.description}}
             </p>
             
             <div *ngFor="let link of game.links">
@@ -36,11 +36,19 @@
                     <div *ngFor="let player of players">
                         <mat-list-item *ngIf="player.lastName == link.scorer">
                             <p class="small">
-                                <img matListAvatar class='img-preview' src="{{player.imagePath}}" alt="{{player.firstName}} {{player.lastName}}" style="width: 90; height: 110px;">
+                                <img matListAvatar class='img-preview' src="{{imageBaseUrl + player.imagePath}}" alt="{{player.firstName}} {{player.lastName}}" style="width: 90; height: 110px;">
                                 <a href="{{link.link}}" target="_blank">{{link.description}} {{link.scorer}}</a>  
                             </p>
                         </mat-list-item>
                     </div>
+
+                    <mat-list-item *ngIf="link.scorer == 'Eigentor'">
+                        <p class="small">
+                            <img matListAvatar class='img-preview' src="{{imageBaseUrl + 'team/no_photo.jpg'}}" alt="{{link.scorer}}" style="width: 90; height: 110px;">
+                            <a href="{{link.link}}" target="_blank">{{link.description}} {{link.scorer}}</a>  
+                        </p>
+                    </mat-list-item>
+
                 </mat-list>                    
             </div>
 

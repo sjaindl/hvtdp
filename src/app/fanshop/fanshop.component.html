@@ -28,7 +28,7 @@ fxLayoutGap="10px">
   <div fxFlex>
     <mat-grid-list cols="{{gridColumns}}" rowHeight="510px">
       <mat-grid-tile *ngFor="let item of items" appHighlight >
-        <img [style.height.px]="gridImageHeight" src="{{item.imagePath}}" alt={{item.name}}>
+        <img [style.height.px]="gridImageHeight" src="{{imageBaseUrl + item.imagePath}}" alt={{item.name}}>
         <mat-grid-tile-header>
           <h1 mat-line [style.font-size.em] = "titleSizeEm">{{item.name | uppercase}}</h1>
           <h2 mat-line style="text-align: right;" [style.font-size.em] = "priceSizeEm">{{item.price}}</h2>

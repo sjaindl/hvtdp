@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Feedback } from '../shared/feedback';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { FeedbackService } from '../services/feedback.service';
 
 @Component({
   selector: 'app-contact',
@@ -46,7 +45,7 @@ export class ContactComponent implements OnInit {
     }
   };
 
-  constructor(private formBuilder: FormBuilder, private feedbackService: FeedbackService) {
+  constructor(private formBuilder: FormBuilder) {
     this.createForm();
   }
 

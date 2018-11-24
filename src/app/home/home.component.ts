@@ -1,6 +1,9 @@
 import { Component, OnInit, HostListener } from '@angular/core';
-import { NEWS, News } from '../shared/news';
+import { News } from '../shared/news';
 import { DeviceDetectorService } from '../../../node_modules/ngx-device-detector';
+import { baseUrlImages } from '../shared/baseurls';
+import { MysqlService } from '../services/mysql.service';
+import { Ticker } from '../shared/ticker';
 
 @Component({
   selector: 'app-home',
@@ -9,14 +12,22 @@ import { DeviceDetectorService } from '../../../node_modules/ngx-device-detector
 })
 export class HomeComponent implements OnInit {
 
+  imageBaseUrl: String
   items: Array<any> = []
+  tickerItems: Ticker[] = []
   isMobile = null
   carouselWidth = null
   imageWidth = null
   imageHeight = null
   
-  constructor(private deviceService: DeviceDetectorService) { 
-    this.items = NEWS
+  constructor(private deviceService: DeviceDetectorService, private mysqlService: MysqlService) { 
+    this.mysqlService.getNews().subscribe( news => {
+      this.items = news
+    })
+
+    this.mysqlService.getTickerItems().subscribe( tickerItems => {
+      this.tickerItems = tickerItems
+    })
   }
 
   ngOnInit() {
@@ -30,8 +41,11 @@ export class HomeComponent implements OnInit {
     userAgent
     os_version
     */
+    this.imageBaseUrl = baseUrlImages
     this.checkDevice()
     this.isMobile || window.innerWidth < 641 ? this.setMobile() : this.setDesktop()
+
+
   }
 
   checkDevice() {

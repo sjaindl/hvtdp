@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { NEWS, News } from '../shared/news';
+import { News } from '../shared/news';
 import { PageEvent } from '@angular/material';
+import { baseUrlImages } from '../shared/baseurls';
+import { MysqlService } from '../services/mysql.service';
 
 @Component({
   selector: 'app-news',
@@ -9,27 +11,32 @@ import { PageEvent } from '@angular/material';
 })
 export class NewsComponent implements OnInit {
 
-  news: News[];
+  news: News[]
+  imageBaseUrl: String
 
-  length: number;
-  pageSize: number;
+  length: number
+  pageSize: number
 
-  pageSizeOptions: number[] = [5, 10, 25, 100];
+  pageSizeOptions: number[] = [5, 10, 25, 100]
 
   // MatPaginator Output
-  pageEvent: PageEvent;
+  pageEvent: PageEvent
 
-  constructor() { }
+  constructor(private mysqlService: MysqlService) { }
 
   ngOnInit() {
-    this.length = NEWS.length
-    this.pageSize = 5
-    this.pageEvent =  new PageEvent()
+    this.imageBaseUrl = baseUrlImages
 
-    this.pageEvent.length = this.length
-    this.pageEvent.pageIndex = 0
-    this.pageEvent.pageSize = this.pageSize
+    this.mysqlService.getNews().subscribe( news => {
+      this.news = news
 
-    this.news = NEWS
+      this.length = news.length
+      this.pageSize = 5
+      this.pageEvent =  new PageEvent()
+
+      this.pageEvent.length = this.length
+      this.pageEvent.pageIndex = 0
+      this.pageEvent.pageSize = this.pageSize
+    })
   }
 }

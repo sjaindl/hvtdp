@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { GameSeason, GAMES } from '../shared/games';
-import { Player, PLAYERS } from '../shared/player';
+import { GameSeason } from '../shared/games';
+import { Player } from '../shared/player';
+import { baseUrlImages } from '../shared/baseurls';
+import { MysqlService } from '../services/mysql.service';
 
 @Component({
   selector: 'app-socialmedia',
@@ -12,24 +14,21 @@ export class SocialmediaComponent implements OnInit {
   seasons: GameSeason[]
   players: Player[]
   selectedSeason: GameSeason = null
+  imageBaseUrl: String
 
-  constructor() {
-    this.players = PLAYERS
-    this.seasons = GAMES.sort((a, b) => {
-
-      if (a.season < b.season) {
-        return 1;
-      } 
-      else if (a.season > b.season) {
-        return -1;
-      }
-      else {
-          return 0;
-      }
-    });
+  constructor(private mysqlService: MysqlService) {
    }
 
   ngOnInit() {
+    this.imageBaseUrl = baseUrlImages
+
+    this.mysqlService.getGames().subscribe(seasons => {
+      this.seasons = seasons
+    })
+
+    this.mysqlService.getPlayers().subscribe(players => {
+      this.players = players
+    })
   }
 
   selectSeason(season: GameSeason) {
@@ -39,5 +38,4 @@ export class SocialmediaComponent implements OnInit {
   back() {
     this.selectedSeason = null
   }
-
 }

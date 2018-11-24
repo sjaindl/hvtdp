@@ -1,6 +1,8 @@
 import { Component, OnInit, HostListener } from '@angular/core';
-import { ITEMS } from '../shared/items';
+import { Item } from '../shared/items';
 import { DeviceDetectorService } from '../../../node_modules/ngx-device-detector';
+import { baseUrlImages } from '../shared/baseurls';
+import { MysqlService } from '../services/mysql.service';
 
 @Component({
   selector: 'app-fanshop',
@@ -9,7 +11,8 @@ import { DeviceDetectorService } from '../../../node_modules/ngx-device-detector
 })
 export class FanshopComponent implements OnInit {
 
-  items = ITEMS
+  items: Item[]
+  imageBaseUrl: String
 
   gridImageHeight = null
   gridColumns = null
@@ -19,9 +22,11 @@ export class FanshopComponent implements OnInit {
 
   isMobile = null;
 
-  constructor(private deviceService: DeviceDetectorService) { }
+  constructor(private deviceService: DeviceDetectorService, private mysqlService: MysqlService) { }
 
   ngOnInit() {
+    this.imageBaseUrl = baseUrlImages
+
     /*
     this.deviceInfo = this.deviceService.getDeviceInfo();
 
@@ -34,6 +39,10 @@ export class FanshopComponent implements OnInit {
     */
     this.checkDevice()
     this.isMobile || window.innerWidth < 641 ? this.setMobile() : this.setDesktop()
+
+    this.mysqlService.getItems().subscribe( items => {
+      this.items = items
+    })
   }
 
   checkDevice() {

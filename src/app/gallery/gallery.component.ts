@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AlbumSeason, PHOTOS, Album } from '../shared/photos';
+import { AlbumSeason, Album } from '../shared/photos';
+import { MysqlService } from '../services/mysql.service';
+import { baseUrlImages } from '../shared/baseurls';
 
 @Component({
   selector: 'app-gallery',
@@ -11,23 +13,17 @@ export class GalleryComponent implements OnInit {
   seasons: AlbumSeason[]
   selectedSeason: AlbumSeason = null
   selectedAlbum: Album = null
+  imageBaseUrl: String
 
-  constructor() { 
-    this.seasons = PHOTOS.sort((a, b) => {
-
-      if (a.season < b.season) {
-        return 1;
-      } 
-      else if (a.season > b.season) {
-        return -1;
-      }
-      else {
-          return 0;
-      }
-    });
+  constructor(private mysqlService: MysqlService) { 
   }
 
   ngOnInit() {
+    this.imageBaseUrl = baseUrlImages
+
+    this.mysqlService.getPhotos().subscribe(seasons => {
+      this.seasons = seasons
+    })
   }
 
   selectSeason(season: AlbumSeason) {

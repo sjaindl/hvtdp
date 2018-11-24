@@ -6,12 +6,8 @@
     Hier findest du die Sammlung der wichtigsten Dokumente für HV TDP-Mitglieder und Fans.
 </p>
 
-<p class="normal">
-    <a href="assets/beitrittserklaerung.pdf">Beitrittserklärung</a>
-</p>
-
-<p class="normal">
-    <a href="assets/statuten.pdf">Statuten</a>
+<p *ngFor="let document of documents" class="normal">
+    <a href="{{documentBaseUrl + document.link}}">{{document.description}}</a>
 </p>
 
 <br>

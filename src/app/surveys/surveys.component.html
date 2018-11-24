@@ -1,18 +1,6 @@
-<!-- <h1 style="text-align: center;">
-    Umfragen
-</h1>
-
-<p class="normal">
-  Hier findest du aktuelle Umfragen des HV TDP.
-</p>
-
-<p class="normal">
-  <a href="https://www.umfrageonline.com/s/fee9f57">Spieler Saison 2017/2018 - HV TDP Stainz</a>
-</p> -->
-  
-<div class="h_iframe">
+  <div *ngIf="surveyLink && surveyLink.length > 0" class="h_iframe">
     &nbsp;
-    <iframe src="https://www.umfrageonline.com/s/fee9f57" frameborder="0" allowfullscreen height="1700">
+    <iframe [src]="surveyUrl()" frameborder="0" allowfullscreen height="1700">
     </iframe>
   </div>
   

@@ -1,12 +1,8 @@
 
-<!-- Banner -->
+<!-- Ticker -->
 <div class="ticker-wrap">
-    <div class="ticker">
-      <!-- <div class="ticker__item">BREAKING NEWS:</div> -->
-      <!-- <div class="ticker__item">Nächstes Spiel: 14.10.2018 - 15:00, Groß St. Florian - HV TDP Stainz</div> -->
-      <div class="ticker__item">Der HV TDP beendet die Herbstsaison mit einem 3:3 zuhause gegen den HFC Leutschach</div>
-      <!-- <div class="ticker__item">Mittwoch, 25.07.2018, 19:00 - offizieller Trainingsstart vom HV TDP!</div> -->
-      <!-- <div class="ticker__item">Der HV TDP Stainz ist Meister 2017/2018 im Südweststeirercup!</div> -->
+    <div *ngFor="let tickerItem of tickerItems" class="ticker">
+      <div class="ticker__item">{{tickerItem.tickerItem}}</div>
     </div>
 </div>
 
@@ -54,7 +50,7 @@
   <ng-template #item let-item let-i="index">
 
       <div class="items" style="text-align: center">
-        <img src="{{ item.imagePath }}" [style.width.px] = "imageWidth" [style.height.px] = "imageHeight">
+        <img src="{{imageBaseUrl + item.imagePath}}" [style.width.px] = "imageWidth" [style.height.px] = "imageHeight">
         {{ item.title }}
       </div>
 

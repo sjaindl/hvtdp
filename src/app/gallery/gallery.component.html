@@ -25,12 +25,12 @@
         
         <div *ngFor="let album of season.albums">
             <p class="normal" (click)="selectAlbum(album)" *ngIf="!selectedAlbum" style="color: hotpink;">
-                    <a>{{album.date.toLocaleDateString()}}, {{album.name}}</a>
+                    <a>{{album.date}}, {{album.name}}</a>
             </p>
             
             <span *ngIf="album == selectedAlbum">
                 <p class="normal">
-                    {{album.date.toLocaleDateString()}}, {{album.name}}
+                    {{album.date}}, {{album.name}}
                 </p>
 
                 <div id="container" style="background-color: transparent;">
@@ -53,7 +53,7 @@
                     <ng-template #item let-item let-i="index">
                 
                         <div class="items">
-                            <img src="{{item.imagePath}}" alt="{{item.description}}" width="700" height="490">
+                            <img src="{{imageBaseUrl + item.imagePath}}" alt="{{item.description}}" width="700" height="490">
                             <p class="small" style="text-align: center;">
                                 {{item.description}}
                             </p>

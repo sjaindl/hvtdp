@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { CHEFS, Chef } from '../shared/chefs';
+import { Chef } from '../shared/chefs';
+import { baseUrlImages } from '../shared/baseurls';
+import { MysqlService } from '../services/mysql.service';
 
 @Component({
   selector: 'app-about',
@@ -8,12 +10,18 @@ import { CHEFS, Chef } from '../shared/chefs';
 })
 export class AboutComponent implements OnInit {
 
-  chefs: Chef[];
+  chefs: Chef[]
+  imageBaseUrl: String
 
-  constructor() { }
+  constructor(private mysqlService: MysqlService) { }
 
   ngOnInit() {
-    this.chefs = CHEFS;
+    this.imageBaseUrl = baseUrlImages
+
+    this.mysqlService.getChefs().subscribe(chefs => {
+      this.chefs = chefs
+    })
   }
 
+  
 }

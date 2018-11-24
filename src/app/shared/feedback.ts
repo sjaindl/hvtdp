@@ -5,5 +5,4 @@ export class Feedback {
     agreeContact: boolean;
     agreeGDPR: boolean
     message: string;
-
 }

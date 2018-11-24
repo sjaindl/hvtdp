@@ -29,10 +29,11 @@ import { GOOGLE_MAPS_API_KEY } from './shared/keys';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RestangularModule, Restangular } from 'ngx-restangular';
 import { RestangularConfigFactory } from './shared/restConfig';
-import { FeedbackService } from './services/feedback.service';
 import { DocumentsComponent } from './documents/documents.component';
 import { DeviceDetectorModule } from 'ngx-device-detector';
 import { SurveysComponent } from './surveys/surveys.component';
+import { MysqlService } from './services/mysql.service';
+import { HttpModule } from '@angular/http';
 
 @NgModule({
   declarations: [
@@ -80,9 +81,10 @@ import { SurveysComponent } from './surveys/surveys.component';
     FormsModule,
     ReactiveFormsModule,
     RestangularModule.forRoot(RestangularConfigFactory),
-    DeviceDetectorModule.forRoot()
+    DeviceDetectorModule.forRoot(),
+    HttpModule
   ],
-  providers: [FeedbackService],
+  providers: [MysqlService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
