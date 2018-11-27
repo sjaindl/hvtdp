@@ -4,6 +4,7 @@ import { DeviceDetectorService } from '../../../node_modules/ngx-device-detector
 import { baseUrlImages } from '../shared/baseurls';
 import { MysqlService } from '../services/mysql.service';
 import { Ticker } from '../shared/ticker';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -20,7 +21,7 @@ export class HomeComponent implements OnInit {
   imageWidth = null
   imageHeight = null
   
-  constructor(private deviceService: DeviceDetectorService, private mysqlService: MysqlService) { 
+  constructor(private deviceService: DeviceDetectorService, private mysqlService: MysqlService, public router: Router) { 
     this.mysqlService.getNews().subscribe( news => {
       this.items = news
     })
@@ -70,5 +71,10 @@ export class HomeComponent implements OnInit {
     this.carouselWidth = carouselWidth
     this.imageWidth = imageWidth
     this.imageHeight = imageHeight
+  }
+
+  showImageDetails(item) {
+    console.log('navigate to ' + '/news/' + item.newsId)
+    this.router.navigate(['/news', item.newsId]);
   }
 }

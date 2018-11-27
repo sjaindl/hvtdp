@@ -50,7 +50,8 @@
   <ng-template #item let-item let-i="index">
 
       <div class="items" style="text-align: center">
-        <img src="{{imageBaseUrl + item.imagePath}}" [style.width.px] = "imageWidth" [style.height.px] = "imageHeight">
+        <img src="{{imageBaseUrl + item.imagePath}}" [style.width.px] = "imageWidth" [style.height.px] = "imageHeight"
+        (click)="showImageDetails(item)">
         {{ item.title }}
       </div>
 

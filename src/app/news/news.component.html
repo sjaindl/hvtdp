@@ -7,7 +7,7 @@
 <span *ngFor="let newsItem of news">
 
     <mat-expansion-panel *ngIf="news.indexOf(newsItem) >= this.pageEvent.pageIndex * this.pageEvent.pageSize 
-                             && news.indexOf(newsItem) + 1 <= (this.pageEvent.pageIndex + 1) * (this.pageEvent.pageSize)">
+                             && news.indexOf(newsItem) + 1 <= (this.pageEvent.pageIndex + 1) * (this.pageEvent.pageSize)" [expanded]="selectedNews != null && newsItem.newsId == selectedNews.newsId" (opened)="opened()">
 
         <mat-expansion-panel-header>
             {{newsItem.newsDate}} {{newsItem.title}}

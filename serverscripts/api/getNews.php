@@ -25,6 +25,7 @@
         while ($res = mysqli_fetch_array($q))
         {
             array_push($news, array(
+                'newsId'=> mb_convert_encoding($res["newsId"], 'UTF8'),
                 'newsDate'=> mb_convert_encoding($res["newsDate"], 'UTF8'),
                 'title'=> mb_convert_encoding($res["title"], 'UTF8'),
                 'news'=> mb_convert_encoding($res["news"], 'UTF8'),

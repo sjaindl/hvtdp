@@ -19,6 +19,7 @@ export const routes : Routes = [
     {path: "home", component: HomeComponent},
     {path: "", redirectTo: "/home", pathMatch: "full"},
     {path: "news", component: NewsComponent},
+    {path: "news/:newsId", component: NewsComponent},
     {path: "team", component: TeamComponent},
     {path: "championship", component: ChampionshipComponent},
     {path: "gallery", component: GalleryComponent},

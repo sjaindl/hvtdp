@@ -3,6 +3,7 @@ import { News } from '../shared/news';
 import { PageEvent } from '@angular/material';
 import { baseUrlImages } from '../shared/baseurls';
 import { MysqlService } from '../services/mysql.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-news',
@@ -12,17 +13,23 @@ import { MysqlService } from '../services/mysql.service';
 export class NewsComponent implements OnInit {
 
   news: News[]
+  selectedNews: News
+  
   imageBaseUrl: String
 
   length: number
   pageSize: number
 
-  pageSizeOptions: number[] = [5, 10, 25, 100]
+  pageSizeOptions: number[] = [1, 5, 10, 25, 100]
 
   // MatPaginator Output
   pageEvent: PageEvent
 
-  constructor(private mysqlService: MysqlService) { }
+  newsId: number
+  private sub: any
+  initialOpen = true
+
+  constructor(private mysqlService: MysqlService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.imageBaseUrl = baseUrlImages
@@ -30,13 +37,54 @@ export class NewsComponent implements OnInit {
     this.mysqlService.getNews().subscribe( news => {
       this.news = news
 
-      this.length = news.length
-      this.pageSize = 5
-      this.pageEvent =  new PageEvent()
-
-      this.pageEvent.length = this.length
-      this.pageEvent.pageIndex = 0
-      this.pageEvent.pageSize = this.pageSize
+      this.initPageEvent(5, 0)
+      this.readRouteParams()
     })
+  }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe()
+  }
+
+  readRouteParams() {
+    if (this.route.params == null || this.news == null || this.news.length == 0) {
+      return
+    }
+
+    this.sub = this.route.params.subscribe(params => {
+      this.newsId = +params['newsId'] // (+) converts string 'newsId' to a number
+      console.log(' news id: ' + this.newsId)
+
+      //Load news details:
+      var pageIndexToSelect = 0
+      this.news.forEach(element => {
+        if (element.newsId == this.newsId) {
+          this.selectedNews = element
+
+          console.log('selected news: ' + this.selectedNews.newsId)
+          this.initPageEvent(1, pageIndexToSelect)
+        }
+        pageIndexToSelect++
+      })
+      
+    })
+  }
+
+  initPageEvent(pageSize, pageIndex) {
+    this.length = this.news.length
+    this.pageSize = pageSize
+    this.pageEvent = new PageEvent()
+    
+    this.pageEvent.length = this.length
+    this.pageEvent.pageIndex = pageIndex
+    this.pageEvent.pageSize = this.pageSize
+  }
+
+  opened() {
+    if (!this.initialOpen) {
+      this.selectedNews = null
+    }
+    
+    this.initialOpen = false
   }
 }
