@@ -35,6 +35,8 @@ import { SurveysComponent } from './surveys/surveys.component';
 import { MysqlService } from './services/mysql.service';
 import { HttpModule } from '@angular/http';
 
+import {LocationStrategy, HashLocationStrategy} from '@angular/common'
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -84,7 +86,7 @@ import { HttpModule } from '@angular/http';
     DeviceDetectorModule.forRoot(),
     HttpModule
   ],
-  providers: [MysqlService],
+  providers: [MysqlService, {provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
