@@ -6,7 +6,7 @@
     Für unsere Fans haben wir alle Tore archiviert. Wähle eine Saison und verpasse kein einziges HV TDP-Tor!
 </p>
 
-<div fxFlex *ngIf="!selectedSeason">
+<div *ngIf="!selectedSeason">
     <div fxLayout="column" fxLayout.gt-sm="row">
         <mat-list>
         <mat-list-item class="matchballListImage" *ngFor="let season of seasons">  

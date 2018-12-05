@@ -14,8 +14,8 @@
     <br>
 </div>
 
-<div fxFlex *ngIf="!selectedDonation">
-    <div fxLayout="column" fxLayout.gt-sm="row">
+<div *ngIf="!selectedDonation">
+    <div fxLayout="column">
         <mat-list>
         <mat-list-item class="matchballListImage" *ngFor="let donation of donations">  
             

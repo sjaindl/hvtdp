@@ -1,4 +1,4 @@
-export class Chef {
+export interface Chef {
     firstName: String
     lastName: String
     function: String

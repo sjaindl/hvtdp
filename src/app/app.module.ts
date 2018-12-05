@@ -2,7 +2,6 @@ import { AppRoutingModule } from './app-routing/app-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout'
-
 import { MatToolbarModule, MatListModule, MatDividerModule, MatSidenavModule, MatIconModule, MatGridListModule, MatInputModule, MatFormFieldModule, MatSlideToggleModule, MatSelectModule, MatOptionModule, MatCheckboxModule, MatExpansionModule, MatPaginatorModule } from '@angular/material';
 import { NgModule } from '@angular/core';
 
@@ -13,7 +12,7 @@ import { FooterComponent } from './footer/footer.component';
 
 import 'hammerjs';
 import { TeamComponent } from './team/team.component';
-import { Ng2CarouselamosModule } from 'ng2-carouselamos';
+import { NguCarouselModule } from '@ngu/carousel'
 import { NewsComponent } from './news/news.component';
 import { ChampionshipComponent } from './championship/championship.component';
 import { GalleryComponent } from './gallery/gallery.component';
@@ -27,15 +26,14 @@ import { HalloffameComponent } from './halloffame/halloffame.component';
 import { AgmCoreModule } from '@agm/core';
 import { GOOGLE_MAPS_API_KEY } from './shared/keys';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RestangularModule, Restangular } from 'ngx-restangular';
-import { RestangularConfigFactory } from './shared/restConfig';
 import { DocumentsComponent } from './documents/documents.component';
 import { DeviceDetectorModule } from 'ngx-device-detector';
 import { SurveysComponent } from './surveys/surveys.component';
 import { MysqlService } from './services/mysql.service';
-import { HttpModule } from '@angular/http';
 
 import {LocationStrategy, HashLocationStrategy} from '@angular/common'
+import { CookieLawModule } from 'angular2-cookie-law'
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -71,7 +69,7 @@ import {LocationStrategy, HashLocationStrategy} from '@angular/common'
     MatOptionModule,
     FlexLayoutModule, 
     AppRoutingModule,
-    Ng2CarouselamosModule,
+    NguCarouselModule,
     MatSidenavModule,
     MatIconModule,
     MatGridListModule,
@@ -82,9 +80,9 @@ import {LocationStrategy, HashLocationStrategy} from '@angular/common'
     }),
     FormsModule,
     ReactiveFormsModule,
-    RestangularModule.forRoot(RestangularConfigFactory),
     DeviceDetectorModule.forRoot(),
-    HttpModule
+    HttpClientModule,
+    CookieLawModule
   ],
   providers: [MysqlService, {provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent]

@@ -6,7 +6,7 @@
     Für unsere Fans haben wir alle HV TDP-Veranstaltungen archiviert. Viel Spaß beim Durchstöbern der offiziellen HV TDP-Galerie.
 </p>
 
-<div fxFlex *ngIf="!selectedSeason">
+<div *ngIf="!selectedSeason">
     <div fxLayout="column" fxLayout.gt-sm="row">
         <mat-list>
         <mat-list-item *ngFor="let season of seasons">  
@@ -33,39 +33,27 @@
                     {{album.date}}, {{album.name}}
                 </p>
 
-                <div id="container" style="background-color: transparent;">
-                    <div
-                        ng2-carouselamos
-                        class="slides-wrapper"
-                        [items]="album.photos"
-                        [width]="700"
-                        [$prev]="prev"
-                        [$next]="next"
-                        [$item]="item">
-                    </div>
-                
-                    <ng-template #prev>
-                        <i class="fas fa-chevron-left" style="font-size: 5em;"></i>
-                    </ng-template>
-                    <ng-template #next>
-                        <i class="fas fa-chevron-right fa-xlg" style="font-size: 5em;"></i>
-                    </ng-template>
-                    <ng-template #item let-item let-i="index">
-                
-                        <div class="items">
-                            <img src="{{imageBaseUrl + item.imagePath}}" alt="{{item.description}}" width="700" height="490">
-                            <p class="small" style="text-align: center;">
-                                {{item.description}}
-                            </p>
-                        </div>
-                
-                    </ng-template>
-                </div>
+                <ngu-carousel *ngIf="carouselItems" #myCarousel [inputs]="carouselConfig" [dataSource]="carouselItems">
+                        <ngu-tile *nguCarouselDef="let item;">
+                            
+                            <div class="tile">
+                                <table>
+                                    <tr><img src="{{imageBaseUrl + item.imagePath}}" height="500px"></tr>
+                                    <tr><p class="center">{{item.description}}</p></tr>
+                                </table>
+                            </div> 
+
+                        </ngu-tile>
+                        <button NguCarouselNext class="rightRs">></button>
+                        <button NguCarouselPrev class="leftRs"><</button>
+                        <ul class="myPoint" NguCarouselPoint>
+                          <li *ngFor="let j of myCarousel.pointNumbers; let j = index" [class.active]="j==myCarousel.activePoint" (click)="myCarousel.moveTo(j)"></li>
+                        </ul>
+                      </ngu-carousel>
 
                 <br>
-                <button style="margin-left: 15px; font-size: 20px" mat-button class="background-primary" (click)="backFromPhotos()">Zurück zu den Alben</button>
+                <button style="margin-left: 15px; font-size: 20px;" mat-button class="background-primary" (click)="backFromPhotos()">Zurück zu den Alben</button>
             </span>
-
 
         </div>
         

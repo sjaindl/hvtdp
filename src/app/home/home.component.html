@@ -30,30 +30,20 @@
 
 <!-- Image Slider -->
 
-<div id="container">
-    <div
-      ng2-carouselamos
-      class="slides-wrapper"
-      [items]="items"
-      [width]="carouselWidth"
-      [$prev]="prev"
-      [$next]="next"
-      [$item]="item">
-    </div>
+    <ngu-carousel *ngIf="carouselItems" #myCarousel [inputs]="carouselConfig" [dataSource]="carouselItems">
+        <ngu-tile *nguCarouselDef="let item;">
+          <div class="tile">
+              <table>
+                  <tr><img height="500px" src="{{imageBaseUrl + item.imagePath}}" (click)="showImageDetails(item)"></tr>
+                  <tr><p class="center">{{item.title}} </p></tr>
+              </table>
+          </div> 
+        </ngu-tile>
+        <button NguCarouselNext class="rightRs">></button>
+        <button NguCarouselPrev class="leftRs"><</button>
+        <ul class="myPoint" NguCarouselPoint>
+          <li *ngFor="let j of myCarousel.pointNumbers; let j = index" [class.active]="j==myCarousel.activePoint" (click)="myCarousel.moveTo(j)"></li>
+        </ul>
+      </ngu-carousel>
 
-  <ng-template #prev>
-      <i class="fas fa-chevron-left" style="font-size: 5em;"></i>
-  </ng-template>
-  <ng-template #next>
-      <i class="fas fa-chevron-right fa-xlg" style="font-size: 5em;"></i>
-  </ng-template>
-  <ng-template #item let-item let-i="index">
-
-      <div class="items" style="text-align: center">
-        <img src="{{imageBaseUrl + item.imagePath}}" [style.width.px] = "imageWidth" [style.height.px] = "imageHeight"
-        (click)="showImageDetails(item)">
-        {{ item.title }}
-      </div>
-
-  </ng-template>
-</div>
+<cookie-law></cookie-law>

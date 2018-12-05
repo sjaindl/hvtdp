@@ -18,10 +18,7 @@ export class AboutComponent implements OnInit {
   ngOnInit() {
     this.imageBaseUrl = baseUrlImages
 
-    this.mysqlService.getChefs().subscribe(chefs => {
-      this.chefs = chefs
-    })
-  }
-
-  
+    this.mysqlService.getChefs()
+      .subscribe((chefs: Chef[]) => this.chefs = chefs)
+  }  
 }

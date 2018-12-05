@@ -21,7 +21,7 @@ export class TeamComponent implements OnInit {
     this.teamPositionSortOrder.set("Mittelfeld", 3)
     this.teamPositionSortOrder.set("Stürmer", 4)
   }
-
+  
   ngOnInit() {
     this.imageBaseUrl = baseUrlImages
 
