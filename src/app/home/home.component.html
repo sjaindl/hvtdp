@@ -34,8 +34,14 @@
         <ngu-tile *nguCarouselDef="let item;">
           <div class="tile">
               <table>
-                  <tr><img height="500px" src="{{imageBaseUrl + item.imagePath}}" (click)="showImageDetails(item)"></tr>
-                  <tr><p class="center">{{item.title}} </p></tr>
+                  <tr>
+                    <img *ngIf="isMobile" width="250px" src="{{imageBaseUrl + item.imagePath}}" (click)="showImageDetails(item)">
+                    <img *ngIf="!isMobile" width="500px" src="{{imageBaseUrl + item.imagePath}}" (click)="showImageDetails(item)">
+                  </tr>
+
+                  <tr>
+                    <p class="center">{{item.title}} </p>
+                  </tr>
               </table>
           </div> 
         </ngu-tile>

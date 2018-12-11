@@ -18,21 +18,13 @@ export class HomeComponent implements OnInit {
   items: Array<any> = []
   tickerItems: Ticker[] = []
   isMobile = null
-  carouselWidth = null
-  imageWidth = null
-  imageHeight = null
-
-  name = 'Angular';
-  slideNo = 0;
-  withAnim = true;
-  resetAnim = true;
 
   @ViewChild('myCarousel') myCarousel: NguCarousel<any>;
   carouselConfig: NguCarouselConfig = {
     grid: { xs: 1, sm: 1, md: 1, lg: 1, all: 0 },
     load: 3,
     interval: {timing: 4000, initialDelay: 1000},
-    loop: true,
+    loop: false,
     touch: true,
     velocity: 0.2
   }
@@ -62,19 +54,10 @@ export class HomeComponent implements OnInit {
     */
     this.imageBaseUrl = baseUrlImages
     this.checkDevice()
-    this.isMobile || window.innerWidth < 641 ? this.setMobile() : this.setDesktop()
   }
 
   ngAfterViewInit() {
     this.cdr.detectChanges();
-  }
-
-  reset() {
-    this.myCarousel.reset(!this.resetAnim);
-  }
-
-  moveTo(slide) {
-    this.myCarousel.moveTo(slide, !this.withAnim);
   }
 
   checkDevice() {
@@ -84,21 +67,6 @@ export class HomeComponent implements OnInit {
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.checkDevice()
-    event.target.innerWidth < 641 ? this.setMobile() : this.setDesktop()
-  }
-
-  setMobile() {
-    this.setAttributes(280, 280, 196)
-  }
-
-  setDesktop() {
-    this.setAttributes(700, 700, 490)
-  }
-
-  setAttributes(carouselWidth, imageWidth, imageHeight) {
-    this.carouselWidth = carouselWidth
-    this.imageWidth = imageWidth
-    this.imageHeight = imageHeight
   }
 
   showImageDetails(item) {

@@ -38,8 +38,14 @@
                             
                             <div class="tile">
                                 <table>
-                                    <tr><img src="{{imageBaseUrl + item.imagePath}}" height="500px"></tr>
-                                    <tr><p class="center">{{item.description}}</p></tr>
+                                    <tr>
+                                        <img *ngIf="isMobile" width="250px" src="{{imageBaseUrl + item.imagePath}}">
+                                        <img *ngIf="!isMobile" width="500px" src="{{imageBaseUrl + item.imagePath}}">
+                                    </tr>
+
+                                    <tr>
+                                        <p class="center">{{item.description}}</p>
+                                    </tr>
                                 </table>
                             </div> 
 
