@@ -45,6 +45,7 @@ Thumbs.db
 node_modules
 keys.ts
 
+#assets
 src/assets/images/team/
 src/assets/images/comingsoon.jpg
 src/assets/images/fanshop/
@@ -53,3 +54,6 @@ src/assets/images/matchballspende/
 src/assets/images/news/
 src/assets/images/team/
 src/assets/images/vorstand/
+
+#secrets
+hvtdp-2014-f07f6fad2063.json

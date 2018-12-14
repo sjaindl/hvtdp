@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { GoogleAnalyticsService } from '../services/google-analytics.service';
 
 @Component({
   selector: 'app-footer',
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FooterComponent implements OnInit {
 
-  constructor() { }
+  sessions: String = null
+
+  constructor(private googleAnalyticsService: GoogleAnalyticsService) { }
 
   ngOnInit() {
+    this.googleAnalyticsService.getNumberOfSessions().subscribe(sessions => {
+      this.sessions = sessions
+      console.log(this.sessions)
+    })
   }
 
 }
