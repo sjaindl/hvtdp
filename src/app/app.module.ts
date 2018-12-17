@@ -34,7 +34,7 @@ import { MysqlService } from './services/mysql.service';
 import {LocationStrategy, HashLocationStrategy} from '@angular/common'
 import { CookieLawModule } from 'angular2-cookie-law'
 import { HttpClientModule } from '@angular/common/http';
-import { GoogleAnalyticsService } from './services/google-analytics.service';
+import { StatisticsService } from './services/statistics.service';
 
 @NgModule({
   declarations: [
@@ -85,7 +85,7 @@ import { GoogleAnalyticsService } from './services/google-analytics.service';
     HttpClientModule,
     CookieLawModule
   ],
-  providers: [MysqlService, GoogleAnalyticsService, {provide: LocationStrategy, useClass: HashLocationStrategy}],
+  providers: [MysqlService, StatisticsService, {provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
