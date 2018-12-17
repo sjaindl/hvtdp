@@ -3,6 +3,7 @@ import { Item } from '../shared/items';
 import { DeviceDetectorService } from '../../../node_modules/ngx-device-detector';
 import { baseUrlImages } from '../shared/baseurls';
 import { MysqlService } from '../services/mysql.service';
+import { Title, Meta } from '@angular/platform-browser'
 
 @Component({
   selector: 'app-fanshop',
@@ -22,7 +23,7 @@ export class FanshopComponent implements OnInit {
 
   isMobile = null;
 
-  constructor(private deviceService: DeviceDetectorService, private mysqlService: MysqlService) { }
+  constructor( private deviceService: DeviceDetectorService, private mysqlService: MysqlService,  private titleService: Title, private metaTagService: Meta) { }
 
   ngOnInit() {
     this.imageBaseUrl = baseUrlImages
@@ -42,6 +43,11 @@ export class FanshopComponent implements OnInit {
 
     this.mysqlService.getItems().subscribe( items => {
       this.items = items
+    })
+
+    this.titleService.setTitle("HV TDP Stainz: Fanshop")
+    this.metaTagService.updateTag({
+      name: 'description', content: "Handtücher, Fan-Shirts, Mützen & Co aus dem offizellen Fanshop des HV TDP Stainz."
     })
   }
 

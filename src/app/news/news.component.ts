@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { News } from '../shared/news';
-import { PageEvent } from '@angular/material';
-import { baseUrlImages } from '../shared/baseurls';
-import { MysqlService } from '../services/mysql.service';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from '@angular/core'
+import { News } from '../shared/news'
+import { PageEvent } from '@angular/material'
+import { baseUrlImages } from '../shared/baseurls'
+import { MysqlService } from '../services/mysql.service'
+import { ActivatedRoute } from '@angular/router'
+import { Title, Meta } from '@angular/platform-browser'
 
 @Component({
   selector: 'app-news',
@@ -29,7 +30,7 @@ export class NewsComponent implements OnInit {
   private sub: any
   initialOpen = true
 
-  constructor(private mysqlService: MysqlService, private route: ActivatedRoute) { }
+  constructor(private mysqlService: MysqlService, private route: ActivatedRoute, private titleService: Title, private metaTagService: Meta) { }
 
   ngOnInit() {
     this.imageBaseUrl = baseUrlImages
@@ -39,6 +40,11 @@ export class NewsComponent implements OnInit {
 
       this.initPageEvent(5, 0)
       this.readRouteParams()
+    })
+
+    this.titleService.setTitle("HV TDP Stainz: News")
+    this.metaTagService.updateTag({
+      name: 'description', content: "Die aktuellsten News über den HV TDP Stainz"
     })
   }
 

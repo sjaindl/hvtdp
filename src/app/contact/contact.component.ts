@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Feedback } from '../shared/feedback';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Feedback } from '../shared/feedback'
+import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { Title, Meta } from '@angular/platform-browser'
 
 @Component({
   selector: 'app-contact',
@@ -9,21 +10,21 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class ContactComponent implements OnInit {
 
-  title: string = '1. HVTDP';
+  title: string = '1. HVTDP'
   lat: number = 46.899395
-  lng: number = 15.248251;
-  zoom: number = 15;
+  lng: number = 15.248251
+  zoom: number = 15
 
-  feedbackForm: FormGroup;
-  feedback: Feedback;
-  submittedFeedback = null;
+  feedbackForm: FormGroup
+  feedback: Feedback
+  submittedFeedback = null
 
   formErrors = {
     'firstname': '',
     'lastname': '',
     'email': '',
     'gdpr': ''
-  };
+  }
 
   validationMessages = {
     'firstname': {
@@ -43,13 +44,17 @@ export class ContactComponent implements OnInit {
     'gdpr': {
       'requiredTrue':  'Die DSGVO muss akzeptiert werden.'
     }
-  };
+  }
 
-  constructor(private formBuilder: FormBuilder) {
-    this.createForm();
+  constructor(private formBuilder: FormBuilder, private titleService: Title, private metaTagService: Meta) {
+    this.createForm()
   }
 
   ngOnInit() {
+    this.titleService.setTitle("HV TDP Stainz: Kontakt")
+    this.metaTagService.updateTag({
+      name: 'description', content: "Kontaktiere den HV TDP Stainz: Adresse, Feedback und Stadion."
+    })
   }
 
   createForm() {
@@ -60,38 +65,38 @@ export class ContactComponent implements OnInit {
       agreeContact: false,
       agreeGDPR: [false, [Validators.requiredTrue] ],
       message: ''
-    });
+    })
 
-    this.onValueChanged(); // (re)set validation messages now
+    this.onValueChanged() // (re)set validation messages now
 
     this.feedbackForm.valueChanges
-      .subscribe(data => this.onValueChanged(data));
+      .subscribe(data => this.onValueChanged(data))
   }
 
   onValueChanged(data?: any) {
     if (!this.feedbackForm) { 
-      return; 
+      return 
     }
 
     for (const field in this.formErrors) {
-      this.formErrors[field] = ''; // clear previous error message (if any)
-      const control = this.feedbackForm.get(field);
+      this.formErrors[field] = '' // clear previous error message (if any)
+      const control = this.feedbackForm.get(field)
       if (control && control.dirty && !control.valid) {
-        const messages = this.validationMessages[field];
+        const messages = this.validationMessages[field]
         for (const key in control.errors) {
-          this.formErrors[field] += messages[key] + ' ';
+          this.formErrors[field] += messages[key] + ' '
         }
       }
     }
   }
 
   onSubmit() {
-    this.feedback = this.feedbackForm.value;
+    this.feedback = this.feedbackForm.value
 
     // this.feedbackService.submitFeedback(this.feedback)
     //   .subscribe(feedback => { 
-        this.submittedFeedback = this.feedback;
-      // });
+        this.submittedFeedback = this.feedback
+      // })
 
       var mailSubject = 'Feedback '
       mailSubject += this.submittedFeedback.firstname + ' ' 
@@ -104,7 +109,7 @@ export class ContactComponent implements OnInit {
 
       window.location.href = 'mailto:hvtdpstainz@gmx.at?subject='
         + mailSubject
-        + "&body=" + this.submittedFeedback.message;
+        + "&body=" + this.submittedFeedback.message
 
     this.feedbackForm.reset({
       firstname: '',
@@ -113,7 +118,7 @@ export class ContactComponent implements OnInit {
       agreeContact: false,
       agreeGDPR: false,
       message: ''
-    });
+    })
   }
 
 }

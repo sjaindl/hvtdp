@@ -3,6 +3,7 @@ import { GameSeason } from '../shared/games';
 import { Player } from '../shared/player';
 import { baseUrlImages } from '../shared/baseurls';
 import { MysqlService } from '../services/mysql.service';
+import { Title, Meta } from '@angular/platform-browser'
 
 @Component({
   selector: 'app-socialmedia',
@@ -16,7 +17,7 @@ export class SocialmediaComponent implements OnInit {
   selectedSeason: GameSeason = null
   imageBaseUrl: String
 
-  constructor(private mysqlService: MysqlService) {
+  constructor(private mysqlService: MysqlService, private titleService: Title, private metaTagService: Meta) {
    }
 
   ngOnInit() {
@@ -28,6 +29,11 @@ export class SocialmediaComponent implements OnInit {
 
     this.mysqlService.getPlayers().subscribe(players => {
       this.players = players
+    })
+
+    this.titleService.setTitle("HV TDP Stainz: Videos")
+    this.metaTagService.updateTag({
+      name: 'description', content: "Videos der Tore vom HV TDP Stainz."
     })
   }
 

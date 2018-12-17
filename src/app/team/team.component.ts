@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core'
 import { Player } from '../shared/player'
 import { baseUrlImages } from '../shared/baseurls';
 import { MysqlService } from '../services/mysql.service';
+import { Title, Meta } from '@angular/platform-browser'
 
 @Component({
   selector: 'app-team',
@@ -15,7 +16,7 @@ export class TeamComponent implements OnInit {
   players: Player[]
   imageBaseUrl: String
 
-  constructor(private mysqlService: MysqlService) {
+  constructor(private mysqlService: MysqlService, private titleService: Title, private metaTagService: Meta) {
     this.teamPositionSortOrder.set("Tormann", 1)
     this.teamPositionSortOrder.set("Verteidiger", 2)
     this.teamPositionSortOrder.set("Mittelfeld", 3)
@@ -48,6 +49,11 @@ export class TeamComponent implements OnInit {
           }
         }
       });
+    })
+
+    this.titleService.setTitle("HV TDP Stainz: Unsere Mannschaft")
+    this.metaTagService.updateTag({
+      name: 'description', content: "Information über die Spieler im Kader des HV TDP Stainz."
     })
   }
 }

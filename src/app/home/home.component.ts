@@ -6,6 +6,7 @@ import { MysqlService } from '../services/mysql.service';
 import { Ticker } from '../shared/ticker';
 import { Router } from '@angular/router';
 import { NguCarousel, NguCarouselConfig } from '@ngu/carousel';
+import { Title, Meta } from '@angular/platform-browser'
 
 @Component({
   selector: 'app-home',
@@ -30,8 +31,8 @@ export class HomeComponent implements OnInit {
   }
   carouselItems: News[]
 
-  constructor(private deviceService: DeviceDetectorService, private mysqlService: MysqlService, public router: Router, private cdr: ChangeDetectorRef) { 
-    this.mysqlService.getNews().subscribe( news => {
+  constructor(private deviceService: DeviceDetectorService, private mysqlService: MysqlService, public router: Router, private cdr: ChangeDetectorRef, private titleService: Title, private metaTagService: Meta) { 
+    this.mysqlService.getNews().subscribe(news => {
       this.items = news
       this.carouselItems = news
     })
@@ -54,6 +55,11 @@ export class HomeComponent implements OnInit {
     */
     this.imageBaseUrl = baseUrlImages
     this.checkDevice()
+
+    this.titleService.setTitle("HV TDP Stainz: Home")
+    this.metaTagService.updateTag({
+      name: 'description', content: "Auf der Website finden sich die aktuellen News rund um den HV TDP Stainz, den Stand in der Meisterschaft, unser Team, die Galerie, Videos und andere Highlights wie den offiziellen HV TDP Fanshop. Unter den Matchballspenden finden sich außerdem unsere Sponsoren. Auch aktuelle Umfragen und Dokumente rund um das HV TDP Vereinsleben werden zur Verfügung gestellt."
+    })
   }
 
   ngAfterViewInit() {

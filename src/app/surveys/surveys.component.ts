@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { MysqlService } from '../services/mysql.service';
-import { Survey } from '../shared/survey';
-import { DomSanitizer } from '@angular/platform-browser';
+import { Component, OnInit } from '@angular/core'
+import { MysqlService } from '../services/mysql.service'
+import { DomSanitizer } from '@angular/platform-browser'
+import { Title, Meta } from '@angular/platform-browser'
 
 @Component({
   selector: 'app-surveys',
@@ -12,7 +12,7 @@ export class SurveysComponent implements OnInit {
 
   surveyLink: string = ''
 
-  constructor(private mysqlService: MysqlService, private sanitizer: DomSanitizer) { 
+  constructor(private mysqlService: MysqlService, private sanitizer: DomSanitizer, private titleService: Title, private metaTagService: Meta) { 
   }
 
   ngOnInit() {
@@ -21,6 +21,11 @@ export class SurveysComponent implements OnInit {
         this.surveyLink = surveyLink[0].link
         console.log(this.surveyLink)
       }
+    })
+
+    this.titleService.setTitle("HV TDP Stainz: Umfragen")
+    this.metaTagService.updateTag({
+      name: 'description', content: "Aktuelle Umfragen über Ereignisse, Torschützen und Events des HV TDP Stainz."
     })
   }
 
