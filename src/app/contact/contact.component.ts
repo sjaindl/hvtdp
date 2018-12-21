@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Feedback } from '../shared/feedback'
-import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { FormBuilder, Validators, FormGroup } from '@angular/forms'
 import { Title, Meta } from '@angular/platform-browser'
+import { GOOGLE_MAPS_API_KEY } from '../shared/keys';
 
 @Component({
   selector: 'app-contact',
@@ -14,6 +15,24 @@ export class ContactComponent implements OnInit {
   lat: number = 46.899395
   lng: number = 15.248251
   zoom: number = 15
+  key: string = GOOGLE_MAPS_API_KEY
+  
+  markers = [{
+    lat: this.lat,
+    lng: this.lng,
+    infoWindowOptions: {
+      content: "Cool"
+    }
+  }]
+
+  stadiumMarkers = {
+      markers: this.markers,
+      fitBounds: false
+  }
+
+  mapOptions = {
+      zoom: this.zoom
+  }
 
   feedbackForm: FormGroup
   feedback: Feedback

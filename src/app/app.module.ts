@@ -3,14 +3,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout'
 import { MatToolbarModule, MatListModule, MatDividerModule, MatSidenavModule, MatIconModule, MatGridListModule, MatInputModule, MatFormFieldModule, MatSlideToggleModule, MatSelectModule, MatOptionModule, MatCheckboxModule, MatExpansionModule, MatPaginatorModule } from '@angular/material';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 
-import 'hammerjs';
+// import 'hammerjs';
 import { TeamComponent } from './team/team.component';
 import { NguCarouselModule } from '@ngu/carousel'
 import { NewsComponent } from './news/news.component';
@@ -23,8 +23,6 @@ import { ContactComponent } from './contact/contact.component';
 import { FanshopComponent } from './fanshop/fanshop.component';
 import { MembershipComponent } from './membership/membership.component';
 import { HalloffameComponent } from './halloffame/halloffame.component';
-import { AgmCoreModule } from '@agm/core';
-import { GOOGLE_MAPS_API_KEY } from './shared/keys';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DocumentsComponent } from './documents/documents.component';
 import { DeviceDetectorModule } from 'ngx-device-detector';
@@ -57,7 +55,9 @@ import { StatisticsService } from './services/statistics.service';
     SurveysComponent
   ],
   imports: [
-    BrowserModule ,
+    BrowserModule.withServerTransition({ //support Universal rendering
+      appId: 'hvtdp' 
+    }),
     BrowserAnimationsModule,
     MatListModule,
     MatCheckboxModule,
@@ -76,9 +76,6 @@ import { StatisticsService } from './services/statistics.service';
     MatGridListModule,
     MatExpansionModule,
     MatPaginatorModule,
-    AgmCoreModule.forRoot({
-      apiKey: GOOGLE_MAPS_API_KEY
-    }),
     FormsModule,
     ReactiveFormsModule,
     DeviceDetectorModule.forRoot(),
@@ -86,6 +83,7 @@ import { StatisticsService } from './services/statistics.service';
     CookieLawModule
   ],
   providers: [MysqlService, StatisticsService, {provide: LocationStrategy, useClass: HashLocationStrategy}],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }

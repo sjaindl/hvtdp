@@ -34,9 +34,7 @@
             <h3 style="text-align: center;">Hier findest du unser Stadion:</h3>
             <!-- this creates a google map on the page with the given lat/lng from -->
             <!-- the component as the initial center of the map: -->
-              <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" class="center" >
-                  <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
-              </agm-map>
+              <web-google-maps [apiKey]="key" [lat]="lat" [lng]="lng" [markers]="stadiumMarkers" [options]="mapOptions"></web-google-maps>
           </div>
         </div>
       </div>
