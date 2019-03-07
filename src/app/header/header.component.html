@@ -33,6 +33,8 @@
             <span class="flex-spacer"></span>
             &nbsp;<a md-button routerLink="/surveys" routerLinkActive="active"><span class="fa fa-list-ol fa-sm"></span> Umfragen</a>
             <span class="flex-spacer"></span>
+            &nbsp;<a md-button routerLink="/startingeleven" routerLinkActive="active"><span class="fa fa-futbol fa-sm"></span> Starting Eleven</a>
+            <span class="flex-spacer"></span>
         </div>
       </mat-toolbar-row>
     </mat-toolbar>
@@ -92,6 +94,10 @@
           <a (click)="sidenav.toggle();" md-button routerLink="/surveys" routerLinkActive="active" mat-list-item>
             <span class="fa fa-list-ol fa-sm"></span>
             &nbsp;Umfragen
+          </a>
+          <a (click)="sidenav.toggle();" md-button routerLink="/startingeleven" routerLinkActive="active" mat-list-item>
+            <span class="fa fa-futbol fa-sm"></span>
+            &nbsp;Starting Eleven
           </a>
 
           <!-- <a md-button routerLink="/halloffame" routerLinkActive="active" mat-list-item>

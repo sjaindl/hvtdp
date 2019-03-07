@@ -31,10 +31,11 @@ import { DeviceDetectorModule } from 'ngx-device-detector';
 import { SurveysComponent } from './surveys/surveys.component';
 import { MysqlService } from './services/mysql.service';
 
-import {LocationStrategy, HashLocationStrategy} from '@angular/common'
+import { LocationStrategy, HashLocationStrategy } from '@angular/common'
 import { CookieLawModule } from 'angular2-cookie-law'
 import { HttpClientModule } from '@angular/common/http';
 import { StatisticsService } from './services/statistics.service';
+import { StartingelevenComponent } from './startingeleven/startingeleven.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { StatisticsService } from './services/statistics.service';
     MembershipComponent,
     HalloffameComponent,
     DocumentsComponent,
-    SurveysComponent
+    SurveysComponent,
+    StartingelevenComponent
   ],
   imports: [
     BrowserModule ,
