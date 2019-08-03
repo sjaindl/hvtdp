@@ -30,26 +30,50 @@
 
 <!-- Image Slider -->
 
-    <ngu-carousel *ngIf="carouselItems" #myCarousel [inputs]="carouselConfig" [dataSource]="carouselItems">
-        <ngu-tile *nguCarouselDef="let item;">
-          <div class="tile">
-              <table>
-                  <tr>
-                    <img *ngIf="isMobile" width="250px" src="{{imageBaseUrl + item.imagePath}}" (click)="showImageDetails(item)">
-                    <img *ngIf="!isMobile" width="500px" src="{{imageBaseUrl + item.imagePath}}" (click)="showImageDetails(item)">
-                  </tr>
+    <ngu-carousel *ngIf="carouselItems && !isMobile" #myCarousel [inputs]="carouselConfig" [dataSource]="carouselItems" 
+    style="margin: auto;width: 50%; padding: 10px;">
+      <ngu-tile *nguCarouselDef="let item;">
+        <div class="tile">
+            <table>
+                <tr>
+                  <img *ngIf="isMobile" width="250px" src="{{imageBaseUrl + item.imagePath}}" (click)="showImageDetails(item)">
+                  <img *ngIf="!isMobile" width="500px" src="{{imageBaseUrl + item.imagePath}}" (click)="showImageDetails(item)">
+                </tr>
 
-                  <tr>
-                    <p class="center">{{item.title}} </p>
-                  </tr>
-              </table>
-          </div> 
-        </ngu-tile>
-        <button NguCarouselNext class="rightRs">></button>
-        <button NguCarouselPrev class="leftRs"><</button>
-        <ul class="myPoint" NguCarouselPoint>
-          <li *ngFor="let j of myCarousel.pointNumbers; let j = index" [class.active]="j==myCarousel.activePoint" (click)="myCarousel.moveTo(j)"></li>
-        </ul>
-      </ngu-carousel>
+                <tr>
+                  <p class="center">{{item.title}} </p>
+                </tr>
+            </table>
+        </div> 
+      </ngu-tile>
+      <button NguCarouselNext class="rightRs">></button>
+      <button NguCarouselPrev class="leftRs"><</button>
+      <ul class="myPoint" NguCarouselPoint>
+        <li *ngFor="let j of myCarousel.pointNumbers; let j = index" [class.active]="j==myCarousel.activePoint" (click)="myCarousel.moveTo(j)"></li>
+      </ul>
+    </ngu-carousel>
+    
+    
+    <ngu-carousel *ngIf="carouselItems && isMobile" #myCarousel [inputs]="carouselConfig" [dataSource]="carouselItems">
+      <ngu-tile *nguCarouselDef="let item;">
+        <div class="tile">
+            <table>
+                <tr>
+                  <img *ngIf="isMobile" width="250px" src="{{imageBaseUrl + item.imagePath}}" (click)="showImageDetails(item)">
+                  <img *ngIf="!isMobile" width="500px" src="{{imageBaseUrl + item.imagePath}}" (click)="showImageDetails(item)">
+                </tr>
+
+                <tr>
+                  <p class="center">{{item.title}} </p>
+                </tr>
+            </table>
+        </div> 
+      </ngu-tile>
+      <button NguCarouselNext class="rightRs">></button>
+      <button NguCarouselPrev class="leftRs"><</button>
+      <ul class="myPoint" NguCarouselPoint>
+        <li *ngFor="let j of myCarousel.pointNumbers; let j = index" [class.active]="j==myCarousel.activePoint" (click)="myCarousel.moveTo(j)"></li>
+      </ul>
+    </ngu-carousel>
 
 <cookie-law></cookie-law>
