@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { Title, Meta } from '@angular/platform-browser'
+import { baseUrlDocuments } from '../shared/baseurls';
 
 @Component({
   selector: 'app-membership',
@@ -7,7 +8,9 @@ import { Title, Meta } from '@angular/platform-browser'
   styleUrls: ['./membership.component.css']
 })
 export class MembershipComponent implements OnInit {
-
+  
+  documentBaseUrl: String
+  
   constructor(private titleService: Title, private metaTagService: Meta) { }
 
   ngOnInit() {
@@ -15,5 +18,6 @@ export class MembershipComponent implements OnInit {
     this.metaTagService.updateTag({
       name: 'description', content: "Werde aktives oder förderndes Mitglied vom HV TDP Stainz."
     })
+    this.documentBaseUrl = baseUrlDocuments
   }
 }
