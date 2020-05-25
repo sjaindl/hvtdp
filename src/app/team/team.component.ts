@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { Player } from '../shared/player'
-import { baseUrlImages } from '../shared/baseurls';
-import { MysqlService } from '../services/mysql.service';
+import { baseUrlImages } from '../shared/baseurls'
+import { MysqlService } from '../services/mysql.service'
 import { Title, Meta } from '@angular/platform-browser'
 
 @Component({
