@@ -36,6 +36,7 @@ import { CookieLawModule } from 'angular2-cookie-law'
 import { HttpClientModule } from '@angular/common/http';
 import { StatisticsService } from './services/statistics.service';
 import { StartingelevenComponent } from './startingeleven/startingeleven.component';
+import { HallofpappComponent } from './hallofpapp/hallofpapp.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { StartingelevenComponent } from './startingeleven/startingeleven.compone
     HalloffameComponent,
     DocumentsComponent,
     SurveysComponent,
-    StartingelevenComponent
+    StartingelevenComponent,
+    HallofpappComponent
   ],
   imports: [
     BrowserModule ,

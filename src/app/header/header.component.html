@@ -5,7 +5,7 @@
           <mat-icon>menu</mat-icon>
         </button>
         <div fxShow="true" fxHide.lt-md="true">
-            &nbsp;<a md-button routerLink="/home" routerLinkActive="active"><span class="fa fa-home fa-sm"></span> Home</a>
+            &nbsp;<a md-button routerLink="/home" routerLinkActive="active"><span class="fa fa-users fa-sm"></span> Home</a>
             <span class="flex-spacer"></span>
             &nbsp;<a md-button routerLink="/news" routerLinkActive="active"><span class="fa fa-bookmark fa-sm"></span> News</a>
             <span class="flex-spacer"></span>
@@ -18,6 +18,8 @@
             &nbsp;<a md-button routerLink="/social" routerLinkActive="active"><span class="fa fa-video fa-sm"></span> Videos</a>
             <span class="flex-spacer"></span>
             &nbsp;<a md-button routerLink="/donation" routerLinkActive="active"><span class="fa fa-futbol fa-sm"></span> Matchballspende</a>
+            <span class="flex-spacer"></span>
+            &nbsp;<a md-button routerLink="/hallofpapp" routerLinkActive="active"><span class="fa fa-users fa-sm"></span> Hall of Papp-Fans</a>
             <span class="flex-spacer"></span>
             &nbsp;<a md-button routerLink="/about" routerLinkActive="active"><span class="fa fa-info fa-sm"></span> Über uns</a>
             <span class="flex-spacer"></span>
@@ -71,6 +73,9 @@
           <a (click)="sidenav.toggle();" md-button routerLink="/donation" routerLinkActive="active" mat-list-item>
             <span class="fa fa-futbol fa-sm"></span>
             &nbsp;Matchballspende</a>
+          <a (click)="sidenav.toggle();" md-button routerLink="/hallofpapp" routerLinkActive="active" mat-list-item>
+            <span class="fa fa-users fa-sm"></span>
+            &nbsp;Hall of Papp-Fans</a>
           <a (click)="sidenav.toggle();" md-button routerLink="/about" routerLinkActive="active" mat-list-item>
             <span class="fa fa-info fa-sm"></span>
             &nbsp;Über uns

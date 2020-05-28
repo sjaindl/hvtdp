@@ -11,6 +11,7 @@ import { AlbumSeason } from '../shared/photos';
 import { HvtdpDocument } from '../shared/document';
 import { Ticker } from '../shared/ticker';
 import { Survey } from '../shared/survey';
+import { PappFan } from '../shared/papp';
 
 
 @Injectable()
@@ -56,5 +57,9 @@ export class MysqlService {
 
   public getSurveyLink(): Observable<Survey[]> {
     return this.http.get<Survey[]>('https://www.hvtdpstainz.at/api/getSurvey.php')
+  }
+
+  public getPappfans(): Observable<PappFan[]> {
+    return this.http.get<PappFan[]>('https://www.hvtdpstainz.at/api/getPappfans.php')
   }
 }

@@ -15,6 +15,7 @@ import { HalloffameComponent } from '../halloffame/halloffame.component';
 import { DocumentsComponent } from '../documents/documents.component';
 import { SurveysComponent } from '../surveys/surveys.component';
 import { StartingelevenComponent } from '../startingeleven/startingeleven.component';
+import { HallofpappComponent } from '../hallofpapp/hallofpapp.component';
 
 export const routes : Routes = [
     {path: "home", component: HomeComponent},
@@ -33,5 +34,6 @@ export const routes : Routes = [
     {path: "halloffame", component: HalloffameComponent},
     {path: "documents", component: DocumentsComponent},
     {path: "surveys", component: SurveysComponent},
-    {path: "startingeleven", component: StartingelevenComponent}
+    {path: "startingeleven", component: StartingelevenComponent},
+    {path: "hallofpapp", component: HallofpappComponent}
 ];
