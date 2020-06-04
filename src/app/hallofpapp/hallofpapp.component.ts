@@ -20,19 +20,8 @@ export class HallofpappComponent implements OnInit {
     this.imageBaseUrl = baseUrlImages
     
     this.mysqlService.getPappfans().subscribe( fans => {
-      this.pappfans = fans.sort((a, b) => {
-
-        if (a.id > b.id) {
-          return 1
-        } 
-        else if (a.id < b.id) {
-          return -1
-        }
-        else {
-          return 0
-        }
-      })
-    })
+      this.pappfans = fans
+    }) 
 
     this.titleService.setTitle("HV TDP Stainz: Papp-Fans")
     this.metaTagService.updateTag({
