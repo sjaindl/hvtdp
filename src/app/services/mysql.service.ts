@@ -23,6 +23,14 @@ export class MysqlService {
     return this.http.get<Player[]>('https://www.hvtdpstainz.at/api/getPlayers.php')
   }
 
+  public getSquadPlayers(): Observable<Player[]> {
+    return this.http.get<Player[]>('https://www.hvtdpstainz.at/api/getSquadPlayers.php')
+  }
+
+  public getActivePlayers(): Observable<Player[]> {
+    return this.http.get<Player[]>('https://www.hvtdpstainz.at/api/getActivePlayers.php')
+  }
+
   public getChefs(): Observable<Chef[]> {
     return this.http.get<Chef[]>('https://www.hvtdpstainz.at/api/getChefs.php')
   }
