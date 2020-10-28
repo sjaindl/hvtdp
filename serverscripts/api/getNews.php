@@ -35,7 +35,7 @@
         // Close connection
         mysqli_close ($con);
         
-        $json = json_encode($news);
+        $json = json_encode($news, JSON_UNESCAPED_UNICODE);
 
         if ($json === false) {
             // Avoid echo of empty string (which is invalid JSON), and

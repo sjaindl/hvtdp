@@ -23,18 +23,18 @@
         while ($res = mysqli_fetch_array($q))
         {
             array_push($players,array(
-                'position'=> utf8_encode($res["position"]),
-                'firstName'=> utf8_encode($res["firstName"]),
-                'lastName'=> utf8_encode($res["lastName"]),
-                'memberSinceYear'=> utf8_encode($res["memberSinceYear"]),
-                'group'=> utf8_encode($res["group"]),
-                'imagePath'=> utf8_encode($res["imagePath"])));
+                'position'=> $res["position"],
+                'firstName'=> $res["firstName"],
+                'lastName'=> $res["lastName"],
+                'memberSinceYear'=> $res["memberSinceYear"],
+                'group'=> $res["group"],
+                'imagePath'=> $res["imagePath"]));
         }
 
         // Close connection
         mysqli_close ($con);
         
-        $json = json_encode($players);
+        $json = json_encode($players, JSON_UNESCAPED_UNICODE);
 
         if ($json === false) {
             // Avoid echo of empty string (which is invalid JSON), and

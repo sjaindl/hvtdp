@@ -36,7 +36,7 @@
         // Close connection
         mysqli_close ($con);
         
-        $json = json_encode($donations);
+        $json = json_encode($donations, JSON_UNESCAPED_UNICODE);
 
         if ($json === false) {
             // Avoid echo of empty string (which is invalid JSON), and

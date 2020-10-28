@@ -20,7 +20,7 @@
         $fetchSeasons = mysqli_query($con, "SELECT * FROM GameSeason order by season DESC") or die(mysqli_error($con));
         
         while ($row_seasons = mysqli_fetch_assoc($fetchSeasons)) {
-            $season = utf8_encode($row_seasons['season']);
+            $season = $row_seasons['season'];
 
             $season_array = array();
             $season_array['season'] = $season;
@@ -36,9 +36,9 @@
             while ($row_games = mysqli_fetch_assoc($fetch_games)) {
                 $gameId = utf8_encode($row_games['gameId']);
 
-                $game_array['round'] = utf8_encode($row_games['round']);
-                $game_array['description'] = utf8_encode($row_games['description']);
-                $game_array['date'] = utf8_encode($row_games['date']);
+                $game_array['round'] = $row_games['round'];
+                $game_array['description'] = $row_games['description'];
+                $game_array['date'] = $row_games['date'];
                 $game_array['gameId'] = $gameId;
                 $game_array['links'] = array();
                 
@@ -48,9 +48,9 @@
                 $link_array = array();
                 
                 while ($row_links = mysqli_fetch_assoc($fetch_links)) {
-                    $link_array['link'] = utf8_encode($row_links['link']);
-                    $link_array['description'] = utf8_encode($row_links['description']);
-                    $link_array['scorer'] = utf8_encode($row_links['scorer']);
+                    $link_array['link'] = $row_links['link'];
+                    $link_array['description'] = $row_links['description'];
+                    $link_array['scorer'] = $row_links['scorer'];
 
                     array_push($game_array['links'], $link_array);
                 }
@@ -65,7 +65,7 @@
          mysqli_close ($con);
 
         //print_r($seasons_array);
-        $json = json_encode($seasons_array, JSON_PRETTY_PRINT);
+        $json = json_encode($seasons_array, JSON_UNESCAPED_UNICODE);
 
         if ($json === false) {
             // Avoid echo of empty string (which is invalid JSON), and

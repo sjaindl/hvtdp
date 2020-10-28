@@ -33,7 +33,7 @@
         // Close connection
         mysqli_close ($con);
         
-        $json = json_encode($pappfans);
+        $json = json_encode($pappfans, JSON_UNESCAPED_UNICODE);
 
         if ($json === false) {
             // Avoid echo of empty string (which is invalid JSON), and

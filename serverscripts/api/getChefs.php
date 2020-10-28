@@ -23,16 +23,16 @@
         while ($res = mysqli_fetch_array($q))
         {
             array_push($chefs,array(
-                'function'=> utf8_encode($res["function"]),
-                'firstName'=> utf8_encode($res["firstName"]),
-                'lastName'=> utf8_encode($res["lastName"]),
-                'imagePath'=> utf8_encode($res["imagePath"])));
+                'function'=> $res["function"],
+                'firstName'=> $res["firstName"],
+                'lastName'=> $res["lastName"],
+                'imagePath'=> $res["imagePath"]));
         }
 
         // Close connection
         mysqli_close ($con);
         
-        $json = json_encode($chefs);
+        $json = json_encode($chefs, JSON_UNESCAPED_UNICODE);
 
         if ($json === false) {
             // Avoid echo of empty string (which is invalid JSON), and
