@@ -79,8 +79,8 @@ a:active {
 }
 
  .mat-list .mat-list-item .mat-list-avatar.img-preview { 
-    height: 125px;
-    width: 92.5px;
+    height: 200px;
+    width: 115px;
 }
 
 .mat-list .mat-list-item {
