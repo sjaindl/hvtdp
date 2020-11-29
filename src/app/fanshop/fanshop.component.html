@@ -25,19 +25,35 @@ fxLayoutGap="10px">
     (bestellen ganz einfach mit einer Nachricht an unsere Facebookseite oder E-Mail Adresse)
   </p>
 
+  <br>
+
   <div fxFlex>
-    <mat-grid-list cols="{{gridColumns}}" rowHeight="510px">
-      <mat-grid-tile *ngFor="let item of items" appHighlight >
-        <img [style.height.px]="gridImageHeight" src="{{imageBaseUrl + item.imagePath}}" alt={{item.name}}>
-        <mat-grid-tile-header>
+    <mat-grid-list cols="{{gridColumns}}" rowHeight="600px">
+      <mat-grid-tile *ngFor="let item of items" appHighlight>
+        <img class="fanshopImg" [style.height.px]="gridImageHeight" src="{{imageBaseUrl + item.imagePath}}" alt={{item.name}}>
+        <mat-grid-tile-header style="margin-top: 30px">
           <h1 mat-line [style.font-size.em] = "titleSizeEm">{{item.name | uppercase}}</h1>
           <h2 mat-line style="text-align: right;" [style.font-size.em] = "priceSizeEm">{{item.price}}</h2>
         </mat-grid-tile-header>
-        <mat-grid-tile-footer [style.font-size.em] = "detailSizeEm" style="text-align: center;">
+
+        <mat-grid-tile-footer *ngIf="isMobile" [style.font-size.em] = "detailSizeEm" style="text-align: center; min-height: 220px; height: auto;">
           {{item.description}}
+          &nbsp; 
+          <a md-icon-button class="btn-mail" href="mailto:hvtdpstainz@gmx.at?subject=Bestellung {{item.name}}&body={{item.description}} Bitte um Angabe von Anzahl und Größe.">
+            <i class="fa fa-envelope"> jetzt bestellen!</i>
+          </a>
         </mat-grid-tile-footer>
-        &nbsp; <a md-icon-button class="btn-mail" href="mailto:hvtdpstainz@gmx.at?subject=Bestellung {{item.name}}&body={{item.description}} Bitte um Angabe von Anzahl und Größe."><i class="fa fa-envelope"> jetzt bestellen!</i></a>
+
+        <mat-grid-tile-footer *ngIf="!isMobile" [style.font-size.em] = "detailSizeEm" style="text-align: center; min-height: 110px; height: auto;">
+          {{item.description}}
+          &nbsp; 
+          <a md-icon-button class="btn-mail" href="mailto:hvtdpstainz@gmx.at?subject=Bestellung {{item.name}}&body={{item.description}} Bitte um Angabe von Anzahl und Größe.">
+            <i class="fa fa-envelope"> jetzt bestellen!</i>
+          </a>
+        </mat-grid-tile-footer>
+        
       </mat-grid-tile>
+      
     </mat-grid-list>
   </div>
 
