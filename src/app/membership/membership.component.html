@@ -17,58 +17,23 @@
 <br>
 
 <p class="normal">
-    AKTIVE Mitglieder (Stand 14.11.2019):
+    AKTIVE Mitglieder (Stand {{activePer}}):
 </p>
 
 <p class="small">
-    BAUER Markus <br>
-    BOHACEK Philipp <br>
-    DI MEO Rene <br>
-    FABIAN Daniel <br>
-    FAULAND David <br>
-    GÖDL Patrick <br>
-    HILBERGER Erik <br>
-    JAINDL Stefan <br>
-    KOHLBERGER Herbert <br>
-    KOVACS David <br>
-    KREMSER Michael <br>
-    KÜGERL Mario <br>
-    MADERTHONER Christian <br>
-    NÖSTEL Rene <br>
-    OSWALD Alexander <br>
-    PRIMUS Michael <br>
-    PUCHLEITNER Florian <br>
-    RATHSWOHL Lukas <br>
-    REINBACHER Julius <br>
-    REINBACHER Nico <br>
-    REINBACHER Patrick  <br>
-    REINISCH Bernhard <br>
-    RONEGG Robert <br>
-    SACKL Markus <br>
-    SCHNITTER Christian <br>
-    SCHRIEBL Florian <br>
-    SINCEK Hrvoje <br>
-    STEINBAUER Stefan <br>
-    STELZER Andreas <br>
-    THOMANN Michael <br>
-    WOLF Patrick <br>
+    <div *ngFor="let member of activeMembers">
+        {{member}} <br>
+    </div>
 </p>
 
 <p class="normal">
-FÖRDERNDE Mitglieder (Stand 14.11.2019):
+FÖRDERNDE Mitglieder (Stand {{supportPer}}):
 </p>
 
 <p class="small">
-    DI MEO Michaela <br>
-    FABIAN Gottfried <br>
-    FABIAN Ingrid <br>
-    HECHTL Daniel <br>
-    HERUNTER Andrea <br>
-    OBERLÄNDER Erhard <br>
-    PACHERNEGG Cornelia <br>
-    PACHERNEGG Kerstin <br>
-    PURKATHOFER Katharina <br>
-    HERITSCH Thomas <br>
+    <div *ngFor="let member of supportMembers">
+        {{member}} <br>
+    </div>
 </p>
 
 <br>

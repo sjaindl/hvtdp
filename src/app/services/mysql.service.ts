@@ -12,6 +12,7 @@ import { HvtdpDocument } from '../shared/document';
 import { Ticker } from '../shared/ticker';
 import { Survey } from '../shared/survey';
 import { PappFan } from '../shared/papp';
+import { Member } from '../shared/member';
 
 
 @Injectable()
@@ -69,5 +70,13 @@ export class MysqlService {
 
   public getPappfans(): Observable<PappFan[]> {
     return this.http.get<PappFan[]>('https://www.hvtdpstainz.at/api/getPappfans.php')
+  }
+
+  public getActiveMembers(): Observable<Member[]> {
+    return this.http.get<Member[]>('https://www.hvtdpstainz.at/api/getActiveMembers.php')
+  }
+
+  public getSupportMembers(): Observable<Member[]> {
+    return this.http.get<Member[]>('https://www.hvtdpstainz.at/api/getSupportMembers.php')
   }
 }
