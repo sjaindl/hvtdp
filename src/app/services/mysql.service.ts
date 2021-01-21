@@ -73,10 +73,10 @@ export class MysqlService {
   }
 
   public getActiveMembers(): Observable<Member[]> {
-    return this.http.get<Member[]>('https://www.hvtdpstainz.at/api/getActiveMembers.php')
+    return this.http.get<Member[]>('https://www.hvtdpstainz.at/api/getActiveMembership.php')
   }
 
   public getSupportMembers(): Observable<Member[]> {
-    return this.http.get<Member[]>('https://www.hvtdpstainz.at/api/getSupportMembers.php')
+    return this.http.get<Member[]>('https://www.hvtdpstainz.at/api/getSupportMembership.php')
   }
 }

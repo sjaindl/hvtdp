@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { News } from '../shared/news'
-import { PageEvent } from '@angular/material'
+import { PageEvent } from '@angular/material/paginator'
 import { baseUrlImages } from '../shared/baseurls'
 import { MysqlService } from '../services/mysql.service'
 import { ActivatedRoute } from '@angular/router'

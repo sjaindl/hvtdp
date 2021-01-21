@@ -49,7 +49,7 @@
       <button NguCarouselNext class="rightRs">></button>
       <button NguCarouselPrev class="leftRs"><</button>
       <ul class="myPoint" NguCarouselPoint>
-        <li *ngFor="let j of myCarousel.pointNumbers; let j = index" [class.active]="j==myCarousel.activePoint" (click)="myCarousel.moveTo(j)"></li>
+        <li *ngFor="let j of myCarousel.pointNumbers; let i = index" [class.active]="i==myCarousel.activePoint" (click)="myCarousel.moveTo(i)"></li>
       </ul>
     </ngu-carousel>
     
@@ -72,7 +72,7 @@
       <button NguCarouselNext class="rightRs">></button>
       <button NguCarouselPrev class="leftRs"><</button>
       <ul class="myPoint" NguCarouselPoint>
-        <li *ngFor="let j of myCarousel.pointNumbers; let j = index" [class.active]="j==myCarousel.activePoint" (click)="myCarousel.moveTo(j)"></li>
+        <li *ngFor="let j of myCarousel.pointNumbers; let i = index" [class.active]="i==myCarousel.activePoint" (click)="myCarousel.moveTo(i)"></li>
       </ul>
     </ngu-carousel>
 

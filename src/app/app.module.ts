@@ -2,7 +2,21 @@ import { AppRoutingModule } from './app-routing/app-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout'
-import { MatToolbarModule, MatListModule, MatDividerModule, MatSidenavModule, MatIconModule, MatGridListModule, MatInputModule, MatFormFieldModule, MatSlideToggleModule, MatSelectModule, MatOptionModule, MatCheckboxModule, MatExpansionModule, MatPaginatorModule } from '@angular/material';
+
+import { MatIconModule } from '@angular/material/icon';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatListModule } from '@angular/material/list';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatPaginatorModule } from '@angular/material/paginator';
+
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
@@ -27,7 +41,6 @@ import { AgmCoreModule } from '@agm/core';
 import { GOOGLE_MAPS_API_KEY } from './shared/keys';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DocumentsComponent } from './documents/documents.component';
-import { DeviceDetectorModule } from 'ngx-device-detector';
 import { SurveysComponent } from './surveys/surveys.component';
 import { MysqlService } from './services/mysql.service';
 
@@ -71,7 +84,6 @@ import { HallofpappComponent } from './hallofpapp/hallofpapp.component';
     MatFormFieldModule,
     MatSlideToggleModule,
     MatSelectModule,
-    MatOptionModule,
     FlexLayoutModule, 
     AppRoutingModule,
     NguCarouselModule,
@@ -85,7 +97,6 @@ import { HallofpappComponent } from './hallofpapp/hallofpapp.component';
     }),
     FormsModule,
     ReactiveFormsModule,
-    DeviceDetectorModule.forRoot(),
     HttpClientModule,
     CookieLawModule
   ],

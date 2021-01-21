@@ -20,21 +20,21 @@
     AKTIVE Mitglieder (Stand {{activePer}}):
 </p>
 
-<p class="small">
+<div class="small">
     <div *ngFor="let member of activeMembers">
-        {{member}} <br>
+        {{member.lastName|uppercase}} {{member.firstName }} <br>
     </div>
-</p>
+</div>
 
 <p class="normal">
 FÖRDERNDE Mitglieder (Stand {{supportPer}}):
 </p>
 
-<p class="small">
+<div class="small">
     <div *ngFor="let member of supportMembers">
-        {{member}} <br>
+        {{member.lastName|uppercase}} {{member.firstName }} <br>
     </div>
-</p>
+</div>
 
 <br>
 <br>
