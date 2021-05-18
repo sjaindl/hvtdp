@@ -6,6 +6,7 @@ import { FlexLayoutModule } from '@angular/flex-layout'
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatGridListModule } from '@angular/material/grid-list';
@@ -16,6 +17,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 
 import { NgModule } from '@angular/core';
 
@@ -50,6 +52,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { StatisticsService } from './services/statistics.service';
 import { StartingelevenComponent } from './startingeleven/startingeleven.component';
 import { HallofpappComponent } from './hallofpapp/hallofpapp.component';
+import { PassworddialogComponent } from './passworddialog/passworddialog.component';
 
 @NgModule({
   declarations: [
@@ -71,13 +74,15 @@ import { HallofpappComponent } from './hallofpapp/hallofpapp.component';
     DocumentsComponent,
     SurveysComponent,
     StartingelevenComponent,
-    HallofpappComponent
+    HallofpappComponent,
+    PassworddialogComponent
   ],
   imports: [
     BrowserModule ,
     BrowserAnimationsModule,
     MatListModule,
     MatCheckboxModule,
+    MatDialogModule,
     MatDividerModule,
     MatToolbarModule,
     MatInputModule,
@@ -92,6 +97,7 @@ import { HallofpappComponent } from './hallofpapp/hallofpapp.component';
     MatGridListModule,
     MatExpansionModule,
     MatPaginatorModule,
+    MatSnackBarModule,
     AgmCoreModule.forRoot({
       apiKey: GOOGLE_MAPS_API_KEY
     }),
@@ -100,7 +106,12 @@ import { HallofpappComponent } from './hallofpapp/hallofpapp.component';
     HttpClientModule,
     CookieLawModule
   ],
-  providers: [MysqlService, StatisticsService, {provide: LocationStrategy, useClass: HashLocationStrategy}],
+  providers: [
+    MysqlService, 
+    StatisticsService, 
+    { provide: LocationStrategy, useClass: HashLocationStrategy },
+    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 2500} }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

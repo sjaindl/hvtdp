@@ -7,7 +7,13 @@
 </p>
 
 <p *ngFor="let document of documents" class="normal">
-    <a href="{{documentBaseUrl + document.link}}">{{document.description}}</a>
+    <span *ngIf="document.protected != 0">
+        <a [routerLink]="" (click)="downloadProtectedDocument(document);">{{document.description}}</a>
+    </span>
+    <span *ngIf="document.protected == 0">
+        <a href="{{documentBaseUrl + document.link}}">{{document.description}}</a>
+    </span>
+    
 </p>
 
 <br>

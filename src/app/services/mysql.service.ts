@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Player } from '../shared/player';
 import { Chef } from '../shared/chefs';
 import { Donation } from '../shared/donations';
@@ -13,7 +13,7 @@ import { Ticker } from '../shared/ticker';
 import { Survey } from '../shared/survey';
 import { PappFan } from '../shared/papp';
 import { Member } from '../shared/member';
-
+import { Validation } from '../shared/validation';
 
 @Injectable()
 export class MysqlService {
@@ -78,5 +78,11 @@ export class MysqlService {
 
   public getSupportMembers(): Observable<Member[]> {
     return this.http.get<Member[]>('https://www.hvtdpstainz.at/api/getSupportMembership.php')
+  }
+
+  public checkPassword(password: string): Observable<Validation[]> {
+    return this.http.get<Validation[]>('https://www.hvtdpstainz.at/api/checkPasswordValid.php', {
+      params: new HttpParams().set("password", password)
+    } )
   }
 }

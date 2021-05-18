@@ -5,33 +5,16 @@
     header("Access-Control-Allow-Headers: Content-Type");
     header("Access-Control-Allow-Methods: GET");
 
-    getDocuments($dbname, $dbuser, $dbpass, $dbhost);
+    checkDocPasswordValid($dbname, $dbuser, $dbpass, $dbhost, $docpass);
     
-    function getDocuments($name, $user, $pass, $host) {
-        $con = @mysqli_connect($host, $user, $pass, $name);
+    function checkDocPasswordValid($name, $user, $pass, $host, $docpass) {
+        $validation = array();
+        $pw = $_GET['password'];
 
-        if (!$con) {
-            echo "Error: " . mysqli_connect_error();
-            exit();
-        }
-
-        $sql = "SELECT * FROM Document order by docId ASC";
-        $q = mysqli_query($con, $sql);
+        array_push($validation, array(
+            'valid'=> $pw == $docpass));
         
-        $documents = array();
-
-        while ($res = mysqli_fetch_array($q))
-        {
-            array_push($documents,array(
-                'link'=> $res["link"],
-                'protected'=> $res["protected"],
-                'description'=> $res["description"]));
-        }
-
-        // Close connection
-        mysqli_close ($con);
-        
-        $json = json_encode($documents, JSON_UNESCAPED_UNICODE);
+        $json = json_encode($validation, JSON_UNESCAPED_UNICODE);
 
         if ($json === false) {
             // Avoid echo of empty string (which is invalid JSON), and
