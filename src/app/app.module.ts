@@ -26,7 +26,7 @@ import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 
-import 'hammerjs';
+import { Hammer } from 'hammerjs/hammer';
 import { TeamComponent } from './team/team.component';
 import { NguCarouselModule } from '@ngu/carousel'
 import { NewsComponent } from './news/news.component';
@@ -78,7 +78,7 @@ import { PassworddialogComponent } from './passworddialog/passworddialog.compone
     PassworddialogComponent
   ],
   imports: [
-    BrowserModule ,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }) ,
     BrowserAnimationsModule,
     MatListModule,
     MatCheckboxModule,
