@@ -36,6 +36,7 @@ import { SocialmediaComponent } from './socialmedia/socialmedia.component';
 import { DonationsComponent } from './donations/donations.component';
 import { AboutComponent } from './about/about.component';
 import { ContactComponent } from './contact/contact.component';
+import { DuckrunComponent } from './duckrun/duckrun.component';
 import { FanshopComponent } from './fanshop/fanshop.component';
 import { MembershipComponent } from './membership/membership.component';
 import { HalloffameComponent } from './halloffame/halloffame.component';
@@ -75,7 +76,8 @@ import { PassworddialogComponent } from './passworddialog/passworddialog.compone
     SurveysComponent,
     StartingelevenComponent,
     HallofpappComponent,
-    PassworddialogComponent
+    PassworddialogComponent,
+    DuckrunComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }) ,

@@ -7,6 +7,8 @@
         <div fxShow="true" fxHide.lt-md="true">
             &nbsp;<a md-button routerLink="/home" routerLinkActive="active"><span class="fa fa-users fa-sm"></span> Home</a>
             <span class="flex-spacer"></span>
+            &nbsp;<a md-button routerLink="/duckrun" routerLinkActive="active"><span class="fas fa-dove"></span> Entenlauf</a>
+            <span class="flex-spacer"></span>
             &nbsp;<a md-button routerLink="/news" routerLinkActive="active"><span class="fa fa-bookmark fa-sm"></span> News</a>
             <span class="flex-spacer"></span>
             &nbsp;<a md-button routerLink="/team" routerLinkActive="active"><span class="fa fa-portrait fa-sm"></span> Mannschaft</a>
@@ -49,6 +51,10 @@
           <a (click)="sidenav.toggle();" md-button routerLink="/home" routerLinkActive="active" mat-list-item>
             <span class="fa fa-home fa-sm"></span>
             &nbsp;Home
+          </a>
+          <a (click)="sidenav.toggle();" md-button routerLink="/duckrun" routerLinkActive="active" mat-list-item>
+            <span class="fas fa-dove"></span>
+            &nbsp;Entenlauf
           </a>
           <a (click)="sidenav.toggle();" md-button routerLink="/news" routerLinkActive="active" mat-list-item>
             <span class="fa fa-bookmark fa-sm"></span>

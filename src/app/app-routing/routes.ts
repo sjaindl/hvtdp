@@ -16,10 +16,12 @@ import { DocumentsComponent } from '../documents/documents.component';
 import { SurveysComponent } from '../surveys/surveys.component';
 import { StartingelevenComponent } from '../startingeleven/startingeleven.component';
 import { HallofpappComponent } from '../hallofpapp/hallofpapp.component';
+import { DuckrunComponent } from '../duckrun/duckrun.component';
 
 export const routes : Routes = [
     {path: "home", component: HomeComponent},
     {path: "", redirectTo: "/home", pathMatch: "full"},
+    {path: "duckrun", component: DuckrunComponent},
     {path: "news", component: NewsComponent},
     {path: "news/:newsId", component: NewsComponent},
     {path: "team", component: TeamComponent},
