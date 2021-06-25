@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Feedback } from '../shared/feedback'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { Title, Meta } from '@angular/platform-browser'
+import { MysqlService } from '../services/mysql.service';
 
 @Component({
   selector: 'app-contact',
@@ -48,7 +49,11 @@ export class DuckrunComponent implements OnInit {
     }
   }
 
-  constructor(private formBuilder: FormBuilder, private titleService: Title, private metaTagService: Meta) {
+  constructor(
+    private formBuilder: FormBuilder, 
+    private titleService: Title, 
+    private metaTagService: Meta,
+    private mysqlService: MysqlService) {
     this.createForm()
   }
 
@@ -93,26 +98,20 @@ export class DuckrunComponent implements OnInit {
 
   onSubmit() {
     this.feedback = this.feedbackForm.value
+    this.submittedFeedback = this.feedback
+    
+    console.log(`send to server: ${this.submittedFeedback.firstname}, ${this.submittedFeedback.lastname}, 
+    ${this.submittedFeedback.phone}, ${this.submittedFeedback.email}, ${this.submittedFeedback.duckcount}`)
 
-    // this.feedbackService.submitFeedback(this.feedback)
-    //   .subscribe(feedback => { 
-        this.submittedFeedback = this.feedback
-      // })
-
-      var mailSubject = 'Bestellung Entenlauf 2021: '
-      mailSubject += this.submittedFeedback.firstname + ' ' 
-      + this.submittedFeedback.lastname + ', '
-
-      var mailMessage = 
-        'Vorname: ' + this.submittedFeedback.firstname + ', ' +
-        'Nachname: ' + this.submittedFeedback.lastname + ', ' +
-        'Telefonnummer: ' + this.submittedFeedback.phone + ', ' +
-        'E-Mail: ' + this.submittedFeedback.email + ', ' +
-        'Anzahl Enten: ' + this.submittedFeedback.duckcount
-
-      window.location.href = 'mailto:hvtdpstainz@gmx.at?subject='
-        + mailSubject
-        + "&body=" + mailMessage
+    this.mysqlService.postDuckrun(
+      this.submittedFeedback.firstname,
+      this.submittedFeedback.lastname,
+      this.submittedFeedback.email,
+      this.submittedFeedback.phone,
+      this.submittedFeedback.duckcount
+      ).subscribe(result => {
+        console.log(`response from server: ${result}`)
+    })
 
     this.feedbackForm.reset({
       firstname: '',
