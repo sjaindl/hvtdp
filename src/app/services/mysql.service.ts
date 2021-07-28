@@ -93,9 +93,20 @@ export class MysqlService {
     url += '&mail=' + mail
     url += '&phone=' + phone
     url += '&duckcount=' + duckcount
+    url += '&useragent=' + window.navigator.userAgent
+    url += '&language=' + window.navigator.language
+    url += '&platform=' + window.navigator.platform
     
-    return this.http.post<any>(url, { 
-      params: new HttpParams().append('firstname', firstname).append('lastname', lastname).append('mail', mail).append('phone', phone).append('duckcount', duckcount)
+    return this.http.get<any>(url, { 
+      params: new HttpParams()
+      .append('firstname', firstname)
+      .append('lastname', lastname)
+      .append('mail', mail)
+      .append('phone', phone)
+      .append('duckcount',  ""+duckcount)
+      .append('useragent', window.navigator.userAgent)
+      .append('language', window.navigator.language)
+      .append('platform', window.navigator.platform)
     })
   }
 }
