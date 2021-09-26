@@ -54,6 +54,7 @@ import { StatisticsService } from './services/statistics.service';
 import { StartingelevenComponent } from './startingeleven/startingeleven.component';
 import { HallofpappComponent } from './hallofpapp/hallofpapp.component';
 import { PassworddialogComponent } from './passworddialog/passworddialog.component';
+import { SafePipe } from './pipes/SafePipe';
 
 @NgModule({
   declarations: [
@@ -77,7 +78,8 @@ import { PassworddialogComponent } from './passworddialog/passworddialog.compone
     StartingelevenComponent,
     HallofpappComponent,
     PassworddialogComponent,
-    DuckrunComponent
+    DuckrunComponent,
+    SafePipe
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }) ,

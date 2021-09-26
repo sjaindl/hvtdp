@@ -9,6 +9,7 @@ export class Game {
     description: string
     date: string
     links: Link[]
+    customText: string
 }
 
 export class GameSeason {

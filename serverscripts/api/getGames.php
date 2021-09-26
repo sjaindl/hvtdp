@@ -26,7 +26,7 @@
             $season_array['season'] = $season;
             $season_array['games'] = array();
 
-            $fetch_games = mysqli_query($con, "SELECT round, description, date, gameId
+            $fetch_games = mysqli_query($con, "SELECT round, description, date, gameId, customText
                 FROM Game g where g.season = '$season' order by date DESC") or die(mysqli_error($con));
 
             $gameId = 0;
@@ -40,6 +40,7 @@
                 $game_array['description'] = $row_games['description'];
                 $game_array['date'] = $row_games['date'];
                 $game_array['gameId'] = $gameId;
+                $game_array['customText'] = $row_games['customText'];
                 $game_array['links'] = array();
                 
                 $fetch_links = mysqli_query($con, "SELECT link, description, scorer

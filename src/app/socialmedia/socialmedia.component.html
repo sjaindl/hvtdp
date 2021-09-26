@@ -3,7 +3,7 @@
 </h1>
 
 <p class="normal">
-    Für unsere Fans haben wir alle Tore archiviert. Wähle eine Saison und verpasse kein einziges HV TDP-Tor!
+    Für unsere Fans haben wir alle Tore und Events archiviert. Wähle eine eine Saison bzw. Jahr um durch unser Videoarchiv zu stöbern.
 </p>
 
 <div *ngIf="!selectedSeason">
@@ -24,28 +24,48 @@
         </p>
 
         <div *ngFor="let game of season.games">
-            <p class="normal">
+            <p class="normal" *ngIf="game.round != 0">
                 Runde {{game.round}}
             </p>
             <p class="normal">
-                {{game.date}}, {{game.description}}
+                {{game.description}}
+            </p>
+            <p class="normal">
+                {{game.date}}
+            </p>
+            <p class="normal" *ngIf="game.customText">
+                {{game.customText}}
             </p>
             
             <div *ngFor="let link of game.links">
                 <mat-list>
                     <div *ngFor="let player of players">
-                        <mat-list-item *ngIf="player.lastName == link.scorer">
+                        <mat-list-item *ngIf="player.lastName == link.scorer" style="height: 400px;">
                             <p class="small">
-                                <img matListAvatar class='img-preview' src="{{imageBaseUrl + player.imagePath}}" alt="{{player.firstName}} {{player.lastName}}" style="width: 90; height: 110px;">
-                                <a href="{{link.link}}" target="_blank">{{link.description}} {{link.scorer}}</a>  
-                            </p>
+                                <img matListAvatar class='img-preview' src="{{imageBaseUrl + player.imagePath}}" alt="{{player.firstName}} {{player.lastName}}" style="width: 90px; height: 110px;">
+                                <!-- <a href="{{link.link}}" target="_blank"></a>   -->
+                                {{link.description}} {{link.scorer}}
+                                <br><br>
+                                <iframe width="560px" height="315px" [src]="link.link | safe" frameborder="0" allowfullscreen></iframe>
+                                <!-- https://www.youtube.com/embed/1ozGKlOzEVc -->
+                            </p> 
                         </mat-list-item>
                     </div>
 
-                    <mat-list-item *ngIf="link.scorer == 'Eigentor'">
+                    <mat-list-item *ngIf="link.scorer == 'Eigentor'" style="height: 400px;">
                         <p class="small">
                             <img matListAvatar class='img-preview' src="{{imageBaseUrl + 'team/no_photo.jpg'}}" alt="{{link.scorer}}" style="width: 90; height: 110px;">
-                            <a href="{{link.link}}" target="_blank">{{link.description}} {{link.scorer}}</a>  
+                            {{link.description}} {{link.scorer}}
+                            <br><br>
+                            <iframe width="560px" height="315px" [src]="link.link | safe" frameborder="0" allowfullscreen></iframe>
+                        </p>
+                    </mat-list-item>
+
+                    <mat-list-item *ngIf="link.scorer == ''" style="height: 400px;">
+                        <p class="small">
+                            {{link.description}}
+                            <br><br>
+                            <iframe width="560px" height="315px" [src]="link.link | safe" frameborder="0" allowfullscreen></iframe>
                         </p>
                     </mat-list-item>
 
