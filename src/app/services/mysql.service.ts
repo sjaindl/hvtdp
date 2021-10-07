@@ -14,6 +14,7 @@ import { Survey } from '../shared/survey';
 import { PappFan } from '../shared/papp';
 import { Member } from '../shared/member';
 import { Validation } from '../shared/validation';
+import { Standing } from '../shared/standing';
 
 @Injectable()
 export class MysqlService {
@@ -78,6 +79,10 @@ export class MysqlService {
 
   public getSupportMembers(): Observable<Member[]> {
     return this.http.get<Member[]>('https://www.hvtdpstainz.at/api/getSupportMembership.php')
+  }
+
+  public getStandings(): Observable<Standing[]> {
+    return this.http.get<Standing[]>('https://www.hvtdpstainz.at/api/getStandings.php')
   }
 
   public checkPassword(password: string): Observable<Validation[]> {

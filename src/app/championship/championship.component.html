@@ -1,10 +1,88 @@
 <br>
-<a class="center" href="http://www.stt-meisterschaft.at/node/7">http://www.stt-meisterschaft.at/node/7</a>
+
+<!-- <a class="center" href="http://www.stt-meisterschaft.at/node/7">http://www.stt-meisterschaft.at/node/7</a>
 
 <div class="h_iframe">
   &nbsp;
   <iframe src="http://www.stt-meisterschaft.at/node/7" frameborder="0" allowfullscreen height="1400">
   </iframe>
-</div>
+</div> -->
+
+<h1 class="large header">
+  STT - Meisterschaft 2021/2022 - aktueller Tabellenstand:
+</h1>
+
+<h3 class="header">
+  Liga B
+</h3>
+<br>
+
+<mat-table [dataSource]="dataSource" matSort matSortActive="place" matSortDirection="asc" matSortDisableClear>
+  
+  <ng-container matColumnDef="place">
+      <mat-header-cell *matHeaderCellDef>Platz</mat-header-cell>
+      <mat-cell *matCellDef="let standings">{{standings.place}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="team">
+      <mat-header-cell *matHeaderCellDef>Mannschaft</mat-header-cell>
+      <mat-cell *matCellDef="let standings">{{standings.team}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="games">
+    <mat-header-cell *matHeaderCellDef>Spiele</mat-header-cell>
+    <mat-cell *matCellDef="let standings">{{standings.games}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="wins">
+    <mat-header-cell *matHeaderCellDef>S</mat-header-cell>
+    <mat-cell *matCellDef="let standings">{{standings.wins}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="draws">
+    <mat-header-cell *matHeaderCellDef>U</mat-header-cell>
+    <mat-cell *matCellDef="let standings">{{standings.draws}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="losses">
+    <mat-header-cell *matHeaderCellDef>N</mat-header-cell>
+    <mat-cell *matCellDef="let standings">{{standings.losses}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="goalDifference">
+    <mat-header-cell *matHeaderCellDef>Torverhältnis</mat-header-cell>
+    <mat-cell *matCellDef="let standings">{{standings.goalDifference}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="points">
+    <mat-header-cell *matHeaderCellDef>Punkte</mat-header-cell>
+    <mat-cell *matCellDef="let standings">{{standings.points}}</mat-cell>
+  </ng-container>
+  
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  
+  <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+  
+</mat-table>
+
+<p class="small">
+  Platz 1 bis 3 spielen am Ende der Saison in einem Play-off gegen die Plätze 5 bis 8 aus Liga A um den Aufstieg.
+</p>
+
+<br>
+
+<p class="normal">
+  <b>Unsere Torschützen:</b>
+</p>
+
+<p *ngFor="let player of players" class="normal">
+  {{player.firstName}} {{player.lastName}} {{ player.goalsDisplay }}
+
+  <!-- <span *ngFor="let n of numSequence(player); let i = index;">{{i}} </span> -->
+
+  <!-- <ng-container *ngFor="let _ of [].constructor(player.goals)"><i class="fas fa-futbol"></i></ng-container> -->
+  <!-- __ -->
+  <!-- <ng-container *ngFor="let i of Arr(6).fill(1)"><i class="fas fa-futbol"></i></ng-container> -->
+</p>
 
 <br>

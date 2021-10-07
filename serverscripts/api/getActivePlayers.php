@@ -28,6 +28,7 @@
                 'lastName'=> $res["lastName"],
                 'memberSinceYear'=> $res["memberSinceYear"],
                 'group'=> $res["group"],
+                'goals'=> $res["goals"],
                 'imagePath'=> $res["imagePath"]));
         }
 

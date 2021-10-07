@@ -17,6 +17,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
 import { MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 
 import { NgModule } from '@angular/core';
@@ -101,6 +103,8 @@ import { SafePipe } from './pipes/SafePipe';
     MatGridListModule,
     MatExpansionModule,
     MatPaginatorModule,
+    MatTableModule,
+    MatSortModule,
     MatSnackBarModule,
     AgmCoreModule.forRoot({
       apiKey: GOOGLE_MAPS_API_KEY

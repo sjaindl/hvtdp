@@ -5,9 +5,9 @@
     header("Access-Control-Allow-Headers: Content-Type");
     header("Access-Control-Allow-Methods: GET");
 
-    getPlayers($dbname, $dbuser, $dbpass, $dbhost);
+    getStandings($dbname, $dbuser, $dbpass, $dbhost);
     
-    function getPlayers($name, $user, $pass, $host) {
+    function getStandings($name, $user, $pass, $host) {
         $con = @mysqli_connect($host, $user, $pass, $name);
 
         if (!$con) {
@@ -15,26 +15,28 @@
             exit();
         }
 
-        $sql = "SELECT * FROM Player";
+        $sql = "SELECT * FROM Standings order by place ASC";
         $q = mysqli_query($con, $sql);
         
-        $players = array();
+        $standings = array();
 
         while ($res = mysqli_fetch_array($q))
         {
-            array_push($players,array(
-                'position'=> $res["position"],
-                'firstName'=> $res["firstName"],
-                'lastName'=> $res["lastName"],
-                'memberSinceYear'=> $res["memberSinceYear"],
-                'goals'=> $res["goals"],
-                'imagePath'=> $res["imagePath"]));
+            array_push($standings,array(
+                'place'=> $res["place"],
+                'team'=> $res["team"],
+                'games'=> $res["games"],
+                'wins'=> $res["wins"],
+                'draws'=> $res["draws"],
+                'losses'=> $res["losses"],
+                'goalDifference'=> $res["goalDifference"],
+                'points'=> $res["points"]));
         }
 
         // Close connection
         mysqli_close ($con);
         
-        $json = json_encode($players, JSON_UNESCAPED_UNICODE);
+        $json = json_encode($standings, JSON_UNESCAPED_UNICODE);
 
         if ($json === false) {
             // Avoid echo of empty string (which is invalid JSON), and
