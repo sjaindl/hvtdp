@@ -66,7 +66,7 @@
 </mat-table>
 
 <p class="small">
-  Platz 1 bis 3 spielen am Ende der Saison in einem Play-off gegen die Plätze 5 bis 8 aus Liga A um den Aufstieg.
+  Die Plätze 1 bis 3 spielen am Ende der Saison in einem Play-off gegen die Plätze 5 bis 8 aus Liga A um den Aufstieg.
 </p>
 
 <br>
@@ -76,7 +76,7 @@
 </p>
 
 <p *ngFor="let player of players" class="normal">
-  {{player.firstName}} {{player.lastName}} {{ player.goalsDisplay }}
+  {{ player.goalsDisplay }} {{player.firstName}} {{player.lastName}}
 
   <!-- <span *ngFor="let n of numSequence(player); let i = index;">{{i}} </span> -->
 
