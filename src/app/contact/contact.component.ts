@@ -55,6 +55,12 @@ export class ContactComponent implements OnInit {
     this.metaTagService.updateTag({
       name: 'description', content: "Kontaktiere den HV TDP Stainz: Adresse, Feedback und Stadion."
     })
+
+    this.metaTagService.addTags([
+      { name: 'keywords', content: 'Fußballverein, Stainz, SC Stainz, Fußballverein Stainz, HVTDP, HVTDP Stainz' },
+      { name: 'author', content: 'Stefan Jaindl' },
+      { charset: 'UTF-8' }
+    ])
   }
 
   createForm() {

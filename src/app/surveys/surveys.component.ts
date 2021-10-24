@@ -27,6 +27,12 @@ export class SurveysComponent implements OnInit {
     this.metaTagService.updateTag({
       name: 'description', content: "Aktuelle Umfragen über Ereignisse, Torschützen und Events des HV TDP Stainz."
     })
+
+    this.metaTagService.addTags([
+      { name: 'keywords', content: 'Fußballverein, Stainz, SC Stainz, Fußballverein Stainz, HVTDP, HVTDP Stainz' },
+      { name: 'author', content: 'Stefan Jaindl' },
+      { charset: 'UTF-8' }
+    ])
   }
 
   surveyUrl() {

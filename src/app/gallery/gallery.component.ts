@@ -46,6 +46,12 @@ export class GalleryComponent implements OnInit {
     this.metaTagService.updateTag({
       name: 'description', content: "Die wichtigsten Events des HV TDP Stainz in der Galerie - sortiert nach den Saisons."
     })
+
+    this.metaTagService.addTags([
+      { name: 'keywords', content: 'Fußballverein, Stainz, SC Stainz, Fußballverein Stainz, HVTDP, HVTDP Stainz' },
+      { name: 'author', content: 'Stefan Jaindl' },
+      { charset: 'UTF-8' }
+    ])
   }
 
   ngAfterViewInit() {

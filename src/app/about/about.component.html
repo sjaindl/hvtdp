@@ -43,7 +43,23 @@
   </p>
 
   <mat-list fxLayout="column" fxLayout.gt-sm="row">
-    <mat-list-item class="listImage" *ngFor="let chef of chefs">
+    <mat-list-item class="listImage" *ngFor="let chef of obmaenner">
+      <img mat-list-avatar class='img-preview' src="{{imageBaseUrl.concat(chef.imagePath)}}" alt="{{chef.firstName}} {{chef.lastName | uppercase}}" >
+      <h1 mat-line>{{chef.firstName}} {{chef.lastName | uppercase}}</h1>
+      <h1 mat-line>{{chef.function}}</h1>
+    </mat-list-item>
+  </mat-list>
+
+  <mat-list fxLayout="column" fxLayout.gt-sm="row">
+    <mat-list-item class="listImage" *ngFor="let chef of kassierer">
+      <img mat-list-avatar class='img-preview' src="{{imageBaseUrl.concat(chef.imagePath)}}" alt="{{chef.firstName}} {{chef.lastName | uppercase}}" >
+      <h1 mat-line>{{chef.firstName}} {{chef.lastName | uppercase}}</h1>
+      <h1 mat-line>{{chef.function}}</h1>
+    </mat-list-item>
+  </mat-list>
+
+  <mat-list fxLayout="column" fxLayout.gt-sm="row">
+    <mat-list-item class="listImage" *ngFor="let chef of schriftfuehrer">
       <img mat-list-avatar class='img-preview' src="{{imageBaseUrl.concat(chef.imagePath)}}" alt="{{chef.firstName}} {{chef.lastName | uppercase}}" >
       <h1 mat-line>{{chef.firstName}} {{chef.lastName | uppercase}}</h1>
       <h1 mat-line>{{chef.function}}</h1>

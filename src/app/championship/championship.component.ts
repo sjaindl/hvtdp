@@ -69,6 +69,12 @@ export class ChampionshipComponent implements OnInit {
     this.metaTagService.updateTag({
       name: 'description', content: "Informationen über die Situation in der Meisterschaft vom HV TDP Stainz in der STT Meisterschaft."
     })
+
+    this.metaTagService.addTags([
+      { name: 'keywords', content: 'Fußballverein, Stainz, SC Stainz, Fußballverein Stainz, HVTDP, HVTDP Stainz' },
+      { name: 'author', content: 'Stefan Jaindl' },
+      { charset: 'UTF-8' }
+    ])
   }
 
   ngOnChanges() {

@@ -24,6 +24,13 @@ export class MembershipComponent implements OnInit {
     this.metaTagService.updateTag({
       name: 'description', content: "Werde aktives oder förderndes Mitglied vom HV TDP Stainz."
     })
+
+    this.metaTagService.addTags([
+      { name: 'keywords', content: 'Fußballverein, Stainz, SC Stainz, Fußballverein Stainz, HVTDP, HVTDP Stainz' },
+      { name: 'author', content: 'Stefan Jaindl' },
+      { charset: 'UTF-8' }
+    ])
+    
     this.documentBaseUrl = baseUrlDocuments
 
     this.mysqlService.getActiveMembers().subscribe( members => {

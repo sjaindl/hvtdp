@@ -56,10 +56,16 @@ export class HomeComponent implements OnInit {
     this.imageBaseUrl = baseUrlImages
     this.checkDevice()
 
-    this.titleService.setTitle("HV TDP Stainz: Home")
+    this.titleService.setTitle("Fußballverein Stainz. HVTDP Stainz.")
     this.metaTagService.updateTag({
       name: 'description', content: "Auf der Website finden sich die aktuellen News rund um den HV TDP Stainz, den Stand in der Meisterschaft, unser Team, die Galerie, Videos und andere Highlights wie den offiziellen HV TDP Fanshop. Unter den Matchballspenden finden sich außerdem unsere Sponsoren. Auch aktuelle Umfragen und Dokumente rund um das HV TDP Vereinsleben werden zur Verfügung gestellt."
     })
+
+    this.metaTagService.addTags([
+      { name: 'keywords', content: 'Fußballverein, Stainz, SC Stainz, Fußballverein Stainz, HVTDP, HVTDP Stainz' },
+      { name: 'author', content: 'Stefan Jaindl' },
+      { charset: 'UTF-8' }
+    ])
   }
 
   ngAfterViewInit() {

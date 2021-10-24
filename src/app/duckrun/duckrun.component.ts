@@ -62,6 +62,12 @@ export class DuckrunComponent implements OnInit {
     this.metaTagService.updateTag({
       name: 'description', content: "Bestelle hier deine Enten für den Entenlauf 2021 des HV TDP Stainz."
     })
+
+    this.metaTagService.addTags([
+      { name: 'keywords', content: 'Fußballverein, Stainz, SC Stainz, Fußballverein Stainz, HVTDP, HVTDP Stainz' },
+      { name: 'author', content: 'Stefan Jaindl' },
+      { charset: 'UTF-8' }
+    ])
   }
 
   createForm() {

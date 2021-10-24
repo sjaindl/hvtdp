@@ -46,6 +46,12 @@ export class NewsComponent implements OnInit {
     this.metaTagService.updateTag({
       name: 'description', content: "Die aktuellsten News über den HV TDP Stainz"
     })
+
+    this.metaTagService.addTags([
+      { name: 'keywords', content: 'Fußballverein, Stainz, SC Stainz, Fußballverein Stainz, HVTDP, HVTDP Stainz' },
+      { name: 'author', content: 'Stefan Jaindl' },
+      { charset: 'UTF-8' }
+    ])
   }
 
   ngOnDestroy() {

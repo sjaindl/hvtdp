@@ -35,6 +35,12 @@ export class DocumentsComponent implements OnInit {
     this.metaTagService.updateTag({
       name: 'description', content: "Dokumente rund um den HV TDP Stainz für Mitglieder und Fans: Download."
     })
+
+    this.metaTagService.addTags([
+      { name: 'keywords', content: 'Fußballverein, Stainz, SC Stainz, Fußballverein Stainz, HVTDP, HVTDP Stainz' },
+      { name: 'author', content: 'Stefan Jaindl' },
+      { charset: 'UTF-8' }
+    ])
   }
 
   downloadProtectedDocument(document: HvtdpDocument) {
