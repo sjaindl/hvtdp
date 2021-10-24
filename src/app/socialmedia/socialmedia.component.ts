@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { GameSeason } from '../shared/games';
-import { Player } from '../shared/player';
-import { baseUrlImages } from '../shared/baseurls';
-import { MysqlService } from '../services/mysql.service';
+import { Component, OnInit } from '@angular/core'
+import { GameSeason } from '../shared/games'
+import { Player } from '../shared/player'
+import { baseUrlImages } from '../shared/baseurls'
+import { MysqlService } from '../services/mysql.service'
 import { Title, Meta } from '@angular/platform-browser'
 
 @Component({
@@ -35,6 +35,12 @@ export class SocialmediaComponent implements OnInit {
     this.metaTagService.updateTag({
       name: 'description', content: "Videos der Tore vom HV TDP Stainz."
     })
+
+    this.metaTagService.addTags([
+      { name: 'keywords', content: 'Fußballverein, Stainz, SC Stainz, Fußballverein Stainz, HVTDP, HVTDP Stainz' },
+      { name: 'author', content: 'Stefan Jaindl' },
+      { charset: 'UTF-8' }
+    ])
   }
 
   selectSeason(season: GameSeason) {
