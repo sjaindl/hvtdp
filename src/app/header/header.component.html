@@ -1,7 +1,7 @@
 <div>
     <mat-toolbar color="primary">
       <mat-toolbar-row>
-        <button mat-icon-button (click)="sidenav.toggle(); setSideNavigationWidth();" fxShow="true" fxHide.gt-sm>
+        <button mat-icon-button (click)="sidenav.toggle();" fxShow="true" fxHide.gt-sm>
           <mat-icon>menu</mat-icon>
         </button>
         <div fxShow="true" fxHide.lt-md="true">
@@ -46,7 +46,7 @@
     <mat-sidenav-container #sidenavContainer style="position: absolute;top: 1;left: 0;height: 100%;z-index: 10;background-color: rgba(1,0,0,0.0); min-width: 1%;" [ngStyle]="{'width': width}">
    
     <!-- <mat-sidenav-container #sidenavContainer fxFlexFill> -->
-      <mat-sidenav #sidenav>
+      <mat-sidenav #sidenav (openedChange)="navChanged($event)">
         <mat-nav-list>
           <a (click)="sidenav.toggle();" md-button routerLink="/home" routerLinkActive="active" mat-list-item>
             <span class="fa fa-home fa-sm"></span>
@@ -106,7 +106,7 @@
             <span class="fa fa-list-ol fa-sm"></span>
             &nbsp;Umfragen
           </a>
-          <a (click)="sidenav.toggle();" md-button routerLink="/startingeleven" routerLinkActive="active" mat-list-item>
+          <a (click)="sidenav.toggle(); " md-button routerLink="/startingeleven" routerLinkActive="active" mat-list-item>
             <span class="fa fa-futbol fa-sm"></span>
             &nbsp;Starting Eleven
           </a>
@@ -115,7 +115,7 @@
             <span class="fa fa-award fa-sm"></span>
             &nbsp;Hall of Fame
           </a> -->
-          <a (click)="sidenav.toggle(); setSideNavigationWidth();" mat-list-item>
+          <a (click)="sidenav.toggle();" mat-list-item>
               <mat-icon>close</mat-icon> Close
           </a>
         </mat-nav-list>
