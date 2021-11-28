@@ -57,6 +57,7 @@ import { StartingelevenComponent } from './startingeleven/startingeleven.compone
 import { HallofpappComponent } from './hallofpapp/hallofpapp.component';
 import { PassworddialogComponent } from './passworddialog/passworddialog.component';
 import { SafePipe } from './pipes/SafePipe';
+import { AdventComponent } from './advent/advent.component';
 
 @NgModule({
   declarations: [
@@ -81,6 +82,7 @@ import { SafePipe } from './pipes/SafePipe';
     HallofpappComponent,
     PassworddialogComponent,
     DuckrunComponent,
+    AdventComponent,
     SafePipe
   ],
   imports: [

@@ -17,6 +17,7 @@ import { SurveysComponent } from '../surveys/surveys.component';
 import { StartingelevenComponent } from '../startingeleven/startingeleven.component';
 import { HallofpappComponent } from '../hallofpapp/hallofpapp.component';
 import { DuckrunComponent } from '../duckrun/duckrun.component';
+import { AdventComponent } from '../advent/advent.component';
 
 export const routes : Routes = [
     {path: "home", component: HomeComponent},
@@ -37,5 +38,6 @@ export const routes : Routes = [
     {path: "documents", component: DocumentsComponent},
     {path: "surveys", component: SurveysComponent},
     {path: "startingeleven", component: StartingelevenComponent},
-    {path: "hallofpapp", component: HallofpappComponent}
+    {path: "hallofpapp", component: HallofpappComponent},
+    {path: "advent", component: AdventComponent}
 ];
