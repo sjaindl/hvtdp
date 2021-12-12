@@ -1,6 +1,8 @@
 import { Component } from '@angular/core'
 import { baseUrlImages } from '../shared/baseurls'
+import { DeviceDetectorService } from '../../../node_modules/ngx-device-detector'
 import { Title, Meta } from '@angular/platform-browser'
+import { List } from 'postcss/lib/list'
 @Component({
   selector: 'app-advent',
   templateUrl: './advent.component.html',
@@ -9,9 +11,10 @@ import { Title, Meta } from '@angular/platform-browser'
 
 export class AdventComponent {
   imageBaseUrl: string = ""
+  isMobile = null
   
-  constructor(private titleService: Title, private metaTagService: Meta) {
-    this.imageBaseUrl = baseUrlImages
+  constructor(private titleService: Title, private metaTagService: Meta, private deviceService: DeviceDetectorService) {
+    //this.imageBaseUrl = baseUrlImages
 
     this.titleService.setTitle("HV TDP Stainz: Adventkalender")
     this.metaTagService.updateTag({
@@ -23,5 +26,27 @@ export class AdventComponent {
       { name: 'author', content: 'Stefan Jaindl' },
       { charset: 'UTF-8' }
     ])
+  }
+
+  ngOnInit() {
+    this.checkDevice()
+  }
+
+  checkDevice() {
+    this.isMobile = this.deviceService.isMobile()
+  }
+
+  curDay(): number {
+    var now = new Date()
+    var day = Math.min(now.getUTCDate(), 24)
+
+    if (now.getUTCHours() < 11) {
+      return day - 1
+    }
+    return day
+  }
+
+  dayRange(): number[] {
+    return Array.from(Array(this.curDay())).map((_, idx) => idx + 1).reverse()
   }
 }

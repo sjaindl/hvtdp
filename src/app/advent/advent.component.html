@@ -1,25 +1,41 @@
 <h1 class="large header">Adventkalender</h1>
 
-<p class="normal center">
-  Super super HV TDP Adventkalender 🥳 🥳 🥳 🥳 🥳 🥳 🥳 
+<p class="normal center" style="text-align: center;">
+  Premiere! Die Weihnachtszeit ist ja die ruhigste des Jahres! Wir nutzen sie dazu um das Fußballjahr etwas Revue passieren zu lassen. Mit dem HV TDP Stainz Sport Adventkalender stellen wir euch jeden Tag einen Spieler aus dem Meisterschaftskader vor. 
+  <br><br>
+  Schaut jeden Tag auf unserer Homepage vorbei und seid gespannt! 😉
 </p>
 
 <br>
 <br>
 
-<!-- <img class="center" src="{{imageBaseUrl.concat(advent/advent.jpeg)}}"> -->
-<img class="center" src="/assets/images/advent/advent.jpeg" style="width: 25vw;">
-
+<img class="bordered img_advent" src="/assets/images/advent/2021_Adventskalender_{{ curDay() }}.jpg">
 
  <br>
  <br>
 
- <!-- width="320" height="240" -->
+<div *ngFor="let day of dayRange()">
+  <h2 style="text-align: center;">
+    <b><u>Türchen {{ day }}</u></b>
+  </h2>
+  <br>
 
-<video class="center" controls>
-  <source src="/assets/images/advent/2021_HV TDP Stainz_Adventskalender_01.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+  <div *ngIf="isMobile">
+    <video width="100%" controls>
+      <source src="/assets/videos/advent/2021_HV TDP Stainz_Adventskalender_{{day}}.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+
+  <video *ngIf="!isMobile" class="center" controls>
+    <source src="/assets/videos/advent/2021_HV TDP Stainz_Adventskalender_{{day}}.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+  <br>
+
+</div>
+
 
 <br>
 <br>
