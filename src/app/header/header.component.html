@@ -11,8 +11,8 @@
             <span class="flex-spacer"></span> -->
             &nbsp;<a md-button routerLink="/news" routerLinkActive="active"><span class="fa fa-bookmark fa-sm"></span> News</a>
             <span class="flex-spacer"></span>
-            <!-- &nbsp;<a md-button routerLink="/advent" routerLinkActive="active"><span class="fas fa-candy-cane fa-sm"></span> Adventkalender</a>
-            <span class="flex-spacer"></span> -->
+            &nbsp;<a md-button routerLink="/advent" routerLinkActive="active"><span class="fa fa-candy-cane fa-sm"></span> Adventkalender</a>
+            <span class="flex-spacer"></span>
             &nbsp;<a md-button routerLink="/team" routerLinkActive="active"><span class="fa fa-portrait fa-sm"></span> Mannschaft</a>
             <span class="flex-spacer"></span>
             &nbsp;<a md-button routerLink="/championship" routerLinkActive="active"><span class="fa fa-award fa-sm"></span> Meisterschaft</a>
@@ -37,10 +37,10 @@
             <span class="flex-spacer"></span> -->
             &nbsp;<a md-button routerLink="/documents" routerLinkActive="active"><span class="fa fa-file fa-sm"></span> Dokumente</a>
             <span class="flex-spacer"></span>
-            &nbsp;<a md-button routerLink="/surveys" routerLinkActive="active"><span class="fa fa-list-ol fa-sm"></span> Umfragen</a>
+            <!-- &nbsp;<a md-button routerLink="/surveys" routerLinkActive="active"><span class="fa fa-list-ol fa-sm"></span> Umfragen</a>
             <span class="flex-spacer"></span>
             &nbsp;<a md-button routerLink="/startingeleven" routerLinkActive="active"><span class="fa fa-futbol fa-sm"></span> Starting Eleven</a>
-            <span class="flex-spacer"></span>
+            <span class="flex-spacer"></span> -->
         </div>
       </mat-toolbar-row>
     </mat-toolbar>
@@ -54,18 +54,14 @@
             <span class="fa fa-home fa-sm"></span>
             &nbsp;Home
           </a>
-          <!-- <a (click)="sidenav.toggle();" md-button routerLink="/duckrun" routerLinkActive="active" mat-list-item>
-            <span class="fas fa-dove"></span>
-            &nbsp;Entenlauf
-          </a> -->
           <a (click)="sidenav.toggle();" md-button routerLink="/news" routerLinkActive="active" mat-list-item>
             <span class="fa fa-bookmark fa-sm"></span>
             &nbsp;News
           </a>
-          <!-- <a (click)="sidenav.toggle();" md-button routerLink="/advent" routerLinkActive="active" mat-list-item>
+          <a (click)="sidenav.toggle();" md-button routerLink="/advent" routerLinkActive="active" mat-list-item>
             <span class="fas fa-candy-cane fa-sm"></span>
             &nbsp;Adventkalender
-          </a> -->
+          </a>
           <a (click)="sidenav.toggle();" md-button routerLink="/team" routerLinkActive="active" mat-list-item>
             <span class="fa fa-portrait fa-sm"></span>
             &nbsp;Mannschaft
@@ -116,7 +112,10 @@
             <span class="fa fa-futbol fa-sm"></span>
             &nbsp;Starting Eleven
           </a>
-
+          <a (click)="sidenav.toggle();" md-button routerLink="/duckrun" routerLinkActive="active" mat-list-item>
+            <span class="fas fa-dove"></span>
+            &nbsp;Entenlauf
+          </a>
           <!-- <a md-button routerLink="/halloffame" routerLinkActive="active" mat-list-item>
             <span class="fa fa-award fa-sm"></span>
             &nbsp;Hall of Fame
