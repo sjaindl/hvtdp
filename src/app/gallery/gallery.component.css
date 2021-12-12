@@ -2,3 +2,9 @@
 .mat-list .mat-list-item {
     color: hotpink;
 }
+
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
