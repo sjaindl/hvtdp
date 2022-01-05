@@ -38,7 +38,8 @@ export class AdventComponent {
 
   curDay(): number {
     var now = new Date()
-    var day = Math.min(now.getUTCDate(), 24)
+    //var day = Math.min(now.getUTCDate(), 24)
+    var day = 24
 
     if (now.getUTCHours() < 11) {
       return day - 1
