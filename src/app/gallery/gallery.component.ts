@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ChangeDetectorRef, HostListener } from '@angular/core';
-import { AlbumSeason, Album, Photo } from '../shared/photos'
+import { Albums, Album, Photo } from '../shared/photos'
 import { MysqlService } from '../services/mysql.service'
 import { baseUrlImages } from '../shared/baseurls'
 import { NguCarousel, NguCarouselConfig } from '@ngu/carousel'
@@ -13,8 +13,7 @@ import { Title, Meta } from '@angular/platform-browser'
 })
 export class GalleryComponent implements OnInit {
 
-  seasons: AlbumSeason[]
-  selectedSeason: AlbumSeason = null
+  albums: Albums[]
   selectedAlbum: Album = null
   imageBaseUrl: String
   isMobile = null
@@ -31,20 +30,19 @@ export class GalleryComponent implements OnInit {
 
   carouselItems: Photo[]
   
-  constructor(private mysqlService: MysqlService, private cdr: ChangeDetectorRef, private deviceService: DeviceDetectorService, private titleService: Title, private metaTagService: Meta) { 
-  }
+  constructor(private mysqlService: MysqlService, private cdr: ChangeDetectorRef, private deviceService: DeviceDetectorService, private titleService: Title, private metaTagService: Meta) { }
 
   ngOnInit() {
     this.imageBaseUrl = baseUrlImages
     this.checkDevice()
 
-    this.mysqlService.getPhotos().subscribe(seasons => {
-      this.seasons = seasons
+    this.mysqlService.getPhotos().subscribe(albums => {
+      this.albums = albums
     })
 
     this.titleService.setTitle("HV TDP Stainz: Galerie")
     this.metaTagService.updateTag({
-      name: 'description', content: "Die wichtigsten Events des HV TDP Stainz in der Galerie - sortiert nach den Saisons."
+      name: 'description', content: "Die wichtigsten Events des HV TDP Stainz in der Galerie."
     })
 
     this.metaTagService.addTags([
@@ -63,10 +61,6 @@ export class GalleryComponent implements OnInit {
     this.checkDevice()
   }
 
-  selectSeason(season: AlbumSeason) {
-    this.selectedSeason = season
-  }
-
   checkDevice() {
     this.isMobile = this.deviceService.isMobile()
   }
@@ -78,9 +72,5 @@ export class GalleryComponent implements OnInit {
 
   backFromPhotos() {
     this.selectedAlbum = null
-  }
-
-  backFromAlbums() {
-    this.selectedSeason = null
   }
 }

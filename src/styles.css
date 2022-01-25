@@ -145,6 +145,16 @@ h1.header, h2.header, h3.header {
     padding-left: 10px;
 }
 
+.normalCentered {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    
+    font-size: 150%;
+    text-align: center;
+}
+
 .bold {
     font-weight: bold;
 }
@@ -250,6 +260,7 @@ h1.header, h2.header, h3.header {
   .bordered {
     border-style: solid;
     border-width: 10px;
+    color: white;
   }
 
 /* Carousel */

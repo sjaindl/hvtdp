@@ -15,16 +15,12 @@
             exit();
         }
 
-        $seasons_array = array();
-
         $fetchSeasons = mysqli_query($con, "SELECT * FROM AlbumSeason order by season DESC") or die(mysqli_error($con));
         
+        $albums_array = array();
+
         while ($row_seasons = mysqli_fetch_assoc($fetchSeasons)) {
             $season = utf8_encode($row_seasons['season']);
-
-            $season_array = array();
-            $season_array['season'] = $season;
-            $season_array['albums'] = array();
 
             $fetch_albums = mysqli_query($con, "SELECT name, date, albumId
                 FROM Album a where a.season = '$season' order by date DESC") or die(mysqli_error($con));
@@ -36,6 +32,7 @@
             while ($row_album = mysqli_fetch_assoc($fetch_albums)) {
                 $albumId = utf8_encode($row_album['albumId']);
 
+                $album_array['season'] = $season;
                 $album_array['name'] = utf8_encode($row_album['name']);
                 $album_array['date'] = utf8_encode($row_album['date']);
                 $album_array['albumId'] = $albumId;
@@ -53,17 +50,15 @@
                     array_push($album_array['photos'], $photo_array);
                 }
 
-                array_push($season_array['albums'], $album_array);
+                array_push($albums_array, $album_array);
             }
-            
-            array_push($seasons_array, $season_array);
         }
 
          // Close connection
          mysqli_close ($con);
 
         //print_r($seasons_array);
-        $json = json_encode($seasons_array, JSON_PRETTY_PRINT);
+        $json = json_encode($albums_array, JSON_PRETTY_PRINT);
 
         if ($json === false) {
             // Avoid echo of empty string (which is invalid JSON), and
@@ -81,5 +76,3 @@
     }
 
 ?>
-
-

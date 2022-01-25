@@ -4,12 +4,12 @@ export class Photo {
 }
 
 export class Album {
+    season: string
     name: string
     date: Date
     photos: Photo[]
 }
 
-export class AlbumSeason {
-    season: string
+export class Albums {
     albums: Album[]
 }
