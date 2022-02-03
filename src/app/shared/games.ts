@@ -5,6 +5,7 @@ export class Link {
 }
 
 export class Game {
+    season: string
     round: number
     description: string
     date: string
@@ -12,7 +13,6 @@ export class Game {
     customText: string
 }
 
-export class GameSeason {
-    season: string
+export class Games {
     games: Game[]
 }

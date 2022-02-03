@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core'
-import { GameSeason } from '../shared/games'
+import { Component, OnInit, ChangeDetectorRef, HostListener } from '@angular/core'
+import { Games } from '../shared/games'
 import { Player } from '../shared/player'
 import { baseUrlImages } from '../shared/baseurls'
 import { MysqlService } from '../services/mysql.service'
+import { DeviceDetectorService } from 'ngx-device-detector'
 import { Title, Meta } from '@angular/platform-browser'
 
 @Component({
@@ -12,19 +13,18 @@ import { Title, Meta } from '@angular/platform-browser'
 })
 export class SocialmediaComponent implements OnInit {
 
-  seasons: GameSeason[]
+  games: Games[]
   players: Player[]
-  selectedSeason: GameSeason = null
   imageBaseUrl: String
+  isMobile = null
 
-  constructor(private mysqlService: MysqlService, private titleService: Title, private metaTagService: Meta) {
-   }
+  constructor(private mysqlService: MysqlService, private cdr: ChangeDetectorRef, private deviceService: DeviceDetectorService, private titleService: Title, private metaTagService: Meta) { }
 
   ngOnInit() {
     this.imageBaseUrl = baseUrlImages
 
-    this.mysqlService.getGames().subscribe(seasons => {
-      this.seasons = seasons
+    this.mysqlService.getGames().subscribe(games => {
+      this.games = games
     })
 
     this.mysqlService.getPlayers().subscribe(players => {
@@ -33,7 +33,7 @@ export class SocialmediaComponent implements OnInit {
 
     this.titleService.setTitle("HV TDP Stainz: Videos")
     this.metaTagService.updateTag({
-      name: 'description', content: "Videos der Tore vom HV TDP Stainz."
+      name: 'description', content: "Videos von Veranstaltungen und Toren vom HV TDP Stainz."
     })
 
     this.metaTagService.addTags([
@@ -43,11 +43,21 @@ export class SocialmediaComponent implements OnInit {
     ])
   }
 
-  selectSeason(season: GameSeason) {
-    this.selectedSeason = season
+  ngAfterViewInit() {
+    this.cdr.detectChanges()
   }
 
-  back() {
-    this.selectedSeason = null
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.checkDevice()
+  }
+
+  checkDevice() {
+    this.isMobile = this.deviceService.isMobile()
+  }
+
+  height() {
+    if(this.isMobile) return '600px' 
+    return '400px'
   }
 }

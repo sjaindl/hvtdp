@@ -15,16 +15,14 @@
             exit();
         }
 
-        $seasons_array = array();
-
         $fetchSeasons = mysqli_query($con, "SELECT * FROM GameSeason order by season DESC") or die(mysqli_error($con));
+
+        $games_array = array();
         
         while ($row_seasons = mysqli_fetch_assoc($fetchSeasons)) {
-            $season = $row_seasons['season'];
+            $season = utf8_encode($row_seasons['season']);
 
-            $season_array = array();
-            $season_array['season'] = $season;
-            $season_array['games'] = array();
+            $game_array = array();
 
             $fetch_games = mysqli_query($con, "SELECT round, description, date, gameId, customText
                 FROM Game g where g.season = '$season' order by date DESC") or die(mysqli_error($con));
@@ -36,6 +34,7 @@
             while ($row_games = mysqli_fetch_assoc($fetch_games)) {
                 $gameId = utf8_encode($row_games['gameId']);
 
+                $game_array['season'] = $season;
                 $game_array['round'] = $row_games['round'];
                 $game_array['description'] = $row_games['description'];
                 $game_array['date'] = $row_games['date'];
@@ -56,17 +55,15 @@
                     array_push($game_array['links'], $link_array);
                 }
 
-                array_push($season_array['games'], $game_array);
+                array_push($games_array, $game_array);
             }
-            
-            array_push($seasons_array, $season_array);
         }
 
          // Close connection
          mysqli_close ($con);
 
         //print_r($seasons_array);
-        $json = json_encode($seasons_array, JSON_UNESCAPED_UNICODE);
+        $json = json_encode($games_array, JSON_PRETTY_PRINT);
 
         if ($json === false) {
             // Avoid echo of empty string (which is invalid JSON), and

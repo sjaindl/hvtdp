@@ -21,7 +21,7 @@
 
         while ($row_seasons = mysqli_fetch_assoc($fetchSeasons)) {
             $season = utf8_encode($row_seasons['season']);
-
+            
             $fetch_albums = mysqli_query($con, "SELECT name, date, albumId
                 FROM Album a where a.season = '$season' order by date DESC") or die(mysqli_error($con));
 

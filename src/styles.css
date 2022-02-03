@@ -133,6 +133,16 @@ h1.header, h2.header, h3.header {
     padding-left: 10px;
 }
 
+.smallCentered {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    
+    font-size: 120%;
+    text-align: center;
+}
+
 .normal {
     /* font-size: 2.5vw; */
     font-size: 150%;

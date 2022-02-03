@@ -6,7 +6,7 @@ import { Chef } from '../shared/chefs';
 import { Donation } from '../shared/donations';
 import { Item } from '../shared/items';
 import { News } from '../shared/news';
-import { GameSeason } from '../shared/games';
+import { Games } from '../shared/games';
 import { Albums } from '../shared/photos';
 import { HvtdpDocument } from '../shared/document';
 import { Ticker } from '../shared/ticker';
@@ -49,8 +49,8 @@ export class MysqlService {
     return this.http.get<News[]>('https://www.hvtdpstainz.at/api/getNews.php')
   }
 
-  public getGames(): Observable<GameSeason[]> {
-    return this.http.get<GameSeason[]>('https://www.hvtdpstainz.at/api/getGames.php')
+  public getGames(): Observable<Games[]> {
+    return this.http.get<Games[]>('https://www.hvtdpstainz.at/api/getGames.php')
   }
 
   public getPhotos(): Observable<Albums[]> {

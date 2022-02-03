@@ -2,82 +2,126 @@
     Videos
 </h1>
 
-<p class="normal">
-    Für unsere Fans haben wir alle Tore und Events archiviert. Wähle eine eine Saison bzw. Jahr um durch unser Videoarchiv zu stöbern.
+<p class="normalCentered">
+    Für unsere Fans haben wir alle Tore und Events archiviert. Viel Spaß beim Stöbern durch unser Videoarchiv!
 </p>
 
-<div *ngIf="!selectedSeason">
-    <div fxLayout="column" fxLayout.gt-sm="row">
-        <mat-list>
-        <mat-list-item class="matchballListImage" *ngFor="let season of seasons">  
-                <a><h1 style="font-size:xx-large;font-weight:bold;" matLine (click)="selectSeason(season)">{{season.season}}</h1></a>
-        </mat-list-item>
-        </mat-list>
-    </div>
-</div>
+<p class="normalCentered">
+    <img src="/assets/images/video.gif" width="20%" *ngIf="!isMobile">
+    <img src="/assets/images/video.gif" width="90%" *ngIf="isMobile">
+</p>
+
+<div *ngFor="let game of games">
+    <p class="normalCentered" *ngIf="game.round != 0">
+        Saison {{game.season}}: Runde {{game.round}} ({{game.date}})
+    </p>
+    <p class="normalCentered">
+        {{game.description}} ({{game.date}})
+    </p>
     
-<div *ngFor="let season of seasons">
-    <div *ngIf="selectedSeason == season">
+    <p class="normalCentered" *ngIf="game.customText">
+        {{game.customText}}
+    </p>
 
-        <p class="large">
-            {{season.season}}
-        </p>
+    <br>
+    
+    <div class="container"
+        fxLayout="column"
+        fxLayoutGap="10px">
 
-        <div *ngFor="let game of season.games">
-            <p class="normal" *ngIf="game.round != 0">
-                Runde {{game.round}}
-            </p>
-            <p class="normal">
-                {{game.description}}
-            </p>
-            <p class="normal">
-                {{game.date}}
-            </p>
-            <p class="normal" *ngIf="game.customText">
-                {{game.customText}}
-            </p>
-            
-            <div *ngFor="let link of game.links">
-                <mat-list>
-                    <div *ngFor="let player of players">
-                        <mat-list-item *ngIf="player.lastName == link.scorer" style="height: 400px;">
-                            <p class="small">
-                                <img matListAvatar class='img-preview' src="{{imageBaseUrl + player.imagePath}}" alt="{{player.firstName}} {{player.lastName}}" style="width: 90px; height: 110px;">
-                                <!-- <a href="{{link.link}}" target="_blank"></a>   -->
-                                {{link.description}} {{link.scorer}}
-                                <br><br>
+        <div *ngFor="let link of game.links">
+            <mat-list>
+                <div *ngFor="let player of players">
+                    <mat-list-item *ngIf="player.lastName == link.scorer" [ngStyle]="{'height': isMobile ? '600px' : '500px' }">
+                        <div fxFlex>
+                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="center center">
+                                <div fxFlex="15" fxFlexOffset="10px">
+
+                                    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="center center">
+                                        <div fxFlex="50" fxFlexOffset="10px">
+                                            <img class="imageSmallCenter" matListAvatar class='img-preview' src="{{imageBaseUrl + player.imagePath}}" alt="{{player.firstName}} {{player.lastName}}" style="width: 80px; height: 130px;">
+                                        </div>
+                                        <div fxFlex="50" fxFlexOffset="10px">
+                                            <p class="smallCentered">
+                                                {{link.description}} {{link.scorer}}
+                                            </p>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            
+                                <div fxFlex="50" fxFlexOffset="25px" fxLayoutAlign="center center" *ngIf="isMobile">
+                                    <iframe width="224px" height="128px" [src]="link.link | safe" frameborder="0" allowfullscreen></iframe>
+                                </div>
+
+                                <div fxFlex="50" fxFlexOffset="25px" fxLayoutAlign="center center" *ngIf="!isMobile">
+                                    <iframe width="560px" height="315px" [src]="link.link | safe" frameborder="0" allowfullscreen></iframe>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- <a href="{{link.link}}" target="_blank"></a>   -->
+                        
+                        <!-- https://www.youtube.com/embed/1ozGKlOzEVc -->
+                    </mat-list-item>
+                </div>
+
+                <mat-list-item *ngIf="link.scorer == 'Eigentor'"[ngStyle]="{'height': isMobile ? '600px' : '500px' }">
+                    <div fxFlex>
+                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="center center">
+                            <div fxFlex="15" fxFlexOffset="10px">
+
+                                <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="center center">
+                                    <div fxFlex="50" fxFlexOffset="10px">
+                                        <img matListAvatar class='img-preview' src="{{imageBaseUrl + 'team/no_photo.jpg'}}" alt="{{link.scorer}}" style="width: 80; height: 130px;">
+                                    </div>
+                                    <div fxFlex="50" fxFlexOffset="10px">
+                                        <p class="smallCentered">
+                                            {{link.description}} {{link.scorer}}
+                                        </p>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        
+                            <div fxFlex="50" fxFlexOffset="25px" fxLayoutAlign="center center" *ngIf="isMobile">
+                                <iframe width="224px" height="128px" [src]="link.link | safe" frameborder="0" allowfullscreen></iframe>
+                            </div>
+
+                            <div fxFlex="50" fxFlexOffset="25px" fxLayoutAlign="center center" *ngIf="!isMobile">
                                 <iframe width="560px" height="315px" [src]="link.link | safe" frameborder="0" allowfullscreen></iframe>
-                                <!-- https://www.youtube.com/embed/1ozGKlOzEVc -->
-                            </p> 
-                        </mat-list-item>
+                            </div>
+
+                        </div>
                     </div>
 
-                    <mat-list-item *ngIf="link.scorer == 'Eigentor'" style="height: 400px;">
-                        <p class="small">
-                            <img matListAvatar class='img-preview' src="{{imageBaseUrl + 'team/no_photo.jpg'}}" alt="{{link.scorer}}" style="width: 90; height: 110px;">
-                            {{link.description}} {{link.scorer}}
-                            <br><br>
-                            <iframe width="560px" height="315px" [src]="link.link | safe" frameborder="0" allowfullscreen></iframe>
-                        </p>
-                    </mat-list-item>
+                    <br><br>
+                </mat-list-item>
 
-                    <mat-list-item *ngIf="link.scorer == ''" style="height: 400px;">
-                        <p class="small">
-                            {{link.description}}
-                            <br><br>
-                            <iframe width="560px" height="315px" [src]="link.link | safe" frameborder="0" allowfullscreen></iframe>
-                        </p>
-                    </mat-list-item>
+                <mat-list-item *ngIf="link.scorer == ''" [ngStyle]="{'height': isMobile ? '600px' : '500px' }">
+                    <div fxFlex>
+                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="center center">
+                            <div fxFlex="15" fxFlexOffset="25px">
+                                {{link.description}}
+                            </div>
 
-                </mat-list>                    
-            </div>
+                            <div fxFlex="50" fxFlexOffset="25px" fxLayoutAlign="center center" *ngIf="isMobile">
+                                <iframe width="224px" height="128px" [src]="link.link | safe" frameborder="0" allowfullscreen></iframe>
+                            </div>
 
+                            <div fxFlex="50" fxFlexOffset="25px" fxLayoutAlign="center center" *ngIf="!isMobile">
+                                <iframe width="560px" height="315px" [src]="link.link | safe" frameborder="0" allowfullscreen></iframe>
+                            </div>
+                        </div>
+                    </div>
 
+                    <br><br>
+                </mat-list-item>
+
+            </mat-list>                    
         </div>
-        
-        <br>
-
-        <button style="margin-left: 15px; font-size: 20px" mat-button class="background-primary" (click)="back()">Zurück zur Übersicht</button>
 
     </div>
 </div>
