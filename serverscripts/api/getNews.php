@@ -29,6 +29,7 @@
                 'newsDate'=> mb_convert_encoding($res["newsDate"], 'UTF8'),
                 'title'=> mb_convert_encoding($res["title"], 'UTF8'),
                 'news'=> mb_convert_encoding($res["news"], 'UTF8'),
+                'htmlNews'=> mb_convert_encoding($res["htmlNews"], 'UTF8'),
                 'imagePath'=> mb_convert_encoding($res["imagePath"], 'UTF8')));
         }
         

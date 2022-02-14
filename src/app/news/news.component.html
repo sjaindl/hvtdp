@@ -17,10 +17,12 @@
         <img class="center" style="width: 50vw;" src="{{imageBaseUrl + newsItem.imagePath}}" alt= "{{newsItem.title}}">
 
         <br>
-        <p style="white-space: pre-line;">
+
+        <p style="white-space: pre-line;" *ngIf="newsItem.news">
             {{newsItem.news}}
         </p>
-    
+        
+        <div style="white-space: pre-line;" [innerHTML]="formatMessage(newsItem.htmlNews)" *ngIf="newsItem.htmlNews"></div>
     </mat-expansion-panel>
 </span>
 

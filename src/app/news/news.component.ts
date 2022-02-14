@@ -4,7 +4,7 @@ import { PageEvent } from '@angular/material/paginator'
 import { baseUrlImages } from '../shared/baseurls'
 import { MysqlService } from '../services/mysql.service'
 import { ActivatedRoute } from '@angular/router'
-import { Title, Meta } from '@angular/platform-browser'
+import { Title, Meta, DomSanitizer } from '@angular/platform-browser'
 
 @Component({
   selector: 'app-news',
@@ -15,7 +15,7 @@ export class NewsComponent implements OnInit {
 
   news: News[]
   selectedNews: News
-  
+  // test: string = 'XXX <p>Unser <span style=\"font-family:Comic Sans MS,cursive\">Meisterfeier</span> gestern hat eine <strong>perfekte</strong> Saison abgeschlossen!</p>\r\n\r\n<p><span style=\"font-size:48px\">Danke an alle Spieler, Fans, <h1> Sponsoren </h1> und Helfer f&uuml;r die <sup>Unterst&uuml;tzung</sup> <sub>und</sub> perfekte <em>Saison</em>! :)</span></p>\r\n\r\n<hr />\r\n<p><span style=\"font-size:16px\"><span style=\"color:#8e44ad\">test</span></span></p>\r\n'
   imageBaseUrl: String
 
   length: number
@@ -30,7 +30,7 @@ export class NewsComponent implements OnInit {
   private sub: any
   initialOpen = true
 
-  constructor(private mysqlService: MysqlService, private route: ActivatedRoute, private titleService: Title, private metaTagService: Meta) { }
+  constructor(private mysqlService: MysqlService, private route: ActivatedRoute, private titleService: Title, private metaTagService: Meta, private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
     this.imageBaseUrl = baseUrlImages
@@ -56,6 +56,10 @@ export class NewsComponent implements OnInit {
 
   ngOnDestroy() {
     this.sub.unsubscribe()
+  }
+
+  formatMessage(message) {
+    return this.sanitizer.bypassSecurityTrustHtml(message);
   }
 
   readRouteParams() {
