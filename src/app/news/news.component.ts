@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { News } from '../shared/news'
 import { PageEvent } from '@angular/material/paginator'
+import { DeviceDetectorService } from '../../../node_modules/ngx-device-detector'
 import { baseUrlImages } from '../shared/baseurls'
 import { MysqlService } from '../services/mysql.service'
 import { ActivatedRoute } from '@angular/router'
@@ -29,8 +30,9 @@ export class NewsComponent implements OnInit {
   newsId: number
   private sub: any
   initialOpen = true
+  isMobile = null
 
-  constructor(private mysqlService: MysqlService, private route: ActivatedRoute, private titleService: Title, private metaTagService: Meta, private sanitizer: DomSanitizer) { }
+  constructor(private mysqlService: MysqlService, private route: ActivatedRoute, private titleService: Title, private metaTagService: Meta, private sanitizer: DomSanitizer, private deviceService: DeviceDetectorService) { }
 
   ngOnInit() {
     this.imageBaseUrl = baseUrlImages
@@ -52,6 +54,12 @@ export class NewsComponent implements OnInit {
       { name: 'author', content: 'Stefan Jaindl' },
       { charset: 'UTF-8' }
     ])
+
+    this.checkDevice()
+  }
+
+  checkDevice() {
+    this.isMobile = this.deviceService.isMobile()
   }
 
   ngOnDestroy() {
