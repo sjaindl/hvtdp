@@ -11,7 +11,8 @@
 
 <div *ngFor="let album of albums">
     <p class="normalCentered" *ngIf="!selectedAlbum" style="color: hotpink;">
-        <a (click)="selectAlbum(album)">Saison {{album.season}}: {{album.name}} ({{album.date}})</a>
+        <!-- <a (click)="selectAlbum(album)">Saison {{album.season}}: {{album.name}} ({{album.date}})</a> -->
+        <a (click)="selectAlbum(album)">{{album.date}} / {{album.name}}</a>
     </p>
     
     <p class="normalCentered" *ngIf="!selectedAlbum">
@@ -23,7 +24,8 @@
 
     <span *ngIf="album == selectedAlbum">
         <p class="normalCentered">
-            Saison {{album.season}}: {{album.name}} ({{album.date}})
+            <!-- Saison {{album.season}}: {{album.name}} ({{album.date}}) -->
+            {{album.date}} / {{album.name}}
         </p>
 
         <ngu-carousel *ngIf="carouselItems && !isMobile" #myCarousel [inputs]="carouselConfig" [dataSource]="carouselItems" style="margin: auto; padding: 100px;">
