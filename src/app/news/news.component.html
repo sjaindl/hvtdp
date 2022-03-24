@@ -14,8 +14,8 @@
         </mat-expansion-panel-header>
 
         <br>
-        <img class="center" style="height: 50vh;" src="{{imageBaseUrl + newsItem.imagePath}}" alt= "{{newsItem.title}}" *ngIf="!isMobile">
-        <img class="center" style="width: 50vw;" src="{{imageBaseUrl + newsItem.imagePath}}" alt= "{{newsItem.title}}" *ngIf="isMobile">
+        <img class="centerWithoutWidth" height="500vh" src="{{imageBaseUrl + newsItem.imagePath}}" alt= "{{newsItem.title}}" *ngIf="!isMobile">
+        <img class="center" width="500vw" src="{{imageBaseUrl + newsItem.imagePath}}" alt= "{{newsItem.title}}" *ngIf="isMobile">
 
         <br>
 
