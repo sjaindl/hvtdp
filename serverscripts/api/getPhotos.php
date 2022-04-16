@@ -1,6 +1,6 @@
 <?php require 'constants.php';
 
-    header('Content-Type: application/json; charset=utf-8');
+    header('Content-Type: application/json; charset=utf8mb4');
     header("Access-Control-Allow-Origin: *");
     header("Access-Control-Allow-Headers: Content-Type");
     header("Access-Control-Allow-Methods: GET");
@@ -15,12 +15,14 @@
             exit();
         }
 
+        $con->set_charset("utf8mb4");
+
         $fetchSeasons = mysqli_query($con, "SELECT * FROM AlbumSeason order by season DESC") or die(mysqli_error($con));
         
         $albums_array = array();
 
         while ($row_seasons = mysqli_fetch_assoc($fetchSeasons)) {
-            $season = utf8_encode($row_seasons['season']);
+            $season = $row_seasons['season'];
             
             $fetch_albums = mysqli_query($con, "SELECT name, date, albumId
                 FROM Album a where a.season = '$season' order by date DESC") or die(mysqli_error($con));
@@ -30,12 +32,13 @@
             $album_array = array();
 
             while ($row_album = mysqli_fetch_assoc($fetch_albums)) {
-                $albumId = utf8_encode($row_album['albumId']);
+                $albumId = $row_album['albumId'];
 
-                $album_array['season'] = $season;
-                $album_array['name'] = utf8_encode($row_album['name']);
-                $album_array['date'] = utf8_encode($row_album['date']);
-                $album_array['albumId'] = $albumId;
+                
+                $album_array['season'] = mb_convert_encoding($season, 'UTF8');
+                $album_array['name'] = mb_convert_encoding($row_album["name"], 'UTF8');
+                $album_array['date'] = mb_convert_encoding($row_album["date"], 'UTF8');
+                $album_array['albumId'] = mb_convert_encoding($albumId, 'UTF8');
                 $album_array['photos'] = array();
                 
                 $fetch_photos = mysqli_query($con, "SELECT description, imagePath
@@ -44,8 +47,8 @@
                 $photo_array = array();
                 
                 while ($row_photos = mysqli_fetch_assoc($fetch_photos)) {
-                    $photo_array['description'] = utf8_encode($row_photos['description']);
-                    $photo_array['imagePath'] = utf8_encode($row_photos['imagePath']);
+                    $photo_array['description'] = mb_convert_encoding($row_photos['description'], 'UTF8');
+                    $photo_array['imagePath'] = mb_convert_encoding($row_photos['imagePath'], 'UTF8');
 
                     array_push($album_array['photos'], $photo_array);
                 }
@@ -58,7 +61,7 @@
          mysqli_close ($con);
 
         //print_r($seasons_array);
-        $json = json_encode($albums_array, JSON_PRETTY_PRINT);
+        $json = json_encode($albums_array, JSON_UNESCAPED_UNICODE);
 
         if ($json === false) {
             // Avoid echo of empty string (which is invalid JSON), and
