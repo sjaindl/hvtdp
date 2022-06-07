@@ -74,6 +74,12 @@ a:active {
     width: 500px;
 }
 
+.listImageMobile {
+    float: left; 
+    margin-bottom: 200px;
+    width: 500px;
+}
+
 .mat-list .mat-list-item .mat-list-text>*, .mat-list .mat-list-option .mat-list-text.hover>*, .mat-nav-list .mat-list-item .mat-list-text>*, .mat-nav-list .mat-list-option .mat-list-text>*, .mat-selection-list .mat-list-item .mat-list-text>*, .mat-selection-list .mat-list-option .mat-list-text>* {
     color: whitesmoke; 
 }

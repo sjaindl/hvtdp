@@ -48,13 +48,7 @@ export class ChampionshipComponent implements OnInit {
       this.players = players.filter((player) => {
         return player.goals > 0
       }).sort((a, b) => {
-        if (a.goals < b.goals) {
-          return 1
-        } else if (a.goals > b.goals) {
-          return -1
-        } else {
-          return 0
-        }
+        return b.goals - a.goals
       })
 
       this.players.forEach((player) => {
