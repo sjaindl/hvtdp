@@ -88,10 +88,10 @@ a:active {
     height: 200px;
     width: 115px;
 }
-
+/* 
 .mat-list .mat-list-item {
     color: blue;
-}
+} */
 
 .mat-list .mat-list-item .mat-divider {
     border-top-color: rgba(194, 24, 91, 0.5);
