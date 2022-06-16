@@ -35,11 +35,47 @@
                     <mat-list-item *ngIf="player.lastName == link.scorer" [ngStyle]="{'height': isMobile ? '600px' : '500px' }">
                         <div fxFlex>
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="center center">
-                                <div fxFlex="15" fxFlexOffset="10px">
+                                <span class="bordered">
+                                    <div fxFlex="15" fxFlexOffset="10px" class="item-detail">
+                                        <div fxLayout="column" fxLayoutAlign="center center">
+                                            <div fxFlex="50" fxFlexOffset="10px">
+                                                <img class="imageSmallCenter" matListAvatar class='img-preview' src="{{imageBaseUrl + player.imagePath}}" alt="{{player.firstName}} {{player.lastName}}" style="width: 80px; height: 130px;">
+                                            </div>
+                                            <div fxFlex="50" fxFlexOffset="10px">
+                                                <p class="smallCentered">
+                                                    {{link.description}} {{link.scorer}}
+                                                </p>
+                                            </div>
+                                        </div>
 
-                                    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="center center">
+                                    </div>
+                                
+                                    <div fxFlex="50" fxFlexOffset="25px" fxLayoutAlign="center center" *ngIf="isMobile">
+                                        <iframe width="224px" height="128px" [src]="link.link | safe" frameborder="0" allowfullscreen></iframe>
+                                    </div>
+
+                                    <div fxFlex="50" fxFlexOffset="25px" fxLayoutAlign="center center" *ngIf="!isMobile">
+                                        <iframe width="560px" height="315px" [src]="link.link | safe" frameborder="0" allowfullscreen></iframe>
+                                    </div>
+
+                                </span>
+                            </div>
+                        </div>
+                        <!-- <a href="{{link.link}}" target="_blank"></a>   -->
+                        
+                        <!-- https://www.youtube.com/embed/1ozGKlOzEVc -->
+                    </mat-list-item>
+                </div>
+
+                <mat-list-item *ngIf="link.scorer == 'Eigentor'"[ngStyle]="{'height': isMobile ? '600px' : '500px' }" class="bordered">
+                    <div fxFlex>
+                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="center center">
+                            <span class="bordered">
+                                <div fxFlex="15" fxFlexOffset="10px" class="item-detail">
+
+                                    <div fxLayout="column" fxLayoutAlign="center center">
                                         <div fxFlex="50" fxFlexOffset="10px">
-                                            <img class="imageSmallCenter" matListAvatar class='img-preview' src="{{imageBaseUrl + player.imagePath}}" alt="{{player.firstName}} {{player.lastName}}" style="width: 80px; height: 130px;">
+                                            <img matListAvatar class='img-preview' src="{{imageBaseUrl + 'team/no_photo.jpg'}}" alt="{{link.scorer}}" style="width: 80; height: 130px;">
                                         </div>
                                         <div fxFlex="50" fxFlexOffset="10px">
                                             <p class="smallCentered">
@@ -58,41 +94,7 @@
                                 <div fxFlex="50" fxFlexOffset="25px" fxLayoutAlign="center center" *ngIf="!isMobile">
                                     <iframe width="560px" height="315px" [src]="link.link | safe" frameborder="0" allowfullscreen></iframe>
                                 </div>
-
-                            </div>
-                        </div>
-                        <!-- <a href="{{link.link}}" target="_blank"></a>   -->
-                        
-                        <!-- https://www.youtube.com/embed/1ozGKlOzEVc -->
-                    </mat-list-item>
-                </div>
-
-                <mat-list-item *ngIf="link.scorer == 'Eigentor'"[ngStyle]="{'height': isMobile ? '600px' : '500px' }">
-                    <div fxFlex>
-                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="center center">
-                            <div fxFlex="15" fxFlexOffset="10px">
-
-                                <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="center center">
-                                    <div fxFlex="50" fxFlexOffset="10px">
-                                        <img matListAvatar class='img-preview' src="{{imageBaseUrl + 'team/no_photo.jpg'}}" alt="{{link.scorer}}" style="width: 80; height: 130px;">
-                                    </div>
-                                    <div fxFlex="50" fxFlexOffset="10px">
-                                        <p class="smallCentered">
-                                            {{link.description}} {{link.scorer}}
-                                        </p>
-                                    </div>
-                                </div>
-
-
-                            </div>
-                        
-                            <div fxFlex="50" fxFlexOffset="25px" fxLayoutAlign="center center" *ngIf="isMobile">
-                                <iframe width="224px" height="128px" [src]="link.link | safe" frameborder="0" allowfullscreen></iframe>
-                            </div>
-
-                            <div fxFlex="50" fxFlexOffset="25px" fxLayoutAlign="center center" *ngIf="!isMobile">
-                                <iframe width="560px" height="315px" [src]="link.link | safe" frameborder="0" allowfullscreen></iframe>
-                            </div>
+                            </span>
 
                         </div>
                     </div>
@@ -100,20 +102,22 @@
                     <br><br>
                 </mat-list-item>
 
-                <mat-list-item *ngIf="link.scorer == ''" [ngStyle]="{'height': isMobile ? '600px' : '500px' }">
+                <mat-list-item *ngIf="link.scorer == ''" [ngStyle]="{'height': isMobile ? '600px' : '500px' }" class="bordered">
                     <div fxFlex>
-                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="center center">
-                            <div fxFlex="15" fxFlexOffset="25px">
-                                {{link.description}}
-                            </div>
+                        <div fxLayout="column" fxLayoutAlign="center center">
+                            <span class="bordered">
+                                <div fxFlex="15" fxFlexOffset="25px" class="item-detail">
+                                    {{link.description}}
+                                </div>
 
-                            <div fxFlex="50" fxFlexOffset="25px" fxLayoutAlign="center center" *ngIf="isMobile">
-                                <iframe width="224px" height="128px" [src]="link.link | safe" frameborder="0" allowfullscreen></iframe>
-                            </div>
+                                <div fxFlex="50" fxFlexOffset="25px" fxLayoutAlign="center center" *ngIf="isMobile">
+                                    <iframe width="224px" height="128px" [src]="link.link | safe" frameborder="0" allowfullscreen></iframe>
+                                </div>
 
-                            <div fxFlex="50" fxFlexOffset="25px" fxLayoutAlign="center center" *ngIf="!isMobile">
-                                <iframe width="560px" height="315px" [src]="link.link | safe" frameborder="0" allowfullscreen></iframe>
-                            </div>
+                                <div fxFlex="50" fxFlexOffset="25px" fxLayoutAlign="center center" *ngIf="!isMobile">
+                                    <iframe width="560px" height="315px" [src]="link.link | safe" frameborder="0" allowfullscreen></iframe>
+                                </div>
+                            </span>
                         </div>
                     </div>
 

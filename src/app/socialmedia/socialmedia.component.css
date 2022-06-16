@@ -1,4 +1,4 @@
 /* override link color */
-.mat-list .mat-list-item {
+.mat-list .mat-list-item .item-detail {
     color: hotpink;
 }
