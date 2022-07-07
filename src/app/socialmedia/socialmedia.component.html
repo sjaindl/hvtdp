@@ -32,7 +32,7 @@
         <div *ngFor="let link of game.links">
             <mat-list>
                 <div *ngFor="let player of players">
-                    <mat-list-item *ngIf="player.lastName == link.scorer" [ngStyle]="{'height': isMobile ? '600px' : '500px' }">
+                    <mat-list-item *ngIf="matches(link.scorer, player)" [ngStyle]="{'height': isMobile ? '600px' : '500px' }">
                         <div fxFlex>
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="center center">
                                 <span class="bordered">

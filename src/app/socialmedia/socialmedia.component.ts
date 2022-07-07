@@ -60,4 +60,12 @@ export class SocialmediaComponent implements OnInit {
     if(this.isMobile) return '600px' 
     return '400px'
   }
+
+  matches(name: string, player: Player) {
+    if (name.includes(" ")) {
+        return (player.lastName + ' ' + player.firstName) == name
+    }
+
+    return player.lastName == name
+  }
 }
