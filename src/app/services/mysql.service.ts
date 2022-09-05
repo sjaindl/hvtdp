@@ -7,7 +7,7 @@ import { Donation } from '../shared/donations';
 import { Item } from '../shared/items';
 import { News } from '../shared/news';
 import { Games } from '../shared/games';
-import { Albums } from '../shared/photos';
+import { Album } from '../shared/photos';
 import { HvtdpDocument } from '../shared/document';
 import { Ticker } from '../shared/ticker';
 import { Survey } from '../shared/survey';
@@ -54,8 +54,8 @@ export class MysqlService {
     return this.http.get<Games[]>('https://www.hvtdpstainz.at/api/getGames.php')
   }
 
-  public getPhotos(): Observable<Albums[]> {
-    return this.http.get<Albums[]>('https://www.hvtdpstainz.at/api/getPhotos.php')
+  public getPhotos(): Observable<Album[]> {
+    return this.http.get<Album[]>('https://www.hvtdpstainz.at/api/getPhotos.php')
   }
 
   public getDocuments(): Observable<HvtdpDocument[]> {

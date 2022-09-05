@@ -30,7 +30,7 @@ export class ChampionshipComponent implements OnInit {
 
   scorers: Scorer[]
 
-  season: String
+  season: string
 
   private sub: any
 

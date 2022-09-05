@@ -10,11 +10,19 @@
       
       <button mat-menu-item [matMenuTriggerFor]="championship"><span class="fa fa-bookmark fa-sm"></span> Meisterschaft</button>
       <mat-menu #championship="matMenu">
+        <button mat-menu-item routerLink="/championship/2022-2023">Saison 2022/2023</button>
           <button mat-menu-item routerLink="/championship/2021-2022">Saison 2021/2022</button>
-          <button mat-menu-item routerLink="/championship/2022-2023">Saison 2022/2023</button>
       </mat-menu>
 
-      <button mat-menu-item routerLink="/gallery" routerLinkActive="active"><span class="fa fa-camera fa-sm"></span> Galerie</button>
+      <button mat-menu-item [matMenuTriggerFor]="gallery"><span class="fa fa-camera fa-sm"></span> Galerie</button>
+      <mat-menu #gallery="matMenu">
+          <button mat-menu-item routerLink="/gallery/2022">2022</button>
+          <button mat-menu-item routerLink="/gallery/2021">2021</button>
+          <button mat-menu-item routerLink="/gallery/2019">2019</button>
+          <button mat-menu-item routerLink="/gallery/2018">2018</button>
+          <button mat-menu-item routerLink="/gallery/2015">2015</button>
+      </mat-menu>
+
       <button mat-menu-item routerLink="/social" routerLinkActive="active"><span class="fa fa-video fa-sm"></span> Videos</button>
       <button mat-menu-item routerLink="/donation" routerLinkActive="active"><span class="fa fa-futbol fa-sm"></span> Matchballspende</button>
       <button mat-menu-item routerLink="/about" routerLinkActive="active"><span class="fa fa-info fa-sm"></span> Über uns</button>
@@ -38,11 +46,19 @@
       
       <button mat-menu-item [matMenuTriggerFor]="championship"><span class="fa fa-bookmark fa-sm"></span> Meisterschaft</button>
       <mat-menu #championship="matMenu">
+        <button mat-menu-item routerLink="/championship/2022-2023">Saison 2022/2023</button>
           <button mat-menu-item routerLink="/championship/2021-2022">Saison 2021/2022</button>
-          <button mat-menu-item routerLink="/championship/2022-2023">Saison 2022/2023</button>
       </mat-menu>
 
-      <button mat-menu-item routerLink="/gallery" routerLinkActive="active"><span class="fa fa-camera fa-sm"></span> Galerie</button>
+      <button mat-menu-item [matMenuTriggerFor]="gallery"><span class="fa fa-camera fa-sm"></span> Galerie</button>
+      <mat-menu #gallery="matMenu">
+          <button mat-menu-item routerLink="/gallery/2022">2022</button>
+          <button mat-menu-item routerLink="/gallery/2021">2021</button>
+          <button mat-menu-item routerLink="/gallery/2019">2019</button>
+          <button mat-menu-item routerLink="/gallery/2018">2018</button>
+          <button mat-menu-item routerLink="/gallery/2015">2015</button>
+      </mat-menu>
+
       <button mat-menu-item routerLink="/social" routerLinkActive="active"><span class="fa fa-video fa-sm"></span> Videos</button>
       <button mat-menu-item routerLink="/donation" routerLinkActive="active"><span class="fa fa-futbol fa-sm"></span> Matchballspende</button>
       <button mat-menu-item routerLink="/about" routerLinkActive="active"><span class="fa fa-info fa-sm"></span> Über uns</button>

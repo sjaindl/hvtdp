@@ -19,10 +19,10 @@
         $q = mysqli_query($con, $sql);
         
         $standings = array();
-
+        
         while ($res = mysqli_fetch_array($q))
         {
-            array_push($standings,array(
+            array_push($standings, array(
                 'place'=> $res["place"],
                 'team'=> $res["team"],
                 'games'=> $res["games"],

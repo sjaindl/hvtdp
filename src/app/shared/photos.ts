@@ -9,7 +9,3 @@ export class Album {
     date: Date
     photos: Photo[]
 }
-
-export class Albums {
-    albums: Album[]
-}

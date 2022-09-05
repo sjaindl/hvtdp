@@ -33,7 +33,6 @@
 
             while ($row_album = mysqli_fetch_assoc($fetch_albums)) {
                 $albumId = $row_album['albumId'];
-
                 
                 $album_array['season'] = mb_convert_encoding($season, 'UTF8');
                 $album_array['name'] = mb_convert_encoding($row_album["name"], 'UTF8');
