@@ -1,12 +1,20 @@
-  .absolute-sidenav {
-    position: absolute;
-    top: 1;
-    left: 0;
-    width: 165px;
-    height: 100%;
-    z-index: 10;
-    background-color: rgba(0,0,0,0.0);
-  }
+.absolute-sidenav {
+  position: absolute;
+  top: 1;
+  left: 0;
+  width: 165px;
+  height: 100%;
+  z-index: 10;
+  background-color: rgba(0,0,0,0.0);
+}
+
+button.mat-menu-item {
+  width: auto;
+}
+
+.mat-toolbar-row {
+  padding-left: 0;
+}
   
 /* Links */
   
