@@ -35,11 +35,11 @@ export class GalleryComponent implements OnInit {
   carouselItems: Photo[]
   
   constructor(
-    private mysqlService: MysqlService, 
-    private route: ActivatedRoute, 
-    private cdr: ChangeDetectorRef, 
-    private deviceService: DeviceDetectorService, 
-    private titleService: Title, 
+    private mysqlService: MysqlService,
+    private route: ActivatedRoute,
+    private cdr: ChangeDetectorRef,
+    private deviceService: DeviceDetectorService,
+    private titleService: Title,
     private metaTagService: Meta
     ) { }
 
@@ -51,7 +51,6 @@ export class GalleryComponent implements OnInit {
       this.season = params['season']
       this.mysqlService.getPhotos().subscribe(albums => {
         this.albums = albums.filter((album) => {
-          console.log(album.season)
           return album.season == this.season
         })
       })

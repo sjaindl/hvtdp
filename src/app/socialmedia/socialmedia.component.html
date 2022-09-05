@@ -67,62 +67,66 @@
                     </mat-list-item>
                 </div>
 
-                <mat-list-item *ngIf="link.scorer == 'Eigentor'"[ngStyle]="{'height': isMobile ? '600px' : '500px' }" class="bordered">
-                    <div fxFlex>
-                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="center center">
-                            <span class="bordered">
-                                <div fxFlex="15" fxFlexOffset="10px" class="item-detail">
+                <div>
+                    <mat-list-item *ngIf="link.scorer == 'Eigentor'"[ngStyle]="{'height': isMobile ? '600px' : '500px' }">
+                        <div fxFlex>
+                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="center center">
+                                <span class="bordered">
+                                    <div fxFlex="15" fxFlexOffset="10px" class="item-detail">
 
-                                    <div fxLayout="column" fxLayoutAlign="center center">
-                                        <div fxFlex="50" fxFlexOffset="10px">
-                                            <img matListAvatar class='img-preview' src="{{imageBaseUrl + 'team/no_photo.jpg'}}" alt="{{link.scorer}}" style="width: 80; height: 130px;">
+                                        <div fxLayout="column" fxLayoutAlign="center center">
+                                            <div fxFlex="50" fxFlexOffset="10px">
+                                                <img matListAvatar class='img-preview' src="{{imageBaseUrl + 'team/no_photo.jpg'}}" alt="{{link.scorer}}" style="width: 80; height: 130px;">
+                                            </div>
+                                            <div fxFlex="50" fxFlexOffset="10px">
+                                                <p class="smallCentered">
+                                                    {{link.description}} {{link.scorer}}
+                                                </p>
+                                            </div>
                                         </div>
-                                        <div fxFlex="50" fxFlexOffset="10px">
-                                            <p class="smallCentered">
-                                                {{link.description}} {{link.scorer}}
-                                            </p>
-                                        </div>
+
+
+                                    </div>
+                                
+                                    <div fxFlex="50" fxFlexOffset="25px" fxLayoutAlign="center center" *ngIf="isMobile">
+                                        <iframe width="224px" height="128px" [src]="link.link | safe" frameborder="0" allowfullscreen></iframe>
                                     </div>
 
+                                    <div fxFlex="50" fxFlexOffset="25px" fxLayoutAlign="center center" *ngIf="!isMobile">
+                                        <iframe width="560px" height="315px" [src]="link.link | safe" frameborder="0" allowfullscreen></iframe>
+                                    </div>
+                                </span>
 
-                                </div>
-                            
-                                <div fxFlex="50" fxFlexOffset="25px" fxLayoutAlign="center center" *ngIf="isMobile">
-                                    <iframe width="224px" height="128px" [src]="link.link | safe" frameborder="0" allowfullscreen></iframe>
-                                </div>
-
-                                <div fxFlex="50" fxFlexOffset="25px" fxLayoutAlign="center center" *ngIf="!isMobile">
-                                    <iframe width="560px" height="315px" [src]="link.link | safe" frameborder="0" allowfullscreen></iframe>
-                                </div>
-                            </span>
-
+                            </div>
                         </div>
-                    </div>
 
-                    <br><br>
-                </mat-list-item>
+                        <br><br>
+                    </mat-list-item>
+                </div>
+                
+                <div>
+                    <mat-list-item *ngIf="link.scorer == ''" [ngStyle]="{'height': isMobile ? '600px' : '500px' }">
+                        <div fxFlex>
+                            <div fxLayout="column" fxLayoutAlign="center center">
+                                <span class="bordered">
+                                    <div fxFlex="15" fxFlexOffset="25px" class="item-detail">
+                                        {{link.description}}
+                                    </div>
 
-                <mat-list-item *ngIf="link.scorer == ''" [ngStyle]="{'height': isMobile ? '600px' : '500px' }" class="bordered">
-                    <div fxFlex>
-                        <div fxLayout="column" fxLayoutAlign="center center">
-                            <span class="bordered">
-                                <div fxFlex="15" fxFlexOffset="25px" class="item-detail">
-                                    {{link.description}}
-                                </div>
+                                    <div fxFlex="50" fxFlexOffset="25px" fxLayoutAlign="center center" *ngIf="isMobile">
+                                        <iframe width="224px" height="128px" [src]="link.link | safe" frameborder="0" allowfullscreen></iframe>
+                                    </div>
 
-                                <div fxFlex="50" fxFlexOffset="25px" fxLayoutAlign="center center" *ngIf="isMobile">
-                                    <iframe width="224px" height="128px" [src]="link.link | safe" frameborder="0" allowfullscreen></iframe>
-                                </div>
-
-                                <div fxFlex="50" fxFlexOffset="25px" fxLayoutAlign="center center" *ngIf="!isMobile">
-                                    <iframe width="560px" height="315px" [src]="link.link | safe" frameborder="0" allowfullscreen></iframe>
-                                </div>
-                            </span>
+                                    <div fxFlex="50" fxFlexOffset="25px" fxLayoutAlign="center center" *ngIf="!isMobile">
+                                        <iframe width="560px" height="315px" [src]="link.link | safe" frameborder="0" allowfullscreen></iframe>
+                                    </div>
+                                </span>
+                            </div>
                         </div>
-                    </div>
 
-                    <br><br>
-                </mat-list-item>
+                        <br><br>
+                    </mat-list-item>
+                </div>
 
             </mat-list>                    
         </div>

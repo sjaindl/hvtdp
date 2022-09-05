@@ -28,7 +28,7 @@ export const routes : Routes = [
     {path: "team", component: TeamComponent},
     {path: "championship/:season", component: ChampionshipComponent},
     {path: "gallery/:season", component: GalleryComponent},
-    {path: "social", component: SocialmediaComponent},
+    {path: "social/:season", component: SocialmediaComponent},
     {path: "donation", component: DonationsComponent},
     {path: "about", component: AboutComponent},
     {path: "contact", component: ContactComponent},

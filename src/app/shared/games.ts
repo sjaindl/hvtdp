@@ -12,7 +12,3 @@ export class Game {
     links: Link[]
     customText: string
 }
-
-export class Games {
-    games: Game[]
-}

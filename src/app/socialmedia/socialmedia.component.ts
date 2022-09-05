@@ -1,10 +1,11 @@
 import { Component, OnInit, ChangeDetectorRef, HostListener } from '@angular/core'
-import { Games } from '../shared/games'
+import { Game } from '../shared/games'
 import { Player } from '../shared/player'
 import { baseUrlImages } from '../shared/baseurls'
 import { MysqlService } from '../services/mysql.service'
 import { DeviceDetectorService } from 'ngx-device-detector'
 import { Title, Meta } from '@angular/platform-browser'
+import { ActivatedRoute } from '@angular/router'
 
 @Component({
   selector: 'app-socialmedia',
@@ -13,22 +14,37 @@ import { Title, Meta } from '@angular/platform-browser'
 })
 export class SocialmediaComponent implements OnInit {
 
-  games: Games[]
+  games: Game[]
+  season: string
   players: Player[]
   imageBaseUrl: String
   isMobile = null
 
-  constructor(private mysqlService: MysqlService, private cdr: ChangeDetectorRef, private deviceService: DeviceDetectorService, private titleService: Title, private metaTagService: Meta) { }
+  private sub: any
+
+  constructor(
+    private mysqlService: MysqlService,
+    private route: ActivatedRoute,
+    private cdr: ChangeDetectorRef,
+    private deviceService: DeviceDetectorService,
+    private titleService: Title,
+    private metaTagService: Meta) { }
 
   ngOnInit() {
     this.imageBaseUrl = baseUrlImages
 
-    this.mysqlService.getGames().subscribe(games => {
-      this.games = games
-    })
+    this.sub = this.route.params.subscribe(params => {
+      this.season = params['season']
 
-    this.mysqlService.getPlayers().subscribe(players => {
-      this.players = players
+      this.mysqlService.getGames().subscribe(games => {
+        this.games = games.filter((game) => {
+          return game.season == this.season
+        })
+      })
+
+      this.mysqlService.getPlayers().subscribe(players => {
+        this.players = players
+      })
     })
 
     this.titleService.setTitle("HV TDP Stainz: Videos")
@@ -45,6 +61,10 @@ export class SocialmediaComponent implements OnInit {
 
   ngAfterViewInit() {
     this.cdr.detectChanges()
+  }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe()
   }
 
   @HostListener('window:resize', ['$event'])

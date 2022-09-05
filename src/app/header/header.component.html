@@ -23,7 +23,14 @@
           <button mat-menu-item routerLink="/gallery/2015">2015</button>
       </mat-menu>
 
-      <button mat-menu-item routerLink="/social" routerLinkActive="active"><span class="fa fa-video fa-sm"></span> Videos</button>
+      <button mat-menu-item [matMenuTriggerFor]="videos"><span class="fa fa-video fa-sm"></span> Videos</button>
+      <mat-menu #videos="matMenu">
+          <button mat-menu-item routerLink="/social/2022">Saison 2022</button>
+          <button mat-menu-item routerLink="/social/2021">Saison 2021</button>
+          <button mat-menu-item routerLink="/social/2018-2019">Saison 2018/2019</button>
+          <button mat-menu-item routerLink="/social/2017-2018">Saison 2017/2018</button>
+      </mat-menu>
+
       <button mat-menu-item routerLink="/donation" routerLinkActive="active"><span class="fa fa-futbol fa-sm"></span> Matchballspende</button>
       <button mat-menu-item routerLink="/about" routerLinkActive="active"><span class="fa fa-info fa-sm"></span> Über uns</button>
       <button mat-menu-item routerLink="/contact" routerLinkActive="active"><span class="fa fa-info fa-sm"></span> Kontakt</button>
@@ -59,7 +66,14 @@
           <button mat-menu-item routerLink="/gallery/2015">2015</button>
       </mat-menu>
 
-      <button mat-menu-item routerLink="/social" routerLinkActive="active"><span class="fa fa-video fa-sm"></span> Videos</button>
+      <button mat-menu-item [matMenuTriggerFor]="videos"><span class="fa fa-video fa-sm"></span> Videos</button>
+      <mat-menu #videos="matMenu">
+          <button mat-menu-item routerLink="/social/2022">Saison 2022</button>
+          <button mat-menu-item routerLink="/social/2021">Saison 2021</button>
+          <button mat-menu-item routerLink="/social/2018-2019">Saison 2018/2019</button>
+          <button mat-menu-item routerLink="/social/2017-2018">Saison 2017/2018</button>
+      </mat-menu>
+
       <button mat-menu-item routerLink="/donation" routerLinkActive="active"><span class="fa fa-futbol fa-sm"></span> Matchballspende</button>
       <button mat-menu-item routerLink="/about" routerLinkActive="active"><span class="fa fa-info fa-sm"></span> Über uns</button>
       <button mat-menu-item routerLink="/contact" routerLinkActive="active"><span class="fa fa-info fa-sm"></span> Kontakt</button>
