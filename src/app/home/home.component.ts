@@ -1,12 +1,15 @@
-import { Component, OnInit, HostListener, ViewChild, ChangeDetectorRef } from '@angular/core';
-import { News } from '../shared/news';
-import { DeviceDetectorService } from '../../../node_modules/ngx-device-detector';
-import { baseUrlImages } from '../shared/baseurls';
-import { MysqlService } from '../services/mysql.service';
-import { Ticker } from '../shared/ticker';
-import { Router } from '@angular/router';
-import { NguCarousel, NguCarouselConfig } from '@ngu/carousel';
+import { Component, OnInit, HostListener, ViewChild, ChangeDetectorRef } from '@angular/core'
+import { News } from '../shared/news'
+import { DeviceDetectorService } from '../../../node_modules/ngx-device-detector'
+import { baseUrlImages } from '../shared/baseurls'
+import { MysqlService } from '../services/mysql.service'
+import { Ticker } from '../shared/ticker'
+import { Router } from '@angular/router'
+import { NguCarousel, NguCarouselConfig } from '@ngu/carousel'
 import { Title, Meta } from '@angular/platform-browser'
+
+import { NgcCookieConsentService, NgcInitializeEvent, NgcStatusChangeEvent, NgcNoCookieLawEvent } from 'ngx-cookieconsent'
+import { Subscription } from 'rxjs'
 
 @Component({
   selector: 'app-home',
@@ -20,6 +23,14 @@ export class HomeComponent implements OnInit {
   tickerItems: Ticker[] = []
   isMobile = null
 
+  //keep refs to subscriptions to be able to unsubscribe later
+  // private popupOpenSubscription: Subscription
+  // private popupCloseSubscription: Subscription
+  // private initializeSubscription: Subscription
+  // private statusChangeSubscription: Subscription
+  // private revokeChoiceSubscription: Subscription
+  // private noCookieLawSubscription: Subscription
+
   @ViewChild('myCarousel') myCarousel: NguCarousel<any>;
   carouselConfig: NguCarouselConfig = {
     grid: { xs: 1, sm: 1, md: 1, lg: 1, all: 0 },
@@ -31,7 +42,15 @@ export class HomeComponent implements OnInit {
   }
   carouselItems: News[]
 
-  constructor(private deviceService: DeviceDetectorService, private mysqlService: MysqlService, public router: Router, private cdr: ChangeDetectorRef, private titleService: Title, private metaTagService: Meta) { 
+  constructor(
+    private deviceService: DeviceDetectorService,
+    private ccService: NgcCookieConsentService,
+    private mysqlService: MysqlService,
+    public router: Router,
+    private cdr: ChangeDetectorRef,
+    private titleService: Title,
+    private metaTagService: Meta
+  ) { 
     this.mysqlService.getNews().subscribe(news => {
       this.items = news
       this.carouselItems = news
@@ -66,10 +85,51 @@ export class HomeComponent implements OnInit {
       { name: 'author', content: 'Stefan Jaindl' },
       { charset: 'UTF-8' }
     ])
+
+    // // subscribe to cookieconsent observables to react to main events
+    // this.popupOpenSubscription = this.ccService.popupOpen$.subscribe(
+    //   () => {
+    //     // you can use this.ccService.getConfig() to do stuff...
+    //   })
+
+    // this.popupCloseSubscription = this.ccService.popupClose$.subscribe(
+    //   () => {
+    //     // you can use this.ccService.getConfig() to do stuff...
+    //   })
+
+    // this.initializeSubscription = this.ccService.initialize$.subscribe(
+    //   (event: NgcInitializeEvent) => {
+    //     // you can use this.ccService.getConfig() to do stuff...
+    //   })
+
+    // this.statusChangeSubscription = this.ccService.statusChange$.subscribe(
+    //   (event: NgcStatusChangeEvent) => {
+    //     // you can use this.ccService.getConfig() to do stuff...
+    //   })
+
+    // this.revokeChoiceSubscription = this.ccService.revokeChoice$.subscribe(
+    //   () => {
+    //     // you can use this.ccService.getConfig() to do stuff...
+    //   })
+
+    //   this.noCookieLawSubscription = this.ccService.noCookieLaw$.subscribe(
+    //   (event: NgcNoCookieLawEvent) => {
+    //     // you can use this.ccService.getConfig() to do stuff...
+    //   })
   }
 
   ngAfterViewInit() {
     this.cdr.detectChanges();
+  }
+
+  ngOnDestroy() {
+    // unsubscribe to cookieconsent observables to prevent memory leaks
+    // this.popupOpenSubscription.unsubscribe()
+    // this.popupCloseSubscription.unsubscribe()
+    // this.initializeSubscription.unsubscribe()
+    // this.statusChangeSubscription.unsubscribe()
+    // this.revokeChoiceSubscription.unsubscribe()
+    // this.noCookieLawSubscription.unsubscribe()
   }
 
   checkDevice() {

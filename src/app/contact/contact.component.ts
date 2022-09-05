@@ -2,6 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Feedback } from '../shared/feedback'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { Title, Meta } from '@angular/platform-browser'
+import { HttpClient, HttpClientJsonpModule } from '@angular/common/http'
+import { GoogleMapsModule } from '@angular/google-maps'
+import { Observable, of } from 'rxjs'
+import { catchError, map } from 'rxjs/operators'
+import { GOOGLE_MAPS_API_KEY } from '../shared/keys';
 
 @Component({
   selector: 'app-contact',
@@ -18,6 +23,13 @@ export class ContactComponent implements OnInit {
   feedbackForm: FormGroup
   feedback: Feedback
   submittedFeedback = null
+
+  apiLoaded: Observable<boolean>
+
+  options: google.maps.MapOptions = {
+    center: {lat: this.lat, lng: this.lng},
+    zoom: this.zoom
+  }
 
   formErrors = {
     'firstname': '',
@@ -46,7 +58,7 @@ export class ContactComponent implements OnInit {
     }
   }
 
-  constructor(private formBuilder: FormBuilder, private titleService: Title, private metaTagService: Meta) {
+  constructor(private formBuilder: FormBuilder, private titleService: Title, private metaTagService: Meta, private httpClient: HttpClient) {
     this.createForm()
   }
 
@@ -61,6 +73,19 @@ export class ContactComponent implements OnInit {
       { name: 'author', content: 'Stefan Jaindl' },
       { charset: 'UTF-8' }
     ])
+    
+    this.apiLoaded = this.httpClient.jsonp('https://maps.googleapis.com/maps/api/js?key=' + GOOGLE_MAPS_API_KEY, 'callback')
+        .pipe(
+          map(() => true),
+          catchError(err => {
+            throw err
+          })
+        )
+
+    this.apiLoaded.subscribe({
+      next: x => console.log("Maps initialized: " + x),
+      error: err => console.log(err)
+    })
   }
 
   createForm() {
@@ -126,5 +151,4 @@ export class ContactComponent implements OnInit {
       message: ''
     })
   }
-
 }
