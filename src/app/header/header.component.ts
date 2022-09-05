@@ -10,5 +10,5 @@ export class HeaderComponent {
 
    navChanged(opened: boolean) {
      this.width = opened ? '100%' : '0px'
-   }  
+   }
 }

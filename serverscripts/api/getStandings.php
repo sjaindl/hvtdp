@@ -30,7 +30,9 @@
                 'draws'=> $res["draws"],
                 'losses'=> $res["losses"],
                 'goalDifference'=> $res["goalDifference"],
-                'points'=> $res["points"]));
+                'points'=> $res["points"],
+                'season'=> $res["season"]
+            ));
         }
 
         // Close connection

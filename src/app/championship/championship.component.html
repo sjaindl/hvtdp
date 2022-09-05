@@ -9,7 +9,7 @@
 </div> -->
 
 <h1 class="large header">
-  STT - Meisterschaft 2021/2022 - aktueller Tabellenstand:
+  STT - Meisterschaft {{ season }} - aktueller Tabellenstand:
 </h1>
 
 <h3 class="header">
@@ -18,7 +18,7 @@
 <br>
 
 <mat-table [dataSource]="dataSource" matSort matSortActive="place" matSortDirection="asc" matSortDisableClear>
-  
+
   <ng-container matColumnDef="place">
       <mat-header-cell *matHeaderCellDef>Platz</mat-header-cell>
       <mat-cell *matCellDef="let standings">{{standings.place}}</mat-cell>
@@ -65,105 +65,156 @@
   
 </mat-table>
 
-<p class="small">
-  Die Plätze 1 bis 3 spielen am Ende der Saison in einem Play-off gegen die Plätze 5 bis 8 aus Liga A um den Aufstieg.
-</p>
+<div *ngIf="season == '2022-2023'">
 
-<br>
+  <p class="small">
+    <b>Bisherige Ergebnisse:</b>
+  </p>
 
-<p class="small">
-  <b>Bisherige Ergebnisse:</b>
-</p>
+  <p class="small">
+    1. Runde - STT Pichler : HV TDP Stainz 2:2
+  </p>
 
-<p class="small">
-  1. Runde - SK Hohenburg : HV TDP Stainz 0:3
-</p>
+  <br>
+  
+  <p class="normal">
+    <b>Unsere Torschützen:</b>
+  </p>
 
-<p class="small">
-  2. Runde - HV TDP Stainz : SK UP Voitsberg 3:3
-</p>
+  <p *ngFor="let scorer of scorers" class="normal">
+    {{ scorer.goalsDisplay }} {{scorer.playerName}}
+  </p>
 
-<p class="small">
-  3. Runde - HFC Mein Lokal Gößnitz : HV TDP Stainz 1:2
-</p>
+  <br>
 
-<p class="small">
-  4. Runde - HV TDP Stainz : HFC Studio A Köflach 0:3
-</p>
+  <p class="normal">
+    <b>Spieltermine Frühjahr 2022:</b>
+  </p>
+ 
+  <p class="normal">2. Runde - SAMSTAG, 10.09.2022 - 18:00 Uhr - Stadion Stainz - HV TDP Stainz vs. STT Fürndörfler</p>
+  <hr>
 
-<p class="small">
-  5. Runde - STT Dorfwirt Müller : HV TDP Stainz 6:2
-</p>
+  <p class="normal">3. Runde - SAMSTAG, 17.09.2022 - 18:00 Uhr - Stadion Stainz - HV TDP Stainz vs. GH Prettenthaler</p>
+  <hr>
 
-<p class="small">
-  6. Runde - SV Geistthal : HV TDP Stainz 3:5
-</p>
+  <p class="normal">4. Runde - SAMSTAG, 08.10.2022 - 18:30 Uhr - Stadion Stainz - HV TDP Stainz vs. SV Geistthal</p>
+  <hr>
 
-<p class="small">
-  7. Runde - HV TDP Stainz : STT Pichler 2:2
-</p>
+  <p class="normal">5. Runde - FREITAG, 14.10.2022 - 19:00 Uhr - Stadion Stainz - HV TDP Stainz vs. HFC Gössnitz</p>
+  <hr>
 
-<p class="small">
-  8. Runde - HV TDP Stainz vs. SK Hohenburg 3:0
-</p>
+  <p class="normal">6. Runde - SAMSTAG, 22.10.2022 - 16:00 Uhr - Sportplatz Georgsberg - FC Montagskicker vs. HV TDP Stainz</p>
+  <hr>
 
-<p class="small">
-  9. Runde - SK UP Voitsberg vs. HV TDP Stainz 3:2
-</p>
+  <p class="normal">7. Runde - FREITAG, 28.10.2022 - 19:00 Uhr - Stadion Stainz - HV TDP Stainz vs. SK Hohenburg</p>
+  <hr>
 
-<p class="small">
-  10. Runde - HV TDP Stainz vs. STT Mein Lokal Gössnitz 1:1
-</p>
+</div>
 
-<p class="small">
-  11. Runde - HV TDP Stainz vs. HFC Studio A Köflach 1:2
-</p>
+<div *ngIf="season == '2021-2022'">
+  <p class="small">
+    Die Plätze 1 bis 3 spielen am Ende der Saison in einem Play-off gegen die Plätze 5 bis 8 aus Liga A um den Aufstieg.
+  </p>
 
-<p class="small">
-  12. Runde - HV TDP Stainz vs. STT Dorfwirt Müller 1:0
-</p>
+  <br>
 
-<p class="small">
-  13. Runde - HV TDP Stainz vs. SV Geistthal 4:3
-</p>
+  <p class="normal">
+    <b>Unsere Torschützen:</b>
+  </p>
+
+  <p *ngFor="let scorer of scorers" class="normal">
+    {{ scorer.goalsDisplay }} {{scorer.playerName}}
+
+    <!-- <span *ngFor="let n of numSequence(player); let i = index;">{{i}} </span> -->
+
+    <!-- <ng-container *ngFor="let _ of [].constructor(player.goals)"><i class="fas fa-futbol"></i></ng-container> -->
+    <!-- __ -->
+    <!-- <ng-container *ngFor="let i of Arr(6).fill(1)"><i class="fas fa-futbol"></i></ng-container> -->
+  </p>
+
+  <br>
+
+  <p class="small">
+    <b>Ergebnisse:</b>
+  </p>
+
+  <p class="small">
+    1. Runde - SK Hohenburg : HV TDP Stainz 0:3
+  </p>
+
+  <p class="small">
+    2. Runde - HV TDP Stainz : SK UP Voitsberg 3:3
+  </p>
+
+  <p class="small">
+    3. Runde - HFC Mein Lokal Gößnitz : HV TDP Stainz 1:2
+  </p>
+
+  <p class="small">
+    4. Runde - HV TDP Stainz : HFC Studio A Köflach 0:3
+  </p>
+
+  <p class="small">
+    5. Runde - STT Dorfwirt Müller : HV TDP Stainz 6:2
+  </p>
+
+  <p class="small">
+    6. Runde - SV Geistthal : HV TDP Stainz 3:5
+  </p>
+
+  <p class="small">
+    7. Runde - HV TDP Stainz : STT Pichler 2:2
+  </p>
+
+  <p class="small">
+    8. Runde - HV TDP Stainz vs. SK Hohenburg 3:0
+  </p>
+
+  <p class="small">
+    9. Runde - SK UP Voitsberg vs. HV TDP Stainz 3:2
+  </p>
+
+  <p class="small">
+    10. Runde - HV TDP Stainz vs. STT Mein Lokal Gössnitz 1:1
+  </p>
+
+  <p class="small">
+    11. Runde - HV TDP Stainz vs. HFC Studio A Köflach 1:2
+  </p>
+
+  <p class="small">
+    12. Runde - HV TDP Stainz vs. STT Dorfwirt Müller 1:0
+  </p>
+
+  <p class="small">
+    13. Runde - HV TDP Stainz vs. SV Geistthal 4:3
+  </p>
 
 
-<p class="small">
-  14. Runde - STT Pichler vs. HV TDP Stainz 2:2
-</p>
+  <p class="small">
+    14. Runde - STT Pichler vs. HV TDP Stainz 2:2
+  </p>
 
-<br>
+  <br>
 
-<p class="normal">
-  <b>Unsere Torschützen:</b>
-</p>
-
-<p *ngFor="let player of players" class="normal">
-  {{ player.goalsDisplay }} {{player.firstName}} {{player.lastName}}
-
-  <!-- <span *ngFor="let n of numSequence(player); let i = index;">{{i}} </span> -->
-
-  <!-- <ng-container *ngFor="let _ of [].constructor(player.goals)"><i class="fas fa-futbol"></i></ng-container> -->
-  <!-- __ -->
-  <!-- <ng-container *ngFor="let i of Arr(6).fill(1)"><i class="fas fa-futbol"></i></ng-container> -->
-</p>
-
-<br>
+  <br>
 
 
-<!-- <p class="normal">
-  <b>Spieltermine Frühjahr 2022:</b>
-</p> -->
+  <!-- <p class="normal">
+    <b>Spieltermine Frühjahr 2022:</b>
+  </p> -->
 
-<!-- 
-<p class="normal">12. Runde - MITTWOCH, 22.06.2022 - 19:00 Uhr - Stadion Stainz - HV TDP Stainz vs. STT Dorfwirt Müller</p>
-<hr>
-<p class="normal">13. Runde - SAMSTAG, 02.07.2022 - 18:30 Uhr - Stadion Stainz - HV TDP Stainz vs. SV Geistthal</p>
-<hr>
-<p class="normal">14. Runde - FREITAG, 15.07.2022 - 18:30 Uhr - Sportplatz Södingberg - STT Pichler vs. HV TDP Stainz</p>
--->
+  <!-- 
+  <p class="normal">12. Runde - MITTWOCH, 22.06.2022 - 19:00 Uhr - Stadion Stainz - HV TDP Stainz vs. STT Dorfwirt Müller</p>
+  <hr>
+  <p class="normal">13. Runde - SAMSTAG, 02.07.2022 - 18:30 Uhr - Stadion Stainz - HV TDP Stainz vs. SV Geistthal</p>
+  <hr>
+  <p class="normal">14. Runde - FREITAG, 15.07.2022 - 18:30 Uhr - Sportplatz Södingberg - STT Pichler vs. HV TDP Stainz</p>
+  -->
 
-<!-- <p class="normal">14. Runde - FREITAG, 15.07.2022 - 18:30 Uhr - Sportplatz Södingberg - STT Pichler vs. HV TDP Stainz</p> -->
+  <!-- <p class="normal">14. Runde - FREITAG, 15.07.2022 - 18:30 Uhr - Sportplatz Södingberg - STT Pichler vs. HV TDP Stainz</p> -->
+
+</div>
 
 <br>
 <br>

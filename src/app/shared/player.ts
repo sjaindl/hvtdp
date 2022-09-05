@@ -3,7 +3,5 @@ export class Player {
     lastName: string
     position: string
     memberSinceYear: number
-    goals: number
-    goalsDisplay: string
     imagePath: string
 }

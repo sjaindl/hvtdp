@@ -7,4 +7,5 @@ export class Standing {
     losses: number
     goalDifference: string
     points: number
+    season: string
 }

@@ -5,9 +5,9 @@
     header("Access-Control-Allow-Headers: Content-Type");
     header("Access-Control-Allow-Methods: GET");
 
-    getPlayers($dbname, $dbuser, $dbpass, $dbhost);
+    getScorers($dbname, $dbuser, $dbpass, $dbhost);
     
-    function getPlayers($name, $user, $pass, $host) {
+    function getScorers($name, $user, $pass, $host) {
         $con = @mysqli_connect($host, $user, $pass, $name);
 
         if (!$con) {
@@ -15,25 +15,25 @@
             exit();
         }
 
-        $sql = "SELECT * FROM Player";
+        $sql = "SELECT * FROM Scorer order by season DESC, goals DESC";
         $q = mysqli_query($con, $sql);
         
-        $players = array();
+        $scorers = array();
 
         while ($res = mysqli_fetch_array($q))
         {
-            array_push($players,array(
-                'position'=> $res["position"],
-                'firstName'=> $res["firstName"],
-                'lastName'=> $res["lastName"],
-                'memberSinceYear'=> $res["memberSinceYear"],
-                'imagePath'=> $res["imagePath"]));
+            array_push($scorers,array(
+                'scorer_id'=> $res["scorer_id"],
+                'season'=> $res["season"],
+                'playerName'=> $res["playerName"],
+                'goals'=> $res["goals"]
+            ));
         }
 
         // Close connection
         mysqli_close ($con);
         
-        $json = json_encode($players, JSON_UNESCAPED_UNICODE);
+        $json = json_encode($scorers, JSON_UNESCAPED_UNICODE);
 
         if ($json === false) {
             // Avoid echo of empty string (which is invalid JSON), and

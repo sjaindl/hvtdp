@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core'
 import { MysqlService } from '../services/mysql.service'
-import { Title, Meta } from '@angular/platform-browser';
-import { Standing } from '../shared/standing';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatSort } from '@angular/material/sort';
-import { Player } from '../shared/player';
+import { Title, Meta } from '@angular/platform-browser'
+import { Standing } from '../shared/standing'
+import { MatTableDataSource } from '@angular/material/table'
+import { MatSort } from '@angular/material/sort'
+import { ActivatedRoute } from '@angular/router'
+import { Scorer } from '../shared/scorer'
 
 @Component({
   selector: 'app-championship',
@@ -27,7 +28,11 @@ export class ChampionshipComponent implements OnInit {
 
   displayedColumns = ["place", "team", "games", "wins", "draws", "losses", "goalDifference", "points"]
 
-  players: Player[]
+  scorers: Scorer[]
+
+  season: String
+
+  private sub: any
 
   // numSequence(n: Player): Array<number> {
   //   console.log(n.goals)
@@ -36,26 +41,38 @@ export class ChampionshipComponent implements OnInit {
 
   // tableLink = "https://www.meinspielplan.de/plan/3hjrgw?box=table&title=yes#https%3A%2F%2Fsued-weststeirischercup.jimdo.com%2Fspielbetrieb%2F";
 
-  constructor(private mysqlService: MysqlService, private titleService: Title, private metaTagService: Meta) { }
+  constructor(private mysqlService: MysqlService, private route: ActivatedRoute, private titleService: Title, private metaTagService: Meta) { }
 
   ngOnInit() {
-    this.mysqlService.getStandings().subscribe( standings => {
-      this.dataSource.data = standings
-      this.dataSource.sort = this.sort
-    })
+    if (this.route.params == null) {
+      return
+    }
 
-    this.mysqlService.getPlayers().subscribe( players => {
-      this.players = players.filter((player) => {
-        return player.goals > 0
-      }).sort((a, b) => {
-        return b.goals - a.goals
+    this.sub = this.route.params.subscribe(params => {
+      this.season = params['season']
+      console.log(' season: ' + this.season)
+
+      this.mysqlService.getStandings().subscribe( standings => {
+        this.dataSource.data = standings.filter((standing) => {
+          return standing.season == this.season
+        })
+        
+        this.dataSource.sort = this.sort
       })
 
-      this.players.forEach((player) => {
-        player.goalsDisplay = ""
-        for (var _i = 0; _i < player.goals; _i++) {
-          player.goalsDisplay += "⚽"
-        }
+      this.mysqlService.getScorers().subscribe( scorers => {
+        this.scorers = scorers.filter((scorer) => {
+          return scorer.goals > 0 && scorer.season == this.season
+        }).sort((a, b) => {
+          return b.goals - a.goals
+        })
+        
+        this.scorers.forEach((scorer) => {
+          scorer.goalsDisplay = ""
+          for (var _i = 0; _i < scorer.goals; _i++) {
+            scorer.goalsDisplay += "⚽"
+          }
+        })
       })
     })
 
@@ -73,5 +90,9 @@ export class ChampionshipComponent implements OnInit {
 
   ngOnChanges() {
     this.dataSource.sort = this.sort
+  }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe()
   }
 }
