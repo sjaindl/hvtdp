@@ -37,11 +37,17 @@ export class MembershipComponent implements OnInit {
       this.activeMembers = members.sort((a, b) => {
         if (a.lastName < b.lastName) {
           return -1;
-        } 
-        else if (a.lastName > b.lastName) {
+        } else if (a.lastName > b.lastName) {
           return 1;
         } else {
-          return 0;
+          if (a.firstName < b.firstName) {
+            return -1;
+          } 
+          else if (a.firstName > b.firstName) {
+            return 1;
+          } else {
+            return 0;
+          }
         }
       });
 
@@ -54,6 +60,10 @@ export class MembershipComponent implements OnInit {
           return -1;
         } 
         else if (a.lastName > b.lastName) {
+          return 1;
+        } else if (a.firstName < b.firstName) {
+          return -1;
+        } else if (a.firstName > b.firstName) {
           return 1;
         } else {
           return 0;
