@@ -39,6 +39,8 @@ export class SocialmediaComponent implements OnInit {
       this.mysqlService.getGames().subscribe(games => {
         this.games = games.filter((game) => {
           return game.season == this.season
+        }).sort((a, b) => {
+          return b.round - a.round
         })
       })
 
