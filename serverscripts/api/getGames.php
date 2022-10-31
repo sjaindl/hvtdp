@@ -42,7 +42,7 @@
                 $game_array['customText'] = $row_games['customText'];
                 $game_array['links'] = array();
                 
-                $fetch_links = mysqli_query($con, "SELECT link, description, scorer
+                $fetch_links = mysqli_query($con, "SELECT link, description, scorer, goalOfSeasonCandidate
                     FROM Link l where l.gameId = '$gameId' order by description ASC") or die(mysqli_error($con));
 
                 $link_array = array();
@@ -51,6 +51,7 @@
                     $link_array['link'] = $row_links['link'];
                     $link_array['description'] = $row_links['description'];
                     $link_array['scorer'] = $row_links['scorer'];
+                    $link_array['goalOfSeasonCandidate'] = $row_links['goalOfSeasonCandidate'];
 
                     array_push($game_array['links'], $link_array);
                 }

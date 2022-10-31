@@ -25,7 +25,9 @@
               "node_modules/cookieconsent/build/cookieconsent.min.css"
             ],
             "scripts": [
-              "node_modules/cookieconsent/build/cookieconsent.min.js"
+              "node_modules/cookieconsent/build/cookieconsent.min.js",
+              "src/assets/js/survey/main.js",
+              "src/assets/js/survey/embed.wcuxrs9g.js"
             ]
           },
           "configurations": {

@@ -58,6 +58,7 @@ import { PassworddialogComponent } from './passworddialog/passworddialog.compone
 import { SafePipe } from './pipes/SafePipe'
 import { AdventComponent } from './advent/advent.component'
 import { NgcCookieConsentModule, NgcCookieConsentConfig } from 'ngx-cookieconsent'
+import { GoalOfTheSeasonComponent } from './goaloftheseason/goaloftheseason.component'
 
 const cookieConfig: NgcCookieConsentConfig = {
   cookie: {
@@ -94,6 +95,7 @@ const cookieConfig: NgcCookieConsentConfig = {
     HalloffameComponent,
     DocumentsComponent,
     SurveysComponent,
+    GoalOfTheSeasonComponent,
     StartingelevenComponent,
     HallofpappComponent,
     PassworddialogComponent,

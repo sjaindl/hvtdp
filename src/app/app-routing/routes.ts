@@ -18,6 +18,7 @@ import { StartingelevenComponent } from '../startingeleven/startingeleven.compon
 import { HallofpappComponent } from '../hallofpapp/hallofpapp.component';
 import { DuckrunComponent } from '../duckrun/duckrun.component';
 import { AdventComponent } from '../advent/advent.component';
+import { GoalOfTheSeasonComponent } from '../goaloftheseason/goaloftheseason.component';
 
 export const routes : Routes = [
     {path: "home", component: HomeComponent},
@@ -37,6 +38,7 @@ export const routes : Routes = [
     {path: "halloffame", component: HalloffameComponent},
     {path: "documents", component: DocumentsComponent},
     {path: "surveys", component: SurveysComponent},
+    {path: "goaloftheseason/:season", component: GoalOfTheSeasonComponent},
     {path: "startingeleven", component: StartingelevenComponent},
     {path: "hallofpapp", component: HallofpappComponent},
     {path: "advent", component: AdventComponent}
