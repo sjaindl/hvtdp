@@ -4,8 +4,7 @@
 # Script
 
 albumId=$1
-subFolder=$2
-searchDir=$3
+searchDir=$2
 
 if [ -z "$albumId" ]
 then
@@ -13,14 +12,6 @@ then
   exit -1
 else
   echo "Use album id $albumId""
-fi
-
-if [ -z "$subFolder" ]
-then
-  echo "Provide subfolder of album path (2)""
-  exit -1
-else
-  echo "List files in directory to folder $subFolder""
 fi
 
 if [ -z "$searchDir" ]
@@ -33,5 +24,5 @@ fi
   
 for entry in "$searchDir"/*
 do
-  echo "$albumId;;$subFolder/$entry"
+  echo "$albumId;;gallery/$entry"
 done
