@@ -16,7 +16,7 @@ fi
 
 if [ -z "$searchDir" ]
 then
-  echo "Provide searchDir to search (3)""
+  echo "Provide searchDir to search (2)""
   exit -1
 else
   echo "List files in directory $searchDir""
