@@ -59,6 +59,7 @@ import { SafePipe } from './pipes/SafePipe'
 import { AdventComponent } from './advent/advent.component'
 import { NgcCookieConsentModule, NgcCookieConsentConfig } from 'ngx-cookieconsent'
 import { GoalOfTheSeasonComponent } from './goaloftheseason/goaloftheseason.component'
+import { HallenturnierComponent } from './hallenturnier/hallenturnier.component'
 
 const cookieConfig: NgcCookieConsentConfig = {
   cookie: {
@@ -101,6 +102,7 @@ const cookieConfig: NgcCookieConsentConfig = {
     PassworddialogComponent,
     DuckrunComponent,
     AdventComponent,
+    HallenturnierComponent,
     SafePipe
   ],
   imports: [

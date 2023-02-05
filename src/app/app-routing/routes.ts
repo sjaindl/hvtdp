@@ -1,24 +1,25 @@
-import { Routes } from '@angular/router';
+import { Routes } from '@angular/router'
 
-import { HomeComponent } from '../home/home.component';
-import { TeamComponent } from '../team/team.component';
-import { NewsComponent } from '../news/news.component';
-import { ChampionshipComponent } from '../championship/championship.component';
-import { GalleryComponent } from '../gallery/gallery.component';
-import { SocialmediaComponent } from '../socialmedia/socialmedia.component';
-import { DonationsComponent } from '../donations/donations.component';
-import { AboutComponent } from '../about/about.component';
-import { ContactComponent } from '../contact/contact.component';
-import { FanshopComponent } from '../fanshop/fanshop.component';
-import { MembershipComponent } from '../membership/membership.component';
-import { HalloffameComponent } from '../halloffame/halloffame.component';
-import { DocumentsComponent } from '../documents/documents.component';
-import { SurveysComponent } from '../surveys/surveys.component';
-import { StartingelevenComponent } from '../startingeleven/startingeleven.component';
-import { HallofpappComponent } from '../hallofpapp/hallofpapp.component';
-import { DuckrunComponent } from '../duckrun/duckrun.component';
-import { AdventComponent } from '../advent/advent.component';
-import { GoalOfTheSeasonComponent } from '../goaloftheseason/goaloftheseason.component';
+import { HomeComponent } from '../home/home.component'
+import { TeamComponent } from '../team/team.component'
+import { NewsComponent } from '../news/news.component'
+import { ChampionshipComponent } from '../championship/championship.component'
+import { GalleryComponent } from '../gallery/gallery.component'
+import { SocialmediaComponent } from '../socialmedia/socialmedia.component'
+import { DonationsComponent } from '../donations/donations.component'
+import { AboutComponent } from '../about/about.component'
+import { ContactComponent } from '../contact/contact.component'
+import { FanshopComponent } from '../fanshop/fanshop.component'
+import { MembershipComponent } from '../membership/membership.component'
+import { HalloffameComponent } from '../halloffame/halloffame.component'
+import { DocumentsComponent } from '../documents/documents.component'
+import { SurveysComponent } from '../surveys/surveys.component'
+import { StartingelevenComponent } from '../startingeleven/startingeleven.component'
+import { HallofpappComponent } from '../hallofpapp/hallofpapp.component'
+import { DuckrunComponent } from '../duckrun/duckrun.component'
+import { AdventComponent } from '../advent/advent.component'
+import { GoalOfTheSeasonComponent } from '../goaloftheseason/goaloftheseason.component'
+import { HallenturnierComponent } from '../hallenturnier/hallenturnier.component'
 
 export const routes : Routes = [
     {path: "home", component: HomeComponent},
@@ -41,5 +42,6 @@ export const routes : Routes = [
     {path: "goaloftheseason/:season", component: GoalOfTheSeasonComponent},
     {path: "startingeleven", component: StartingelevenComponent},
     {path: "hallofpapp", component: HallofpappComponent},
-    {path: "advent", component: AdventComponent}
-];
+    {path: "advent", component: AdventComponent},
+    {path: "hallenturnier", component: HallenturnierComponent},
+]

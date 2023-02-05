@@ -1,51 +1,50 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core'
 import { Feedback } from '../shared/feedback'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { Title, Meta } from '@angular/platform-browser'
 import { MysqlService } from '../services/mysql.service'
 
 @Component({
-  selector: 'app-contact',
-  templateUrl: './duckrun.component.html',
-  styleUrls: ['./duckrun.component.css']
+  selector: 'app-hallenturnier',
+  templateUrl: './hallenturnier.component.html',
+  styleUrls: ['./hallenturnier.component.css']
 })
-export class DuckrunComponent implements OnInit {
+export class HallenturnierComponent implements OnInit {
   feedbackForm: FormGroup
   feedback: Feedback
   submittedFeedback = null
 
   formErrors = {
-    'firstname': '',
-    'lastname': '',
+    'name': '',
     'email': '',
     'phone': '',
-    'duckcount': ''
+    'teamname': '',
+    'day': ''
   }
 
   validationMessages = {
-    'firstname': {
-      'required':      'Vorname ist verpflichtend.',
-      'minlength':     'Der Vorname muss mindestens 2 Zeichen lang sein.',
-      'maxlength':     'Der Vorname darf maximal 25 Zeichen lang sein.'
-    },
-    'lastname': {
-      'required':      'Nachname ist verpflichtend.',
-      'minlength':     'Der Nachname muss mindestens 2 Zeichen lang sein.',
-      'maxlength':     'Der Nachname darf maximal 25 Zeichen lang sein.'
+    'name': {
+      'required':      'Der Name ist verpflichtend.',
+      'minlength':     'Der Name muss mindestens 2 Zeichen lang sein.',
+      'maxlength':     'Der Name darf maximal 25 Zeichen lang sein.'
     },
     'email': {
       'required':      'Die E-Mail ist verpflichtend.',
       'email':         'E-Mail hat kein gültiges Format.'
     },
-    'duckcount': {
-      'pattern':       'Die Entenanzahl ist ungültig.',
-      'required':      'Die Entenanzahl ist verpflichtend.'
+    'teamname': {
+      'pattern':       'Der Teamname ist ungültig.',
+      'required':      'Der Teamname ist verpflichtend.'
     },
     'phone': {
       'required':      'Die Telefonnummer ist verpflichtend.',
       'minlength':     'Die Telefonnummer muss mindestens 10 Zeichen lang sein.',
       'maxlength':     'Die Telefonnummer darf maximal 30 Zeichen lang sein.',
       'pattern':       'Telefonnummer hat kein gültiges Format.'
+    },
+    'day': {
+      'pattern':       'Der Vorrundentag ist ungültig.',
+      'required':      'Der Vorrundentag ist verpflichtend.'
     }
   }
 
@@ -58,9 +57,9 @@ export class DuckrunComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.titleService.setTitle("HV TDP Stainz: Entenlauf 2021")
+    this.titleService.setTitle("HV TDP Stainz: Hallenturnier 2023")
     this.metaTagService.updateTag({
-      name: 'description', content: "Bestelle hier deine Enten für den Entenlauf 2021 des HV TDP Stainz."
+      name: 'description', content: "Melde dich an für das Hallenturnier des HV TDP Stainz."
     })
 
     this.metaTagService.addTags([
@@ -72,11 +71,11 @@ export class DuckrunComponent implements OnInit {
 
   createForm() {
     this.feedbackForm = this.formBuilder.group({
-      firstname: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(25)] ],
-      lastname: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(25)] ],
+      name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(25)] ],
       email: ['', [Validators.required, Validators.email] ],
-      duckcount: ['', [Validators.minLength(1), Validators.pattern("[0-9]*")] ],
-      phone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(30), Validators.pattern("^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$")] ]
+      teamname: ['', [Validators.minLength(1)] ],
+      phone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(30), Validators.pattern("^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$")] ],
+      day: ['', [Validators.required] ]
     })
 
     this.onValueChanged() // (re)set validation messages now
@@ -106,25 +105,25 @@ export class DuckrunComponent implements OnInit {
     this.feedback = this.feedbackForm.value
     this.submittedFeedback = this.feedback
     
-    console.log(`send to server: ${this.submittedFeedback.firstname}, ${this.submittedFeedback.lastname}, 
-    ${this.submittedFeedback.phone}, ${this.submittedFeedback.email}, ${this.submittedFeedback.duckcount}`)
+    console.log(`send to server: ${this.submittedFeedback.name},
+    ${this.submittedFeedback.phone}, ${this.submittedFeedback.email}, ${this.submittedFeedback.teamname}`)
 
-    this.mysqlService.postDuckrun(
-      this.submittedFeedback.firstname,
-      this.submittedFeedback.lastname,
+    this.mysqlService.postHallenturnier(
+      this.submittedFeedback.name,
       this.submittedFeedback.email,
       this.submittedFeedback.phone,
-      this.submittedFeedback.duckcount
+      this.submittedFeedback.teamname,
+      this.submittedFeedback.day
       ).subscribe(result => {
         console.log(`response from server: ${result}`)
     })
 
     this.feedbackForm.reset({
-      firstname: '',
-      lastname: '',
+      name: '',
       email: '',
       phone: '',
-      duckcount: ''
+      teamname: '',
+      day: ''
     })
   }
 }
