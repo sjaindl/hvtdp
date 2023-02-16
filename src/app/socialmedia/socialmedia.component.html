@@ -12,11 +12,19 @@
 </p>
 
 <div *ngFor="let game of games">
-    <p class="normalCentered" *ngIf="game.round != 0">
-        Saison {{game.season}}: Runde {{game.round}} ({{game.date}})
+    <p class="normalCentered" *ngIf="game.round != 0 && game.round < 90">
+        Saison {{game.season}}: Runde {{game.round}}
     </p>
-    <p class="normalCentered">
-        {{game.description}} ({{game.date}})
+    <p class="normalCentered" *ngIf="game.round == 0 || game.round >= 90">
+        Saison {{game.season}}
+    </p>
+    
+    
+    <p class="normalCentered" *ngIf="game.description">
+        {{game.date}} - {{game.description}}
+    </p>
+    <p class="normalCentered" *ngIf="!game.description">
+        {{game.date}}
     </p>
     
     <p class="normalCentered" *ngIf="game.customText">
