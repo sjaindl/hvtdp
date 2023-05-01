@@ -58,11 +58,11 @@
     <mat-header-cell *matHeaderCellDef>Punkte</mat-header-cell>
     <mat-cell *matCellDef="let standings">{{standings.points}}</mat-cell>
   </ng-container>
-  
+
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-  
+
   <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
-  
+
 </mat-table>
 
 <div *ngIf="season == '2022-2023'">
@@ -95,8 +95,12 @@
     7. Runde - HV TDP Stainz vs. SK Hohenburg 3:4
   </p>
 
+  <p class="small">
+    3. Runde - Nachholtermin - HV TDP Stainz vs. GH Prettenthaler 1:5
+  </p>
+
   <br>
-  
+
   <p class="normal">
     <b>Unsere Torschützen:</b>
   </p>
@@ -110,9 +114,6 @@
   <p class="normal">
     <b>Spieltermine Frühjahr 2023:</b>
   </p>
-
-  <p class="normal">3. Runde - Nachholtermin, Samstag, 29.04.2023, 18:00 - Stadion Stainz - HV TDP Stainz vs. GH Prettenthaler</p>
-  <hr>
 
   <p class="normal">8. Runde - Samstag, 06.05.2023, 18:00 - Stadion Stainz - HV TDP Stainz : STT Pichler</p>
   <hr>
@@ -131,7 +132,7 @@
 
   <p class="normal">13. Runde - Samstag, 15.07.2023, 18:30 - Stadion Stainz - HV TDP Stainz : 1. FC Montagskicker</p>
   <hr>
-  
+
 </div>
 
 <div *ngIf="season == '2021-2022'">
@@ -227,7 +228,7 @@
     <b>Spieltermine Frühjahr 2022:</b>
   </p> -->
 
-  <!-- 
+  <!--
   <p class="normal">12. Runde - MITTWOCH, 22.06.2022 - 19:00 Uhr - Stadion Stainz - HV TDP Stainz vs. STT Dorfwirt Müller</p>
   <hr>
   <p class="normal">13. Runde - SAMSTAG, 02.07.2022 - 18:30 Uhr - Stadion Stainz - HV TDP Stainz vs. SV Geistthal</p>
