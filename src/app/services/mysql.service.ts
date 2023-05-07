@@ -106,8 +106,8 @@ export class MysqlService {
     url += '&useragent=' + window.navigator.userAgent
     url += '&language=' + window.navigator.language
     url += '&platform=' + window.navigator.platform
-    
-    return this.http.get<any>(url, { 
+
+    return this.http.get<any>(url, {
       params: new HttpParams()
       .append('firstname', firstname)
       .append('lastname', lastname)
@@ -130,14 +130,36 @@ export class MysqlService {
     url += '&useragent=' + window.navigator.userAgent
     url += '&language=' + window.navigator.language
     url += '&platform=' + window.navigator.platform
-    
-    return this.http.get<any>(url, { 
+
+    return this.http.get<any>(url, {
       params: new HttpParams()
       .append('name', name)
       .append('mail', mail)
       .append('phone', phone)
       .append('teamname', teamname)
       .append('day', day)
+      .append('useragent', window.navigator.userAgent)
+      .append('language', window.navigator.language)
+      .append('platform', window.navigator.platform)
+    })
+  }
+
+  public postTurnier(name: string, mail: string, phone: string, teamname: string): Observable<any> {
+    var url = 'https://www.hvtdpstainz.at/api/postKleinfeldturnier.php?'
+    url += '&name=' + name
+    url += '&mail=' + mail
+    url += '&phone=' + phone
+    url += '&teamname=' + teamname
+    url += '&useragent=' + window.navigator.userAgent
+    url += '&language=' + window.navigator.language
+    url += '&platform=' + window.navigator.platform
+
+    return this.http.get<any>(url, {
+      params: new HttpParams()
+      .append('name', name)
+      .append('mail', mail)
+      .append('phone', phone)
+      .append('teamname', teamname)
       .append('useragent', window.navigator.userAgent)
       .append('language', window.navigator.language)
       .append('platform', window.navigator.platform)

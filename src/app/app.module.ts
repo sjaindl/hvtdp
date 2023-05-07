@@ -60,6 +60,7 @@ import { AdventComponent } from './advent/advent.component'
 import { NgcCookieConsentModule, NgcCookieConsentConfig } from 'ngx-cookieconsent'
 import { GoalOfTheSeasonComponent } from './goaloftheseason/goaloftheseason.component'
 import { HallenturnierComponent } from './hallenturnier/hallenturnier.component'
+import { KleinfeldTurnierComponent } from './kleinfeldturnier/kleinfeldturnier.component'
 
 const cookieConfig: NgcCookieConsentConfig = {
   cookie: {
@@ -103,6 +104,7 @@ const cookieConfig: NgcCookieConsentConfig = {
     DuckrunComponent,
     AdventComponent,
     HallenturnierComponent,
+    KleinfeldTurnierComponent,
     SafePipe
   ],
   imports: [
@@ -117,7 +119,7 @@ const cookieConfig: NgcCookieConsentConfig = {
     MatFormFieldModule,
     MatSlideToggleModule,
     MatSelectModule,
-    FlexLayoutModule, 
+    FlexLayoutModule,
     AppRoutingModule,
     NguCarouselModule,
     MatSidenavModule,
@@ -137,8 +139,8 @@ const cookieConfig: NgcCookieConsentConfig = {
     NgcCookieConsentModule.forRoot(cookieConfig)
   ],
   providers: [
-    MysqlService, 
-    StatisticsService, 
+    MysqlService,
+    StatisticsService,
     { provide: LocationStrategy, useClass: HashLocationStrategy },
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 2500} }
   ],

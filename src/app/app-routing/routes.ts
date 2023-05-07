@@ -20,6 +20,7 @@ import { DuckrunComponent } from '../duckrun/duckrun.component'
 import { AdventComponent } from '../advent/advent.component'
 import { GoalOfTheSeasonComponent } from '../goaloftheseason/goaloftheseason.component'
 import { HallenturnierComponent } from '../hallenturnier/hallenturnier.component'
+import { KleinfeldTurnierComponent } from '../kleinfeldturnier/kleinfeldturnier.component'
 
 export const routes : Routes = [
     {path: "home", component: HomeComponent},
@@ -44,4 +45,5 @@ export const routes : Routes = [
     {path: "hallofpapp", component: HallofpappComponent},
     {path: "advent", component: AdventComponent},
     {path: "hallenturnier", component: HallenturnierComponent},
+    {path: "kleinfeldturnier", component: KleinfeldTurnierComponent},
 ]
