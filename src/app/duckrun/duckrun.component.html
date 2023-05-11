@@ -86,13 +86,14 @@
               </mat-form-field>
             </p>
             <p>
-              <mat-form-field class="half-width"
-               color="{{(formErrors.email) ? 'warn' : 'primary'}}">
-                <input matInput formControlName="email" placeholder="E-Mail" type="email" email required>
+              <mat-form-field class="half-width" color="primary">
+              <!-- color="{{(formErrors.email) ? 'warn' : 'primary'}}"> -->
+                <input matInput formControlName="email" placeholder="E-Mail" type="email"> <!-- email required
                 <mat-hint>
                   <span [hidden]="!(formErrors.email)">
                     {{formErrors.email}}</span>
                 </mat-hint>
+                -->
               </mat-form-field>
               <mat-form-field class="half-width"
                color="{{(formErrors.phone) ? 'warn' : 'primary'}}">

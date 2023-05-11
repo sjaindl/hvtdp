@@ -17,7 +17,7 @@ export class DuckrunComponent implements OnInit {
   formErrors = {
     'firstname': '',
     'lastname': '',
-    'email': '',
+    //'email': '',
     'phone': '',
     'address': '',
     'duckcount': ''
@@ -39,10 +39,12 @@ export class DuckrunComponent implements OnInit {
       'minlength':     'Die Adresse muss mindestens 10 Zeichen lang sein.',
       'maxlength':     'Die Adresse darf maximal 100 Zeichen lang sein.'
     },
+    /*
     'email': {
       'required':      'Die E-Mail ist verpflichtend.',
       'email':         'E-Mail hat kein gültiges Format.'
     },
+    */
     'duckcount': {
       'pattern':       'Die Entenanzahl ist ungültig.',
       'required':      'Die Entenanzahl ist verpflichtend.'
@@ -81,7 +83,8 @@ export class DuckrunComponent implements OnInit {
       firstname: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(25)] ],
       lastname: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(25)] ],
       address: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(100)] ],
-      email: ['', [Validators.required, Validators.email] ],
+      //email: ['', [Validators.required, Validators.email] ],
+      email: ['', [] ],
       duckcount: ['', [Validators.minLength(1), Validators.pattern("[0-9]*")] ],
       phone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(30), Validators.pattern("^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$")] ]
     })
