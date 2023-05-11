@@ -96,12 +96,13 @@ export class MysqlService {
     } )
   }
 
-  public postDuckrun(firstname: string, lastname: string, mail: string, phone: string, duckcount: number): Observable<any> {
+  public postDuckrun(firstname: string, lastname: string, mail: string, phone: string, address: string, duckcount: number): Observable<any> {
     var url = 'https://www.hvtdpstainz.at/api/postDuckrun.php?'
     url += 'firstname=' + firstname
     url += '&lastname=' + lastname
     url += '&mail=' + mail
     url += '&phone=' + phone
+    url += '&address=' + address
     url += '&duckcount=' + duckcount
     url += '&useragent=' + window.navigator.userAgent
     url += '&language=' + window.navigator.language
@@ -113,6 +114,7 @@ export class MysqlService {
       .append('lastname', lastname)
       .append('mail', mail)
       .append('phone', phone)
+      .append('address', address)
       .append('duckcount',  ""+duckcount)
       .append('useragent', window.navigator.userAgent)
       .append('language', window.navigator.language)

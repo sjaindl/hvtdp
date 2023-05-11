@@ -19,19 +19,25 @@ export class DuckrunComponent implements OnInit {
     'lastname': '',
     'email': '',
     'phone': '',
+    'address': '',
     'duckcount': ''
   }
 
   validationMessages = {
     'firstname': {
-      'required':      'Vorname ist verpflichtend.',
+      'required':      'Der Vorname ist verpflichtend.',
       'minlength':     'Der Vorname muss mindestens 2 Zeichen lang sein.',
       'maxlength':     'Der Vorname darf maximal 25 Zeichen lang sein.'
     },
     'lastname': {
-      'required':      'Nachname ist verpflichtend.',
+      'required':      'Der Nachname ist verpflichtend.',
       'minlength':     'Der Nachname muss mindestens 2 Zeichen lang sein.',
       'maxlength':     'Der Nachname darf maximal 25 Zeichen lang sein.'
+    },
+    'address': {
+      'required':      'Die Adresse ist verpflichtend.',
+      'minlength':     'Die Adresse muss mindestens 10 Zeichen lang sein.',
+      'maxlength':     'Die Adresse darf maximal 100 Zeichen lang sein.'
     },
     'email': {
       'required':      'Die E-Mail ist verpflichtend.',
@@ -50,17 +56,17 @@ export class DuckrunComponent implements OnInit {
   }
 
   constructor(
-    private formBuilder: FormBuilder, 
-    private titleService: Title, 
+    private formBuilder: FormBuilder,
+    private titleService: Title,
     private metaTagService: Meta,
     private mysqlService: MysqlService) {
     this.createForm()
   }
 
   ngOnInit() {
-    this.titleService.setTitle("HV TDP Stainz: Entenlauf 2021")
+    this.titleService.setTitle("HV TDP Stainz: Entenlauf 2023")
     this.metaTagService.updateTag({
-      name: 'description', content: "Bestelle hier deine Enten für den Entenlauf 2021 des HV TDP Stainz."
+      name: 'description', content: "Bestelle hier deine Enten für den Entenlauf 2023 des HV TDP Stainz."
     })
 
     this.metaTagService.addTags([
@@ -74,6 +80,7 @@ export class DuckrunComponent implements OnInit {
     this.feedbackForm = this.formBuilder.group({
       firstname: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(25)] ],
       lastname: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(25)] ],
+      address: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(100)] ],
       email: ['', [Validators.required, Validators.email] ],
       duckcount: ['', [Validators.minLength(1), Validators.pattern("[0-9]*")] ],
       phone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(30), Validators.pattern("^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$")] ]
@@ -86,8 +93,8 @@ export class DuckrunComponent implements OnInit {
   }
 
   onValueChanged(data?: any) {
-    if (!this.feedbackForm) { 
-      return 
+    if (!this.feedbackForm) {
+      return
     }
 
     for (const field in this.formErrors) {
@@ -105,15 +112,16 @@ export class DuckrunComponent implements OnInit {
   onSubmit() {
     this.feedback = this.feedbackForm.value
     this.submittedFeedback = this.feedback
-    
-    console.log(`send to server: ${this.submittedFeedback.firstname}, ${this.submittedFeedback.lastname}, 
-    ${this.submittedFeedback.phone}, ${this.submittedFeedback.email}, ${this.submittedFeedback.duckcount}`)
+
+    console.log(`send to server: ${this.submittedFeedback.firstname}, ${this.submittedFeedback.lastname},
+    ${this.submittedFeedback.phone}, ${this.submittedFeedback.email}, ${this.submittedFeedback.address}, ${this.submittedFeedback.duckcount}`)
 
     this.mysqlService.postDuckrun(
       this.submittedFeedback.firstname,
       this.submittedFeedback.lastname,
       this.submittedFeedback.email,
       this.submittedFeedback.phone,
+      this.submittedFeedback.address,
       this.submittedFeedback.duckcount
       ).subscribe(result => {
         console.log(`response from server: ${result}`)
@@ -124,6 +132,7 @@ export class DuckrunComponent implements OnInit {
       lastname: '',
       email: '',
       phone: '',
+      address: '',
       duckcount: ''
     })
   }

@@ -23,12 +23,13 @@
         $lastname = $_GET['lastname'];
         $phone = $_GET['phone'];
         $mail = $_GET['mail'];
+        $address = $_GET['address'];
         $duckcount = $_GET['duckcount'];
         $useragent = $_GET['useragent'];
         $language = $_GET['language'];
         $platform = $_GET['platform'];
 
-        $sql = "INSERT INTO Duckrun (firstName, lastName, phone, mail, duckCount) VALUES ('$firstname', '$lastname', '$phone', '$mail', '$duckcount')";
+        $sql = "INSERT INTO Duckrun (firstName, lastName, phone, mail, duckCount) VALUES ('$firstname', '$lastname', '$phone', '$mail', '$address', '$duckcount')";
 
         if ($con->query($sql) === TRUE) {
             echo "New record created successfully";
@@ -46,6 +47,7 @@
         $message .= "Nachname: " . $lastname . "\r\n";
         $message .= "Telefonnummer: " . $phone . "\r\n";
         $message .= "E-Mail: " . $mail . "\r\n";
+        $message .= "Adresse: " . $address . "\r\n";
         $message .=  "Anzahl Enten: " . $duckcount . "\r\n" . "\r\n";
 
         $message .= "Server Logs: " . $_SERVER['HTTP_USER_AGENT'] . "\r\n" . "\r\n";

@@ -105,6 +105,18 @@
             </p>
 
             <p>
+              <mat-form-field class="full-width"
+              color="{{(formErrors.address) ? 'warn' : 'primary'}}">
+                <input class="formElement" matInput type="text" formControlName="address" placeholder="Adresse" required>
+                <mat-hint>
+                  <span [hidden]="!(formErrors.address)">
+                    {{formErrors.address}}</span>
+                </mat-hint>
+              </mat-form-field>
+
+            </p>
+
+            <p>
               <mat-form-field class="half-width"
               color="{{(formErrors.duckcount) ? 'warn' : 'primary'}}">
                 <input class="formElement" matInput type="text" formControlName="duckcount" placeholder="Anzahl der Entenlose" required>
@@ -126,6 +138,7 @@
               <p>Nachname: {{submittedFeedback.lastname}}</p>
               <p>E-Mail: {{submittedFeedback.email}}</p>
               <p>Telefonnummer: {{submittedFeedback.phone}}</p>
+              <p>Adresse: {{submittedFeedback.address}}</p>
               <p>Anzahl der Entenlose: {{submittedFeedback.duckcount}}</p>
           </div>
         </div>
