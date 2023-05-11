@@ -6,7 +6,7 @@
     header("Access-Control-Allow-Methods: GET, POST");
 
     postDuckrun($dbname, $dbuser, $dbpass, $dbhost);
-    
+
     function postDuckrun($name, $user, $pass, $host) {
         //if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
             //exit();
@@ -40,7 +40,7 @@
         mysqli_close ($con);
 
         $to = "hvtdpstainz@gmx.at";
-        $subject = "Bestellung Entenlauf 2021: " . $firstname . " " . $lastname;
+        $subject = "Bestellung Entenlauf 2023: " . $firstname . " " . $lastname;
 
         $message = "Vorname: " . $firstname . "\r\n";
         $message .= "Nachname: " . $lastname . "\r\n";
