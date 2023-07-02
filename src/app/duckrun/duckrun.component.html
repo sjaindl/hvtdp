@@ -74,7 +74,7 @@
           <!-- <p>{{ feedbackForm.value | json }} {{ feedbackForm.status | json }}</p> -->
           <form novalidate [formGroup]="feedbackForm" (ngSubmit)="onSubmit()" style="background-color: darkblue;color: rgba(255,255,255,.7);border: 27.4px solid;">
             <p>
-              <mat-form-field class="half-width"
+              <mat-form-field class="full-width"
               color="{{(formErrors.firstname) ? 'warn' : 'primary'}}">
                 <input class="formElement" matInput type="text" formControlName="firstname" placeholder="Vorname" required>
                 <mat-hint>
@@ -82,7 +82,7 @@
                     {{formErrors.firstname}}</span>
                 </mat-hint>
               </mat-form-field>
-              <mat-form-field class="half-width"
+              <mat-form-field class="full-width"
                color="{{(formErrors.lastname) ? 'warn' : 'primary'}}">
                 <input class="formElement" matInput formControlName="lastname" placeholder="Nachname" type="text" required>
                 <mat-hint>
@@ -92,7 +92,7 @@
               </mat-form-field>
             </p>
             <p>
-              <mat-form-field class="half-width" color="primary">
+              <mat-form-field class="full-width" color="primary">
               <!-- color="{{(formErrors.email) ? 'warn' : 'primary'}}"> -->
                 <input matInput formControlName="email" placeholder="E-Mail" type="email"> <!-- email required
                 <mat-hint>
@@ -101,7 +101,7 @@
                 </mat-hint>
                 -->
               </mat-form-field>
-              <mat-form-field class="half-width"
+              <mat-form-field class="full-width"
                color="{{(formErrors.phone) ? 'warn' : 'primary'}}">
                 <input class="formElement" matInput formControlName="phone" placeholder="Telefonnummer" type="text" required>
                 <mat-hint>
@@ -124,7 +124,7 @@
             </p>
 
             <p>
-              <mat-form-field class="half-width"
+              <mat-form-field class="full-width"
               color="{{(formErrors.duckcount) ? 'warn' : 'primary'}}">
                 <input class="formElement" matInput type="text" formControlName="duckcount" placeholder="Anzahl der Entenlose" required>
                 <mat-hint>
