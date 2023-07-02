@@ -56,7 +56,7 @@ export class ChampionshipComponent implements OnInit {
         this.dataSource.data = standings.filter((standing) => {
           return standing.season == this.season
         })
-        
+
         this.dataSource.sort = this.sort
       })
 
@@ -64,9 +64,14 @@ export class ChampionshipComponent implements OnInit {
         this.scorers = scorers.filter((scorer) => {
           return scorer.goals > 0 && scorer.season == this.season
         }).sort((a, b) => {
+          if (a.goals == b.goals) {
+            if (a.playerName > b.playerName) return 1
+            else return -1
+          }
+
           return b.goals - a.goals
         })
-        
+
         this.scorers.forEach((scorer) => {
           scorer.goalsDisplay = ""
           for (var _i = 0; _i < scorer.goals; _i++) {
