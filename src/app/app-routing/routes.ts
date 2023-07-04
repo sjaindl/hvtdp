@@ -21,6 +21,7 @@ import { AdventComponent } from '../advent/advent.component'
 import { GoalOfTheSeasonComponent } from '../goaloftheseason/goaloftheseason.component'
 import { HallenturnierComponent } from '../hallenturnier/hallenturnier.component'
 import { KleinfeldTurnierComponent } from '../kleinfeldturnier/kleinfeldturnier.component'
+import { BocciaComponent } from '../boccia/boccia.component'
 
 export const routes : Routes = [
     {path: "home", component: HomeComponent},
@@ -46,4 +47,5 @@ export const routes : Routes = [
     {path: "advent", component: AdventComponent},
     {path: "hallenturnier", component: HallenturnierComponent},
     {path: "kleinfeldturnier", component: KleinfeldTurnierComponent},
+    {path: "bocciaturnier", component: BocciaComponent},
 ]

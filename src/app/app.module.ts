@@ -60,7 +60,8 @@ import { AdventComponent } from './advent/advent.component'
 import { NgcCookieConsentModule, NgcCookieConsentConfig } from 'ngx-cookieconsent'
 import { GoalOfTheSeasonComponent } from './goaloftheseason/goaloftheseason.component'
 import { HallenturnierComponent } from './hallenturnier/hallenturnier.component'
-import { KleinfeldTurnierComponent } from './kleinfeldturnier/kleinfeldturnier.component'
+import { KleinfeldTurnierComponent } from './kleinfeldturnier/kleinfeldturnier.component';
+import { BocciaComponent } from './boccia/boccia.component'
 
 const cookieConfig: NgcCookieConsentConfig = {
   cookie: {
@@ -105,7 +106,8 @@ const cookieConfig: NgcCookieConsentConfig = {
     AdventComponent,
     HallenturnierComponent,
     KleinfeldTurnierComponent,
-    SafePipe
+    SafePipe,
+    BocciaComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }) ,
