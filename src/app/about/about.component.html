@@ -4,16 +4,16 @@
 
   <p class="normal">
     Der Hobbyfußballverein <span class = "bold">Textildruckprofi Stainz</span> (kurz <span class = "bold">HV TDP Stainz</span>) wurde im Jahr 2014 gegründet.
-    Aus einem Gespräch bei einem kühlen blonden Erfrischungsgetränk zwischen Daniel Fabian und Eduard Orthaber entsprang die Idee einer Gründung eines Hobbyvereines. 
+    Aus einem Gespräch bei einem kühlen blonden Erfrischungsgetränk zwischen Daniel Fabian und Eduard Orthaber entsprang die Idee einer Gründung eines Hobbyvereines.
   </p>
 
   <p class="normal">
-    Diese Idee wurde von den beiden auch in die Tat umgesetzt. 
+    Diese Idee wurde von den beiden auch in die Tat umgesetzt.
     Neben den Gründungsmitgliedern schlossen sich mittlerweile über 30 weitere Fußballer dem Verein an und so entstand ein Team aus vielen heimischen Kickern, die ihrem Hobby nachgehen.
   </p>
 
   <p class="normal">
-    Im Vereinsnamen befindet sich auch der Name unseres Hauptsponsors, der Firma „Textildruckprofi“ aus Stainz. 
+    Im Vereinsnamen befindet sich auch der Name unseres Hauptsponsors, der Firma „Textildruckprofi“ aus Stainz.
     Seit der Gründung spielt der Verein anfangs in der Hobbyliga „Süd-Weststeirercup“,welchselte dann in den "Grenzlandcup" und spielt seit 2020 in der STT-Meisterschaft mit. Gespielt und trainiert wird im Stadion Stainz.
   </p>
 
@@ -36,9 +36,9 @@
     <li><span class="fa fa-futbol fa-sm"></span> Stammtischcup Finaltag (2018)</li>
     <li><span class="fa fa-medal fa-sm"></span> Österreichischer Fan Meister (2021)</li>
   </ul>
-  
+
   <br>
-  
+
   <p class="normal">
     Seit Dezember 2017 ist der HV TDP Stainz auch ein gemeldeter Verein.
     <br>
@@ -74,10 +74,10 @@
         </span>
       </mat-list-item>
     </mat-list>
-  
+
     <br>
     <br>
-  
+
     <mat-list fxLayout="column" fxLayout.gt-sm="row">
       <mat-list-item class="listImage" *ngFor="let chef of schriftfuehrer">
         <span *ngIf="chef.firstName != 'Dummy'">
@@ -87,8 +87,21 @@
         </span>
       </mat-list-item>
     </mat-list>
+
+    <br>
+    <br>
+
+    <mat-list fxLayout="column" fxLayout.gt-sm="row">
+      <mat-list-item class="listImage" *ngFor="let chef of rechnungspruefer">
+        <span *ngIf="chef.firstName != 'Dummy'">
+          <img mat-list-avatar class='img-preview' src="{{imageBaseUrl.concat(chef.imagePath)}}" alt="{{chef.firstName}} {{chef.lastName | uppercase}}" >
+          <h1 mat-line>{{chef.firstName}} {{chef.lastName | uppercase}}</h1>
+          <h1 mat-line>{{chef.function}}</h1>
+        </span>
+      </mat-list-item>
+    </mat-list>
   </div>
-  
+
   <div *ngIf="isMobile">
     <mat-list fxLayout="column" fxLayout.gt-sm="row">
       <mat-list-item class="listImageMobile" *ngFor="let chef of obmaennerWithoutDummy">
@@ -105,9 +118,17 @@
           <h1 mat-line>{{chef.function}}</h1>
       </mat-list-item>
     </mat-list>
-  
+
     <mat-list fxLayout="column" fxLayout.gt-sm="row">
       <mat-list-item class="listImageMobile" *ngFor="let chef of schriftfuehrerWithoutDummy">
+          <img mat-list-avatar class='img-preview' src="{{imageBaseUrl.concat(chef.imagePath)}}" alt="{{chef.firstName}} {{chef.lastName | uppercase}}" >
+          <h1 mat-line>{{chef.firstName}} {{chef.lastName | uppercase}}</h1>
+          <h1 mat-line>{{chef.function}}</h1>
+      </mat-list-item>
+    </mat-list>
+
+    <mat-list fxLayout="column" fxLayout.gt-sm="row">
+      <mat-list-item class="listImageMobile" *ngFor="let chef of rechnungsprueferWithoutDummy">
           <img mat-list-avatar class='img-preview' src="{{imageBaseUrl.concat(chef.imagePath)}}" alt="{{chef.firstName}} {{chef.lastName | uppercase}}" >
           <h1 mat-line>{{chef.firstName}} {{chef.lastName | uppercase}}</h1>
           <h1 mat-line>{{chef.function}}</h1>
@@ -117,12 +138,27 @@
 
   <br>
   <br>
-<!-- 
-   -->
+
+  <div fxFlex="50" fxFlexOffset="10px">
+    <img class="center" src="assets/images/aboutus/vorstand.JPG">
+  </div>
+
+  <p class="normal center">
+    v.l.n.r.: Heritsch (Rechnungsprüfer), Oswald (Schriftführer Stellvertreter), Jaindl (Schriftführer), Fabian (Obmann), Seidl (Obmann Stellvertreter), Bohacek (Kassier), Ronegg (Kassier Stellvertreter)
+  </p>
+
+  <br>
+
+   <div fxFlex="50" fxFlexOffset="10px">
+    <hr>
+   </div>
+
+   <br>
+
    <h2 class="header">Mannschaftsfoto 2022</h2>
    <div fxFlex="50" fxFlexOffset="10px">
      <img class="center" src="assets/images/aboutus/2022_Mannschaft.jpg">
-   </div> 
+   </div>
 
   <h2 class="header">Mannschaftsfoto 2021</h2>
   <div fxFlex="50" fxFlexOffset="10px">
@@ -138,7 +174,7 @@
   <div fxFlex="50" fxFlexOffset="10px">
     <img class="center" src="assets/images/aboutus/2018_2019_Mannschaft.jpg">
   </div>
-  
+
   <h2 class="header">Mannschaftsfoto 2017/2018</h2>
   <div fxFlex="50" fxFlexOffset="10px">
     <img class="center" src="assets/images/aboutus/2017_2018_Mannschaft.jpg">

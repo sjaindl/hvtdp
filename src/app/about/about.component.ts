@@ -15,17 +15,19 @@ export class AboutComponent implements OnInit {
   obmaenner: Chef[]
   kassierer: Chef[]
   schriftfuehrer: Chef[]
+  rechnungspruefer: Chef[]
 
   obmaennerWithoutDummy: Chef[]
   kassiererWithoutDummy: Chef[]
   schriftfuehrerWithoutDummy: Chef[]
-  
+  rechnungsprueferWithoutDummy: Chef[]
+
   imageBaseUrl: String
 
   isMobile = null
 
   constructor(private mysqlService: MysqlService, private titleService: Title, private metaTagService: Meta, private deviceService: DeviceDetectorService) { }
-  
+
   ngOnInit() {
     this.checkDevice()
     this.imageBaseUrl = baseUrlImages
@@ -44,6 +46,10 @@ export class AboutComponent implements OnInit {
           return chef.function.includes("Schriftführer")
         })
 
+        this.rechnungspruefer = chefs.filter(chef => {
+          return chef.function.includes("Rechnungsprüfer")
+        })
+
         this.obmaennerWithoutDummy = chefs.filter(chef => {
           return chef.function.includes("Obmann") && chef.firstName != "Dummy"
         })
@@ -54,6 +60,10 @@ export class AboutComponent implements OnInit {
 
         this.schriftfuehrerWithoutDummy = chefs.filter(chef => {
           return chef.function.includes("Schriftführer") && chef.firstName != "Dummy"
+        })
+
+        this.rechnungsprueferWithoutDummy = chefs.filter(chef => {
+          return chef.function.includes("Rechnungsprüfer") && chef.firstName != "Dummy"
         })
       })
 
