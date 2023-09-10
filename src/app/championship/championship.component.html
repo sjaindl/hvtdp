@@ -18,7 +18,7 @@
 </h3>
 <br>
 
-<mat-table [dataSource]="dataSource" matSort matSortActive="place" matSortDirection="asc" matSortDisableClear *ngIf="season != '2023-2024'">
+<mat-table [dataSource]="dataSource" matSort matSortActive="place" matSortDirection="asc" matSortDisableClear>
 
   <ng-container matColumnDef="place">
       <mat-header-cell *matHeaderCellDef>Platz</mat-header-cell>
@@ -67,58 +67,67 @@
 </mat-table>
 
 <div *ngIf="season == '2023-2024'">
-<!--
+
   <p class="small">
     <b>Ergebnisse:</b>
   </p>
--->
 
-<p class="normal">
-  <b>Spieltermine Herbst 2023:</b>
-</p>
+  <p class="small">
+    2. Runde - SK Hohenburg : HV TDP Stainz 1:2
+  </p>
 
-<p class="normal">
-  2. Runde - FREITAG, 08.09.2023 - 18:30 Uhr - Sportplatz St. Johann/Köppling - SK Hohenburg vs. HV TDP Stainz
-</p>
-<hr>
+  <p class="normal">
+    <b>Spieltermine Herbst 2023:</b>
+  </p>
 
-<p class="normal">
-  Cup Achtelfinale - MITTWOCH, 13.09.2023 - 19:30 Uhr - Stadion Stainz - HV TDP Stainz vs. SV Geistthal
-</p>
-<hr>
+  <hr>
 
-<p class="normal">
-  3. Runde - SAMSTAG, 16.09.2023 - 18:00 Uhr - Sportplatz Geistthal - SV Geistthal vs. HV TDP Stainz
-</p>
-<hr>
+  <p class="normal">
+    Cup Achtelfinale - MITTWOCH, 13.09.2023 - 19:30 Uhr - Stadion Stainz - HV TDP Stainz vs. SV Geistthal
+  </p>
+  <hr>
 
-<p class="normal">
-  4. Runde - SAMSTAG, 23.09.2023 - 18:30 Uhr - Stadion Stainz - HV TDP Stainz vs. STT Multitask
-</p>
-<hr>
+  <p class="normal">
+    3. Runde - SAMSTAG, 16.09.2023 - 18:00 Uhr - Sportplatz Geistthal - SV Geistthal vs. HV TDP Stainz
+  </p>
+  <hr>
 
-<p class="normal">
-  5. Runde - MITTWOCH, 27.09.2023 - 19:00 Uhr - Stadion Stainz - HV TDP Stainz vs. STT Wörgötter
-</p>
-<hr>
+  <p class="normal">
+    4. Runde - SAMSTAG, 23.09.2023 - 18:30 Uhr - Stadion Stainz - HV TDP Stainz vs. STT Multitask
+  </p>
+  <hr>
 
-<p class="normal">
-  6. Runde - SAMSTAG, 07.10.2023 - 16:00 Uhr - Sportplatz St. Johann/Köppling - St. Johann/Köppling vs. HV TDP Stainz
-</p>
-<hr>
+  <p class="normal">
+    5. Runde - MITTWOCH, 27.09.2023 - 19:00 Uhr - Stadion Stainz - HV TDP Stainz vs. STT Wörgötter
+  </p>
+  <hr>
 
-<p class="normal">
-  Cup Viertelfinale - Bei Aufstieg Heimspiel - FREITAG 13.10.2023 oder SAMSTAG 14.10.2023
-</p>
-<hr>
+  <p class="normal">
+    6. Runde - SAMSTAG, 07.10.2023 - 16:00 Uhr - Sportplatz St. Johann/Köppling - St. Johann/Köppling vs. HV TDP Stainz
+  </p>
+  <hr>
 
-<p class="normal">
-  1. Runde - SAMSTAG, 28.10.2023 - 17:00 Uhr - Sportplatz Södingberg - STT Pichler vs. HV TDP Stainz
-</p>
-<hr>
+  <p class="normal">
+    Cup Viertelfinale - Bei Aufstieg Heimspiel - FREITAG 13.10.2023 oder SAMSTAG 14.10.2023
+  </p>
+  <hr>
 
+  <p class="normal">
+    1. Runde - SAMSTAG, 28.10.2023 - 17:00 Uhr - Sportplatz Södingberg - STT Pichler vs. HV TDP Stainz
+  </p>
+  <hr>
 
-<!-- <p class="normal">14. Runde - FREITAG, 15.07.2022 - 18:30 Uhr - Sportplatz Södingberg - STT Pichler vs. HV TDP Stainz</p> -->
+  <!-- <p class="normal">14. Runde - FREITAG, 15.07.2022 - 18:30 Uhr - Sportplatz Södingberg - STT Pichler vs. HV TDP Stainz</p> -->
+
+  <p class="normal">
+    <b>Unsere Torschützen:</b>
+  </p>
+
+  <p *ngFor="let scorer of scorers" class="normal">
+    {{ scorer.goalsDisplay }} {{scorer.playerName}}
+  </p>
+
+  <br>
 
 </div>
 
