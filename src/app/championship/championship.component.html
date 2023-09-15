@@ -68,7 +68,17 @@
 
 <div *ngIf="season == '2023-2024'">
 
-  <p class="small">
+  <p class="normal">
+    <b>Unsere Torschützen:</b>
+  </p>
+
+  <p *ngFor="let scorer of scorers" class="normal">
+    {{ scorer.goalsDisplay }} {{scorer.playerName}}
+  </p>
+
+  <br>
+
+  <p class="normal">
     <b>Ergebnisse:</b>
   </p>
 
@@ -76,15 +86,16 @@
     2. Runde - SK Hohenburg : HV TDP Stainz 1:2
   </p>
 
+  <p class="small">
+    Cup Achtelfinale - HV TDP Stainz : SV Geistthal 4:2
+  </p>
+
+  <br>
+
   <p class="normal">
     <b>Spieltermine Herbst 2023:</b>
   </p>
 
-  <hr>
-
-  <p class="normal">
-    Cup Achtelfinale - MITTWOCH, 13.09.2023 - 19:30 Uhr - Stadion Stainz - HV TDP Stainz vs. SV Geistthal
-  </p>
   <hr>
 
   <p class="normal">
@@ -118,15 +129,6 @@
   <hr>
 
   <!-- <p class="normal">14. Runde - FREITAG, 15.07.2022 - 18:30 Uhr - Sportplatz Södingberg - STT Pichler vs. HV TDP Stainz</p> -->
-
-  <p class="normal">
-    <b>Unsere Torschützen:</b>
-  </p>
-
-  <p *ngFor="let scorer of scorers" class="normal">
-    {{ scorer.goalsDisplay }} {{scorer.playerName}}
-  </p>
-
   <br>
 
 </div>
