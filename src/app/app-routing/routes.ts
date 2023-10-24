@@ -22,6 +22,7 @@ import { GoalOfTheSeasonComponent } from '../goaloftheseason/goaloftheseason.com
 import { HallenturnierComponent } from '../hallenturnier/hallenturnier.component'
 import { KleinfeldTurnierComponent } from '../kleinfeldturnier/kleinfeldturnier.component'
 import { BocciaComponent } from '../boccia/boccia.component'
+import { ZehnjahresfeierComponent } from '../zehnjahresfeier/zehnjahresfeier.component'
 
 export const routes : Routes = [
     {path: "home", component: HomeComponent},
@@ -48,4 +49,5 @@ export const routes : Routes = [
     {path: "hallenturnier", component: HallenturnierComponent},
     {path: "kleinfeldturnier", component: KleinfeldTurnierComponent},
     {path: "bocciaturnier", component: BocciaComponent},
+    {path: "10-jahre-hvtdp", component: ZehnjahresfeierComponent},
 ]

@@ -62,6 +62,7 @@ import { GoalOfTheSeasonComponent } from './goaloftheseason/goaloftheseason.comp
 import { HallenturnierComponent } from './hallenturnier/hallenturnier.component'
 import { KleinfeldTurnierComponent } from './kleinfeldturnier/kleinfeldturnier.component';
 import { BocciaComponent } from './boccia/boccia.component'
+import { ZehnjahresfeierComponent } from './zehnjahresfeier/zehnjahresfeier.component'
 
 const cookieConfig: NgcCookieConsentConfig = {
   cookie: {
@@ -107,7 +108,8 @@ const cookieConfig: NgcCookieConsentConfig = {
     HallenturnierComponent,
     KleinfeldTurnierComponent,
     SafePipe,
-    BocciaComponent
+    BocciaComponent,
+    ZehnjahresfeierComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }) ,
