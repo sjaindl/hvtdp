@@ -40,13 +40,17 @@ export class GoalOfTheSeasonComponent implements OnInit {
       this.season = params['season']
 
       this.mysqlService.getGames().subscribe(games => {
+        this.links = []
+
         games.forEach((game) => {
           var links = game.links.filter((link) => link.goalOfSeasonCandidate == 1)
           console.log(links.length)
           links.forEach(link => {
-            let flat = new GameLinkFlat(game.season, game.round, game.description, game.date, link, game.customText)
-            console.log(flat)
-            this.links.push(flat)
+            if(game.date.startsWith(this.season)) {
+              let flat = new GameLinkFlat(game.season, game.round, game.description, game.date, link, game.customText)
+              console.log(flat)
+              this.links.push(flat)
+            }
           })
 
           return game.season == this.season && links.length > 0

@@ -11,15 +11,18 @@ import { Title, Meta } from '@angular/platform-browser'
 export class SurveysComponent implements OnInit {
 
   surveyLink: string = ''
+  surveyId: string = ''
 
-  constructor(private mysqlService: MysqlService, private sanitizer: DomSanitizer, private titleService: Title, private metaTagService: Meta) { 
+  constructor(private mysqlService: MysqlService, private sanitizer: DomSanitizer, private titleService: Title, private metaTagService: Meta) {
   }
 
   ngOnInit() {
-    this.mysqlService.getSurveyLink().subscribe(surveyLink => {
-      if (surveyLink.length > 0) {
-        this.surveyLink = surveyLink[0].link
+    this.mysqlService.getSurveyLink().subscribe(surveys => {
+      if (surveys.length > 0) {
+        this.surveyLink = surveys[0].link
+        this.surveyId = surveys[0].id
         console.log(this.surveyLink)
+        console.log(this.surveyId)
       }
     })
 

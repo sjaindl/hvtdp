@@ -6,7 +6,7 @@
     header("Access-Control-Allow-Methods: GET");
 
     getSurvey($dbname, $dbuser, $dbpass, $dbhost);
-    
+
     function getSurvey($name, $user, $pass, $host) {
         $con = @mysqli_connect($host, $user, $pass, $name);
 
@@ -17,18 +17,20 @@
 
         $sql = "SELECT * FROM Survey";
         $q = mysqli_query($con, $sql);
-        
+
         $surveys = array();
 
         while ($res = mysqli_fetch_array($q))
         {
             array_push($surveys, array(
-                'link'=> utf8_encode($res["link"])));
+                'id'=> utf8_encode($res["id"]),
+                'link'=> utf8_encode($res["link"])
+              ));
         }
 
         // Close connection
         mysqli_close ($con);
-        
+
         $json = json_encode($surveys);
 
         if ($json === false) {

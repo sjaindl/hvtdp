@@ -1,6 +1,32 @@
 <h1 class="large header">
-    Wähle das Tor der Saison 2022
+    Wähle das Tor der Saison {{season}}
 </h1>
+
+
+<!-- <button style="margin: auto; font-size: 20px;" mat-button class="background-primary" (click)="reload()"> Umfrage laden</button> -->
+<!-- <button style="margin: auto; font-size: 20px;" mat-button class="background-primary" (click)="goToSurvey()">Zur Umfrage</button> -->
+
+<a *ngIf="season=='2022'" href="https://www.umfrageonline.com/c/zwsdprsc" style="font-size: 20px; text-align: center; display: block;" target="_blank">
+  Zur Umfrage
+</a>
+<a *ngIf="season=='2023'" href="https://www.umfrageonline.com/c/djhufanr" style="font-size: 20px; text-align: center; display: block;" target="_blank">
+Zur Umfrage
+</a>
+
+<br>
+<br>
+
+<!-- <div id="surveyhero-embed-wcuxrs9g"></div> -->
+
+<!-- <div class="h_iframe">
+  <iframe
+      frameborder="0"
+      id="surveyhero-embed-wcuxrs9g"
+      src="https://www.umfrageonline.com/e/wcuxrs9g"
+      allowfullscreen
+      height="1700">
+  </iframe>
+</div> -->
 
 <div class="container" fxLayout="column" fxLayoutGap="10px">
 
@@ -28,7 +54,7 @@
                         <div fxFlex="50" fxFlexOffset="25px" fxLayoutAlign="center center">
                             <iframe width="560px" height="315px" [src]="link.link.link | safe" frameborder="0" allowfullscreen></iframe>
                         </div>
-                        
+
                     </mat-grid-tile>
                 </div>
             </div>
@@ -61,12 +87,12 @@
                         </div>
 
                     </mat-grid-tile>
-                    
+
                     <mat-grid-tile *ngIf="matches(link.link.scorer, player)" [ngStyle]="{'height': '130px' }" appHighlight>
                         <div fxFlex="50" fxFlexOffset="25px" fxLayoutAlign="center center">
                             <iframe width="224px" height="128px" [src]="link.link.link | safe" frameborder="0" allowfullscreen></iframe>
                         </div>
-                        
+
                     </mat-grid-tile>
                 </div>
             </div>
@@ -76,30 +102,4 @@
 
 </div>
 
-<br>
-<br>
-
-<!-- <button style="margin: auto; font-size: 20px;" mat-button class="background-primary" (click)="reload()"> Umfrage laden</button> -->
-<!-- <button style="margin: auto; font-size: 20px;" mat-button class="background-primary" (click)="goToSurvey()">Zur Umfrage</button> -->
-
-<a href="https://www.umfrageonline.com/c/zwsdprsc" style="font-size: 20px; text-align: center; display: block;" target="_blank">
-    Zur Umfrage
-</a>
-
-<br>
-<br>
-
-<!-- <div id="surveyhero-embed-wcuxrs9g"></div> -->
-
-<!-- <div class="h_iframe">
-    <iframe 
-        frameborder="0" 
-        id="surveyhero-embed-wcuxrs9g" 
-        src="https://www.umfrageonline.com/e/wcuxrs9g" 
-        allowfullscreen 
-        height="1700">
-    </iframe>
-</div> -->
-
-<br>
 <br>

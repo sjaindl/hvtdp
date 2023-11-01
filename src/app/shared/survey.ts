@@ -1,3 +1,4 @@
 export class Survey {
-    link: string
+  id: string
+  link: string
 }
