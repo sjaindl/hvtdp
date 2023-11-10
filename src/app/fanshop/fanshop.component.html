@@ -19,11 +19,11 @@ fxLayoutGap="10px">
     Mit einem Kauf wird nicht nur das heimische Wohnen und sein eigener Dresscode aufgepeppt, sondern man fördert mit einem Kauf auch das Vereinsleben und den sportlichen Betrieb unseres Vereines.
   </p>
 
-  
-  <p class="small">
+
+  <!-- <p class="small">
     Als Dankeschön bieten wir unseren treuen Vereinsmitgliedern einen Rabatt von 15 % auf alle Artikel an!
-  </p>
-  
+  </p> -->
+
   <!--
   <h2 style="text-align: center; padding-left: 10px; padding-right: 10px;">
     Weihnachtsspecial! Schlage jetzt zu in unserem Fanshop und erhalte bis Weihnachten 15 % Rabatt auf alle Artikel!
@@ -57,7 +57,7 @@ fxLayoutGap="10px">
 
         <mat-grid-tile-footer *ngIf="isMobile" [style.font-size.em] = "detailSizeEm" style="text-align: center; min-height: 220px; height: auto;">
           {{item.description}}
-          &nbsp; 
+          &nbsp;
           <a md-icon-button class="btn-mail" href="mailto:hvtdpstainz@gmx.at?subject=Bestellung {{item.name}}&body={{item.description}} Bitte um Angabe von Anzahl und Größe.">
             <i class="fa fa-envelope"> jetzt bestellen!</i>
           </a>
@@ -65,14 +65,14 @@ fxLayoutGap="10px">
 
         <mat-grid-tile-footer *ngIf="!isMobile" [style.font-size.em] = "detailSizeEm" style="text-align: center; min-height: 110px; height: auto;">
           {{item.description}}
-          &nbsp; 
+          &nbsp;
           <a md-icon-button class="btn-mail" href="mailto:hvtdpstainz@gmx.at?subject=Bestellung {{item.name}}&body={{item.description}} Bitte um Angabe von Anzahl und Größe.">
             <i class="fa fa-envelope"> jetzt bestellen!</i>
           </a>
         </mat-grid-tile-footer>
-        
+
       </mat-grid-tile>
-      
+
     </mat-grid-list>
   </div>
 
