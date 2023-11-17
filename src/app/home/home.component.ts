@@ -50,7 +50,7 @@ export class HomeComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private titleService: Title,
     private metaTagService: Meta
-  ) { 
+  ) {
     this.mysqlService.getNews().subscribe(news => {
       this.items = news
       this.carouselItems = news
@@ -60,7 +60,7 @@ export class HomeComponent implements OnInit {
       this.tickerItems = tickerItems
     })
   }
-  
+
   ngOnInit() {
     /*
     this.deviceInfo = this.deviceService.getDeviceInfo();
@@ -134,6 +134,11 @@ export class HomeComponent implements OnInit {
 
   checkDevice() {
     this.isMobile = this.deviceService.isMobile()
+  }
+
+  imagePath(item: News): string {
+    if(item.imagePathHome != "") return this.imageBaseUrl + item.imagePathHome
+    else return this.imageBaseUrl + item.imagePath
   }
 
   @HostListener('window:resize', ['$event'])

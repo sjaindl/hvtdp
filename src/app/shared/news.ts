@@ -5,4 +5,5 @@ export class News {
     news: string
     htmlNews: string
     imagePath: string
+    imagePathHome: string
 }

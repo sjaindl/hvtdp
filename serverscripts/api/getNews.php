@@ -6,7 +6,7 @@
     header("Access-Control-Allow-Methods: GET");
 
     getNews($dbname, $dbuser, $dbpass, $dbhost);
-    
+
     function getNews($name, $user, $pass, $host) {
         $con = @mysqli_connect($host, $user, $pass, $name);
 
@@ -19,9 +19,9 @@
 
         $sql = "SELECT * FROM News ORDER BY newsDate DESC";
         $q = mysqli_query($con, $sql);
-        
+
         $news = array();
-        
+
         while ($res = mysqli_fetch_array($q))
         {
             array_push($news, array(
@@ -30,12 +30,13 @@
                 'title'=> mb_convert_encoding($res["title"], 'UTF8'),
                 'news'=> mb_convert_encoding($res["news"], 'UTF8'),
                 'htmlNews'=> mb_convert_encoding($res["htmlNews"], 'UTF8'),
+                'imagePathHome'=> mb_convert_encoding($res["imagePathHome"], 'UTF8'),
                 'imagePath'=> mb_convert_encoding($res["imagePath"], 'UTF8')));
         }
-        
+
         // Close connection
         mysqli_close ($con);
-        
+
         $json = json_encode($news, JSON_UNESCAPED_UNICODE);
 
         if ($json === false) {

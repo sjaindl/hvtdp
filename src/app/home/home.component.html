@@ -15,17 +15,17 @@
       <p>*Why this works: The inside of an inline-block is formatted as a block box, and the element itself is formatted as an atomic inline-level box. <br>Uses `box-sizing: content-box`<br>
       Padding is calculated on the width of the containing box.<br>
       So as both the ticker and the items are formatted as nested inline, the padding must be calculated by the ticker wrap.</p>
-      
+
       <p>Ticker content c/o <a href="http://hipsum.co/">Hipsum.co</a></p> -->
 
 <img class="logo" src="/assets/images/logo.gif">
 
 <!-- Social feed -->
 <div class="icon-bar">
-  <a href="https://www.facebook.com/hvtdpstainz/" target="_blank" class="facebook"><i class="fab fa-facebook"></i></a> 
-  <a href="https://twitter.com/HvStainz/" target="_blank" class="twitter"><i class="fab fa-twitter"></i></a> 
-  <a href="mailto:hvtdpstainz@gmx.at" class="mail"><i class="fa fa-envelope"></i></a> 
-  <a href="https://www.instagram.com/hvtdpstainz_2014/" target="_blank" class="instagram"><i class="fab fa-instagram"></i></a> 
+  <a href="https://www.facebook.com/hvtdpstainz/" target="_blank" class="facebook"><i class="fab fa-facebook"></i></a>
+  <a href="https://twitter.com/HvStainz/" target="_blank" class="twitter"><i class="fab fa-twitter"></i></a>
+  <a href="mailto:hvtdpstainz@gmx.at" class="mail"><i class="fa fa-envelope"></i></a>
+  <a href="https://www.instagram.com/hvtdpstainz_2014/" target="_blank" class="instagram"><i class="fab fa-instagram"></i></a>
 </div>
 
 <!-- Image Slider -->
@@ -34,7 +34,7 @@
         <div class="tile">
             <table>
                 <tr>
-                  <img class="bordered" height="500vh" src="{{imageBaseUrl + item.imagePath}}" (click)="showImageDetails(item)">
+                  <img class="bordered" height="500vh" src="{{imagePath(item)}}" (click)="showImageDetails(item)">
                 </tr>
 
                 <tr>
@@ -56,14 +56,14 @@
 
             <table>
                 <tr>
-                  <img class="bordered" width="200vw" src="{{imageBaseUrl + item.imagePath}}" (click)="showImageDetails(item)">
+                  <img class="bordered" width="200vw" src="{{imagePath(item)}}" (click)="showImageDetails(item)">
                 </tr>
 
                 <tr>
                   <p class="center">{{item.title}} </p>
                 </tr>
             </table>
-        </div> 
+        </div>
       </div>
       <button NguCarouselPrev class="leftRs" [style.opacity]="myCarousel.isFirst ? 0.5:1">&lt;</button>
       <button NguCarouselNext class="rightRs" [style.opacity]="myCarousel.isLast ? 0.5:1">&gt;</button>
