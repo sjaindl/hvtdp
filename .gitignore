@@ -47,7 +47,7 @@ node_modules
 keys.ts
 
 #assets
-src/assets/videos
+#src/assets/videos
 src/assets/images/advent/
 src/assets/images/team/
 src/assets/images/comingsoon.jpg
