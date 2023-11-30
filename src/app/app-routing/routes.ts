@@ -45,7 +45,7 @@ export const routes : Routes = [
     {path: "goaloftheseason/:season", component: GoalOfTheSeasonComponent},
     {path: "startingeleven", component: StartingelevenComponent},
     {path: "hallofpapp", component: HallofpappComponent},
-    {path: "advent", component: AdventComponent},
+    {path: "advent/:season", component: AdventComponent},
     {path: "hallenturnier", component: HallenturnierComponent},
     {path: "kleinfeldturnier", component: KleinfeldTurnierComponent},
     {path: "bocciaturnier", component: BocciaComponent},

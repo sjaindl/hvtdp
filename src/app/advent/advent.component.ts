@@ -3,6 +3,8 @@ import { baseUrlImages } from '../shared/baseurls'
 import { DeviceDetectorService } from '../../../node_modules/ngx-device-detector'
 import { Title, Meta } from '@angular/platform-browser'
 import { List } from 'postcss/lib/list'
+import { ActivatedRoute } from '@angular/router'
+
 @Component({
   selector: 'app-advent',
   templateUrl: './advent.component.html',
@@ -12,8 +14,15 @@ import { List } from 'postcss/lib/list'
 export class AdventComponent {
   imageBaseUrl: string = ""
   isMobile = null
-  
-  constructor(private titleService: Title, private metaTagService: Meta, private deviceService: DeviceDetectorService) {
+  season: string
+
+  private sub: any
+
+  constructor(
+    private titleService: Title,
+    private metaTagService: Meta,
+    private deviceService: DeviceDetectorService,
+    private route: ActivatedRoute) {
     //this.imageBaseUrl = baseUrlImages
 
     this.titleService.setTitle("HV TDP Stainz: Adventkalender")
@@ -30,6 +39,15 @@ export class AdventComponent {
 
   ngOnInit() {
     this.checkDevice()
+
+    this.sub = this.route.params.subscribe(params => {
+      this.season = params['season']
+
+    })
+  }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe()
   }
 
   checkDevice() {
@@ -37,6 +55,8 @@ export class AdventComponent {
   }
 
   curDay(): number {
+    if(this.season == '2023') return 1
+
     var now = new Date()
     //var day = Math.min(now.getUTCDate(), 24)
     var day = 24
@@ -48,6 +68,8 @@ export class AdventComponent {
   }
 
   dayRange(): number[] {
+    if(this.season == '2023') return [1]
+
     return Array.from(Array(this.curDay())).map((_, idx) => idx + 1).reverse()
   }
 }
