@@ -45,6 +45,13 @@
       <button mat-menu-item routerLink="/about" routerLinkActive="active"><span class="fa fa-info fa-sm"></span> Über uns</button>
       <button mat-menu-item routerLink="/contact" routerLinkActive="active"><span class="fa fa-info fa-sm"></span> Kontakt</button>
       <button mat-menu-item routerLink="/fanshop" routerLinkActive="active"><span class="fa fa-shopping-cart fa-sm"></span> Fanshop</button>
+
+      <button mat-menu-item [matMenuTriggerFor]="advent"><span class="fa fa-candy-cane fa-sm"></span> Adventkalender</button>
+      <mat-menu #advent="matMenu">
+        <button mat-menu-item routerLink="/advent/2021">Advent 2021</button>
+        <button mat-menu-item routerLink="/advent/2023">Advent 2023</button>
+      </mat-menu>
+
       <button mat-menu-item routerLink="/membership" routerLinkActive="active"><span class="fa fa-flag fa-sm"></span> Mitgliedschaft</button>
       <button mat-menu-item routerLink="/documents" routerLinkActive="active"><span class="fa fa-file fa-sm"></span> Dokumente</button>
 
@@ -58,12 +65,6 @@
       </mat-menu>
 
       <button mat-menu-item routerLink="/startingeleven" routerLinkActive="active"><span class="fa fa-futbol fa-sm"></span> Starting Eleven</button>
-
-      <button mat-menu-item [matMenuTriggerFor]="advent"><span class="fa fa-candy-cane fa-sm"></span> Adventkalender</button>
-      <mat-menu #advent="matMenu">
-        <button mat-menu-item routerLink="/advent/2021">Advent 2021</button>
-        <button mat-menu-item routerLink="/advent/2023">Advent 2023</button>
-      </mat-menu>
 
       <!-- <button mat-menu-item routerLink="/halloffame" routerLinkActive="active"><span class="fa fa-award fa-sm"></span> Hall of Fame</button> -->
     </mat-menu>
@@ -111,6 +112,13 @@
       <button mat-menu-item routerLink="/about" routerLinkActive="active"><span class="fa fa-info fa-sm"></span> Über uns</button>
       <button mat-menu-item routerLink="/contact" routerLinkActive="active"><span class="fa fa-info fa-sm"></span> Kontakt</button>
       <button mat-menu-item routerLink="/fanshop" routerLinkActive="active"><span class="fa fa-shopping-cart fa-sm"></span> Fanshop</button>
+
+      <button mat-menu-item [matMenuTriggerFor]="advent"><span class="fa fa-candy-cane fa-sm"></span> Adventkalender</button>
+      <mat-menu #advent="matMenu">
+        <button mat-menu-item routerLink="/advent/2021">Advent 2021</button>
+        <button mat-menu-item routerLink="/advent/2023">Advent 2023</button>
+      </mat-menu>
+
       <button mat-menu-item routerLink="/membership" routerLinkActive="active"><span class="fa fa-flag fa-sm"></span> Mitgliedschaft</button>
       <button mat-menu-item routerLink="/documents" routerLinkActive="active"><span class="fa fa-file fa-sm"></span> Dokumente</button>
 
@@ -127,11 +135,6 @@
 
             <button mat-menu-item routerLink="/startingeleven" routerLinkActive="active"><span class="fa fa-futbol fa-sm"></span> Starting Eleven</button>
 
-            <button mat-menu-item [matMenuTriggerFor]="advent"><span class="fa fa-candy-cane fa-sm"></span> Adventkalender</button>
-            <mat-menu #advent="matMenu">
-              <button mat-menu-item routerLink="/advent/2021">Advent 2021</button>
-              <button mat-menu-item routerLink="/advent/2023">Advent 2023</button>
-            </mat-menu>
             <!-- <button mat-menu-item routerLink="/halloffame" routerLinkActive="active"><span class="fa fa-award fa-sm"></span> Hall of Fame</button> -->
       </mat-menu>
     </div>

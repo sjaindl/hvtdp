@@ -55,15 +55,14 @@ export class AdventComponent {
   }
 
   curDay(): number {
-    if(this.season == '2023') return 1
+    if(this.season == '2021') return 24
 
     var now = new Date()
-    //var day = Math.min(now.getUTCDate(), 24)
-    var day = 24
+    var day = Math.min(now.getUTCDate(), 24)
 
-    if (now.getUTCHours() < 11) {
-      return day - 1
-    }
+    // if (now.getUTCHours() < 11) {
+    //   return day - 1
+    // }
     return day
   }
 
