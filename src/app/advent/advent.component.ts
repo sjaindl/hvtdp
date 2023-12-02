@@ -67,8 +67,6 @@ export class AdventComponent {
   }
 
   dayRange(): number[] {
-    if(this.season == '2023') return [1]
-
     return Array.from(Array(this.curDay())).map((_, idx) => idx + 1).reverse()
   }
 }
