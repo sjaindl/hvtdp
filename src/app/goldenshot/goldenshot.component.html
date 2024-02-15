@@ -1,0 +1,148 @@
+<h3 class="large header">Der „goldene Schuss“ Bewerb!</h3>
+
+<p class="normal">
+  Du traust dir zu von der Mittellinie das Tor zu treffen und willst dabei auch noch etwas gewinnen?
+
+  Dann bist du hier genau richtig!
+</p>
+
+<p class="normal">
+  Vor dem Jubiläumsfreundschaftsspiel gegen die FK Austria Wien Allstars gibt es den „goldenen Schuss“ Bewerb.
+</p>
+
+<p class="normal">
+  Die Anmeldung ist kostenlos und ausschließlich über dieses Anmeldeformular möglich!
+</p>
+
+
+<p class="normal">
+  Die ersten 50 Anmeldungen schaffen es ins offizielle Online-Voting. Auch das online Voting wird ausschließlich über unsere Homepage stattfinden. Die 3 Teilnehmer mit den meisten Stimmen schaffen es in den offiziellen Bewerb und dürfen beim Fest um den Gewinn spielen.
+</p>
+
+<p class="normal">
+  Meldet euch an und nutzt eure Chance ins Online-Voting zu kommen!
+</p>
+
+<p class="normal">
+  📅 WANN: Samstag 20. Juli 2024, 15:00
+</p>
+
+<p class="normal">
+  🏟 Wo: Stadion Stainz
+</p>
+
+<p class="normal">
+  <b>Wer kann teilnehmen?</b>
+</p>
+
+<p class="normal">
+  Jeder. Das einzige Kriterium ist das Mindestalter von 18 Jahren.
+</p>
+
+<p class="normal">
+  <b>Wie läuft der Bewerb ab?</b>
+</p>
+
+<ul class="normal">
+  <li>Anmeldung über das online Formular (max. 50 Anmeldungen werden angenommen!)</li>
+  <li>Online Voting (max. 50 Personen stehen zur Wahl)</li>
+  <li>Die Top 3 gewinnen das Voting und schaffen den Einzug ins Finale</li>
+  <li>Am Finaltag hat jeder Schütze 3 Versuche den Ball von der Mittellinie DIREKT und OHNE vor der Torlinie aufzuspringen ins Tor zu treffen (bei Unentschieden geht es im „Sudden Death“ Modus solange weiter bis ein Sieger feststeht)</li>
+</ul>
+
+<p class="normal">
+  <b>Was gibt es zu gewinnen?</b>
+</p>
+
+<p class="normal">
+  Alle 3 Spieler, welche es ins Finale schaffen, erhalten für ihre Teilnahme GRATIS EINTRITT zum Sommerfest vom HV TDP Stainz.<br>
+  Für den Gewinner gibt es den Hauptpreis ……
+</p>
+
+<p class="normal">
+  Sollte nach allen Versuchen von den 3 Spielern niemand das Tor treffen, gibt es keinen Gewinner!
+</p>
+
+<div style="background-color: darkblue;color: rgba(255,255,255,.7);border: 10px solid; margin-left: 10px; margin-right: 10px;">
+  <form novalidate [formGroup]="feedbackForm" (ngSubmit)="onSubmit()" style="margin-left: 10px; margin-right: 10px;">
+    <p>
+      <mat-form-field class="full-width"
+      color="{{(formErrors.firstName) ? 'warn' : 'primary'}}">
+        <input class="formElement" matInput type="text" formControlName="firstName" placeholder="Vorname" required>
+        <mat-hint>
+          <span [hidden]="!(formErrors.firstName)">
+            {{formErrors.firstName}}</span>
+        </mat-hint>
+      </mat-form-field>
+    </p>
+
+    <p>
+      <mat-form-field class="full-width"
+      color="{{(formErrors.lastName) ? 'warn' : 'primary'}}">
+        <input class="formElement" matInput type="text" formControlName="lastName" placeholder="Nachname" required>
+        <mat-hint>
+          <span [hidden]="!(formErrors.lastName)">
+            {{formErrors.lastName}}</span>
+        </mat-hint>
+      </mat-form-field>
+    </p>
+
+    <p>
+      <mat-form-field class="full-width"
+       color="{{(formErrors.email) ? 'warn' : 'primary'}}">
+        <input matInput formControlName="email" placeholder="E-Mail" type="email" email required>
+        <mat-hint>
+          <span [hidden]="!(formErrors.email)">
+            {{formErrors.email}}</span>
+        </mat-hint>
+      </mat-form-field>
+    </p>
+
+    <p>
+      <mat-form-field class="full-width"
+       color="{{(formErrors.phone) ? 'warn' : 'primary'}}">
+        <input class="formElement" matInput formControlName="phone" placeholder="Telefonnummer" type="text">
+        <mat-hint>
+          <span [hidden]="!(formErrors.phone)">
+            {{formErrors.phone}}</span>
+        </mat-hint>
+      </mat-form-field>
+    </p>
+
+    <button style="margin: 100 auto;float: right; font-size: 20px" class="formElement" type="submit" mat-button class="background-primary" [disabled]="feedbackForm.invalid" >Anmeldung jetzt abschicken</button>
+    <br>
+  </form>
+
+   <input type="file" class="file-input" accept="image/*" (change)="onFileSelected($event)" #fileUpload>
+
+   <div class="file-upload" style="margin-left: 10px; margin-right: 10px;">
+     <br>
+     Profilfoto: <br>
+     {{fileName || "Noch kein Profilfoto hochgeladen"}}
+
+     <button mat-mini-fab color="primary" class="upload-btn"
+       (click)="fileUpload.click()">
+         <mat-icon>attach_file</mat-icon>
+     </button>
+   </div>
+
+   <br>
+
+   <div style="margin-left: 10px; margin-right: 10px;">
+     Mit dem Abschicken der Anmeldung bestätige ich, dass ich mindestens 18 Jahre bin und mit der Veröffentlichung der persönlichen Daten im Zuge des Bewerbs einverstanden bin.
+   </div>
+
+   <br>
+
+</div>
+
+<div *ngIf="submittedFormData">
+  <div>
+    <h2>Wir haben deine Anmeldung erhalten, Vielen Dank! Wir melden uns bei dir in Kürze.</h2>
+    <p>Vorname: {{submittedFormData.firstName}}</p>
+    <p>Nachname: {{submittedFormData.givenName}}</p>
+    <p>E-Mail: {{submittedFormData.email}}</p>
+    <p>Telefonnummer: {{submittedFormData.phone}}</p>
+</div>
+
+<br><br>

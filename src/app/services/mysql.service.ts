@@ -191,4 +191,28 @@ export class MysqlService {
       .append('platform', window.navigator.platform)
     })
   }
+
+  public postGoldenShotRegistration(firstName: string, lastName: string, mail: string, phone: string, photo: string): Observable<any> {
+    var url = 'https://www.hvtdpstainz.at/api/postGoldenShot.php?'
+    url += '&firstName=' + firstName
+    url += '&lastName=' + lastName
+    url += '&mail=' + mail
+    url += '&phone=' + phone
+    url += '&photo=' + photo
+    url += '&useragent=' + window.navigator.userAgent
+    url += '&language=' + window.navigator.language
+    url += '&platform=' + window.navigator.platform
+
+    return this.http.get<any>(url, {
+      params: new HttpParams()
+      .append('firstName', firstName)
+      .append('lastName', lastName)
+      .append('mail', mail)
+      .append('phone', phone)
+      .append('photo', photo)
+      .append('useragent', window.navigator.userAgent)
+      .append('language', window.navigator.language)
+      .append('platform', window.navigator.platform)
+    })
+  }
 }

@@ -23,6 +23,7 @@ import { HallenturnierComponent } from '../hallenturnier/hallenturnier.component
 import { KleinfeldTurnierComponent } from '../kleinfeldturnier/kleinfeldturnier.component'
 import { BocciaComponent } from '../boccia/boccia.component'
 import { ZehnjahresfeierComponent } from '../zehnjahresfeier/zehnjahresfeier.component'
+import { GoldenshotComponent } from '../goldenshot/goldenshot.component'
 
 export const routes : Routes = [
     {path: "home", component: HomeComponent},
@@ -50,4 +51,5 @@ export const routes : Routes = [
     {path: "kleinfeldturnier", component: KleinfeldTurnierComponent},
     {path: "bocciaturnier", component: BocciaComponent},
     {path: "10-jahre-hvtdp", component: ZehnjahresfeierComponent},
+    {path: "goldenshot", component: GoldenshotComponent},
 ]
