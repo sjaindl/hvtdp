@@ -51,5 +51,5 @@ export const routes : Routes = [
     {path: "kleinfeldturnier", component: KleinfeldTurnierComponent},
     {path: "bocciaturnier", component: BocciaComponent},
     {path: "10-jahre-hvtdp", component: ZehnjahresfeierComponent},
-    {path: "goldenshot", component: GoldenshotComponent},
+    {path: "torschusschallenge", component: GoldenshotComponent},
 ]

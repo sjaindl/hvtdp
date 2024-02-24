@@ -4,6 +4,7 @@ import { GoldenShot } from '../shared/goldenshot';
 import { Meta, Title } from '@angular/platform-browser';
 import { MysqlService } from '../services/mysql.service';
 import { FileUploadService } from '../services/file-upload.service';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   selector: 'app-goldenshot',
@@ -11,6 +12,8 @@ import { FileUploadService } from '../services/file-upload.service';
   styleUrls: ['./goldenshot.component.css']
 })
 export class GoldenshotComponent implements OnInit {
+
+  isMobile = null
 
   feedbackForm: FormGroup
   goldenShotFormData: GoldenShot
@@ -54,6 +57,7 @@ export class GoldenshotComponent implements OnInit {
     private metaTagService: Meta,
     private mysqlService: MysqlService,
     private fileUploadService: FileUploadService,
+    private deviceService: DeviceDetectorService,
     ) {
       this.createForm()
   }
@@ -69,6 +73,8 @@ export class GoldenshotComponent implements OnInit {
       { name: 'author', content: 'Stefan Jaindl' },
       { charset: 'UTF-8' }
     ])
+
+    this.checkDevice()
   }
 
   createForm() {
@@ -141,5 +147,9 @@ export class GoldenshotComponent implements OnInit {
         this.file = file
         this.fileName = file.name;
     }
+  }
+
+  checkDevice() {
+    this.isMobile = this.deviceService.isMobile()
   }
 }

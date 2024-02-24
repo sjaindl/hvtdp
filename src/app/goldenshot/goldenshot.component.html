@@ -1,30 +1,31 @@
-<h3 class="large header">Der „goldene Schuss“ Bewerb!</h3>
+<h3 class="large header">Die „Torschuss Challenge“</h3>
+<h4 class="small header">powered by 11teamsports Graz</h4>
+
+<img *ngIf="isMobile" class="imageSmallCenter" src="assets/images/torschusschallenge.jpg" style="width: 80%;" >
+<img *ngIf="!isMobile" class="imageSmallCenter" src="assets/images/torschusschallenge.jpg" style="width: 40%;" >
 
 <p class="normal">
-  Du traust dir zu von der Mittellinie das Tor zu treffen und willst dabei auch noch etwas gewinnen?
+  Du traust dir zu den Ball von der Mittellinie direkt (ohne dass der Ball vorher den Boden berührt) ins Tor zu treffen und willst dabei auch noch etwas gewinnen?!?
 
   Dann bist du hier genau richtig!
 </p>
 
 <p class="normal">
-  Vor dem Jubiläumsfreundschaftsspiel gegen die FK Austria Wien Allstars gibt es den „goldenen Schuss“ Bewerb.
+  Im Zuge unserer 10 Jahresfeier findet am Tag unseres Sommerfestes die „Torschuss Challenge“ statt! Für das Finale können sich 3 Teilnehmer qualifizieren.
+  Auf den möglichen Gewinner wartet ein sensationeller Preis!
 </p>
 
 <p class="normal">
-  Die Anmeldung ist kostenlos und ausschließlich über dieses Anmeldeformular möglich!
+  Die Anmeldung ist völlig KOSTENLOS und ausschließlich über unser Anmeldeformular möglich!
 </p>
 
 
 <p class="normal">
-  Die ersten 50 Anmeldungen schaffen es ins offizielle Online-Voting. Auch das online Voting wird ausschließlich über unsere Homepage stattfinden. Die 3 Teilnehmer mit den meisten Stimmen schaffen es in den offiziellen Bewerb und dürfen beim Fest um den Gewinn spielen.
+  Sichere dir deinen Platz und nutze die Chance ins Finale zu kommen!
 </p>
 
 <p class="normal">
-  Meldet euch an und nutzt eure Chance ins Online-Voting zu kommen!
-</p>
-
-<p class="normal">
-  📅 WANN: Samstag 20. Juli 2024, 15:00
+  📅 WANN: Samstag 20. Juli 2024
 </p>
 
 <p class="normal">
@@ -32,11 +33,21 @@
 </p>
 
 <p class="normal">
+  <b>Was gibt es zu gewinnen?</b>
+</p>
+
+<p class="normal">
+  Der mögliche Gewinner erhält <b>2 VIP Karten für ein Heimspiel des SK Puntigamer Sturm Graz!</b> (gesponsert von 11teamsports Graz)
+
+  Die 3 Finalisten erhalten für ihre Teilnahme GRATIS Eintritt zu unserem Sommerfest!
+</p>
+
+<p class="normal">
   <b>Wer kann teilnehmen?</b>
 </p>
 
 <p class="normal">
-  Jeder. Das einzige Kriterium ist das Mindestalter von 18 Jahren.
+  Jeder der mindestens 18 Jahre alt ist.
 </p>
 
 <p class="normal">
@@ -44,24 +55,10 @@
 </p>
 
 <ul class="normal">
-  <li>Anmeldung über das online Formular (max. 50 Anmeldungen werden angenommen!)</li>
-  <li>Online Voting (max. 50 Personen stehen zur Wahl)</li>
-  <li>Die Top 3 gewinnen das Voting und schaffen den Einzug ins Finale</li>
-  <li>Am Finaltag hat jeder Schütze 3 Versuche den Ball von der Mittellinie DIREKT und OHNE vor der Torlinie aufzuspringen ins Tor zu treffen (bei Unentschieden geht es im „Sudden Death“ Modus solange weiter bis ein Sieger feststeht)</li>
+  <li>Anmeldung über unser Online Formular</li>
+  <li>Online Voting auf unserer Homepage (max. 50 Teilnehmer stehen zur Wahl!)</li>
+  <li>Die Top 3 des Online Votings schaffen den Einzug ins Finale und dürfen am Tag des Sommerfestes um den Hauptpreis spielen!</li>
 </ul>
-
-<p class="normal">
-  <b>Was gibt es zu gewinnen?</b>
-</p>
-
-<p class="normal">
-  Alle 3 Spieler, welche es ins Finale schaffen, erhalten für ihre Teilnahme GRATIS EINTRITT zum Sommerfest vom HV TDP Stainz.<br>
-  Für den Gewinner gibt es den Hauptpreis ……
-</p>
-
-<p class="normal">
-  Sollte nach allen Versuchen von den 3 Spielern niemand das Tor treffen, gibt es keinen Gewinner!
-</p>
 
 <div style="background-color: darkblue;color: rgba(255,255,255,.7);border: 10px solid; margin-left: 10px; margin-right: 10px;">
   <form novalidate [formGroup]="feedbackForm" (ngSubmit)="onSubmit()" style="margin-left: 10px; margin-right: 10px;">
@@ -145,4 +142,5 @@
     <p>Telefonnummer: {{submittedFormData.phone}}</p>
 </div>
 
+<br><br>
 <br><br>

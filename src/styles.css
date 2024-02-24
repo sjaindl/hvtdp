@@ -45,7 +45,7 @@ $divider-color:        #BDBDBD;
 }
 
 /* Links */
-  
+
 /* unvisited link */
 a:link {
     color: hotpink;
@@ -69,26 +69,26 @@ a:active {
 /* Material Lists */
 
 .listImage {
-    float: left; 
+    float: left;
     margin-bottom: 75px;
     width: 500px;
 }
 
 .listImageMobile {
-    float: left; 
+    float: left;
     margin-bottom: 200px;
     width: 500px;
 }
 
 .mat-list .mat-list-item .mat-list-text>*, .mat-list .mat-list-option .mat-list-text.hover>*, .mat-nav-list .mat-list-item .mat-list-text>*, .mat-nav-list .mat-list-option .mat-list-text>*, .mat-selection-list .mat-list-item .mat-list-text>*, .mat-selection-list .mat-list-option .mat-list-text>* {
-    color: whitesmoke; 
+    color: whitesmoke;
 }
 
- .mat-list .mat-list-item .mat-list-avatar.img-preview { 
+ .mat-list .mat-list-item .mat-list-avatar.img-preview {
     height: 200px;
     width: 115px;
 }
-/* 
+/*
 .mat-list .mat-list-item {
     color: blue;
 } */
@@ -109,13 +109,13 @@ body {
     font-family: Roboto, sans-serif;
     color: whitesmoke;
     background-color: navy;
-    
+
     /* background-image: "url(assets/images/logo.gif)";
     background-repeat: no-repeat;
     background-position: left top; */
 }
 
-h1.header, h2.header, h3.header {
+h1.header, h2.header, h3.header, h4.header {
     text-align: center;
     text-decoration: underline;
 }
@@ -150,7 +150,7 @@ h1.header, h2.header, h3.header {
     margin-left: auto;
     margin-right: auto;
     width: 50%;
-    
+
     font-size: 120%;
     text-align: center;
 }
@@ -172,7 +172,7 @@ h1.header, h2.header, h3.header {
     margin-left: auto;
     margin-right: auto;
     width: 50%;
-    
+
     font-size: 150%;
     text-align: center;
 }
@@ -220,7 +220,7 @@ h1.header, h2.header, h3.header {
 
 /* Carousel */
 
-  
+
 .tile {
     /* min-height: 50vh;
     max-height: 50vh;
@@ -231,7 +231,7 @@ h1.header, h2.header, h3.header {
     justify-content: center;
     margin: 100px;
   }
-  
+
   .leftRs {
       position: absolute;
       margin: auto;
@@ -243,7 +243,7 @@ h1.header, h2.header, h3.header {
       border-radius: 999px;
       left: 0;
     }
-  
+
     .rightRs {
       position: absolute;
       margin: auto;
@@ -255,7 +255,7 @@ h1.header, h2.header, h3.header {
       border-radius: 999px;
       right: 0;
     }
-  
+
   .myPoint {
     list-style-type: none;
     text-align: center;
@@ -278,7 +278,7 @@ h1.header, h2.header, h3.header {
       background: #6b6b6b;
       transform: scale(1.2);
     }
-  
+
   .bordered {
     border-style: solid;
     border-width: 10px;
