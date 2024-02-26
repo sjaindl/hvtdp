@@ -40,7 +40,7 @@
         $subject = "Anmeldung Torschuss-Challenge 2024: " . $teamname;
 
         $message = "Vorname: " . $firstName . "\r\n";
-        $message = "Nachname: " . $lastName . "\r\n";
+        $message .= "Nachname: " . $lastName . "\r\n";
         $message .= "Telefonnummer: " . $phone . "\r\n";
         $message .= "E-Mail: " . $mail . "\r\n";
         $message .= "Photo: " . $photo . "\r\n" . "\r\n";
