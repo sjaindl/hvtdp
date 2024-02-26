@@ -32,8 +32,10 @@
   🏟 Wo: Stadion Stainz
 </p>
 
+<br>
+
 <p class="normal">
-  <b>Was gibt es zu gewinnen?</b>
+  <b><u>Was gibt es zu gewinnen?</u></b>
 </p>
 
 <p class="normal">
@@ -42,23 +44,29 @@
   Die 3 Finalisten erhalten für ihre Teilnahme GRATIS Eintritt zu unserem Sommerfest!
 </p>
 
+<br>
+
 <p class="normal">
-  <b>Wer kann teilnehmen?</b>
+  <b><u>Wer kann teilnehmen?</u></b>
 </p>
 
 <p class="normal">
   Jeder der mindestens 18 Jahre alt ist.
 </p>
 
+<br>
+
 <p class="normal">
-  <b>Wie läuft der Bewerb ab?</b>
+  <b><u>Wie läuft der Bewerb ab?</u></b>
 </p>
 
-<ul class="normal">
-  <li>Anmeldung über unser Online Formular</li>
-  <li>Online Voting auf unserer Homepage (max. 50 Teilnehmer stehen zur Wahl!)</li>
-  <li>Die Top 3 des Online Votings schaffen den Einzug ins Finale und dürfen am Tag des Sommerfestes um den Hauptpreis spielen!</li>
+<ul>
+  <li class="normal">Anmeldung über unser Online Formular</li>
+  <li class="normal">Online Voting auf unserer Homepage (max. 50 Teilnehmer stehen zur Wahl!)</li>
+  <li class="normal">Die Top 3 des Online Votings schaffen den Einzug ins Finale und dürfen am Tag des Sommerfestes um den Hauptpreis spielen!</li>
 </ul>
+
+<br>
 
 <div style="background-color: darkblue;color: rgba(255,255,255,.7);border: 10px solid; margin-left: 10px; margin-right: 10px;">
   <form novalidate [formGroup]="feedbackForm" (ngSubmit)="onSubmit()" style="margin-left: 10px; margin-right: 10px;">
@@ -126,6 +134,12 @@
    <br>
 
    <div style="margin-left: 10px; margin-right: 10px;">
+     <u>Die mit * markierten Felder sind Pflichtfelder</u>
+   </div>
+
+   <br>
+
+   <div style="margin-left: 10px; margin-right: 10px;">
      Mit dem Abschicken der Anmeldung bestätige ich, dass ich mindestens 18 Jahre bin und mit der Veröffentlichung der persönlichen Daten im Zuge des Bewerbs einverstanden bin.
    </div>
 
@@ -137,7 +151,7 @@
   <div>
     <h2>Wir haben deine Anmeldung erhalten, Vielen Dank! Wir melden uns bei dir in Kürze.</h2>
     <p>Vorname: {{submittedFormData.firstName}}</p>
-    <p>Nachname: {{submittedFormData.givenName}}</p>
+    <p>Nachname: {{submittedFormData.lastName}}</p>
     <p>E-Mail: {{submittedFormData.email}}</p>
     <p>Telefonnummer: {{submittedFormData.phone}}</p>
 </div>
