@@ -168,30 +168,6 @@ export class MysqlService {
     })
   }
 
-  public postTenYearJubilaeum(firstname: string, lastname: string, mail: string, address: string, ticketCount: number): Observable<any> {
-    var url = 'https://www.hvtdpstainz.at/api/postJubilaeum.php?'
-    url += 'firstname=' + firstname
-    url += '&lastname=' + lastname
-    url += '&mail=' + mail
-    url += '&address=' + address
-    url += '&ticketCount=' + ticketCount
-    url += '&useragent=' + window.navigator.userAgent
-    url += '&language=' + window.navigator.language
-    url += '&platform=' + window.navigator.platform
-
-    return this.http.get<any>(url, {
-      params: new HttpParams()
-      .append('firstname', firstname)
-      .append('lastname', lastname)
-      .append('mail', mail)
-      .append('address', address)
-      .append('ticketCount',  ""+ticketCount)
-      .append('useragent', window.navigator.userAgent)
-      .append('language', window.navigator.language)
-      .append('platform', window.navigator.platform)
-    })
-  }
-
   public postGoldenShotRegistration(firstName: string, lastName: string, mail: string, phone: string, photo: string): Observable<any> {
     var url = 'https://www.hvtdpstainz.at/api/postGoldenShot.php?'
     url += '&firstName=' + firstName
