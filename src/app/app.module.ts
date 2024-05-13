@@ -64,6 +64,7 @@ import { KleinfeldTurnierComponent } from './kleinfeldturnier/kleinfeldturnier.c
 import { BocciaComponent } from './boccia/boccia.component'
 import { ZehnjahresfeierComponent } from './zehnjahresfeier/zehnjahresfeier.component';
 import { GoldenshotComponent } from './goldenshot/goldenshot.component'
+import { RedirectGuard } from './app-routing/redirect-guard'
 
 const cookieConfig: NgcCookieConsentConfig = {
   cookie: {
@@ -147,6 +148,7 @@ const cookieConfig: NgcCookieConsentConfig = {
   providers: [
     MysqlService,
     StatisticsService,
+    RedirectGuard,
     { provide: LocationStrategy, useClass: HashLocationStrategy },
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 2500} }
   ],

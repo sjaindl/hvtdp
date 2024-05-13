@@ -14,7 +14,6 @@ import { MembershipComponent } from '../membership/membership.component'
 import { HalloffameComponent } from '../halloffame/halloffame.component'
 import { DocumentsComponent } from '../documents/documents.component'
 import { SurveysComponent } from '../surveys/surveys.component'
-import { StartingelevenComponent } from '../startingeleven/startingeleven.component'
 import { HallofpappComponent } from '../hallofpapp/hallofpapp.component'
 import { DuckrunComponent } from '../duckrun/duckrun.component'
 import { AdventComponent } from '../advent/advent.component'
@@ -24,6 +23,7 @@ import { KleinfeldTurnierComponent } from '../kleinfeldturnier/kleinfeldturnier.
 import { BocciaComponent } from '../boccia/boccia.component'
 import { ZehnjahresfeierComponent } from '../zehnjahresfeier/zehnjahresfeier.component'
 import { GoldenshotComponent } from '../goldenshot/goldenshot.component'
+import { RedirectGuard } from './redirect-guard'
 
 export const routes : Routes = [
     {path: "home", component: HomeComponent},
@@ -44,7 +44,10 @@ export const routes : Routes = [
     {path: "documents", component: DocumentsComponent},
     {path: "surveys", component: SurveysComponent},
     {path: "goaloftheseason/:season", component: GoalOfTheSeasonComponent},
-    {path: "startingeleven", component: StartingelevenComponent},
+    //{path: "startingeleven", component: StartingelevenComponent},
+    {path: "startingeleven", canActivate: [RedirectGuard], component: RedirectGuard, data: {
+      externalUrl: 'https://starting-eleven-2019.firebaseapp.com/home'
+    }},
     {path: "hallofpapp", component: HallofpappComponent},
     {path: "advent/:season", component: AdventComponent},
     {path: "hallenturnier", component: HallenturnierComponent},
