@@ -16,6 +16,7 @@ import { Member } from '../shared/member';
 import { Validation } from '../shared/validation';
 import { Standing } from '../shared/standing';
 import { Scorer } from '../shared/scorer';
+import { GoldenShot } from '../shared/goldenshot';
 
 @Injectable()
 export class MysqlService {
@@ -168,6 +169,10 @@ export class MysqlService {
     })
   }
 
+  public getGoldenshot(): Observable<GoldenShot[]> {
+    return this.http.get<GoldenShot[]>('https://www.hvtdpstainz.at/api/getGoldenShot.php')
+  }
+
   public postGoldenShotRegistration(firstName: string, lastName: string, mail: string, phone: string, photo: string): Observable<any> {
     var url = 'https://www.hvtdpstainz.at/api/postGoldenShot.php?'
     url += '&firstName=' + firstName
@@ -189,6 +194,15 @@ export class MysqlService {
       .append('useragent', window.navigator.userAgent)
       .append('language', window.navigator.language)
       .append('platform', window.navigator.platform)
+    })
+  }
+
+  public postGoldenShotVote(id: string): Observable<any> {
+    var url = 'https://www.hvtdpstainz.at/api/postGoldenShotVote.php?'
+
+    return this.http.get<any>(url, {
+      params: new HttpParams()
+      .append('id', id)
     })
   }
 }

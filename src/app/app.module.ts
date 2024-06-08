@@ -64,7 +64,10 @@ import { KleinfeldTurnierComponent } from './kleinfeldturnier/kleinfeldturnier.c
 import { BocciaComponent } from './boccia/boccia.component'
 import { ZehnjahresfeierComponent } from './zehnjahresfeier/zehnjahresfeier.component';
 import { GoldenshotComponent } from './goldenshot/goldenshot.component'
-import { RedirectGuard } from './app-routing/redirect-guard'
+import { RedirectGuard } from './app-routing/redirect-guard';
+import { GoldenshotVotingComponent } from './goldenshot-voting/goldenshot-voting.component'
+import { MatButtonModule } from '@angular/material/button'
+import { CookieService } from 'ngx-cookie-service'
 
 const cookieConfig: NgcCookieConsentConfig = {
   cookie: {
@@ -113,6 +116,7 @@ const cookieConfig: NgcCookieConsentConfig = {
     BocciaComponent,
     ZehnjahresfeierComponent,
     GoldenshotComponent,
+    GoldenshotVotingComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }) ,
@@ -138,6 +142,7 @@ const cookieConfig: NgcCookieConsentConfig = {
     MatSortModule,
     MatSnackBarModule,
     MatMenuModule,
+    MatButtonModule,
     GoogleMapsModule,
     FormsModule,
     ReactiveFormsModule,
@@ -149,6 +154,7 @@ const cookieConfig: NgcCookieConsentConfig = {
     MysqlService,
     StatisticsService,
     RedirectGuard,
+    CookieService,
     { provide: LocationStrategy, useClass: HashLocationStrategy },
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 2500} }
   ],

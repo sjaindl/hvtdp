@@ -24,6 +24,7 @@ import { BocciaComponent } from '../boccia/boccia.component'
 import { ZehnjahresfeierComponent } from '../zehnjahresfeier/zehnjahresfeier.component'
 import { GoldenshotComponent } from '../goldenshot/goldenshot.component'
 import { RedirectGuard } from './redirect-guard'
+import { GoldenshotVotingComponent } from '../goldenshot-voting/goldenshot-voting.component'
 
 export const routes : Routes = [
     {path: "home", component: HomeComponent},
@@ -55,4 +56,6 @@ export const routes : Routes = [
     {path: "bocciaturnier", component: BocciaComponent},
     {path: "10-jahre-hvtdp", component: ZehnjahresfeierComponent},
     {path: "torschusschallenge", component: GoldenshotComponent},
+    {path: "torschusschallenge-voting", component: GoldenshotVotingComponent},
+
 ]

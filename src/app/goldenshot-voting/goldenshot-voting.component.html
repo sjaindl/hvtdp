@@ -1,0 +1,76 @@
+<div class="hvtdp-padding">
+
+  <h3 class="large header">Die „Torschuss Challenge“ Abstimmung</h3>
+  <h4 class="small header">powered by 11teamsports Graz</h4>
+
+  <img *ngIf="isMobile" class="imageSmallCenter" src="assets/images/torschusschallenge.jpg" style="width: 80%;" >
+  <img *ngIf="!isMobile" class="imageSmallCenter" src="assets/images/torschusschallenge.jpg" style="width: 40%;" >
+
+  <p class="normal">
+    Es geht in die entscheidende Voting Phase!<br>
+    <b>16 Teilnehmer</b> (alphabetische Reihenfolge) stehen zur Wahl, doch nur <b>3</b> schaffen es ins Finale am 20. Juli 2024!<br>
+    Stimmt daher für euren Favoriten fleißig ab!
+  </p>
+
+  <p class="normal">
+    Votingende: Sonntag, 30.06.2024 - 23:55 Uhr
+  </p>
+
+  <p class="normal">
+    <b><u>Was gibt es zu gewinnen?</u></b>
+  </p>
+
+  <p class="normal">
+    Der mögliche Gewinner erhält <b>2 VIP Karten für ein Heimspiel des SK Puntigamer Sturm Graz!</b> (gesponsert von 11teamsports Graz)<br>
+
+    Die 3 Finalisten erhalten für ihre Teilnahme GRATIS Eintritt zu unserem Sommerfest!
+  </p>
+
+  <p class="normal">
+    <b><u>Wer kann teilnehmen?</u></b>
+  </p>
+
+  <p class="normal">
+    Jeder der mindestens 18 Jahre alt ist.
+  </p>
+
+  <p class="normal">
+    <b><u>Wie läuft der Bewerb ab?</u></b>
+  </p>
+
+  <ul>
+    <li class="normal"><i class="fa fa-check fa-sm" style="color: green;"></i> Anmeldung über unser Online Formular</li>
+    <li class="normal">Online Voting auf unserer Homepage (max. 50 Teilnehmer stehen zur Wahl!)</li>
+    <li class="normal">Die Top 3 des Online Votings schaffen den Einzug ins Finale und dürfen am Tag des Sommerfestes um den Hauptpreis spielen!</li>
+  </ul>
+
+  <br>
+
+  <div *ngIf="canVote">
+    <p class="normal">
+      Stimme hier für deinen Favoriten für die Torschuss-Challenge am 20. Juli 2024 ab (abstimmt werden kann pro Stunde 1x):
+    </p>
+
+    <mat-selection-list #voting [multiple]="false">
+        <mat-list-option *ngFor="let vote of goldenShotOptions" [value]="vote" style="color: whitesmoke;">{{vote.lastName.toUpperCase()}} {{vote.firstName}}</mat-list-option>
+    </mat-selection-list>
+
+    <p *ngIf="voting.selectedOptions.hasValue()">
+      Deine Wahl: {{ voting.selectedOptions.selected[0].value.lastName.toUpperCase() }} {{ voting.selectedOptions.selected[0].value.firstName }}
+    </p>
+
+    <br>
+
+    <button mat-flat-button color="primary" [disabled]="!voting.selectedOptions.hasValue()" (click)="saveVote(voting.selectedOptions.selected[0].value)">Stimme abgeben</button>
+
+    <br><br>
+
+  </div>
+
+  <div *ngIf="!canVote">
+    <p class="normal center">
+      Vielen Dank für deine Stimme!
+    </p>
+  </div>
+
+</div>
