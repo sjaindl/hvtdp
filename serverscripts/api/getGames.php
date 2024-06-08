@@ -6,7 +6,7 @@
     header("Access-Control-Allow-Methods: GET");
 
     getGames($dbname, $dbuser, $dbpass, $dbhost);
-    
+
     function getGames($name, $user, $pass, $host) {
         $con = @mysqli_connect($host, $user, $pass, $name);
 
@@ -18,17 +18,15 @@
         $fetchSeasons = mysqli_query($con, "SELECT * FROM GameSeason order by season DESC") or die(mysqli_error($con));
 
         $games_array = array();
-        
+
         while ($row_seasons = mysqli_fetch_assoc($fetchSeasons)) {
             $season = utf8_encode($row_seasons['season']);
-
-            $game_array = array();
 
             $fetch_games = mysqli_query($con, "SELECT round, description, date, gameId, customText
                 FROM Game g where g.season = '$season' order by date DESC") or die(mysqli_error($con));
 
             $gameId = 0;
-            
+
             $game_array = array();
 
             while ($row_games = mysqli_fetch_assoc($fetch_games)) {
@@ -41,12 +39,12 @@
                 $game_array['gameId'] = $gameId;
                 $game_array['customText'] = $row_games['customText'];
                 $game_array['links'] = array();
-                
+
                 $fetch_links = mysqli_query($con, "SELECT link, description, scorer, goalOfSeasonCandidate
                     FROM Link l where l.gameId = '$gameId' order by description ASC") or die(mysqli_error($con));
 
                 $link_array = array();
-                
+
                 while ($row_links = mysqli_fetch_assoc($fetch_links)) {
                     $link_array['link'] = $row_links['link'];
                     $link_array['description'] = $row_links['description'];

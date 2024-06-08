@@ -21,6 +21,10 @@ $divider-color:        #BDBDBD;
     padding: $pad-up-down $pad-left-right;
 }
 
+.hvtdp-padding {
+  padding: 4px;
+}
+
 .background-primary {
     background-color: $background-dark!important;
 }

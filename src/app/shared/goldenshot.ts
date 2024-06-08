@@ -1,6 +1,9 @@
 export class GoldenShot {
-    firstname: string;
-    lastname: string;
+    id: string;
+    firstName: string;
+    lastName: string;
     email: string;
     phone: boolean;
+    photo: string;
+    votes: number;
 }
