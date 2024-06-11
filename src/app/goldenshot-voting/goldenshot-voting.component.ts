@@ -48,7 +48,7 @@ export class GoldenshotVotingComponent implements OnInit {
     console.log('post vote', JSON.stringify(vote), vote.id)
     this.mysqlService.postGoldenShotVote(vote.id).subscribe(result => {
       this.cookieService.set(GOLDENSHOT_VOTING_COOKIE_KEY, 'true', 1 / 24) // (peristent) cookie expires after 1 hour
-      console.log(`response from server: ${result}`)
+      console.log(`response from server: ${JSON.stringify(result)}`)
       this.canVote = false
     })
   }

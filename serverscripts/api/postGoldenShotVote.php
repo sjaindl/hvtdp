@@ -17,7 +17,7 @@
 
         $id = $_GET['id'];
 
-        $sql = "UPDATE `Goldenshot` SET `votes` = $votes + 1 WHERE `Goldenshot`.`id` = $id;";
+        $sql = "UPDATE `Goldenshot` SET `votes` = `votes` + 1 WHERE `Goldenshot`.`id` = $id;";
 
         if ($con->query($sql) === TRUE) {
             echo '{"result": "Updated record successfully!"}';
