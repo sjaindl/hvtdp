@@ -56,6 +56,7 @@ export const routes : Routes = [
     {path: "bocciaturnier", component: BocciaComponent},
     {path: "10-jahre-hvtdp", component: ZehnjahresfeierComponent},
     {path: "torschusschallenge", component: GoldenshotComponent},
-    {path: "torschusschallenge-voting", component: GoldenshotVotingComponent},
+
+    //  {path: "torschusschallenge-voting", component: GoldenshotVotingComponent},
 
 ]
