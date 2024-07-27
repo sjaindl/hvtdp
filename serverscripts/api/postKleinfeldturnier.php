@@ -27,7 +27,7 @@
         $language = $_GET['language'];
         $platform = $_GET['platform'];
 
-        $sql = "INSERT INTO Turnier (name, phone, mail, teamname, vorrunde) VALUES ('$name', '$phone', '$mail', '$teamname')";
+        $sql = "INSERT INTO Turnier (name, phone, mail, teamname) VALUES ('$name', '$phone', '$mail', '$teamname')";
 
         if ($con->query($sql) === TRUE) {
             echo "New record created successfully";
