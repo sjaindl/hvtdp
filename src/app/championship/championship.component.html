@@ -66,6 +66,54 @@
 
 </mat-table>
 
+<div *ngIf="season == '2024-2025'">
+  <p class="normal">
+    <b>Spieltermine Herbst 2024:</b>
+  </p>
+
+  <p class="normal">
+    2. Runde - FREITAG, 13.09.2024 - 18:30 Uhr - Sportplatz Södingberg - STT Pichler : HV TDP Stainz
+  </p>
+
+  <p class="normal">
+    3. Runde - FREITAG, 20.09.2024 - 19:00 Uhr - Stadion Stainz - HV TDP Stainz : STT Multitask
+  </p>
+
+  <p class="normal">
+    4. Runde - FREITAG, 27.09.2024 - 17:30 Uhr - Sportplatz St. Johann - SK Hohenburg : HV TDP Stainz
+  </p>
+
+  <p class="normal">
+    5. Runde - SAMSTAG, 05.10.2024 - 16:00 Uhr - Stadion Stainz - HV TDP Stainz : GSV St. Oswald
+  </p>
+
+  <p class="normal">
+    6. Runde - SAMSTAG, 12.10.2024 - 16:30 Uhr - Stadion Stainz - HV TDP Stainz : STT Multitask
+  </p>
+
+  <p class="normal">
+    7. Runde - SAMSTAG, 26.10.2024 - 16:00 Uhr - Stadion Stainz - HV TDP Stainz : STT Pichler
+  </p>
+
+  <p class="normal">
+    <b>Unsere Torschützen:</b>
+  </p>
+
+  <p *ngFor="let scorer of scorers" class="normal">
+    {{ scorer.goalsDisplay }} {{scorer.playerName}}
+  </p>
+
+  <br>
+
+  <p class="normal">
+    <b>Ergebnisse:</b>
+  </p>
+
+  <p class="small">
+    Testspiel - HV TDP Stainz : Sporting Pettersdorf II 1:3
+  </p>
+</div>
+
 <div *ngIf="season == '2023-2024'">
 
   <!--
