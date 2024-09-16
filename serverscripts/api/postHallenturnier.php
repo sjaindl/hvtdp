@@ -6,7 +6,7 @@
     header("Access-Control-Allow-Methods: GET, POST");
 
     postHallenturnier($dbname, $dbuser, $dbpass, $dbhost);
-    
+
     function postHallenturnier($name, $user, $pass, $host) {
         //if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
             //exit();
@@ -20,10 +20,12 @@
         }
 
         $name = $_GET['name'];
-        $phone = $_GET['phone'];
+        // $phone = $_GET['phone'];
+        $phone = '';
         $mail = $_GET['mail'];
         $teamname = $_GET['teamname'];
-        $day = $_GET['day'];
+        // $day = $_GET['day'];
+        $day = '';
         $useragent = $_GET['useragent'];
         $language = $_GET['language'];
         $platform = $_GET['platform'];
@@ -40,13 +42,13 @@
         mysqli_close ($con);
 
         $to = "hvtdpstainz@gmx.at";
-        $subject = "Anmeldung Stainzer Hallenturnier 2023: " . $teamname;
+        $subject = "Anmeldung Stainzer Hallenturnier 2025: " . $teamname;
 
         $message = "Name: " . $name . "\r\n";
-        $message .= "Telefonnummer: " . $phone . "\r\n";
+        // $message .= "Telefonnummer: " . $phone . "\r\n";
         $message .= "E-Mail: " . $mail . "\r\n";
         $message .=  "Teamname: " . $teamname . "\r\n" . "\r\n";
-        $message .=  "Präferenz Vorrunde: " . $day . "\r\n" . "\r\n";
+        // $message .=  "Präferenz Vorrunde: " . $day . "\r\n" . "\r\n";
 
         $message .= "Server Logs: " . $_SERVER['HTTP_USER_AGENT'] . "\r\n" . "\r\n";
 

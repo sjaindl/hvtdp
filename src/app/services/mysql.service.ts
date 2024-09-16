@@ -123,13 +123,19 @@ export class MysqlService {
     })
   }
 
-  public postHallenturnier(name: string, mail: string, phone: string, teamname: string, day: string): Observable<any> {
+  public postHallenturnier(
+    name: string,
+    mail: string,
+    // phone: string,
+    teamname: string,
+    // day: string
+  ): Observable<any> {
     var url = 'https://www.hvtdpstainz.at/api/postHallenturnier.php?'
     url += '&name=' + name
     url += '&mail=' + mail
-    url += '&phone=' + phone
+    // url += '&phone=' + phone
     url += '&teamname=' + teamname
-    url += '&day=' + day
+    // url += '&day=' + day
     url += '&useragent=' + window.navigator.userAgent
     url += '&language=' + window.navigator.language
     url += '&platform=' + window.navigator.platform
@@ -138,9 +144,9 @@ export class MysqlService {
       params: new HttpParams()
       .append('name', name)
       .append('mail', mail)
-      .append('phone', phone)
+      // .append('phone', phone)
       .append('teamname', teamname)
-      .append('day', day)
+      // .append('day', day)
       .append('useragent', window.navigator.userAgent)
       .append('language', window.navigator.language)
       .append('platform', window.navigator.platform)
