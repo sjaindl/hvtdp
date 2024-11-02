@@ -14,7 +14,6 @@ Zur Umfrage
 </a>
 
 <br>
-<br>
 
 <!-- <div id="surveyhero-embed-wcuxrs9g"></div> -->
 
@@ -29,57 +28,24 @@ Zur Umfrage
 </div> -->
 
 <div class="container" fxLayout="column" fxLayoutGap="10px">
-
     <div fxFlex *ngIf="!isMobile">
         <mat-grid-list cols="2" rowHeight="400px" *ngIf="!isMobile">
             <div *ngFor="let link of links">
                 <div *ngFor="let player of players">
-                    <mat-grid-tile *ngIf="matches(link.link.scorer, player)" [ngStyle]="{'height': '130px' }" appHighlight>
-
-                        <div fxFlex="25" fxFlexOffset="10px" class="item-detail">
-                            <div fxLayout="column" fxLayoutAlign="center center">
-                                <div fxFlex="50" fxFlexOffset="10px">
-                                    <img class="imageSmallCenter" matListAvatar class='img-preview' src="{{imageBaseUrl + player.imagePath}}" alt="{{player.firstName}} {{player.lastName}}" style="width: 80px; height: 130px;">
-                                </div>
-                                <div fxFlex="50" fxFlexOffset="10px">
-                                    <p class="smallCentered">
-                                        {{link.description}}
-                                        {{link.link.description}} {{link.link.scorer}}
-                                    </p>
-                                </div>
-                            </div>
-
-                        </div>
+                    <mat-grid-tile *ngIf="matches(link.link.scorer, player)" [ngStyle]="{'height': '130px' }" appHighlight class="bordered-light">
 
                         <div fxFlex="50" fxFlexOffset="25px" fxLayoutAlign="center center">
                             <iframe width="560px" height="315px" [src]="link.link.link | safe" frameborder="0" allowfullscreen></iframe>
                         </div>
 
-                    </mat-grid-tile>
-                </div>
-            </div>
-
-        </mat-grid-list>
-    </div>
-
-
-
-    <div fxFlex *ngIf="isMobile">
-        <mat-grid-list cols="1" rowHeight="325px">
-            <div *ngFor="let link of links">
-                <div *ngFor="let player of players">
-                    <mat-grid-tile *ngIf="matches(link.link.scorer, player)" [ngStyle]="{'height': '180px' }" appHighlight>
-
                         <div fxFlex="25" fxFlexOffset="10px" class="item-detail">
                             <div fxLayout="column" fxLayoutAlign="center center">
                                 <div fxFlex="50" fxFlexOffset="10px">
                                     <img class="imageSmallCenter" matListAvatar class='img-preview' src="{{imageBaseUrl + player.imagePath}}" alt="{{player.firstName}} {{player.lastName}}" style="width: 80px; height: 130px;">
                                 </div>
                                 <div fxFlex="50" fxFlexOffset="10px">
-                                    <p class="smallCentered">
-                                        {{link.description}}
-                                        <br>
-                                        {{link.link.description}} {{link.link.scorer}}
+                                    <p class="small">
+                                      {{player.firstName}} {{player.lastName}}
                                     </p>
                                 </div>
                             </div>
@@ -87,11 +53,36 @@ Zur Umfrage
                         </div>
 
                     </mat-grid-tile>
+                </div>
+            </div>
 
-                    <mat-grid-tile *ngIf="matches(link.link.scorer, player)" [ngStyle]="{'height': '130px' }" appHighlight>
+        </mat-grid-list>
+    </div>
+
+    <div fxFlex *ngIf="isMobile">
+        <mat-grid-list cols="1" rowHeight="425px">
+            <div *ngFor="let link of links">
+                <div *ngFor="let player of players">
+                    <mat-grid-tile *ngIf="matches(link.link.scorer, player)" [ngStyle]="{'height': '180px' }" appHighlight class="bordered-light">
+
+                      <div fxLayout="column">
                         <div fxFlex="50" fxFlexOffset="25px" fxLayoutAlign="center center">
-                            <iframe width="224px" height="128px" [src]="link.link.link | safe" frameborder="0" allowfullscreen></iframe>
+                          <iframe width="224px" height="128px" [src]="link.link.link | safe" frameborder="0" allowfullscreen></iframe>
                         </div>
+
+                        <div fxFlex="25" fxFlexOffset="10px" class="item-detail">
+                            <div fxLayout="column" fxLayoutAlign="center center">
+                                <div fxFlex="50" fxFlexOffset="10px">
+                                    <img class="imageSmallCenter" matListAvatar class='img-preview' src="{{imageBaseUrl + player.imagePath}}" alt="{{player.firstName}} {{player.lastName}}" style="width: 80px; height: 130px;">
+                                </div>
+                                <div fxFlex="50" fxFlexOffset="10px">
+                                    <p class="small">
+                                        {{player.firstName}} {{player.lastName}}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                      </div>
 
                     </mat-grid-tile>
                 </div>
@@ -100,6 +91,39 @@ Zur Umfrage
         </mat-grid-list>
     </div>
 
+</div>
+
+<div *ngIf="season=='2024'">
+  <div *ngIf="canVote">
+    <p class="normal">
+      Stimme hier für dein Tor des Jahres 2024 (abgestimmt werden kann pro Stunde 1x):
+    </p>
+
+    <mat-selection-list #voting [multiple]="false">
+        <mat-list-option *ngFor="let vote of goalOfSeasonOptions" [value]="vote" style="color: whitesmoke;">
+          {{vote.player}}
+        </mat-list-option>
+    </mat-selection-list>
+
+    <p class="normal" *ngIf="voting.selectedOptions.hasValue() ">
+      Deine Wahl: {{ voting.selectedOptions.selected[0].value.player }}
+    </p>
+
+    <br>
+
+    <p class="normal">
+      <button mat-flat-button color="primary" [disabled]="!voting.selectedOptions.hasValue()" (click)="saveVote(voting.selectedOptions.selected[0].value)">Stimme abgeben</button>
+    </p>
+
+    <br><br>
+
+  </div>
+
+  <div *ngIf="!canVote">
+    <p class="normal center">
+      Vielen Dank für deine Stimme!
+    </p>
+  </div>
 </div>
 
 <br>
