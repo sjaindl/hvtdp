@@ -18,6 +18,7 @@ import { Standing } from '../shared/standing';
 import { Scorer } from '../shared/scorer';
 import { GoldenShot } from '../shared/goldenshot';
 import { GoalOfTheSeason } from '../shared/goaloftheseason';
+import { PlayerOfTheSeason } from '../shared/playeroftheseason';
 
 @Injectable()
 export class MysqlService {
@@ -219,6 +220,20 @@ export class MysqlService {
 
   public postGoalOfTheSeasonVote(season: string, player: string): Observable<any> {
     var url = 'https://www.hvtdpstainz.at/api/postGoalOfTheSeasonVote.php?'
+
+    return this.http.get<any>(url, {
+      params: new HttpParams()
+      .append('season', season)
+      .append('player', player)
+    })
+  }
+
+  public getPlayerOfTheSeason(): Observable<PlayerOfTheSeason[]> {
+    return this.http.get<PlayerOfTheSeason[]>('https://www.hvtdpstainz.at/api/getPlayerOfTheSeason.php')
+  }
+
+  public postPlayerOfTheSeasonVote(season: string, player: string): Observable<any> {
+    var url = 'https://www.hvtdpstainz.at/api/postPlayerOfTheSeasonVote.php?'
 
     return this.http.get<any>(url, {
       params: new HttpParams()

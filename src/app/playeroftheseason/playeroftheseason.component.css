@@ -1,0 +1,8 @@
+.player-container {
+  display: flex;
+  align-items: center; /* Vertically centers items */
+}
+
+.player-name {
+  margin-left: 10px; /* Adjust space between image and text */
+}

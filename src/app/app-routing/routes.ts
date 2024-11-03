@@ -25,6 +25,7 @@ import { ZehnjahresfeierComponent } from '../zehnjahresfeier/zehnjahresfeier.com
 import { GoldenshotComponent } from '../goldenshot/goldenshot.component'
 import { RedirectGuard } from './redirect-guard'
 import { GoldenshotVotingComponent } from '../goldenshot-voting/goldenshot-voting.component'
+import { PlayerOfTheSeasonComponent } from '../playeroftheseason/playeroftheseason.component'
 
 export const routes : Routes = [
     {path: "home", component: HomeComponent},
@@ -45,6 +46,7 @@ export const routes : Routes = [
     {path: "documents", component: DocumentsComponent},
     {path: "surveys", component: SurveysComponent},
     {path: "goaloftheseason/:season", component: GoalOfTheSeasonComponent},
+    {path: "playeroftheseason/:season", component: PlayerOfTheSeasonComponent},
     //{path: "startingeleven", component: StartingelevenComponent},
     {path: "startingeleven", canActivate: [RedirectGuard], component: RedirectGuard, data: {
       externalUrl: 'https://starting-eleven-2019.firebaseapp.com/home'

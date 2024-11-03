@@ -68,6 +68,7 @@ import { RedirectGuard } from './app-routing/redirect-guard';
 import { GoldenshotVotingComponent } from './goldenshot-voting/goldenshot-voting.component'
 import { MatButtonModule } from '@angular/material/button'
 import { CookieService } from 'ngx-cookie-service'
+import { PlayerOfTheSeasonComponent } from './playeroftheseason/playeroftheseason.component'
 
 const cookieConfig: NgcCookieConsentConfig = {
   cookie: {
@@ -117,6 +118,7 @@ const cookieConfig: NgcCookieConsentConfig = {
     ZehnjahresfeierComponent,
     GoldenshotComponent,
     GoldenshotVotingComponent,
+    PlayerOfTheSeasonComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }) ,
