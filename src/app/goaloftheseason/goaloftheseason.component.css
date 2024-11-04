@@ -1,11 +1,11 @@
 mat-list-option {
-  background: gray;
+  background: #3b3b3b;
 }
 
 mat-list-option[aria-selected="true"] {
-  background: hotpink;
+  background: #c2185b;
 }
 
 mat-list-option[aria-selected="false"] {
-  background: gray;
+  background: #3b3b3b;
 }

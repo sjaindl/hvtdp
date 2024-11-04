@@ -1,7 +1,11 @@
-mat-selection-list {
-  background-color: #c2185b;
+mat-list-option {
+  background: gray;
 }
 
-mat-list-option {
-  color: black;
+mat-list-option[aria-selected="true"] {
+  background: #c2185b;
+}
+
+mat-list-option[aria-selected="false"] {
+  background: gray;
 }
