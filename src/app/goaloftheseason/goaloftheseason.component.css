@@ -1,0 +1,11 @@
+mat-list-option {
+  background: gray;
+}
+
+mat-list-option[aria-selected="true"] {
+  background: hotpink;
+}
+
+mat-list-option[aria-selected="false"] {
+  background: gray;
+}

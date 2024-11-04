@@ -6,3 +6,15 @@
 .player-name {
   margin-left: 10px; /* Adjust space between image and text */
 }
+
+mat-list-option {
+  background: gray;
+}
+
+mat-list-option[aria-selected="true"] {
+  background: hotpink;
+}
+
+mat-list-option[aria-selected="false"] {
+  background: gray;
+}

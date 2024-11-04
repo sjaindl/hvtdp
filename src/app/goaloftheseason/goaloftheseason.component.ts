@@ -72,14 +72,22 @@ export class GoalOfTheSeasonComponent implements OnInit {
       this.mysqlService.getGoalOfTheSeason().subscribe( options => {
         this.goalOfSeasonOptions = options.filter((a) => {
           return a.season === this.season
-        }).sort((a, b) => {
-          if (a.player < b.player) {
-            return -1;
-          }
-          else if (a.player > b.player) {
-            return 1;
+        }).sort((first, second) => {
+          const firstPlayerLastName = first.player.split(' ')[1]
+          const secondPlayerLastName = second.player.split(' ')[1]
+
+          if (firstPlayerLastName > secondPlayerLastName) {
+            return 1
+          } else if (firstPlayerLastName < secondPlayerLastName) {
+            return -1
           } else {
-            return 0;
+            if (first.player > second.player) {
+              return 1
+            } else if (first.player < second.player) {
+              return -1
+            } else {
+              return 0
+            }
           }
         });
       })
