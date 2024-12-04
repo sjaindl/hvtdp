@@ -69,6 +69,8 @@ import { GoldenshotVotingComponent } from './goldenshot-voting/goldenshot-voting
 import { MatButtonModule } from '@angular/material/button'
 import { CookieService } from 'ngx-cookie-service'
 import { PlayerOfTheSeasonComponent } from './playeroftheseason/playeroftheseason.component'
+import { ComedyhirtenComponent } from './comedyhirten/comedyhirten.component'
+
 
 const cookieConfig: NgcCookieConsentConfig = {
   cookie: {
@@ -119,6 +121,7 @@ const cookieConfig: NgcCookieConsentConfig = {
     GoldenshotComponent,
     GoldenshotVotingComponent,
     PlayerOfTheSeasonComponent,
+    ComedyhirtenComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }) ,
