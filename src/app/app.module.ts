@@ -70,6 +70,7 @@ import { MatButtonModule } from '@angular/material/button'
 import { CookieService } from 'ngx-cookie-service'
 import { PlayerOfTheSeasonComponent } from './playeroftheseason/playeroftheseason.component'
 import { ComedyhirtenComponent } from './comedyhirten/comedyhirten.component'
+import { BigdartsComponent } from './bigdarts/bigdarts.component'
 
 
 const cookieConfig: NgcCookieConsentConfig = {
@@ -121,7 +122,8 @@ const cookieConfig: NgcCookieConsentConfig = {
     GoldenshotComponent,
     GoldenshotVotingComponent,
     PlayerOfTheSeasonComponent,
-    ComedyhirtenComponent
+    ComedyhirtenComponent,
+    BigdartsComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }) ,

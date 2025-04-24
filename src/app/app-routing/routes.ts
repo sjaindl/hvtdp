@@ -27,6 +27,7 @@ import { RedirectGuard } from './redirect-guard'
 import { GoldenshotVotingComponent } from '../goldenshot-voting/goldenshot-voting.component'
 import { PlayerOfTheSeasonComponent } from '../playeroftheseason/playeroftheseason.component'
 import { ComedyhirtenComponent } from '../comedyhirten/comedyhirten.component'
+import { BigdartsComponent } from '../bigdarts/bigdarts.component'
 
 export const routes : Routes = [
     {path: "home", component: HomeComponent},
@@ -60,6 +61,7 @@ export const routes : Routes = [
     {path: "10-jahre-hvtdp", component: ZehnjahresfeierComponent},
     {path: "torschusschallenge", component: GoldenshotComponent},
     {path: "comedyhirten", component: ComedyhirtenComponent},
+    {path: "bigdarts", component: BigdartsComponent},
 
     //  {path: "torschusschallenge-voting", component: GoldenshotVotingComponent},
 
