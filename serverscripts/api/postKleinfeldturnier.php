@@ -39,7 +39,7 @@
         mysqli_close ($con);
 
         $to = "hvtdpstainz@gmx.at";
-        $subject = "Anmeldung Stainzer Kleinfeldturnier 2023: " . $teamname;
+        $subject = "Anmeldung Boccia 2025: " . $teamname;
 
         $message = "Name: " . $name . "\r\n";
         $message .= "Telefonnummer: " . $phone . "\r\n";
