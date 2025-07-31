@@ -32,7 +32,7 @@ import { BigdartsComponent } from '../bigdarts/bigdarts.component'
 export const routes : Routes = [
     {path: "home", component: HomeComponent},
     {path: "", redirectTo: "/home", pathMatch: "full"},
-    {path: "entenlauf", component: DuckrunComponent},
+    {path: "entenrennen", component: DuckrunComponent},
     {path: "news", component: NewsComponent},
     {path: "news/:newsId", component: NewsComponent},
     {path: "team", component: TeamComponent},

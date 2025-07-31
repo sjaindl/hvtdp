@@ -21,15 +21,15 @@
 
         $firstname = $_GET['firstname'];
         $lastname = $_GET['lastname'];
-        $phone = $_GET['phone'];
         $mail = $_GET['mail'];
+        $phone = $_GET['phone'];
         $address = $_GET['address'];
         $duckcount = $_GET['duckcount'];
         $useragent = $_GET['useragent'];
         $language = $_GET['language'];
         $platform = $_GET['platform'];
 
-        $sql = "INSERT INTO Duckrun (firstName, lastName, phone, mail, duckCount) VALUES ('$firstname', '$lastname', '$phone', '$mail', '$address', '$duckcount')";
+        $sql = "INSERT INTO Duckrun (firstName, lastName, phone, mail, duckCount, address) VALUES ('$firstname', '$lastname', '$phone', '$mail', '$duckcount', '$address')";
 
         if ($con->query($sql) === TRUE) {
             echo "New record created successfully";
@@ -41,14 +41,14 @@
         mysqli_close ($con);
 
         $to = "hvtdpstainz@gmx.at";
-        $subject = "Bestellung Entenlauf 2023: " . $firstname . " " . $lastname;
+        $subject = "Bestellung Entenlauf 2025: " . $firstname . " " . $lastname;
 
         $message = "Vorname: " . $firstname . "\r\n";
         $message .= "Nachname: " . $lastname . "\r\n";
         $message .= "Telefonnummer: " . $phone . "\r\n";
         $message .= "E-Mail: " . $mail . "\r\n";
         $message .= "Adresse: " . $address . "\r\n";
-        $message .=  "Anzahl Enten: " . $duckcount . "\r\n" . "\r\n";
+        $message .= "Anzahl Enten: " . $duckcount . "\r\n" . "\r\n";
 
         $message .= "Server Logs: " . $_SERVER['HTTP_USER_AGENT'] . "\r\n" . "\r\n";
 
