@@ -67,39 +67,53 @@
 </mat-table>
 
 <div *ngIf="season == '2025-2026'">
+
   <p class="normal">
     <b>Spieltermine Herbst 2025:</b>
-
-  <p class="normal">
-    1. Runde - FREITAG, 05.09.2025 - 19:00 Uhr - Stadion Stainz - HV TDP Stainz : SV Geistthal
   </p>
 
   <p class="normal">
-    2. Runde - SAMSTAG, 13.09.2025 - 18:30 Uhr - Stadion Stainz - HV TDP Stainz : STT Fürndörfler
+    3. Runde - SAMSTAG, 27.09.2025 - 18:00 - Sportplatz St. Oswald - GSV St. Oswald : HV TDP Stainz
   </p>
 
   <p class="normal">
-    3. Runde - MITTWOCH, 17.09.2025 - 18:30 Uhr - Sportplatz St. Johann - SK Hohenburg : HV TDP Stainz
+    4. Runde - FREITAG, 03.10.2025 - 19:00 Uhr - Stadion Stainz - HV TDP Stainz : STT Multitask
   </p>
 
   <p class="normal">
-    4. Runde - FREITAG, 26.09.2025 - TBD - Sportplatz St. Oswald - GSV St. Oswald : HV TDP Stainz
+    5. Runde - SAMSTAG, 11.10.2025 - 15:30 Uhr - Sportplatz Geistthal - SV Geistthal : HV TDP Stainz
   </p>
 
   <p class="normal">
-    5. Runde - FREITAG, 03.10.2025 - 19:00 Uhr - Stadion Stainz - HV TDP Stainz : STT Multitask
+    Cup 1. Runde, 17.10.2025 - 19:00 - Stadion Stainz - HV TDP Stainz : STT Multitask
   </p>
 
   <p class="normal">
-    6. Runde - SAMSTAG, 11.10.2025 - 15:30 Uhr - Sportplatz Geistthal - SV Geistthal : HV TDP Stainz
+    6. Runde - FREITAG, 24.10.2025 - 19:00 - Stadion Söding - STT Fürndörfler : HV TDP Stainz
+  </p>
+
+    <p class="normal">
+    7. Runde - SAMSTAG, 01.11.2025 - 16:30 Uhr - Sportplatz St. Johann - SK Hohenburg : HV TDP Stainz
   </p>
 
   <p class="normal">
-    7. Runde - FREITAG, 24.10.2025 - TBD - Stadion Söding - STT Fürndörfler : HV TDP Stainz
+    <b>Unsere Torschützen:</b>
+  </p>
+
+  <p *ngFor="let scorer of scorers" class="normal">
+    {{ scorer.goalsDisplay }} {{scorer.playerName}}
   </p>
 
   <p class="normal">
-    Cup 1. Runde - TBD - Stadion Stainz - HV TDP Stainz : STT Multitask
+    <b>Ergebnisse:</b>
+  </p>
+
+  <p class="small">
+    1. Runde, HV TDP Stainz : SV Geistthal 3:0 (strafverifiziert)
+  </p>
+
+  <p class="small">
+    2. Runde, HV TDP Stainz : STT Fürndörfler 1:1
   </p>
 
 </div>
