@@ -15,6 +15,8 @@
             exit();
         }
 
+        $llm = filter_var($_GET['llm'] ?? false, FILTER_VALIDATE_BOOLEAN);
+
         $fetchSeasons = mysqli_query($con, "SELECT * FROM GameSeason order by season DESC") or die(mysqli_error($con));
 
         $games_array = array();
@@ -49,7 +51,9 @@
                     $link_array['link'] = $row_links['link'];
                     $link_array['description'] = $row_links['description'];
                     $link_array['scorer'] = $row_links['scorer'];
-                    $link_array['goalOfSeasonCandidate'] = $row_links['goalOfSeasonCandidate'];
+                    if (!$llm) {
+                      $link_array['goalOfSeasonCandidate'] = $row_links['goalOfSeasonCandidate'];
+                    }
 
                     array_push($game_array['links'], $link_array);
                 }

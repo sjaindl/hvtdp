@@ -6,7 +6,7 @@
     header("Access-Control-Allow-Methods: GET");
 
     getScorers($dbname, $dbuser, $dbpass, $dbhost);
-    
+
     function getScorers($name, $user, $pass, $host) {
         $con = @mysqli_connect($host, $user, $pass, $name);
 
@@ -15,24 +15,31 @@
             exit();
         }
 
+        $llm = filter_var($_GET['llm'] ?? false, FILTER_VALIDATE_BOOLEAN);
+
         $sql = "SELECT * FROM Scorer order by season DESC, goals DESC";
         $q = mysqli_query($con, $sql);
-        
+
         $scorers = array();
 
         while ($res = mysqli_fetch_array($q))
         {
-            array_push($scorers,array(
-                'scorer_id'=> $res["scorer_id"],
+            $array = array(
                 'season'=> $res["season"],
                 'playerName'=> $res["playerName"],
                 'goals'=> $res["goals"]
-            ));
+            );
+
+            if (!$llm) {
+                $array['scorer_id'] = $res["scorer_id"];
+            }
+
+            array_push($scorers, $array);
         }
 
         // Close connection
         mysqli_close ($con);
-        
+
         $json = json_encode($scorers, JSON_UNESCAPED_UNICODE);
 
         if ($json === false) {

@@ -6,7 +6,7 @@
     header("Access-Control-Allow-Methods: GET");
 
     getPlayers($dbname, $dbuser, $dbpass, $dbhost);
-    
+
     function getPlayers($name, $user, $pass, $host) {
         $con = @mysqli_connect($host, $user, $pass, $name);
 
@@ -15,24 +15,32 @@
             exit();
         }
 
+        $llm = filter_var($_GET['llm'] ?? false, FILTER_VALIDATE_BOOLEAN);
+
         $sql = "SELECT * FROM Player WHERE type = 'Kader'";
         $q = mysqli_query($con, $sql);
-        
+
         $players = array();
 
         while ($res = mysqli_fetch_array($q))
         {
-            array_push($players,array(
+            $array = array(
                 'position'=> $res["position"],
                 'firstName'=> $res["firstName"],
                 'lastName'=> $res["lastName"],
-                'memberSinceYear'=> $res["memberSinceYear"],
-                'imagePath'=> $res["imagePath"]));
+                'memberSinceYear'=> $res["memberSinceYear"]
+            );
+
+            if (!$llm) {
+                $array['imagePath'] = $res["imagePath"];
+            }
+
+            array_push($players, $array);
         }
 
         // Close connection
         mysqli_close ($con);
-        
+
         $json = json_encode($players, JSON_UNESCAPED_UNICODE);
 
         if ($json === false) {

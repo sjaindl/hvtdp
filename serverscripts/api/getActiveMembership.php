@@ -6,7 +6,7 @@
     header("Access-Control-Allow-Methods: GET");
 
     getPlayers($dbname, $dbuser, $dbpass, $dbhost);
-    
+
     function getPlayers($name, $user, $pass, $host) {
         $con = @mysqli_connect($host, $user, $pass, $name);
 
@@ -17,7 +17,7 @@
 
         $sql = "SELECT * FROM Membership WHERE type = 'active'";
         $q = mysqli_query($con, $sql);
-        
+
         $members = array();
 
         while ($res = mysqli_fetch_array($q))
@@ -30,7 +30,7 @@
 
         // Close connection
         mysqli_close ($con);
-        
+
         $json = json_encode($members, JSON_UNESCAPED_UNICODE);
 
         if ($json === false) {

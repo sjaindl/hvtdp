@@ -6,7 +6,7 @@
     header("Access-Control-Allow-Methods: GET");
 
     getItems($dbname, $dbuser, $dbpass, $dbhost);
-    
+
     function getItems($name, $user, $pass, $host) {
         $con = @mysqli_connect($host, $user, $pass, $name);
 
@@ -15,25 +15,33 @@
             exit();
         }
 
+        $llm = filter_var($_GET['llm'] ?? false, FILTER_VALIDATE_BOOLEAN);
+
         $con->set_charset("utf8mb4");
 
         $sql = "SELECT * FROM Fanshop";
         $q = mysqli_query($con, $sql);
-        
+
         $items = array();
 
         while ($res = mysqli_fetch_array($q))
         {
-            array_push($items, array(
+            $array = array(
                 'name'=> mb_convert_encoding($res["name"], 'UTF8'),
                 'description'=> mb_convert_encoding($res["description"], 'UTF8'),
-                'price'=> mb_convert_encoding($res["price"], 'UTF8'),
-                'imagePath'=> mb_convert_encoding($res["imagePath"], 'UTF8')));
+                'price'=> mb_convert_encoding($res["price"], 'UTF8')
+            );
+
+            if (!$llm) {
+                $array['imagePath'] = mb_convert_encoding($res["imagePath"], 'UTF8');
+            }
+
+            array_push($items, $array);
         }
-        
+
         // Close connection
         mysqli_close ($con);
-        
+
         $json = json_encode($items, JSON_UNESCAPED_UNICODE);
 
         if ($json === false) {

@@ -6,7 +6,7 @@
     header("Access-Control-Allow-Methods: GET");
 
     getDonations($dbname, $dbuser, $dbpass, $dbhost);
-    
+
     function getDonations($name, $user, $pass, $host) {
         $con = @mysqli_connect($host, $user, $pass, $name);
 
@@ -15,27 +15,35 @@
             exit();
         }
 
+        $llm = filter_var($_GET['llm'] ?? false, FILTER_VALIDATE_BOOLEAN);
+
         $con->set_charset("utf8mb4");
-        
+
         $sql = "SELECT * FROM Donation ORDER BY date desc";
         $q = mysqli_query($con, $sql);
-        
+
         $donations = array();
-        
+
         while ($res = mysqli_fetch_array($q))
         {
-            array_push($donations, array(
+            $array = array(
                 'donator'=> mb_convert_encoding($res["donator"], 'UTF8'),
                 'date'=> mb_convert_encoding($res["date"], 'UTF8'),
-                'game'=> mb_convert_encoding($res["game"], 'UTF8'),
-                'description'=> mb_convert_encoding($res["description"], 'UTF8'),
-                'imagePath'=> mb_convert_encoding($res["imagePath"], 'UTF8'),
-                'matchBallImagePath'=> mb_convert_encoding($res["matchBallImagePath"], 'UTF8')));
+                'game'=> mb_convert_encoding($res["game"], 'UTF8')
+            );
+
+            if (!$llm) {
+                $array['description'] = mb_convert_encoding($res["description"], 'UTF8');
+                $array['imagePath'] = mb_convert_encoding($res["imagePath"], 'UTF8');
+                $array['matchBallImagePath'] = mb_convert_encoding($res["matchBallImagePath"], 'UTF8');
+            }
+
+            array_push($donations, $array);
         }
 
         // Close connection
         mysqli_close ($con);
-        
+
         $json = json_encode($donations, JSON_UNESCAPED_UNICODE);
 
         if ($json === false) {

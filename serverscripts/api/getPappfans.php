@@ -6,7 +6,7 @@
     header("Access-Control-Allow-Methods: GET");
 
     getPappfans($dbname, $dbuser, $dbpass, $dbhost);
-    
+
     function getPappfans($name, $user, $pass, $host) {
         $con = @mysqli_connect($host, $user, $pass, $name);
 
@@ -15,24 +15,32 @@
             exit();
         }
 
+        $llm = filter_var($_GET['llm'] ?? false, FILTER_VALIDATE_BOOLEAN);
+
         $con->set_charset("utf8mb4");
-        
+
         $sql = "SELECT * FROM Pappfan ORDER BY id asc";
         $q = mysqli_query($con, $sql);
-        
+
         $pappfans = array();
-        
+
         while ($res = mysqli_fetch_array($q))
         {
-            array_push($pappfans, array(
-                'id'=> mb_convert_encoding($res["id"], 'UTF8'),
-                'name'=> mb_convert_encoding($res["name"], 'UTF8'),
-                'imagePath'=> mb_convert_encoding($res["imagePath"], 'UTF8')));
+            $array = array(
+                'name'=> mb_convert_encoding($res["name"], 'UTF8')
+            );
+
+            if (!$llm) {
+                $array['id'] = mb_convert_encoding($res["id"], 'UTF8');
+                $array['imagePath'] = $res["imagePath"];
+            }
+
+            array_push($pappfans, $array);
         }
 
         // Close connection
         mysqli_close ($con);
-        
+
         $json = json_encode($pappfans, JSON_UNESCAPED_UNICODE);
 
         if ($json === false) {

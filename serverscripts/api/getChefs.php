@@ -6,7 +6,7 @@
     header("Access-Control-Allow-Methods: GET");
 
     getChefs($dbname, $dbuser, $dbpass, $dbhost);
-    
+
     function getChefs($name, $user, $pass, $host) {
         $con = @mysqli_connect($host, $user, $pass, $name);
 
@@ -15,23 +15,31 @@
             exit();
         }
 
+        $llm = filter_var($_GET['llm'] ?? false, FILTER_VALIDATE_BOOLEAN);
+
         $sql = "SELECT function,firstName,lastName,imagePath FROM Chef";
         $q = mysqli_query($con, $sql);
-        
+
         $chefs = array();
-        
+
         while ($res = mysqli_fetch_array($q))
         {
-            array_push($chefs,array(
+            $array = array(
                 'function'=> $res["function"],
                 'firstName'=> $res["firstName"],
-                'lastName'=> $res["lastName"],
-                'imagePath'=> $res["imagePath"]));
+                'lastName'=> $res["lastName"]
+            );
+
+            if (!$llm) {
+                $array['imagePath'] = $res["imagePath"];
+            }
+
+            array_push($chefs, $array);
         }
 
         // Close connection
         mysqli_close ($con);
-        
+
         $json = json_encode($chefs, JSON_UNESCAPED_UNICODE);
 
         if ($json === false) {
