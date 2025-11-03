@@ -71,6 +71,7 @@ import { CookieService } from 'ngx-cookie-service'
 import { PlayerOfTheSeasonComponent } from './playeroftheseason/playeroftheseason.component'
 import { ComedyhirtenComponent } from './comedyhirten/comedyhirten.component'
 import { BigdartsComponent } from './bigdarts/bigdarts.component'
+import { StadionFestComponent } from './stadionfest/stadionfest.component'
 
 
 const cookieConfig: NgcCookieConsentConfig = {
@@ -119,6 +120,7 @@ const cookieConfig: NgcCookieConsentConfig = {
     SafePipe,
     BocciaComponent,
     ZehnjahresfeierComponent,
+    StadionFestComponent,
     GoldenshotComponent,
     GoldenshotVotingComponent,
     PlayerOfTheSeasonComponent,

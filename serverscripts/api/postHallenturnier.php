@@ -42,7 +42,7 @@
         mysqli_close ($con);
 
         $to = "hvtdpstainz@gmx.at";
-        $subject = "Anmeldung Stainzer Hallenturnier 2025: " . $teamname;
+        $subject = "Anmeldung Stainzer Hallenturnier 2026: " . $teamname;
 
         $message = "Name: " . $name . "\r\n";
         // $message .= "Telefonnummer: " . $phone . "\r\n";

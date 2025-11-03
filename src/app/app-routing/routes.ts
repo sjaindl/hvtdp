@@ -28,11 +28,12 @@ import { GoldenshotVotingComponent } from '../goldenshot-voting/goldenshot-votin
 import { PlayerOfTheSeasonComponent } from '../playeroftheseason/playeroftheseason.component'
 import { ComedyhirtenComponent } from '../comedyhirten/comedyhirten.component'
 import { BigdartsComponent } from '../bigdarts/bigdarts.component'
+import { StadionFestComponent } from '../stadionfest/stadionfest.component'
 
 export const routes : Routes = [
     {path: "home", component: HomeComponent},
     {path: "", redirectTo: "/home", pathMatch: "full"},
-    {path: "entenrennen", component: DuckrunComponent},
+    // {path: "entenrennen", component: DuckrunComponent},
     {path: "news", component: NewsComponent},
     {path: "news/:newsId", component: NewsComponent},
     {path: "team", component: TeamComponent},
@@ -59,6 +60,7 @@ export const routes : Routes = [
     {path: "kleinfeldturnier", component: KleinfeldTurnierComponent},
     {path: "bocciaturnier", component: BocciaComponent},
     {path: "10-jahre-hvtdp", component: ZehnjahresfeierComponent},
+    {path: "stadionfest", component: StadionFestComponent},
     {path: "torschusschallenge", component: GoldenshotComponent},
     {path: "comedyhirten", component: ComedyhirtenComponent},
     {path: "bigdarts", component: BigdartsComponent},
