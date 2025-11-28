@@ -4,9 +4,9 @@
 
 <mat-accordion>
 
-<span *ngFor="let newsItem of news">
+<ng-container *ngFor="let newsItem of news">
 
-    <mat-expansion-panel *ngIf="news.indexOf(newsItem) >= this.pageEvent.pageIndex * this.pageEvent.pageSize 
+    <mat-expansion-panel *ngIf="news.indexOf(newsItem) >= this.pageEvent.pageIndex * this.pageEvent.pageSize
                              && news.indexOf(newsItem) + 1 <= (this.pageEvent.pageIndex + 1) * (this.pageEvent.pageSize)" [expanded]="selectedNews != null && newsItem.newsId == selectedNews.newsId" (opened)="opened()">
 
         <mat-expansion-panel-header>
@@ -14,18 +14,18 @@
         </mat-expansion-panel-header>
 
         <br>
-        <img class="centerWithoutWidth" height="500vh" src="{{imageBaseUrl + newsItem.imagePath}}" alt= "{{newsItem.title}}" *ngIf="!isMobile && newsItem.imagePath > ''">
-        <img class="center" width="500vw" src="{{imageBaseUrl + newsItem.imagePath}}" alt= "{{newsItem.title}}" *ngIf="isMobile && newsItem.imagePath > ''">
+        <img class="centerWithoutWidth"  src="{{imageBaseUrl + newsItem.imagePath}}" alt= "{{newsItem.title}}" *ngIf="!isMobile && newsItem.imagePath > ''">
+        <img class="center" src="{{imageBaseUrl + newsItem.imagePath}}" alt= "{{newsItem.title}}" *ngIf="isMobile && newsItem.imagePath > ''">
 
         <br>
 
         <p style="white-space: pre-line;" *ngIf="newsItem.news">
             {{newsItem.news}}
         </p>
-        
+
         <div style="white-space: pre-line;" [innerHTML]="formatMessage(newsItem.htmlNews)" *ngIf="newsItem.htmlNews"></div>
     </mat-expansion-panel>
-</span>
+</ng-container>
 
 </mat-accordion>
 
