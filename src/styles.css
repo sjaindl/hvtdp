@@ -121,24 +121,33 @@ body {
 
 h1.header, h2.header, h3.header {
     text-align: center;
-    text-decoration: underline;
 }
 
 h4.header {
   text-align: center;
 }
 
+/* .center, .centerWithoutWidth {  max-width: 100%; height: auto; max-height: 500px; } */
+
 .center {
     display: block;
     margin-left: auto;
     margin-right: auto;
     width: 50%;
+    pointer-events: none;
+    max-width: 100%;
+    height: auto;
+    max-height: 500px;
 }
 
 .centerWithoutWidth {
     display: block;
     margin-left: auto;
     margin-right: auto;
+    pointer-events: none;
+    max-width: 100%;
+    height: auto;
+    max-height: 500px;
 }
 
 .mini {
@@ -321,4 +330,18 @@ h4.header {
 	margin: 30px;
 	width: 100%;
 	z-index: 11;
+}
+
+/* global styles.css (nicht in Component-CSS, außer mit ::ng-deep) */
+.mat-expansion-panel .mat-expansion-panel-content,
+.mat-expansion-panel .mat-expansion-panel-body,
+.mat-expansion-panel .mat-expansion-panel-body * {
+  -webkit-user-select: text !important;
+  user-select: text !important;
+  -webkit-touch-callout: text !important;
+}
+
+.mat-expansion-panel-header {
+  -webkit-user-select: none !important;
+  user-select: none !important;
 }
