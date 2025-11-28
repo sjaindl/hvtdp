@@ -36,7 +36,7 @@ export class PlayerOfTheSeasonComponent implements OnInit {
     private metaTagService: Meta) { }
 
   ngOnInit() {
-    this.canVote = !this.cookieService.check(PLAYER_OF_SEASON_VOTING_COOKIE_KEY);
+    //this.canVote = !this.cookieService.check(PLAYER_OF_SEASON_VOTING_COOKIE_KEY);
     this.imageBaseUrl = baseUrlImages
 
     this.checkDevice()
