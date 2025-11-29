@@ -1,74 +1,56 @@
+<app-ticker [text]="tickerItems[0].tickerItem"></app-ticker>
 
-<!-- Ticker -->
-<div class="ticker-wrap">
-    <div *ngFor="let tickerItem of tickerItems" class="ticker">
-      <div class="ticker__item">{{tickerItem.tickerItem}}</div>
+<div class="slider" *ngIf="currentNews as news">
+
+  <div class="slider-main">
+
+    <div class="slider-image-wrapper">
+      <img
+        class="slider-image"
+        (click)="showImageDetails(currentNews)"
+        [src]="imagePath(news)"
+        [alt]="news.title || 'Image'"
+      />
+
+      <button class="slider-arrow left" type="button" (click)="prev()">
+        ‹
+      </button>
+      <button class="slider-arrow right" type="button" (click)="next()">
+        ›
+      </button>
     </div>
+
+    <div class="slider-bottom">
+      <div class="slider-dots" *ngIf="carouselItems.length > 1">
+        test
+        <button
+          *ngFor="let news of carouselItems; let i = index; trackBy: trackByIndex"
+          type="button"
+          class="dot"
+          [class.active]="i === currentIndex"
+          (click)="goTo(i)"
+        ></button>
+      </div>
+
+      <div class="slider-caption">
+        <h2 class="slider-title">{{ news.title }}</h2>
+      </div>
+    </div>
+  </div>
+
+  <div class="slider-thumbs" *ngIf="carouselItems.length > 1">
+    <button
+      *ngFor="let news of carouselItems; let i = index; trackBy: trackByIndex"
+      #thumbBtn
+      type="button"
+      class="thumb"
+      [class.active]="i === currentIndex"
+      (click)="goTo(i)">
+        <img [src]="imagePath(news)" [alt]="news.title || 'Thumb'" />
+    </button>
+  </div>
 </div>
 
- <!-- <p>So, annoyingly, most JS solutions don't do horizontal tickers on an infinite loop, nor do they render all that smoothly.</p>
-      <p>The difficulty with CSS was getting the animation to transform the entire items 100% yet include an offset that was only the width of the browser (and not the items full width).</p>
-      <p>Setting the start of the animation to anything less than zero (e.g. -100%) is unreliable as it is based on the items width, and may not offset the full width of the browser or creates too large an offset</p>
-      <p>Padding left on the wrapper allows us the correct initial offset, but you still get a 'jump' as it then loops too soon. (The full text does not travel off-screen)</p>
-      <p>This is where adding display:inline-block to the item parent, where the natural behaviour of the element exists as inline, gives an opportunity to add padding-right 100% here. The padding is taken from the parent (as its treated as inline) which usefully is the wrapper width.</p>
-      <p><b>Magically*</b> we now have perfect 100% offset, a true 100% translate (width of items) and enough padding in the element to ensure all items leave the screen before it repeats! (width of browser)</p>
-      <p>*Why this works: The inside of an inline-block is formatted as a block box, and the element itself is formatted as an atomic inline-level box. <br>Uses `box-sizing: content-box`<br>
-      Padding is calculated on the width of the containing box.<br>
-      So as both the ticker and the items are formatted as nested inline, the padding must be calculated by the ticker wrap.</p>
-
-      <p>Ticker content c/o <a href="http://hipsum.co/">Hipsum.co</a></p> -->
-
-<img class="logo" src="/assets/images/logo.gif">
-
-<!-- Social feed -->
-<div class="icon-bar">
-  <a href="https://www.facebook.com/hvtdpstainz/" target="_blank" class="facebook"><i class="fab fa-facebook"></i></a>
-  <a href="https://twitter.com/HvStainz/" target="_blank" class="twitter"><i class="fab fa-twitter"></i></a>
-  <a href="mailto:hvtdpstainz@gmx.at" class="mail"><i class="fa fa-envelope"></i></a>
-  <a href="https://www.instagram.com/hvtdpstainz_2014/" target="_blank" class="instagram"><i class="fab fa-instagram"></i></a>
+<div class="slider slider-empty" *ngIf="!carouselItems || carouselItems.length === 0">
+  <p>Noch keine News vorhanden.</p>
 </div>
-
-<!-- Image Slider -->
-    <ngu-carousel *ngIf="carouselItems && !isMobile" #myCarousel [inputs]="carouselConfig" [dataSource]="carouselItems" style="margin: auto; padding: 100px;">
-      <div class="item" *nguCarouselDef="let item;">
-        <div class="tile">
-            <table>
-                <tr>
-                  <img class="bordered" height="500vh" src="{{imagePath(item)}}" (click)="showImageDetails(item)">
-                </tr>
-
-                <tr>
-                  <p class="center">{{item.title}} </p>
-                </tr>
-            </table>
-        </div>
-      </div>
-      <button NguCarouselPrev class="leftRs" [style.opacity]="myCarousel.isFirst ? 0.5:1">&lt;</button>
-      <button NguCarouselNext class="rightRs" [style.opacity]="myCarousel.isLast ? 0.5:1">&gt;</button>
-      <ul class="myPoint" NguCarouselPoint>
-        <li *ngFor="let j of myCarousel.pointNumbers; let i = index" [class.active]="i==myCarousel.activePoint" (click)="myCarousel.moveTo(i)"></li>
-      </ul>
-    </ngu-carousel>
-
-    <ngu-carousel *ngIf="carouselItems && isMobile" #myCarousel [inputs]="carouselConfig" [dataSource]="carouselItems">
-      <div class="item" *nguCarouselDef="let item;">
-        <div class="tile">
-
-            <table>
-                <tr>
-                  <img class="bordered" width="200vw" src="{{imagePath(item)}}" (click)="showImageDetails(item)">
-                </tr>
-
-                <tr>
-                  <p class="center">{{item.title}} </p>
-                </tr>
-            </table>
-        </div>
-      </div>
-      <button NguCarouselPrev class="leftRs" [style.opacity]="myCarousel.isFirst ? 0.5:1">&lt;</button>
-      <button NguCarouselNext class="rightRs" [style.opacity]="myCarousel.isLast ? 0.5:1">&gt;</button>
-      <ul class="myPoint" NguCarouselPoint>
-        <li *ngFor="let j of myCarousel.pointNumbers; let i = index" [class.active]="i==myCarousel.activePoint" (click)="myCarousel.moveTo(i)"></li>
-      </ul>
-    </ngu-carousel>
-

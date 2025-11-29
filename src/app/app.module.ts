@@ -72,6 +72,7 @@ import { PlayerOfTheSeasonComponent } from './playeroftheseason/playeroftheseaso
 import { ComedyhirtenComponent } from './comedyhirten/comedyhirten.component'
 import { BigdartsComponent } from './bigdarts/bigdarts.component'
 import { StadionFestComponent } from './stadionfest/stadionfest.component'
+import { TickerComponent } from './ticker/ticker.component'
 
 
 const cookieConfig: NgcCookieConsentConfig = {
@@ -126,6 +127,7 @@ const cookieConfig: NgcCookieConsentConfig = {
     PlayerOfTheSeasonComponent,
     ComedyhirtenComponent,
     BigdartsComponent,
+    TickerComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }) ,

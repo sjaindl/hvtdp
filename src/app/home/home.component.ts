@@ -1,15 +1,13 @@
-import { Component, OnInit, HostListener, ViewChild, ChangeDetectorRef } from '@angular/core'
+import { Component, OnInit, HostListener, ViewChild, ChangeDetectorRef, ViewChildren, QueryList, ElementRef } from '@angular/core'
 import { News } from '../shared/news'
 import { DeviceDetectorService } from '../../../node_modules/ngx-device-detector'
 import { baseUrlImages } from '../shared/baseurls'
 import { MysqlService } from '../services/mysql.service'
 import { Ticker } from '../shared/ticker'
 import { Router } from '@angular/router'
-import { NguCarousel, NguCarouselConfig } from '@ngu/carousel'
 import { Title, Meta } from '@angular/platform-browser'
 
-import { NgcCookieConsentService, NgcInitializeEvent, NgcStatusChangeEvent, NgcNoCookieLawEvent } from 'ngx-cookieconsent'
-import { Subscription } from 'rxjs'
+import { NgcCookieConsentService } from 'ngx-cookieconsent'
 
 @Component({
   selector: 'app-home',
@@ -23,24 +21,12 @@ export class HomeComponent implements OnInit {
   tickerItems: Ticker[] = []
   isMobile = null
 
-  //keep refs to subscriptions to be able to unsubscribe later
-  // private popupOpenSubscription: Subscription
-  // private popupCloseSubscription: Subscription
-  // private initializeSubscription: Subscription
-  // private statusChangeSubscription: Subscription
-  // private revokeChoiceSubscription: Subscription
-  // private noCookieLawSubscription: Subscription
-
-  @ViewChild('myCarousel') myCarousel: NguCarousel<any>;
-  carouselConfig: NguCarouselConfig = {
-    grid: { xs: 1, sm: 1, md: 1, lg: 1, all: 0 },
-    load: 3,
-    interval: {timing: 4000, initialDelay: 1000},
-    loop: false,
-    touch: true,
-    velocity: 0.2
-  }
   carouselItems: News[]
+
+  @ViewChildren('thumbBtn', { read: ElementRef })
+  thumbButtons!: QueryList<ElementRef<HTMLButtonElement>>;
+
+  currentIndex = 0;
 
   constructor(
     private deviceService: DeviceDetectorService,
@@ -120,6 +106,7 @@ export class HomeComponent implements OnInit {
 
   ngAfterViewInit() {
     this.cdr.detectChanges();
+    this.scrollActiveThumbIntoView();
   }
 
   ngOnDestroy() {
@@ -149,5 +136,45 @@ export class HomeComponent implements OnInit {
   showImageDetails(item) {
     console.log('navigate to ' + '/news/' + item.newsId)
     this.router.navigate(['/news', item.newsId]);
+  }
+
+  get currentNews(): News | null {
+    if (!this.carouselItems || this.carouselItems.length === 0) return null;
+    return this.carouselItems[this.currentIndex];
+  }
+
+  prev() {
+    if (!this.carouselItems.length) return;
+    this.currentIndex =
+      (this.currentIndex - 1 + this.carouselItems.length) % this.carouselItems.length;
+      this.scrollActiveThumbIntoView();
+  }
+
+  next() {
+    if (!this.carouselItems.length) return;
+    this.currentIndex = (this.currentIndex + 1) % this.carouselItems.length;
+    this.scrollActiveThumbIntoView();
+  }
+
+  goTo(index: number) {
+    if (index < 0 || index >= this.carouselItems.length) return;
+    this.currentIndex = index;
+    this.scrollActiveThumbIntoView();
+  }
+
+  trackByIndex(index: number) {
+    return index;
+  }
+
+  private scrollActiveThumbIntoView() {
+    if (!this.thumbButtons || this.thumbButtons.length === 0) return;
+    const btn = this.thumbButtons.get(this.currentIndex);
+    if (!btn) return;
+
+    btn.nativeElement.scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest',
+      inline: 'center',
+    });
   }
 }
