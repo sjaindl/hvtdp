@@ -1,56 +1,59 @@
 <div class="container footer"
-    fxLayout="row wrap"
-    fxLayout.sm="column wrap"
-    fxLayout.xs="column wrap"
-    fxLayoutAlign.sm="start center"
-    fxLayoutAlign.xs="start center"
-    fxLayoutAlign.gt-sm="center center"
-    fxLayoutGap="10px">
+     fxLayout="row wrap"
+     fxLayout.sm="column wrap"
+     fxLayout.xs="column wrap"
+     fxLayoutAlign.gt-sm="space-between center"
+     fxLayoutAlign.sm="start stretch"
+     fxLayoutAlign.xs="start stretch"
+     fxLayoutGap="24px">
 
-  <div fxFlex="100%" fxFlex.gt-sm="45%">
-    <div style="text-align:center">
-      <a md-icon-button class="btn-facebook" href="https://www.facebook.com/hvtdpstainz/" target="_blank"><i class="fab fa-facebook fa-lg"></i></a>
-      &nbsp;
-      <a md-icon-button class="btn-twitter" href="https://twitter.com/HvStainz/" target="_blank"><i class="fab fa-twitter fa-lg"></i></a>
-      &nbsp;
-      <a md-icon-button class="btn-instagram" href="https://www.instagram.com/hvtdpstainz_2014/" target="_blank"><i class="fab fa-instagram fa-lg"></i></a>
-      &nbsp;
-      <a md-icon-button class="btn-mail" href="mailto:hvtdpstainz@gmx.at"><i class="fas fa-envelope"></i></a>
+  <!-- Social icons -->
+  <div fxFlex="100%" fxFlex.gt-sm="30%" class="footer-social">
+    <h3 class="footer-heading">Folge uns</h3>
+    <div class="footer-social-icons">
+      <a class="social-btn facebook" href="https://www.facebook.com/hvtdpstainz/" target="_blank" aria-label="Facebook">
+        <i class="fab fa-facebook fa-lg"></i>
+      </a>
+      <a class="social-btn twitter" href="https://twitter.com/HvStainz/" target="_blank" aria-label="Twitter">
+        <i class="fab fa-twitter fa-lg"></i>
+      </a>
+      <a class="social-btn instagram" href="https://www.instagram.com/hvtdpstainz_2014/" target="_blank" aria-label="Instagram">
+        <i class="fab fa-instagram fa-lg"></i>
+      </a>
+      <a class="social-btn mail" href="mailto:hvtdpstainz@gmx.at" aria-label="E-Mail">
+        <i class="fas fa-envelope fa-lg"></i>
+      </a>
     </div>
   </div>
-  <div fxFlex="100%" fxFlexAlign="center center">
-    <br>
 
-    <div *ngIf="sessions" style="text-align:center;">
-      Der HV TDP bedankt sich für {{sessions}} Website-Aufrufe seit dem 23.07.2018!
+  <!-- Stats, sponsors, copyright -->
+  <div fxFlex="100%" fxFlex.gt-sm="65%" class="footer-main" fxLayout="column" fxLayoutGap="16px">
+
+    <div *ngIf="sessions" class="footer-sessions">
+      Der HV TDP bedankt sich für <strong>{{sessions}}</strong> Website-Aufrufe seit dem 23.07.2018!
     </div>
 
-    <br>
+    <div class="footer-sponsors">
+      <h4 class="footer-heading">Unsere Partner</h4>
+      <div class="sponsor-grid">
+        <a href="https://www.udemy.com/user/stefan-jaindl/" target="_blank" class="sponsor-card">
+          <img class="sponsor-image" src="assets/images/udemy.jpg" alt="Udemy Profil Stefan Jaindl">
+        </a>
 
-    <table align="center">
-      <tr>
-        <td>
-            <a href="https://apps.apple.com/us/app/the-travel-companion/id1441554384" target="blank">
-              <img class="imageSmallCenter" src="assets/images/tc_logo.png" style="height: 100px; width: 100px;">
-            </a>
-        </td>
-        <td>&nbsp;</td>
-        <td>
-            <a href="http://www.textildruckprofi.com/" target="blank">
-              <img class="imageSmallCenter" src="assets/images/tdp.jpg" style="height: 80px; width: 180px;">
-            </a>
-        </td>
-        <td>&nbsp;</td>
-        <td>
-          <a href="https://dangraz.at/" target="blank">
-            <img class="imageSmallCenter" src="assets/images/dan_logo.jpeg" style="height: 80px; width: 150px;">
-          </a>
-        </td>
-      </tr>
-    </table>
+        <a href="http://www.textildruckprofi.com/" target="_blank" class="sponsor-card">
+          <img class="sponsor-image" src="assets/images/tdp.jpg" alt="Textildruckprofi">
+        </a>
 
-    <div style="text-align:center;">
-      <p><a href="https://github.com/sjaindl" target="_blank">© 2018-2024 Stefan Jaindl</a></p>
+        <a href="https://dangraz.at/" target="_blank" class="sponsor-card">
+          <img class="sponsor-image" src="assets/images/dan_logo.jpeg" alt="DAN Graz">
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>
+        <a href="https://github.com/sjaindl" target="_blank">© 2018-2025 Stefan Jaindl</a>
+      </p>
     </div>
   </div>
 </div>
