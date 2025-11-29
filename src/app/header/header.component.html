@@ -3,6 +3,8 @@
 
     <!-- Mobile nav -->
     <button mat-menu-item [matMenuTriggerFor]="mobile" fxShow="true" fxHide.gt-sm><mat-icon>menu</mat-icon></button>
+    <img class="logo" src="/assets/images/logo.gif" width="24px" height="24px" style="padding-left: 12px;">
+
     <mat-menu #mobile="matMenu">
       <button mat-menu-item routerLink="/home" routerLinkActive="active"><span class="fa fa-users fa-sm"></span> Home</button>
       <button mat-menu-item routerLink="/news" routerLinkActive="active"><span class="fa fa-bookmark fa-sm"></span> News</button>
@@ -114,20 +116,6 @@
       <button mat-menu-item routerLink="/stadionfest" routerLinkActive="active"><span class="fa fa-futbol fa-sm"></span> Stadionfest</button>
       <button mat-menu-item routerLink="/hallenturnier" routerLinkActive="active"><span class="fa fa-futbol fa-sm"></span> Hallenturnier</button>
 
-      <button mat-menu-item [matMenuTriggerFor]="goaloftheseason"><span class="fa fa-list-ol fa-sm"></span> Tor des Jahres</button>
-      <mat-menu #goaloftheseason="matMenu">
-        <button mat-menu-item routerLink="/goaloftheseason/2022">Tor des Jahres 2022</button>
-        <button mat-menu-item routerLink="/goaloftheseason/2023">Tor des Jahres 2023</button>
-        <button mat-menu-item routerLink="/goaloftheseason/2024">Tor des Jahres 2024</button>
-        <button mat-menu-item routerLink="/goaloftheseason/2025">Tor des Jahres 2025</button>
-      </mat-menu>
-
-      <button mat-menu-item [matMenuTriggerFor]="playeroftheseason"><span class="fa fa-list-ol fa-sm"></span> Spieler des Jahres</button>
-      <mat-menu #playeroftheseason="matMenu">
-        <button mat-menu-item routerLink="/playeroftheseason/2024">Spieler des Jahres 2024</button>
-        <button mat-menu-item routerLink="/playeroftheseason/2025">Spieler des Jahres 2025</button>
-      </mat-menu>
-
       <!-- <button mat-menu-item routerLink="/comedyhirten" routerLinkActive="active"><span class="fa fa-heart"></span> Comedyhirten</button> -->
       <!-- <button mat-menu-item routerLink="/10-jahre-hvtdp" routerLinkActive="active"><span class="fa fa-futbol fa-sm"></span> 10-Jahresjubiläum</button>  -->
       <!-- <button mat-menu-item routerLink="/torschusschallenge" routerLinkActive="active"><span class="fa fa-futbol fa-sm"></span> Torschuss Challenge</button> -->
@@ -162,16 +150,29 @@
       <button mat-menu-item routerLink="/contact" routerLinkActive="active"><span class="fa fa-info fa-sm"></span> Kontakt</button>
       <button mat-menu-item routerLink="/fanshop" routerLinkActive="active"><span class="fa fa-shopping-cart fa-sm"></span> Fanshop</button>
 
-      <button mat-menu-item [matMenuTriggerFor]="advent"><span class="fa fa-candy-cane fa-sm"></span> Adventkalender</button>
-      <mat-menu #advent="matMenu">
-        <button mat-menu-item routerLink="/advent/2021">Advent 2021</button>
-        <button mat-menu-item routerLink="/advent/2023">Advent 2023</button>
-      </mat-menu>
-
       <button mat-menu-item routerLink="/documents" routerLinkActive="active"><span class="fa fa-file fa-sm"></span> Dokumente</button>
 
       <button mat-menu-item [mat-menu-trigger-for]="more"><mat-icon>menu</mat-icon></button>
       <mat-menu x-position="before" #more="matMenu">
+        <button mat-menu-item [matMenuTriggerFor]="goaloftheseason"><span class="fa fa-list-ol fa-sm"></span> Tor des Jahres</button>
+        <mat-menu #goaloftheseason="matMenu">
+          <button mat-menu-item routerLink="/goaloftheseason/2022">Tor des Jahres 2022</button>
+          <button mat-menu-item routerLink="/goaloftheseason/2023">Tor des Jahres 2023</button>
+          <button mat-menu-item routerLink="/goaloftheseason/2024">Tor des Jahres 2024</button>
+          <button mat-menu-item routerLink="/goaloftheseason/2025">Tor des Jahres 2025</button>
+        </mat-menu>
+
+        <button mat-menu-item [matMenuTriggerFor]="playeroftheseason"><span class="fa fa-list-ol fa-sm"></span> Spieler des Jahres</button>
+        <mat-menu #playeroftheseason="matMenu">
+          <button mat-menu-item routerLink="/playeroftheseason/2024">Spieler des Jahres 2024</button>
+          <button mat-menu-item routerLink="/playeroftheseason/2025">Spieler des Jahres 2025</button>
+        </mat-menu>
+
+        <button mat-menu-item [matMenuTriggerFor]="advent"><span class="fa fa-candy-cane fa-sm"></span> Adventkalender</button>
+            <mat-menu #advent="matMenu">
+              <button mat-menu-item routerLink="/advent/2021">Advent 2021</button>
+              <button mat-menu-item routerLink="/advent/2023">Advent 2023</button>
+            </mat-menu>
             <button mat-menu-item routerLink="/hallofpapp" routerLinkActive="active"><span class="fa fa-users fa-sm"></span> Hall of Papp-Fans</button>
             <button mat-menu-item routerLink="/surveys" routerLinkActive="active"><span class="fa fa-list-ol fa-sm"></span> Umfragen</button>
 
