@@ -18,21 +18,21 @@
     <p class="normalCentered" *ngIf="game.round == 0 || game.round >= 90">
         Saison {{game.season}}
     </p>
-    
-    
+
+
     <p class="normalCentered" *ngIf="game.description">
         {{game.date}} - {{game.description}}
     </p>
     <p class="normalCentered" *ngIf="!game.description">
         {{game.date}}
     </p>
-    
+
     <p class="normalCentered" *ngIf="game.customText">
         {{game.customText}}
     </p>
 
     <br>
-    
+
     <div class="container"
         fxLayout="column"
         fxLayoutGap="10px">
@@ -57,7 +57,7 @@
                                         </div>
 
                                     </div>
-                                
+
                                     <div fxFlex="50" fxFlexOffset="25px" fxLayoutAlign="center center" *ngIf="isMobile">
                                         <iframe width="224px" height="128px" [src]="link.link | safe" frameborder="0" allowfullscreen></iframe>
                                     </div>
@@ -70,7 +70,7 @@
                             </div>
                         </div>
                         <!-- <a href="{{link.link}}" target="_blank"></a>   -->
-                        
+
                         <!-- https://www.youtube.com/embed/1ozGKlOzEVc -->
                     </mat-list-item>
                 </div>
@@ -95,13 +95,29 @@
 
 
                                     </div>
-                                
+
                                     <div fxFlex="50" fxFlexOffset="25px" fxLayoutAlign="center center" *ngIf="isMobile">
-                                        <iframe width="224px" height="128px" [src]="link.link | safe" frameborder="0" allowfullscreen></iframe>
+                                        <iframe
+                                          width="224px"
+                                          height="128px"
+                                          [src]="link.link | safe"
+                                          frameborder="0"
+                                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                          allowfullscreen
+                                          referrerpolicy="strict-origin-when-cross-origin"
+                                          ></iframe>
                                     </div>
 
                                     <div fxFlex="50" fxFlexOffset="25px" fxLayoutAlign="center center" *ngIf="!isMobile">
-                                        <iframe width="560px" height="315px" [src]="link.link | safe" frameborder="0" allowfullscreen></iframe>
+                                        <iframe
+                                          width="560px"
+                                          height="315px"
+                                          [src]="link.link | safe"
+                                          frameborder="0"
+                                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                          allowfullscreen
+                                          referrerpolicy="strict-origin-when-cross-origin"
+                                          ></iframe>
                                     </div>
                                 </span>
 
@@ -111,7 +127,7 @@
                         <br><br>
                     </mat-list-item>
                 </div>
-                
+
                 <div>
                     <mat-list-item *ngIf="link.scorer == ''" [ngStyle]="{'height': isMobile ? '600px' : '500px' }">
                         <div fxFlex>
@@ -136,7 +152,7 @@
                     </mat-list-item>
                 </div>
 
-            </mat-list>                    
+            </mat-list>
         </div>
 
     </div>
