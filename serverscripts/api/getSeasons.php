@@ -6,9 +6,10 @@
     header("Access-Control-Allow-Methods: GET");
 
     getSeasons($dbname, $dbuser, $dbpass, $dbhost);
-    
+
     function getSeasons($name, $user, $pass, $host) {
         $con = @mysqli_connect($host, $user, $pass, $name);
+        mysqli_set_charset($con, "utf8mb4");
 
         if (!$con) {
             echo "Error: " . mysqli_connect_error();
@@ -17,7 +18,7 @@
 
         $sql = "SELECT * FROM GameSeason";
         $q = mysqli_query($con, $sql);
-        
+
         $items = array();
 
         while ($res = mysqli_fetch_array($q))
@@ -25,10 +26,10 @@
             array_push($items, array(
                 'season'=> utf8_encode($res["season"])));
         }
-        
+
         // Close connection
         mysqli_close ($con);
-        
+
         $json = json_encode($items);
 
         if ($json === false) {

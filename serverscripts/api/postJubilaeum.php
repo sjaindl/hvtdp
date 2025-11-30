@@ -13,6 +13,7 @@
         //}
 
         $con = @mysqli_connect($host, $user, $pass, $name);
+        mysqli_set_charset($con, "utf8mb4");
 
         if (!$con) {
             echo "Error: " . mysqli_connect_error();

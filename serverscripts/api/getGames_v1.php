@@ -6,9 +6,10 @@
     header("Access-Control-Allow-Methods: GET");
 
     getGames($dbname, $dbuser, $dbpass, $dbhost);
-    
+
     function getGames($name, $user, $pass, $host) {
         $con = @mysqli_connect($host, $user, $pass, $name);
+        mysqli_set_charset($con, "utf8mb4");
 
         if (!$con) {
             echo "Error: " . mysqli_connect_error();
@@ -32,9 +33,9 @@
             ) from Game g where g.season = '$season'";
 
         $q = mysqli_query($con, $sql);
-        
+
         $games = array();
-        
+
         while ($res = mysqli_fetch_array($q))
         {
             array_push($games, array(
@@ -44,12 +45,12 @@
                 'link'=> utf8_encode($res["link"]),
                 'scorer'=> utf8_encode($res["scorer"])));
         }
-        
+
         // Close connection
         mysqli_close ($con);
 
         // print_r($games);
-        
+
         $json = json_encode($games);
 
         if ($json === false) {

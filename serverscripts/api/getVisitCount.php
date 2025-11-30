@@ -6,9 +6,10 @@
     header("Access-Control-Allow-Methods: GET");
 
     getVisitCount($dbname, $dbuser, $dbpass, $dbhost);
-    
+
     function getVisitCount($name, $user, $pass, $host) {
         $con = @mysqli_connect($host, $user, $pass, $name);
+        mysqli_set_charset($con, "utf8mb4");
 
         if (!$con) {
             echo "Error: " . mysqli_connect_error();
@@ -19,7 +20,7 @@
 
         $sql = "SELECT visitorCounter FROM Statistics";
         $q = mysqli_query($con, $sql);
-        
+
         $visitorCount = 0;
 
         while ($res = mysqli_fetch_array($q))
@@ -36,7 +37,7 @@
 
         // Close connection
         mysqli_close ($con);
-        
+
         $json = json_encode($visitorCount);
 
         if ($json === false) {

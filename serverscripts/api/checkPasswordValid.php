@@ -6,14 +6,14 @@
     header("Access-Control-Allow-Methods: GET");
 
     checkDocPasswordValid($dbname, $dbuser, $dbpass, $dbhost, $docpass);
-    
+
     function checkDocPasswordValid($name, $user, $pass, $host, $docpass) {
         $validation = array();
         $pw = $_GET['password'];
 
         array_push($validation, array(
             'valid'=> $pw == $docpass));
-        
+
         $json = json_encode($validation, JSON_UNESCAPED_UNICODE);
 
         if ($json === false) {

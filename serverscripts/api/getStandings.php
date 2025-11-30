@@ -6,9 +6,10 @@
     header("Access-Control-Allow-Methods: GET");
 
     getStandings($dbname, $dbuser, $dbpass, $dbhost);
-    
+
     function getStandings($name, $user, $pass, $host) {
         $con = @mysqli_connect($host, $user, $pass, $name);
+        mysqli_set_charset($con, "utf8mb4");
 
         if (!$con) {
             echo "Error: " . mysqli_connect_error();
@@ -17,9 +18,9 @@
 
         $sql = "SELECT * FROM Standings order by place ASC";
         $q = mysqli_query($con, $sql);
-        
+
         $standings = array();
-        
+
         while ($res = mysqli_fetch_array($q))
         {
             array_push($standings, array(
@@ -37,7 +38,7 @@
 
         // Close connection
         mysqli_close ($con);
-        
+
         $json = json_encode($standings, JSON_UNESCAPED_UNICODE);
 
         if ($json === false) {

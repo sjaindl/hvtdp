@@ -6,9 +6,10 @@
     header("Access-Control-Allow-Methods: GET");
 
     getPlayers($dbname, $dbuser, $dbpass, $dbhost);
-    
+
     function getPlayers($name, $user, $pass, $host) {
         $con = @mysqli_connect($host, $user, $pass, $name);
+        mysqli_set_charset($con, "utf8mb4");
 
         if (!$con) {
             echo "Error: " . mysqli_connect_error();
@@ -17,7 +18,7 @@
 
         $sql = "SELECT * FROM Membership WHERE type = 'support'";
         $q = mysqli_query($con, $sql);
-        
+
         $members = array();
 
         while ($res = mysqli_fetch_array($q))
@@ -30,7 +31,7 @@
 
         // Close connection
         mysqli_close ($con);
-        
+
         $json = json_encode($members, JSON_UNESCAPED_UNICODE);
 
         if ($json === false) {
