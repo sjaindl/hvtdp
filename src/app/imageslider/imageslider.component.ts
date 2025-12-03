@@ -2,11 +2,37 @@ import { Component, ElementRef, Input, OnInit, QueryList, ViewChildren } from '@
 import { baseUrlImages } from '../shared/baseurls';
 import { Router } from '@angular/router';
 import { Image } from '../shared/image';
+import {
+  trigger,
+  transition,
+  style,
+  animate,
+} from '@angular/animations';
 
 @Component({
   selector: 'app-imageslider',
   templateUrl: './imageslider.component.html',
-  styleUrls: ['./imageslider.component.css']
+  styleUrls: ['./imageslider.component.css'],
+  animations: [
+    trigger('slideAnimation', [
+      // swipe right
+      transition(':increment', [
+        style({ opacity: 0, transform: 'translateX(24px)' }),
+        animate(
+          '250ms ease-out',
+          style({ opacity: 1, transform: 'translateX(0)' })
+        )
+      ]),
+      // swipe left
+      transition(':decrement', [
+        style({ opacity: 0, transform: 'translateX(-24px)' }),
+        animate(
+          '250ms ease-out',
+          style({ opacity: 1, transform: 'translateX(0)' })
+        )
+      ])
+    ])
+  ]
 })
 export class ImagesliderComponent implements OnInit {
 
@@ -16,7 +42,14 @@ export class ImagesliderComponent implements OnInit {
   imageBaseUrl: String
   currentIndex = 0;
 
+  // Swipe state
+  private startX = 0;
+  currentTranslate = 0;
+  cardTransition = 'none' // CSS transition for smooth snap
+  private isDragging = false
+
   @Input() carouselItems: Image[] = []
+  @Input() showDots: Boolean = false
 
   constructor(
     public router: Router,
@@ -30,7 +63,7 @@ export class ImagesliderComponent implements OnInit {
     this.scrollActiveThumbIntoView();
   }
 
-  showImageDetails(item) {
+  showImageDetails(item: Image) {
     console.log('navigate to ' + item.navPath)
     this.router.navigate([item.navPath]);
   }
@@ -44,7 +77,7 @@ export class ImagesliderComponent implements OnInit {
       return this.imageBaseUrl + item.imagePath
   }
 
-  prev() {
+  previous() {
     if (!this.carouselItems.length) return;
     this.currentIndex =
       (this.currentIndex - 1 + this.carouselItems.length) % this.carouselItems.length;
@@ -67,7 +100,57 @@ export class ImagesliderComponent implements OnInit {
     return index;
   }
 
-  private scrollActiveThumbIntoView() {
+  onTouchStart(event: TouchEvent) {
+    if (!this.carouselItems.length) return;
+
+    this.isDragging = true;
+    this.cardTransition = 'none'; // no animation during drag
+    this.startX = event.touches[0].clientX;
+  }
+
+  onTouchMove(event: TouchEvent) {
+    if (!this.isDragging) return;
+
+    const currentX = event.touches[0].clientX;
+    const deltaX = currentX - this.startX;
+    this.currentTranslate = deltaX;
+  }
+
+  onTouchEnd(event: TouchEvent) {
+    if (!this.isDragging) return;
+    this.isDragging = false;
+
+    const threshold = 60;
+
+    if (this.currentTranslate < -threshold) {
+      this.next();
+    } else if (this.currentTranslate > threshold) {
+      this.previous();
+    }
+
+    this.cardTransition = 'transform 220ms ease-out';
+    this.currentTranslate = 0;
+  }
+
+  onMouseDown(event: MouseEvent) {
+    this.startDrag(event.clientX);
+  }
+
+  onMouseMove(event: MouseEvent) {
+    this.moveDrag(event.clientX);
+  }
+
+  onMouseUp(event: MouseEvent) {
+    this.endDrag();
+  }
+
+  onMouseLeave(event: MouseEvent) {
+    if (this.isDragging) {
+      this.endDrag();
+    }
+  }
+
+private scrollActiveThumbIntoView() {
     if (!this.thumbButtons || this.thumbButtons.length === 0) return;
     const btn = this.thumbButtons.get(this.currentIndex);
     if (!btn) return;
@@ -77,5 +160,43 @@ export class ImagesliderComponent implements OnInit {
       block: 'nearest',
       inline: 'center',
     });
+  }
+
+  private startDrag(clientX: number) {
+    if (!this.carouselItems.length) return;
+    console.log("start drag")
+    this.isDragging = true;
+    this.cardTransition = 'none';
+    this.startX = clientX;
+  }
+
+  private moveDrag(clientX: number) {
+    if (!this.isDragging) return;
+    console.log("move drag: " + clientX)
+    const deltaX = clientX - this.startX;
+    this.currentTranslate = deltaX;
+  }
+
+  private endDrag() {
+    if (!this.isDragging) return;
+    console.log("end drag")
+    this.isDragging = false;
+
+    const threshold = 60;
+
+    if (this.currentTranslate < -threshold) {
+      this.next();
+    } else if (this.currentTranslate > threshold) {
+      this.previous();
+    }
+
+    this.endSwipe()
+  }
+
+  private endSwipe() {
+    if (this.currentTranslate != 0) {
+      this.cardTransition = 'transform 220ms ease-out';
+      this.currentTranslate = 0;
+    }
   }
 }

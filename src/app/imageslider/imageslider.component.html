@@ -1,16 +1,32 @@
+{{ currentTranslate }}
+
 <div class="slider" *ngIf="currentImage as currentItem">
 
   <div class="slider-main">
 
-    <div class="slider-image-wrapper">
+    <div class="slider-image-wrapper"
+
+      [ngStyle]="{
+        transform: 'translateX(' + currentTranslate + 'px)',
+        transition: cardTransition
+      }"
+      (mousedown)="onMouseDown($event)"
+      (mouseup)="onMouseUp($event)"
+      (mousemove)="onMouseMove($event)"
+      (mouseleave)="onMouseLeave($event)"
+      (touchstart)="onTouchStart($event)"
+      (touchmove)="onTouchMove($event)"
+      (touchend)="onTouchEnd($event)"
+      (touchcancel)="onTouchEnd($event)">
+
       <img
         class="slider-image"
-        (click)="showImageDetails(currentItem)"
+        draggable="false"
+        (dragstart)="$event.preventDefault()"
         [src]="imagePath(currentItem)"
-        [alt]="currentItem.title || 'Image'"
-      />
+        [alt]="currentItem.title || 'Image'"/>
 
-      <button class="slider-arrow left" type="button" (click)="prev()">
+      <button class="slider-arrow left" type="button" (click)="previous()">
         ‹
       </button>
       <button class="slider-arrow right" type="button" (click)="next()">
@@ -19,7 +35,7 @@
     </div>
 
     <div class="slider-bottom">
-      <div class="slider-dots" *ngIf="carouselItems?.length > 1">
+      <div class="slider-dots" *ngIf="carouselItems?.length > 1 && showDots">
         <button
           *ngFor="let item of carouselItems; let i = index; trackBy: trackByIndex"
           type="button"
@@ -32,6 +48,15 @@
       <div class="slider-caption">
         <h2 class="slider-title">{{ currentItem.title }}</h2>
       </div>
+
+
+      <button
+      type="button"
+      class="slider-details-btn"
+      (click)="showImageDetails(currentItem)">
+      Zum Bericht
+    </button>
+
     </div>
   </div>
 
