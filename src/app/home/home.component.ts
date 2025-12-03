@@ -1,13 +1,13 @@
-import { Component, OnInit, HostListener, ViewChild, ChangeDetectorRef, ViewChildren, QueryList, ElementRef } from '@angular/core'
+import { Component, OnInit, HostListener, ChangeDetectorRef } from '@angular/core'
 import { News } from '../shared/news'
 import { DeviceDetectorService } from '../../../node_modules/ngx-device-detector'
-import { baseUrlImages } from '../shared/baseurls'
 import { MysqlService } from '../services/mysql.service'
 import { Ticker } from '../shared/ticker'
-import { Router } from '@angular/router'
 import { Title, Meta } from '@angular/platform-browser'
 
 import { NgcCookieConsentService } from 'ngx-cookieconsent'
+import { Image } from '../shared/image'
+import { map, Observable, tap } from 'rxjs'
 
 @Component({
   selector: 'app-home',
@@ -16,30 +16,40 @@ import { NgcCookieConsentService } from 'ngx-cookieconsent'
 })
 export class HomeComponent implements OnInit {
 
-  imageBaseUrl: String
-  items: Array<any> = []
+
   tickerItems: Ticker[] = []
   isMobile = null
 
-  carouselItems: News[]
+  news: News[]
 
-  @ViewChildren('thumbBtn', { read: ElementRef })
-  thumbButtons!: QueryList<ElementRef<HTMLButtonElement>>;
-
-  currentIndex = 0;
+  carouselItems$: Observable<Image[]>;
 
   constructor(
     private deviceService: DeviceDetectorService,
     private ccService: NgcCookieConsentService,
     private mysqlService: MysqlService,
-    public router: Router,
     private cdr: ChangeDetectorRef,
     private titleService: Title,
     private metaTagService: Meta
   ) {
     this.mysqlService.getNews().subscribe(news => {
-      this.items = news
-      this.carouselItems = news
+      this.news = news
+
+      this.carouselItems$ = this.mysqlService.getNews().pipe(
+        map(news => {
+          return news.map(newsItem => {
+            return {
+              imagePath: newsItem.imagePathHome !== ""
+                ? newsItem.imagePathHome
+                : newsItem.imagePath,
+              navPath: '/news/' + newsItem.newsId,
+              title: newsItem.title,
+              date: newsItem.newsDate,
+            };
+          });
+        }),
+        tap(console.info)
+      );
     })
 
     this.mysqlService.getTickerItems().subscribe( tickerItems => {
@@ -58,7 +68,7 @@ export class HomeComponent implements OnInit {
     userAgent
     os_version
     */
-    this.imageBaseUrl = baseUrlImages
+
     this.checkDevice()
 
     this.titleService.setTitle("Fußballverein Stainz. HVTDP Stainz.")
@@ -106,7 +116,6 @@ export class HomeComponent implements OnInit {
 
   ngAfterViewInit() {
     this.cdr.detectChanges();
-    this.scrollActiveThumbIntoView();
   }
 
   ngOnDestroy() {
@@ -123,58 +132,8 @@ export class HomeComponent implements OnInit {
     this.isMobile = this.deviceService.isMobile()
   }
 
-  imagePath(item: News): string {
-    if(item.imagePathHome != "") return this.imageBaseUrl + item.imagePathHome
-    else return this.imageBaseUrl + item.imagePath
-  }
-
   @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.checkDevice()
-  }
-
-  showImageDetails(item) {
-    console.log('navigate to ' + '/news/' + item.newsId)
-    this.router.navigate(['/news', item.newsId]);
-  }
-
-  get currentNews(): News | null {
-    if (!this.carouselItems || this.carouselItems.length === 0) return null;
-    return this.carouselItems[this.currentIndex];
-  }
-
-  prev() {
-    if (!this.carouselItems.length) return;
-    this.currentIndex =
-      (this.currentIndex - 1 + this.carouselItems.length) % this.carouselItems.length;
-      this.scrollActiveThumbIntoView();
-  }
-
-  next() {
-    if (!this.carouselItems.length) return;
-    this.currentIndex = (this.currentIndex + 1) % this.carouselItems.length;
-    this.scrollActiveThumbIntoView();
-  }
-
-  goTo(index: number) {
-    if (index < 0 || index >= this.carouselItems.length) return;
-    this.currentIndex = index;
-    this.scrollActiveThumbIntoView();
-  }
-
-  trackByIndex(index: number) {
-    return index;
-  }
-
-  private scrollActiveThumbIntoView() {
-    if (!this.thumbButtons || this.thumbButtons.length === 0) return;
-    const btn = this.thumbButtons.get(this.currentIndex);
-    if (!btn) return;
-
-    btn.nativeElement.scrollIntoView({
-      behavior: 'smooth',
-      block: 'nearest',
-      inline: 'center',
-    });
   }
 }

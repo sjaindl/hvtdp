@@ -1,0 +1,53 @@
+<div class="slider" *ngIf="currentImage as currentItem">
+
+  <div class="slider-main">
+
+    <div class="slider-image-wrapper">
+      <img
+        class="slider-image"
+        (click)="showImageDetails(currentItem)"
+        [src]="imagePath(currentItem)"
+        [alt]="currentItem.title || 'Image'"
+      />
+
+      <button class="slider-arrow left" type="button" (click)="prev()">
+        ‹
+      </button>
+      <button class="slider-arrow right" type="button" (click)="next()">
+        ›
+      </button>
+    </div>
+
+    <div class="slider-bottom">
+      <div class="slider-dots" *ngIf="carouselItems?.length > 1">
+        <button
+          *ngFor="let item of carouselItems; let i = index; trackBy: trackByIndex"
+          type="button"
+          class="dot"
+          [class.active]="i === currentIndex"
+          (click)="goTo(i)"
+        ></button>
+      </div>
+
+      <div class="slider-caption">
+        <h2 class="slider-title">{{ currentItem.title }}</h2>
+      </div>
+    </div>
+  </div>
+
+  <div class="slider-thumbs" *ngIf="carouselItems?.length > 1">
+    <button
+      *ngFor="let item of carouselItems; let i = index; trackBy: trackByIndex"
+      #thumbBtn
+      type="button"
+      class="thumb"
+      [class.active]="i === currentIndex"
+      (click)="goTo(i)">
+        <img [src]="imagePath(item)" [alt]="item.title || 'Thumb'" />
+    </button>
+  </div>
+</div>
+
+<div class="slider slider-empty" *ngIf="carouselItems?.length === 0">
+  <p>Noch keine Einträge vorhanden.</p>
+</div>
