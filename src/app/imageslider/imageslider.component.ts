@@ -100,6 +100,41 @@ export class ImagesliderComponent implements OnInit {
     return index;
   }
 
+  toggleFullscreen(container: HTMLElement, event: MouseEvent): void {
+    event.stopPropagation();
+
+    const doc: any = document;
+    const el: any = container;
+
+    const isFullscreen =
+      doc.fullscreenElement ||
+      doc.webkitFullscreenElement ||
+      doc.mozFullScreenElement ||
+      doc.msFullscreenElement;
+
+    if (!isFullscreen) {
+      if (el.requestFullscreen) {
+        el.requestFullscreen();
+      } else if (el.webkitRequestFullscreen) {
+        el.webkitRequestFullscreen();
+      } else if (el.mozRequestFullScreen) {
+        el.mozRequestFullScreen();
+      } else if (el.msRequestFullscreen) {
+        el.msRequestFullscreen();
+      }
+    } else {
+      if (doc.exitFullscreen) {
+        doc.exitFullscreen();
+      } else if (doc.webkitExitFullscreen) {
+        doc.webkitExitFullscreen();
+      } else if (doc.mozCancelFullScreen) {
+        doc.mozCancelFullScreen();
+      } else if (doc.msExitFullscreen) {
+        doc.msExitFullscreen();
+      }
+    }
+  }
+
   onTouchStart(event: TouchEvent) {
     if (!this.carouselItems.length) return;
 
@@ -150,7 +185,7 @@ export class ImagesliderComponent implements OnInit {
     }
   }
 
-private scrollActiveThumbIntoView() {
+  private scrollActiveThumbIntoView() {
     if (!this.thumbButtons || this.thumbButtons.length === 0) return;
     const btn = this.thumbButtons.get(this.currentIndex);
     if (!btn) return;

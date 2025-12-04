@@ -40,6 +40,47 @@
   cursor: grab;
 }
 
+/* Fullscreen button overlay */
+.slider-fullscreen-btn {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  z-index: 4;
+
+  border: none;
+  border-radius: 999px;
+  width: 32px;
+  height: 32px;
+  background: rgba(15, 23, 42, 0.85);
+  color: #f9fafb;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.7);
+  transition:
+    background 0.15s ease,
+    transform 0.1s ease,
+    box-shadow 0.15s ease;
+}
+
+.slider-fullscreen-btn i {
+  font-size: 0.9rem;
+}
+
+.slider-fullscreen-btn:hover {
+  background: rgba(30, 64, 175, 0.95);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(15, 23, 42, 0.85);
+}
+
+.slider-fullscreen-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 3px 8px rgba(15, 23, 42, 0.7);
+}
+
 .slider-image-wrapper:active {
   cursor: grabbing;
 }
@@ -50,6 +91,29 @@
   height: 60vh;
   object-fit: contain; /* no cutting off tall/square images */
   background-color: transparent;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* Fullscreen: wrapper should fill the whole viewport */
+.slider-image-wrapper:fullscreen,
+.slider-image-wrapper:-webkit-full-screen,
+.slider-image-wrapper:-moz-full-screen,
+.slider-image-wrapper:-ms-fullscreen {
+  width: 100vw;
+  height: 100vh;
+  background: #000;
+}
+
+/* Inside fullscreen: image fills wrapper, limited by whichever edge hits first (contain) */
+.slider-image-wrapper:fullscreen .slider-image,
+.slider-image-wrapper:-webkit-full-screen .slider-image,
+.slider-image-wrapper:-moz-full-screen .slider-image,
+.slider-image-wrapper:-ms-fullscreen .slider-image {
+  width: 100%;
+  height: 100%;
+  max-height: none;       /* override the 60vh */
+  object-fit: contain;    /* full width or full height, no cropping */
 }
 
 /* Arrows */

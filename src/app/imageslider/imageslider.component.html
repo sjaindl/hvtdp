@@ -3,7 +3,7 @@
   <div class="slider-main">
 
     <div class="slider-image-wrapper"
-
+      #imageWrapper
       [ngStyle]="{
         transform: 'translateX(' + currentTranslate + 'px)',
         transition: cardTransition
@@ -23,6 +23,13 @@
         (dragstart)="$event.preventDefault()"
         [src]="imagePath(currentItem)"
         [alt]="currentItem.title || 'Image'"/>
+
+      <button
+        type="button"
+        class="slider-fullscreen-btn"
+        (click)="toggleFullscreen(imageWrapper, $event)">
+        <i class="fas fa-expand"></i>
+      </button>
 
       <button class="slider-arrow left" type="button" (click)="previous()">
         ‹
