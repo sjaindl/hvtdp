@@ -1,0 +1,13 @@
+<div
+  #imageWrapper
+  class="slider-image-wrapper"
+>
+
+  <img
+    class="slider-image"
+    draggable="false"
+    (click)="toggleFullscreen(imageWrapper, $event)"
+    [src]="imagePath"
+    [alt]="altText || 'Image'"/>
+
+</div>

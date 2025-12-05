@@ -74,7 +74,7 @@ import { BigdartsComponent } from './bigdarts/bigdarts.component'
 import { StadionFestComponent } from './stadionfest/stadionfest.component'
 import { TickerComponent } from './ticker/ticker.component'
 import { ImagesliderComponent } from './imageslider/imageslider.component'
-
+import { HvtdpImageComponent } from './hvtdp-image/hvtdp-image.component'
 
 const cookieConfig: NgcCookieConsentConfig = {
   cookie: {
@@ -130,6 +130,7 @@ const cookieConfig: NgcCookieConsentConfig = {
     BigdartsComponent,
     TickerComponent,
     ImagesliderComponent,
+    HvtdpImageComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }) ,
