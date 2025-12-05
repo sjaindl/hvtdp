@@ -13,11 +13,7 @@
             {{newsItem.newsDate}} {{newsItem.title}}
         </mat-expansion-panel-header>
 
-        <br>
-        <img class="centerWithoutWidth"  src="{{imageBaseUrl + newsItem.imagePath}}" alt= "{{newsItem.title}}" *ngIf="!isMobile && newsItem.imagePath > ''">
-        <img class="center" src="{{imageBaseUrl + newsItem.imagePath}}" alt= "{{newsItem.title}}" *ngIf="isMobile && newsItem.imagePath > ''">
-
-        <br>
+        <app-hvtdp-image [imagePath]="imageBaseUrl + newsItem.imagePath"></app-hvtdp-image>
 
         <p style="white-space: pre-line;" *ngIf="newsItem.news">
             {{newsItem.news}}
@@ -31,27 +27,8 @@
 
 <br>
 
-<!-- <mat-form-field>
-    List length:
-    <input matInput [(ngModel)]="length">
-</mat-form-field>
-
-<mat-form-field>
-    Page size:
-    <input matInput [(ngModel)]="pageSize">
-</mat-form-field> -->
-
 <mat-paginator [length]="length"
                [pageSize]="pageSize"
                [pageSizeOptions]="pageSizeOptions"
                (page)="pageEvent = $event">
 </mat-paginator>
-
-<!-- <div *ngIf="pageEvent">
-    <h5>Page Change Event Properties</h5>
-    <div>List length: {{pageEvent.length}}</div>
-    <div>Page size: {{pageEvent.pageSize}}</div>
-    <div>Page index: {{pageEvent.pageIndex}}</div>
-</div> -->
-
-<br>
