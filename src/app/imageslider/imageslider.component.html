@@ -52,10 +52,11 @@
 
       <div class="slider-caption">
         <h2 class="slider-title">{{ currentItem.title }}</h2>
+        <h4 *ngIf="currentItem.date" class="slider-title">{{ currentItem.date }}</h4>
       </div>
 
-
       <button
+      *ngIf="currentItem.navPath"
       type="button"
       class="slider-details-btn"
       (click)="showImageDetails(currentItem)">

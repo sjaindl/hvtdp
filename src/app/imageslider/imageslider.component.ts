@@ -59,10 +59,6 @@ export class ImagesliderComponent implements OnInit {
     this.imageBaseUrl = baseUrlImages
   }
 
-  ngAfterViewInit() {
-    this.scrollActiveThumbIntoView();
-  }
-
   showImageDetails(item: Image) {
     console.log('navigate to ' + item.navPath)
     this.router.navigate([item.navPath]);

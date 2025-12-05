@@ -2,83 +2,15 @@
     Galerie
 </h1>
 
-<p class="normalCentered" *ngIf="!selectedAlbum" style="text-align: center;">
+<p class="normalCentered">
     Für unsere Fans haben wir alle HV TDP-Veranstaltungen archiviert. Viel Spaß beim Durchstöbern der offiziellen HV TDP-Galerie.
 </p>
 
-<img src="/assets/images/camera.gif" width="20%" *ngIf="!isMobile && !selectedAlbum">
-<img src="/assets/images/camera.gif" width="80%" *ngIf="isMobile && !selectedAlbum">
-
 <div *ngFor="let album of albums">
-    <p class="normalCentered" *ngIf="!selectedAlbum" style="color: hotpink;">
-        <!-- <a (click)="selectAlbum(album)">Saison {{album.season}}: {{album.name}} ({{album.date}})</a> -->
-        <a (click)="selectAlbum(album)">{{album.date}} / {{album.name}}</a>
-    </p>
-    
-    <p class="normalCentered" *ngIf="!selectedAlbum">
-        <img *ngIf="isMobile" class="bordered" width="80%" src="{{imageBaseUrl + album.photos[0].imagePath}}" (click)="selectAlbum(album)">
-        <img *ngIf="!isMobile" class="bordered" width="50%" src="{{imageBaseUrl + album.photos[0].imagePath}}" (click)="selectAlbum(album)">
+    <p class="normalCentered" style="color: hotpink;">
+        {{album.date}} / {{album.name}}
     </p>
 
-    <br>
-
-    <span *ngIf="album == selectedAlbum">
-        <p class="normalCentered">
-            <!-- Saison {{album.season}}: {{album.name}} ({{album.date}}) -->
-            {{album.date}} / {{album.name}}
-        </p>
-
-        <ngu-carousel *ngIf="carouselItems && !isMobile" #myCarousel [inputs]="carouselConfig" [dataSource]="carouselItems" style="margin: auto; padding: 100px;">
-            <div class="item" *nguCarouselDef="let item;">
-                <div class="tile">
-                    <table>
-                        <tr>
-                            <img class="bordered" height="500vh" src="{{imageBaseUrl + item.imagePath}}">
-                        </tr>
-
-                        <tr>
-                            <p class="center">{{item.description}}</p>
-                        </tr>
-                    </table>
-                </div> 
-            </div>
-
-            <button NguCarouselPrev class="leftRs" [style.opacity]="myCarousel.isFirst ? 0.5:1">&lt;</button>
-            <button NguCarouselNext class="rightRs" [style.opacity]="myCarousel.isLast ? 0.5:1">&gt;</button>
-            <ul class="myPoint" NguCarouselPoint>
-                <li *ngFor="let j of myCarousel.pointNumbers; let i = index" [class.active]="i==myCarousel.activePoint" (click)="myCarousel.moveTo(i)"></li>
-            </ul>
-        </ngu-carousel>
-
-        <ngu-carousel *ngIf="carouselItems && isMobile" #myCarousel [inputs]="carouselConfig" [dataSource]="carouselItems">
-            <div class="item" *nguCarouselDef="let item;">
-                <div class="tile">
-                    <table>
-                        <tr>
-                            <img class="bordered" width="200vw" src="{{imageBaseUrl + item.imagePath}}">
-                        </tr>
-
-                        <tr>
-                            <p class="center">{{item.description}}</p>
-                        </tr>
-                    </table>
-                </div> 
-            </div>
-
-            <button NguCarouselPrev class="leftRs" [style.opacity]="myCarousel.isFirst ? 0.5:1">&lt;</button>
-            <button NguCarouselNext class="rightRs" [style.opacity]="myCarousel.isLast ? 0.5:1">&gt;</button>
-            <ul class="myPoint" NguCarouselPoint>
-                <li *ngFor="let j of myCarousel.pointNumbers; let i = index" [class.active]="i==myCarousel.activePoint" (click)="myCarousel.moveTo(i)"></li>
-            </ul>
-        </ngu-carousel>
-
-        <br>
-        <button style="margin-left: 15px; font-size: 20px;" mat-button class="background-primary" (click)="backFromPhotos()">Zurück zu den Alben</button>
-    </span>
+    <app-imageslider [carouselItems]="items(album)" [showDots]="false"></app-imageslider>
 
 </div>
-
-<br>
-
-<br>
-<br>
