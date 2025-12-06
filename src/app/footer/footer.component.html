@@ -1,23 +1,39 @@
-<div class="container footer"
-     fxLayout="row wrap"
-     fxLayout.sm="column wrap"
-     fxLayout.xs="column wrap"
-     fxLayoutAlign.gt-sm="space-between center"
-     fxLayoutAlign.sm="start stretch"
-     fxLayoutAlign.xs="start stretch"
-     fxLayoutGap="24px">
-
+<div
+  class="container footer"
+  fxLayout="row wrap"
+  fxLayout.sm="column wrap"
+  fxLayout.xs="column wrap"
+  fxLayoutAlign.gt-sm="space-between center"
+  fxLayoutAlign.sm="start stretch"
+  fxLayoutAlign.xs="start stretch"
+  fxLayoutGap="24px"
+>
   <!-- Social icons -->
   <div fxFlex="100%" fxFlex.gt-sm="30%" class="footer-social">
     <h3 class="footer-heading">Folge uns</h3>
     <div class="footer-social-icons">
-      <a class="social-btn facebook" href="https://www.facebook.com/hvtdpstainz/" target="_blank" aria-label="Facebook">
+      <a
+        class="social-btn facebook"
+        href="https://www.facebook.com/hvtdpstainz/"
+        target="_blank"
+        aria-label="Facebook"
+      >
         <i class="fab fa-facebook fa-lg"></i>
       </a>
-      <a class="social-btn twitter" href="https://twitter.com/HvStainz/" target="_blank" aria-label="Twitter">
+      <a
+        class="social-btn twitter"
+        href="https://twitter.com/HvStainz/"
+        target="_blank"
+        aria-label="Twitter"
+      >
         <i class="fab fa-twitter fa-lg"></i>
       </a>
-      <a class="social-btn instagram" href="https://www.instagram.com/hvtdpstainz_2014/" target="_blank" aria-label="Instagram">
+      <a
+        class="social-btn instagram"
+        href="https://www.instagram.com/hvtdpstainz_2014/"
+        target="_blank"
+        aria-label="Instagram"
+      >
         <i class="fab fa-instagram fa-lg"></i>
       </a>
       <a class="social-btn mail" href="mailto:hvtdpstainz@gmx.at" aria-label="E-Mail">
@@ -28,24 +44,28 @@
 
   <!-- Stats, sponsors, copyright -->
   <div fxFlex="100%" fxFlex.gt-sm="65%" class="footer-main" fxLayout="column" fxLayoutGap="16px">
-
     <div *ngIf="sessions" class="footer-sessions">
-      Der HV TDP bedankt sich für <strong>{{sessions}}</strong> Website-Aufrufe seit dem 23.07.2018!
+      Der HV TDP bedankt sich für <strong>{{ sessions }}</strong> Website-Aufrufe seit dem
+      23.07.2018!
     </div>
 
     <div class="footer-sponsors">
       <h4 class="footer-heading">Unsere Partner</h4>
       <div class="sponsor-grid">
         <a href="https://www.udemy.com/user/stefan-jaindl/" target="_blank" class="sponsor-card">
-          <img class="sponsor-image" src="assets/images/udemy.jpg" alt="Udemy Profil Stefan Jaindl">
+          <img
+            class="sponsor-image"
+            src="assets/images/udemy.jpg"
+            alt="Udemy Profil Stefan Jaindl"
+          />
         </a>
 
         <a href="http://www.textildruckprofi.com/" target="_blank" class="sponsor-card">
-          <img class="sponsor-image" src="assets/images/tdp.jpg" alt="Textildruckprofi">
+          <img class="sponsor-image" src="assets/images/tdp.jpg" alt="Textildruckprofi" />
         </a>
 
         <a href="https://dangraz.at/" target="_blank" class="sponsor-card">
-          <img class="sponsor-image" src="assets/images/dan_logo.jpeg" alt="DAN Graz">
+          <img class="sponsor-image" src="assets/images/dan_logo.jpeg" alt="DAN Graz" />
         </a>
       </div>
     </div>

@@ -1,6 +1,6 @@
 export class Item {
-    name: String
-    description: String
-    price: String
-    imagePath: String
+  name: String;
+  description: String;
+  price: String;
+  imagePath: String;
 }

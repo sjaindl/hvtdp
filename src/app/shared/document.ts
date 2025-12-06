@@ -1,5 +1,5 @@
 export class HvtdpDocument {
-    link: string
-    description: string
-    protected: boolean
+  link: string;
+  description: string;
+  protected: boolean;
 }

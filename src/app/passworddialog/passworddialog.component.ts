@@ -5,10 +5,9 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 @Component({
   selector: 'app-passworddialog',
   templateUrl: './passworddialog.component.html',
-  styleUrls: ['./passworddialog.component.css']
+  styleUrls: ['./passworddialog.component.css'],
 })
 export class PassworddialogComponent implements OnInit {
-
   form: FormGroup;
 
   constructor(
@@ -18,8 +17,8 @@ export class PassworddialogComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.formBuilder.group({
-      password: ''
-    })
+      password: '',
+    });
   }
 
   submit(form) {

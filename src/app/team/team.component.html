@@ -1,59 +1,63 @@
-<h1 class="large header">
-    Unser Team
-</h1>
+<h1 class="large header">Unser Team</h1>
 
-<br>
+<br />
 
-<h2 style="text-align: center;">
-  Meisterschaftskader
-</h2>
+<h2 style="text-align: center">Meisterschaftskader</h2>
 
-<br>
-<br>
+<br />
+<br />
 
 <div fxLayout="column wrap" fxLayout.gt-sm="row wrap">
-    <div fxFlex.gt-xs="25%" [fxFlex.gt-md]="regularDistribution" *ngFor="let player of squadPlayers">
-        <mat-list fxLayout="column wrap" fxLayout.gt-sm="row wrap">
-  
-            <mat-list-item class="listImage">  
-              
-              <img matListAvatar class='img-preview' src="{{imageBaseUrl + player.imagePath}}" alt="{{player.firstName}} {{player.lastName}}">
-              <h1 style="font-size:xx-large;font-weight:bold;" matLine class='txt-preview'>{{player.firstName}} {{player.lastName | uppercase}}</h1>
-              <h1 style="font-size:x-large;" matLine class='txt-preview'>Position: {{player.position}}</h1>
-              
-              <p matLine>
-                <span style="font-size:medium;">beim Verein seit: {{player.memberSinceYear}}</span>
-              </p>
-              <!-- <mat-divider></mat-divider> -->
-              
-            </mat-list-item>
-          </mat-list>
-    </div>
+  <div fxFlex.gt-xs="25%" [fxFlex.gt-md]="regularDistribution" *ngFor="let player of squadPlayers">
+    <mat-list fxLayout="column wrap" fxLayout.gt-sm="row wrap">
+      <mat-list-item class="listImage">
+        <img
+          matListAvatar
+          class="img-preview"
+          src="{{ imageBaseUrl + player.imagePath }}"
+          alt="{{ player.firstName }} {{ player.lastName }}"
+        />
+        <h1 style="font-size: xx-large; font-weight: bold" matLine class="txt-preview">
+          {{ player.firstName }} {{ player.lastName | uppercase }}
+        </h1>
+        <h1 style="font-size: x-large" matLine class="txt-preview">
+          Position: {{ player.position }}
+        </h1>
+
+        <p matLine>
+          <span style="font-size: medium">beim Verein seit: {{ player.memberSinceYear }}</span>
+        </p>
+        <!-- <mat-divider></mat-divider> -->
+      </mat-list-item>
+    </mat-list>
+  </div>
 </div>
 
-<h2 style="text-align: center;">
-  Weitere aktive Vereinsmitglieder
-</h2>
+<h2 style="text-align: center">Weitere aktive Vereinsmitglieder</h2>
 
-<br>
-<br>
+<br />
+<br />
 
 <div fxLayout="column wrap" fxLayout.gt-sm="row wrap">
   <div fxFlex.gt-xs="25%" [fxFlex.gt-md]="regularDistribution" *ngFor="let player of activePlayers">
-      <mat-list fxLayout="column wrap" fxLayout.gt-sm="row wrap">
+    <mat-list fxLayout="column wrap" fxLayout.gt-sm="row wrap">
+      <mat-list-item class="listImage">
+        <img
+          matListAvatar
+          class="img-preview"
+          src="{{ imageBaseUrl + player.imagePath }}"
+          alt="{{ player.firstName }} {{ player.lastName }}"
+        />
+        <h1 style="font-size: xx-large; font-weight: bold" matLine class="txt-preview">
+          {{ player.firstName }} {{ player.lastName | uppercase }}
+        </h1>
+        <!-- <h1 style="font-size:x-large;" matLine class='txt-preview'>Position: {{player.position}}</h1> -->
 
-          <mat-list-item class="listImage">  
-            
-            <img matListAvatar class='img-preview' src="{{imageBaseUrl + player.imagePath}}" alt="{{player.firstName}} {{player.lastName}}">
-            <h1 style="font-size:xx-large;font-weight:bold;" matLine class='txt-preview'>{{player.firstName}} {{player.lastName | uppercase}}</h1>
-            <!-- <h1 style="font-size:x-large;" matLine class='txt-preview'>Position: {{player.position}}</h1> -->
-            
-            <p matLine>
-              <span style="font-size:medium;">beim Verein seit: {{player.memberSinceYear}}</span>
-            </p>
-            <!-- <mat-divider></mat-divider> -->
-            
-          </mat-list-item>
-        </mat-list>
+        <p matLine>
+          <span style="font-size: medium">beim Verein seit: {{ player.memberSinceYear }}</span>
+        </p>
+        <!-- <mat-divider></mat-divider> -->
+      </mat-list-item>
+    </mat-list>
   </div>
 </div>

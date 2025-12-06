@@ -1,52 +1,62 @@
 <div *ngIf="!selectedDonation">
+  <h1 class="large header">Matchballspenden</h1>
 
-    <h1 class="large header">
-        Matchballspenden
-    </h1>
+  <p class="normal">
+    Wir sagen herzlichen Dank für die Unterstützung des Hobbyverein TDP Stainz durch
+    Matchballspenden. Durch Förderung bzw. Unterstützung ist es dem Verein möglich, einen
+    reibungslosen Spielbetrieb aufrecht zu erhalten.
+  </p>
 
-    <p class="normal">
-        Wir sagen herzlichen Dank für die Unterstützung des Hobbyverein TDP Stainz durch Matchballspenden. 
-        Durch Förderung bzw. Unterstützung ist es dem Verein möglich, einen reibungslosen Spielbetrieb aufrecht zu erhalten.
-    </p>
-
-    <br>
-    <br>
-    <br>
+  <br />
+  <br />
+  <br />
 </div>
 
 <div *ngIf="!selectedDonation">
-    <div fxLayout="column">
-        <mat-list>
-        <mat-list-item class="matchballListImage" *ngFor="let donation of donations">  
-            
-            <img matListAvatar class='matchball-preview' src="{{imageBaseUrl + donation.matchBallImagePath}}" alt="{{donation.game}}" (click)="selectDonation(donation)">
-            <br>
-            <h1 style="font-size:xx-large;font-weight:bold;" matLine>{{donation.date}}</h1>
-            <h1 style="font-size:x-large;" matLine>{{donation.donator}}</h1>
-            <h1 style="font-size:x-large;" matLine>{{donation.game}}</h1>
-
-        </mat-list-item>
-        </mat-list>
-    </div>
+  <div fxLayout="column">
+    <mat-list>
+      <mat-list-item class="matchballListImage" *ngFor="let donation of donations">
+        <img
+          matListAvatar
+          class="matchball-preview"
+          src="{{ imageBaseUrl + donation.matchBallImagePath }}"
+          alt="{{ donation.game }}"
+          (click)="selectDonation(donation)"
+        />
+        <br />
+        <h1 style="font-size: xx-large; font-weight: bold" matLine>{{ donation.date }}</h1>
+        <h1 style="font-size: x-large" matLine>{{ donation.donator }}</h1>
+        <h1 style="font-size: x-large" matLine>{{ donation.game }}</h1>
+      </mat-list-item>
+    </mat-list>
+  </div>
 </div>
 
 <div *ngFor="let donation of donations">
-    <div *ngIf="selectedDonation == donation">
-        <p class="large">
-            {{donation.date}}, {{donation.game}}
-        </p>
-        <img class="center" style="width: 25vw;" src="{{imageBaseUrl + donation.imagePath}}" alt="{{donation.donator}}" (click)="back()">
+  <div *ngIf="selectedDonation == donation">
+    <p class="large">{{ donation.date }}, {{ donation.game }}</p>
+    <img
+      class="center"
+      style="width: 25vw"
+      src="{{ imageBaseUrl + donation.imagePath }}"
+      alt="{{ donation.donator }}"
+      (click)="back()"
+    />
 
-        <!-- <p class="normal">
+    <!-- <p class="normal">
             {{donation.description}}
         </p> -->
 
-        <button style="margin-left: 15px; font-size: 20px" mat-button class="background-primary" (click)="back()">Zurück zur Übersicht</button>
-
-    </div>
+    <button
+      style="margin-left: 15px; font-size: 20px"
+      mat-button
+      class="background-primary"
+      (click)="back()"
+    >
+      Zurück zur Übersicht
+    </button>
+  </div>
 </div>
 
-
-<br>
-<br>
-
+<br />
+<br />

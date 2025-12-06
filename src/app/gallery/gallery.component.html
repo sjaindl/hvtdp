@@ -1,16 +1,12 @@
-<h1 class="large header">
-    Galerie
-</h1>
+<h1 class="large header">Galerie</h1>
 
 <p class="normalCentered">
-    Für unsere Fans haben wir alle HV TDP-Veranstaltungen archiviert. Viel Spaß beim Durchstöbern der offiziellen HV TDP-Galerie.
+  Für unsere Fans haben wir alle HV TDP-Veranstaltungen archiviert. Viel Spaß beim Durchstöbern der
+  offiziellen HV TDP-Galerie.
 </p>
 
 <div *ngFor="let album of albums">
-    <p class="normalCentered" style="color: hotpink;">
-        {{album.date}} / {{album.name}}
-    </p>
+  <p class="normalCentered" style="color: hotpink">{{ album.date }} / {{ album.name }}</p>
 
-    <app-imageslider [carouselItems]="items(album)" [showDots]="false"></app-imageslider>
-
+  <app-imageslider [carouselItems]="items(album)" [showDots]="false"></app-imageslider>
 </div>

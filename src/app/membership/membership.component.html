@@ -1,40 +1,32 @@
-<h1 class="large header">
-    Werde Mitglied
-</h1>
+<h1 class="large header">Werde Mitglied</h1>
+
+<p class="normal">Werde aktives oder förderndes Mitglied vom HV TDP Stainz.</p>
+
+<p class="normal">So einfach geht's:</p>
 
 <p class="normal">
-    Werde aktives oder förderndes Mitglied vom HV TDP Stainz.
+  Einfach die hier verlinkte
+  <a href="{{ documentBaseUrl + 'beitrittserklaerung.pdf' }}">Beitrittserklärung</a> ausfüllen und
+  an unsere E-Mail-Adresse <a href="mailto:hvtdpstainz@gmx.at">hvtdpstainz@gmx.at</a> senden.
 </p>
 
-<p class="normal">
-    So einfach geht's:
-</p>
+<br />
 
-<p class="normal">
-    Einfach die hier verlinkte <a href="{{documentBaseUrl + 'beitrittserklaerung.pdf'}}">Beitrittserklärung</a> ausfüllen und an unsere E-Mail-Adresse <a href="mailto:hvtdpstainz@gmx.at">hvtdpstainz@gmx.at</a> senden.
-</p>
-
-<br>
-
-<p class="normal">
-    AKTIVE Mitglieder (Stand {{activePer}})
-</p>
+<p class="normal">AKTIVE Mitglieder (Stand {{ activePer }})</p>
 
 <div class="small">
-    <div *ngFor="let member of activeMembers">
-        {{member.lastName|uppercase}} {{member.firstName }} <br>
-    </div>
+  <div *ngFor="let member of activeMembers">
+    {{ member.lastName | uppercase }} {{ member.firstName }} <br />
+  </div>
 </div>
 
-<p class="normal">
-FÖRDERNDE Mitglieder (Stand {{supportPer}})
-</p>
+<p class="normal">FÖRDERNDE Mitglieder (Stand {{ supportPer }})</p>
 
 <div class="small">
-    <div *ngFor="let member of supportMembers">
-        {{member.lastName|uppercase}} {{member.firstName }} <br>
-    </div>
+  <div *ngFor="let member of supportMembers">
+    {{ member.lastName | uppercase }} {{ member.firstName }} <br />
+  </div>
 </div>
 
-<br>
-<br>
+<br />
+<br />

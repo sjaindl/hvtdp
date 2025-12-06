@@ -1,59 +1,61 @@
 <h3 class="large header">Die „Torschuss Challenge“</h3>
 <h4 class="small header">powered by 11teamsports Graz</h4>
 
-<img *ngIf="isMobile" class="imageSmallCenter" src="assets/images/torschusschallenge.jpg" style="width: 80%;" >
-<img *ngIf="!isMobile" class="imageSmallCenter" src="assets/images/torschusschallenge.jpg" style="width: 40%;" >
+<img
+  *ngIf="isMobile"
+  class="imageSmallCenter"
+  src="assets/images/torschusschallenge.jpg"
+  style="width: 80%"
+/>
+<img
+  *ngIf="!isMobile"
+  class="imageSmallCenter"
+  src="assets/images/torschusschallenge.jpg"
+  style="width: 40%"
+/>
 
 <p class="normal">
-  Du traust dir zu den Ball von der Mittellinie direkt (ohne dass der Ball vorher den Boden berührt) ins Tor zu treffen und willst dabei auch noch etwas gewinnen?!?
-
-  Dann bist du hier genau richtig!
+  Du traust dir zu den Ball von der Mittellinie direkt (ohne dass der Ball vorher den Boden berührt)
+  ins Tor zu treffen und willst dabei auch noch etwas gewinnen?!? Dann bist du hier genau richtig!
 </p>
 
 <p class="normal">
-  Im Zuge unserer 10 Jahresfeier findet am Tag unseres Sommerfestes die „Torschuss Challenge“ statt! Für das Finale können sich 3 Teilnehmer qualifizieren.
-  Auf den möglichen Gewinner wartet ein sensationeller Preis!
+  Im Zuge unserer 10 Jahresfeier findet am Tag unseres Sommerfestes die „Torschuss Challenge“ statt!
+  Für das Finale können sich 3 Teilnehmer qualifizieren. Auf den möglichen Gewinner wartet ein
+  sensationeller Preis!
 </p>
 
 <p class="normal">
   Die Anmeldung ist völlig KOSTENLOS und ausschließlich über unser Anmeldeformular möglich!
 </p>
 
-<p class="normal">
-  Sichere dir deinen Platz und nutze die Chance ins Finale zu kommen!
-</p>
+<p class="normal">Sichere dir deinen Platz und nutze die Chance ins Finale zu kommen!</p>
 
-<p class="normal">
-  📅 WANN: Samstag 20. Juli 2024
-</p>
+<p class="normal">📅 WANN: Samstag 20. Juli 2024</p>
 
-<p class="normal">
-  🏟 Wo: Stadion Stainz
-</p>
+<p class="normal">🏟 Wo: Stadion Stainz</p>
 
-<br>
+<br />
 
 <p class="normal">
   <b><u>Was gibt es zu gewinnen?</u></b>
 </p>
 
 <p class="normal">
-  Der mögliche Gewinner erhält <b>2 VIP Karten für ein Heimspiel des SK Puntigamer Sturm Graz!</b> (gesponsert von 11teamsports Graz)
-
-  Die 3 Finalisten erhalten für ihre Teilnahme GRATIS Eintritt zu unserem Sommerfest!
+  Der mögliche Gewinner erhält
+  <b>2 VIP Karten für ein Heimspiel des SK Puntigamer Sturm Graz!</b> (gesponsert von 11teamsports
+  Graz) Die 3 Finalisten erhalten für ihre Teilnahme GRATIS Eintritt zu unserem Sommerfest!
 </p>
 
-<br>
+<br />
 
 <p class="normal">
   <b><u>Wer kann teilnehmen?</u></b>
 </p>
 
-<p class="normal">
-  Jeder der mindestens 18 Jahre alt ist.
-</p>
+<p class="normal">Jeder der mindestens 18 Jahre alt ist.</p>
 
-<br>
+<br />
 
 <p class="normal">
   <b><u>Wie läuft der Bewerb ab?</u></b>
@@ -62,98 +64,141 @@
 <ul>
   <li class="normal">Anmeldung über unser Online Formular</li>
   <li class="normal">Online Voting auf unserer Homepage (max. 50 Teilnehmer stehen zur Wahl!)</li>
-  <li class="normal">Die Top 3 des Online Votings schaffen den Einzug ins Finale und dürfen am Tag des Sommerfestes um den Hauptpreis spielen!</li>
+  <li class="normal">
+    Die Top 3 des Online Votings schaffen den Einzug ins Finale und dürfen am Tag des Sommerfestes
+    um den Hauptpreis spielen!
+  </li>
 </ul>
 
-<br>
+<br />
 
-<div style="background-color: darkblue;color: rgba(255,255,255,.7);border: 10px solid; margin-left: 10px; margin-right: 10px;">
-  <form novalidate [formGroup]="feedbackForm" (ngSubmit)="onSubmit()" style="margin-left: 10px; margin-right: 10px;">
+<div
+  style="
+    background-color: darkblue;
+    color: rgba(255, 255, 255, 0.7);
+    border: 10px solid;
+    margin-left: 10px;
+    margin-right: 10px;
+  "
+>
+  <form
+    novalidate
+    [formGroup]="feedbackForm"
+    (ngSubmit)="onSubmit()"
+    style="margin-left: 10px; margin-right: 10px"
+  >
     <p>
-      <mat-form-field class="full-width"
-      color="{{(formErrors.firstName) ? 'warn' : 'primary'}}">
-        <input class="formElement" matInput type="text" formControlName="firstName" placeholder="Vorname" required>
+      <mat-form-field class="full-width" color="{{ formErrors.firstName ? 'warn' : 'primary' }}">
+        <input
+          class="formElement"
+          matInput
+          type="text"
+          formControlName="firstName"
+          placeholder="Vorname"
+          required
+        />
         <mat-hint>
-          <span [hidden]="!(formErrors.firstName)">
-            {{formErrors.firstName}}</span>
+          <span [hidden]="!formErrors.firstName"> {{ formErrors.firstName }}</span>
         </mat-hint>
       </mat-form-field>
     </p>
 
     <p>
-      <mat-form-field class="full-width"
-      color="{{(formErrors.lastName) ? 'warn' : 'primary'}}">
-        <input class="formElement" matInput type="text" formControlName="lastName" placeholder="Nachname" required>
+      <mat-form-field class="full-width" color="{{ formErrors.lastName ? 'warn' : 'primary' }}">
+        <input
+          class="formElement"
+          matInput
+          type="text"
+          formControlName="lastName"
+          placeholder="Nachname"
+          required
+        />
         <mat-hint>
-          <span [hidden]="!(formErrors.lastName)">
-            {{formErrors.lastName}}</span>
+          <span [hidden]="!formErrors.lastName"> {{ formErrors.lastName }}</span>
         </mat-hint>
       </mat-form-field>
     </p>
 
     <p>
-      <mat-form-field class="full-width"
-       color="{{(formErrors.email) ? 'warn' : 'primary'}}">
-        <input matInput formControlName="email" placeholder="E-Mail" type="email" email required>
+      <mat-form-field class="full-width" color="{{ formErrors.email ? 'warn' : 'primary' }}">
+        <input matInput formControlName="email" placeholder="E-Mail" type="email" email required />
         <mat-hint>
-          <span [hidden]="!(formErrors.email)">
-            {{formErrors.email}}</span>
+          <span [hidden]="!formErrors.email"> {{ formErrors.email }}</span>
         </mat-hint>
       </mat-form-field>
     </p>
 
     <p>
-      <mat-form-field class="full-width"
-       color="{{(formErrors.phone) ? 'warn' : 'primary'}}">
-        <input class="formElement" matInput formControlName="phone" placeholder="Telefonnummer" type="text">
+      <mat-form-field class="full-width" color="{{ formErrors.phone ? 'warn' : 'primary' }}">
+        <input
+          class="formElement"
+          matInput
+          formControlName="phone"
+          placeholder="Telefonnummer"
+          type="text"
+        />
         <mat-hint>
-          <span [hidden]="!(formErrors.phone)">
-            {{formErrors.phone}}</span>
+          <span [hidden]="!formErrors.phone"> {{ formErrors.phone }}</span>
         </mat-hint>
       </mat-form-field>
     </p>
 
-    <button style="margin: 100 auto;float: right; font-size: 20px" class="formElement" type="submit" mat-button class="background-primary" [disabled]="feedbackForm.invalid" >Anmeldung jetzt abschicken</button>
-    <br>
+    <button
+      style="margin: 100 auto; float: right; font-size: 20px"
+      class="formElement"
+      type="submit"
+      mat-button
+      class="background-primary"
+      [disabled]="feedbackForm.invalid"
+    >
+      Anmeldung jetzt abschicken
+    </button>
+    <br />
   </form>
 
-   <input type="file" class="file-input" accept="image/*" (change)="onFileSelected($event)" #fileUpload>
+  <input
+    type="file"
+    class="file-input"
+    accept="image/*"
+    (change)="onFileSelected($event)"
+    #fileUpload
+  />
 
-   <div class="file-upload" style="margin-left: 10px; margin-right: 10px;">
-     <br>
-     Profilfoto: <br>
-     {{fileName || "Noch kein Profilfoto hochgeladen"}}
+  <div class="file-upload" style="margin-left: 10px; margin-right: 10px">
+    <br />
+    Profilfoto: <br />
+    {{ fileName || 'Noch kein Profilfoto hochgeladen' }}
 
-     <button mat-mini-fab color="primary" class="upload-btn"
-       (click)="fileUpload.click()">
-         <mat-icon>attach_file</mat-icon>
-     </button>
-   </div>
+    <button mat-mini-fab color="primary" class="upload-btn" (click)="fileUpload.click()">
+      <mat-icon>attach_file</mat-icon>
+    </button>
+  </div>
 
-   <br>
+  <br />
 
-   <div style="margin-left: 10px; margin-right: 10px;">
-     <u>Die mit * markierten Felder sind Pflichtfelder</u>
-   </div>
+  <div style="margin-left: 10px; margin-right: 10px">
+    <u>Die mit * markierten Felder sind Pflichtfelder</u>
+  </div>
 
-   <br>
+  <br />
 
-   <div style="margin-left: 10px; margin-right: 10px;">
-     Mit dem Abschicken der Anmeldung bestätige ich, dass ich mindestens 18 Jahre bin und mit der Veröffentlichung der persönlichen Daten im Zuge des Bewerbs einverstanden bin.
-   </div>
+  <div style="margin-left: 10px; margin-right: 10px">
+    Mit dem Abschicken der Anmeldung bestätige ich, dass ich mindestens 18 Jahre bin und mit der
+    Veröffentlichung der persönlichen Daten im Zuge des Bewerbs einverstanden bin.
+  </div>
 
-   <br>
-
+  <br />
 </div>
 
 <div *ngIf="submittedFormData">
   <div>
     <h2>Wir haben deine Anmeldung erhalten, Vielen Dank!</h2>
-    <p>Vorname: {{submittedFormData.firstName}}</p>
-    <p>Nachname: {{submittedFormData.lastName}}</p>
-    <p>E-Mail: {{submittedFormData.email}}</p>
-    <p>Telefonnummer: {{submittedFormData.phone}}</p>
-</div>
+    <p>Vorname: {{ submittedFormData.firstName }}</p>
+    <p>Nachname: {{ submittedFormData.lastName }}</p>
+    <p>E-Mail: {{ submittedFormData.email }}</p>
+    <p>Telefonnummer: {{ submittedFormData.phone }}</p>
+  </div>
 
-<br><br>
-<br><br>
+  <br /><br />
+  <br /><br />
+</div>

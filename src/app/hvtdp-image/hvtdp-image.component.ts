@@ -3,17 +3,15 @@ import { Component, Input, OnInit } from '@angular/core';
 @Component({
   selector: 'app-hvtdp-image',
   templateUrl: './hvtdp-image.component.html',
-  styleUrls: ['./hvtdp-image.component.css']
+  styleUrls: ['./hvtdp-image.component.css'],
 })
 export class HvtdpImageComponent implements OnInit {
+  @Input() imagePath: string;
+  @Input() altText: string = '';
 
-  @Input() imagePath: string
-  @Input() altText: string = ""
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   toggleFullscreen(container: HTMLElement, event: MouseEvent): void {
     event.stopPropagation();

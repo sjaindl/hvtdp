@@ -1,184 +1,200 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>HV TDP Stainz</title>
+    <base href="/" />
 
-<head>
-  <meta charset="utf-8">
-  <title>HV TDP Stainz</title>
-  <base href="/">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Auf der Website finden sich die aktuellen News rund um den HV TDP Stainz, den Stand in der Meisterschaft, unser Team, die Galerie, Videos und andere Highlights wie den offiziellen HV TDP Fanshop. Unter den Matchballspenden finden sich außerdem unsere Sponsoren. Auch aktuelle Umfragen und Dokumente rund um das HV TDP Vereinsleben werden zur Verfügung gestellt."
+    />
+    <meta
+      name="keywords"
+      content="Fußballverein, Stainz, SC Stainz, Fußballverein Stainz, HVTDP, HVTDP Stainz"
+    />
+    <meta name="google-site-verification" content="opNErxv8sFr7wDEWyAudwlJCDT697m-DVbcayZaq93g" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Auf der Website finden sich die aktuellen News rund um den HV TDP Stainz, den Stand in der Meisterschaft, unser Team, die Galerie, Videos und andere Highlights wie den offiziellen HV TDP Fanshop. Unter den Matchballspenden finden sich außerdem unsere Sponsoren. Auch aktuelle Umfragen und Dokumente rund um das HV TDP Vereinsleben werden zur Verfügung gestellt.">
-  <meta name="keywords" content="Fußballverein, Stainz, SC Stainz, Fußballverein Stainz, HVTDP, HVTDP Stainz">
-  <meta name="google-site-verification" content="opNErxv8sFr7wDEWyAudwlJCDT697m-DVbcayZaq93g" />
+    <link rel="icon" type="image/x-icon" href="hvtdp.png" />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.6.0/css/all.css"
+      crossorigin="anonymous"
+    />
 
-  <link rel="icon" type="image/x-icon" href="hvtdp.png">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.0/css/all.css" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- cookieconsent dependency-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="node_modules/cookieconsent/build/cookieconsent.min.css"
+    />
+    <script src="node_modules/cookieconsent/build/cookieconsent.min.js"></script>
 
-  <!-- cookieconsent dependency-->
-  <link rel="stylesheet" type="text/css" href="node_modules/cookieconsent/build/cookieconsent.min.css"/>
-  <script src="node_modules/cookieconsent/build/cookieconsent.min.js"></script>
+    <!-- Surveyhero -->
+    <!-- <script src="https://embed-cdn.surveyhero.com/js/user/embed.wcuxrs9g.js" async></script> -->
+    <script src="https://embed-cdn.surveyhero.com/js/user/embed.qexyachf.js" async></script>
+    <script src="https://embed-cdn.surveyhero.com/js/user/embed.xf7prdny.js" async></script>
 
-  <!-- Surveyhero -->
-  <!-- <script src="https://embed-cdn.surveyhero.com/js/user/embed.wcuxrs9g.js" async></script> -->
-  <script src="https://embed-cdn.surveyhero.com/js/user/embed.qexyachf.js" async></script>
-  <script src="https://embed-cdn.surveyhero.com/js/user/embed.xf7prdny.js" async></script>
+    <script src="src/assets/js/survey/main.js" async></script>
+    <script src="src/assets/js/survey/embed.wcuxrs9g.js" async></script>
 
-  <script src="src/assets/js/survey/main.js" async></script>
-  <script src="src/assets/js/survey/embed.wcuxrs9g.js" async></script>
-
-  <!-- https://docs.flowiseai.com/using-flowise/embed -->
-  <script type="module">
-    import Chatbot from "https://cdn.jsdelivr.net/npm/flowise-embed/dist/web.js"
-    Chatbot.init({
-        chatflowid: "3d0fc477-d898-4a7d-8474-67348965eb28",
+    <!-- https://docs.flowiseai.com/using-flowise/embed -->
+    <script type="module">
+      import Chatbot from 'https://cdn.jsdelivr.net/npm/flowise-embed/dist/web.js';
+      Chatbot.init({
+        chatflowid: '3d0fc477-d898-4a7d-8474-67348965eb28',
         //apiHost: "https://flowise-hv-tdp-chatbot.onrender.com/",
-        apiHost: "https://www.hvtdpstainz.at/flowise",
+        apiHost: 'https://www.hvtdpstainz.at/flowise',
         chatflowConfig: {
-            // "sessionId": "123",
-            "returnSourceDocuments": true
+          // "sessionId": "123",
+          returnSourceDocuments: true,
         },
         observersConfig: {
-            // User input has changed
-            observeUserInput: (userInput) => {
-              //console.log({ userInput });
-            },
-            // The bot message stack has changed
-            observeMessages: (messages) => {
-              console.log({ messages });
-            },
-            // The bot loading signal changed
-            observeLoading: (loading) => {
-              console.log({ loading });
-            },
+          // User input has changed
+          observeUserInput: (userInput) => {
+            //console.log({ userInput });
+          },
+          // The bot message stack has changed
+          observeMessages: (messages) => {
+            console.log({ messages });
+          },
+          // The bot loading signal changed
+          observeLoading: (loading) => {
+            console.log({ loading });
+          },
         },
         theme: {
-            button: {
-                backgroundColor: '#3B81F6',
-                right: 20,
-                bottom: 20,
-                size: 48,
-                dragAndDrop: true,
-                iconColor: 'white',
-                customIconSrc: 'https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/svg/google-messages.svg',
-                autoWindowOpen: {
-                    autoOpen: false,
-                    openDelay: 2,
-                    autoOpenOnMobile: false
-                }
+          button: {
+            backgroundColor: '#3B81F6',
+            right: 20,
+            bottom: 20,
+            size: 48,
+            dragAndDrop: true,
+            iconColor: 'white',
+            customIconSrc:
+              'https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/svg/google-messages.svg',
+            autoWindowOpen: {
+              autoOpen: false,
+              openDelay: 2,
+              autoOpenOnMobile: false,
             },
-            tooltip: {
-                showTooltip: true,
-                tooltipMessage: 'Hallo Sportsfreund 👋!',
-                tooltipBackgroundColor: '#3B81F6',
-                tooltipTextColor: 'white',
-                tooltipFontSize: 16
+          },
+          tooltip: {
+            showTooltip: true,
+            tooltipMessage: 'Hallo Sportsfreund 👋!',
+            tooltipBackgroundColor: '#3B81F6',
+            tooltipTextColor: 'white',
+            tooltipFontSize: 16,
+          },
+          // disclaimer: {
+          //     title: 'Disclaimer',
+          //     message: "By using this chatbot, you agree to the <a target=\"_blank\" href=\"https://flowiseai.com/terms\">Terms & Condition</a>",
+          //     textColor: 'black',
+          //     buttonColor: '#3b82f6',
+          //     buttonText: 'Start Chatting',
+          //     buttonTextColor: 'white',
+          //     blurredBackgroundColor: 'rgba(0, 0, 0, 0.4)',
+          //     backgroundColor: 'white'
+          // },
+          customCSS: ``,
+          chatWindow: {
+            showTitle: true,
+            showAgentMessages: true,
+            title: 'HV TDP Assistant',
+            titleAvatarSrc: 'https://www.hvtdpstainz.at/assets/images/chat_logo.png',
+            welcomeMessage:
+              'Hallo Sportsfreund! Ich bin der HV TDP Assistant und beantworte dir gerne alle Fragen rund um den HV TDP Stainz!',
+            errorMessage: 'Hoppla, da ist wohl ein Fehler aufgetreten!',
+            backgroundColor: '#ffffff',
+            backgroundImage: '',
+            height: 700,
+            width: 400,
+            fontSize: 16,
+            starterPrompts: [
+              'Wann wurde der HV TDP gegründet?',
+              'Welche 5 Spieler haben die meisten Trainings?',
+            ],
+            starterPromptFontSize: 15,
+            clearChatOnReload: false,
+            sourceDocsTitle: 'Sources:',
+            renderHTML: true,
+            botMessage: {
+              backgroundColor: '#f7f8ff',
+              textColor: '#303235',
+              showAvatar: true,
+              avatarSrc: 'https://www.hvtdpstainz.at/assets/images/chatbot.png',
             },
-            // disclaimer: {
-            //     title: 'Disclaimer',
-            //     message: "By using this chatbot, you agree to the <a target=\"_blank\" href=\"https://flowiseai.com/terms\">Terms & Condition</a>",
-            //     textColor: 'black',
-            //     buttonColor: '#3b82f6',
-            //     buttonText: 'Start Chatting',
-            //     buttonTextColor: 'white',
-            //     blurredBackgroundColor: 'rgba(0, 0, 0, 0.4)',
-            //     backgroundColor: 'white'
-            // },
-            customCSS: ``,
-            chatWindow: {
-                showTitle: true,
-                showAgentMessages: true,
-                title: 'HV TDP Assistant',
-                titleAvatarSrc: 'https://www.hvtdpstainz.at/assets/images/chat_logo.png',
-                welcomeMessage: 'Hallo Sportsfreund! Ich bin der HV TDP Assistant und beantworte dir gerne alle Fragen rund um den HV TDP Stainz!',
-                errorMessage: 'Hoppla, da ist wohl ein Fehler aufgetreten!',
-                backgroundColor: '#ffffff',
-                backgroundImage: '',
-                height: 700,
-                width: 400,
-                fontSize: 16,
-                starterPrompts: [
-                    "Wann wurde der HV TDP gegründet?",
-                    "Welche 5 Spieler haben die meisten Trainings?"
-                ],
-                starterPromptFontSize: 15,
-                clearChatOnReload: false,
-                sourceDocsTitle: 'Sources:',
-                renderHTML: true,
-                botMessage: {
-                    backgroundColor: '#f7f8ff',
-                    textColor: '#303235',
-                    showAvatar: true,
-                    avatarSrc: 'https://www.hvtdpstainz.at/assets/images/chatbot.png'
-                },
-                userMessage: {
-                    backgroundColor: '#3B81F6',
-                    textColor: '#ffffff',
-                    showAvatar: true,
-                    avatarSrc: 'https://www.hvtdpstainz.at/assets/images/chat_user.png'
-                },
-                textInput: {
-                    placeholder: 'Stelle deine Frage',
-                    backgroundColor: '#ffffff',
-                    textColor: '#303235',
-                    sendButtonColor: '#3B81F6',
-                    maxChars: 250,
-                    maxCharsWarningMessage: 'Du hast das Textlimit überschritten. Bitte gib maximal 250 Zeichen ein.',
-                    autoFocus: true,
-                    sendMessageSound: true,
-                    sendSoundLocation: 'send_message.mp3',
-                    receiveMessageSound: true,
-                    receiveSoundLocation: 'receive_message.mp3'
-                },
-                feedback: {
-                    color: '#303235'
-                },
-                dateTimeToggle: {
-                    date: true,
-                    time: true
-                },
-                footer: {
-                    textColor: '#000000',
-                    text: 'Powered by',
-                    company: 'HVTDP AI',
-                    companyLink: 'https://www.hvtdpstainz.at'
-                }
-            }
-        }
-    })
-</script>
+            userMessage: {
+              backgroundColor: '#3B81F6',
+              textColor: '#ffffff',
+              showAvatar: true,
+              avatarSrc: 'https://www.hvtdpstainz.at/assets/images/chat_user.png',
+            },
+            textInput: {
+              placeholder: 'Stelle deine Frage',
+              backgroundColor: '#ffffff',
+              textColor: '#303235',
+              sendButtonColor: '#3B81F6',
+              maxChars: 250,
+              maxCharsWarningMessage:
+                'Du hast das Textlimit überschritten. Bitte gib maximal 250 Zeichen ein.',
+              autoFocus: true,
+              sendMessageSound: true,
+              sendSoundLocation: 'send_message.mp3',
+              receiveMessageSound: true,
+              receiveSoundLocation: 'receive_message.mp3',
+            },
+            feedback: {
+              color: '#303235',
+            },
+            dateTimeToggle: {
+              date: true,
+              time: true,
+            },
+            footer: {
+              textColor: '#000000',
+              text: 'Powered by',
+              company: 'HVTDP AI',
+              companyLink: 'https://www.hvtdpstainz.at',
+            },
+          },
+        },
+      });
+    </script>
+  </head>
 
-</head>
+  <!-- Google Universal Analytics -->
+  <!-- Global site tag (gtag.js) - Google Analytics -->
 
-<!-- Google Universal Analytics -->
-<!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-122732749-1"></script>
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-122732749-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      dataLayer.push(arguments);
+    }
 
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag() {
-    dataLayer.push(arguments);
-  }
+    gtag('js', new Date());
+    gtag('config', 'UA-122732749-1');
+  </script>
 
-  gtag('js', new Date());
-  gtag('config', 'UA-122732749-1');
-</script>
+  <!-- Google tag (gtag.js) -->
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FNF110XEHW"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
 
-<!-- Google tag (gtag.js) -->
-<!-- Google Analytics 4 -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-FNF110XEHW"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    gtag('config', 'G-FNF110XEHW');
+  </script>
 
-  gtag('config', 'G-FNF110XEHW');
-</script>
-
-<body>
-  <app-root></app-root>
-</body>
-
+  <body>
+    <app-root></app-root>
+  </body>
 </html>

@@ -2,12 +2,7 @@ import { Component, ElementRef, Input, OnInit, QueryList, ViewChildren } from '@
 import { baseUrlImages } from '../shared/baseurls';
 import { Router } from '@angular/router';
 import { Image } from '../shared/image';
-import {
-  trigger,
-  transition,
-  style,
-  animate,
-} from '@angular/animations';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-imageslider',
@@ -18,49 +13,40 @@ import {
       // swipe right
       transition(':increment', [
         style({ opacity: 0, transform: 'translateX(24px)' }),
-        animate(
-          '250ms ease-out',
-          style({ opacity: 1, transform: 'translateX(0)' })
-        )
+        animate('250ms ease-out', style({ opacity: 1, transform: 'translateX(0)' })),
       ]),
       // swipe left
       transition(':decrement', [
         style({ opacity: 0, transform: 'translateX(-24px)' }),
-        animate(
-          '250ms ease-out',
-          style({ opacity: 1, transform: 'translateX(0)' })
-        )
-      ])
-    ])
-  ]
+        animate('250ms ease-out', style({ opacity: 1, transform: 'translateX(0)' })),
+      ]),
+    ]),
+  ],
 })
 export class ImagesliderComponent implements OnInit {
-
   @ViewChildren('thumbBtn', { read: ElementRef })
   thumbButtons!: QueryList<ElementRef<HTMLButtonElement>>;
 
-  imageBaseUrl: String
+  imageBaseUrl: String;
   currentIndex = 0;
 
   // Swipe state
   private startX = 0;
   currentTranslate = 0;
-  cardTransition = 'none' // CSS transition for smooth snap
-  private isDragging = false
+  cardTransition = 'none'; // CSS transition for smooth snap
+  private isDragging = false;
 
-  @Input() carouselItems: Image[] = []
-  @Input() showDots: Boolean = false
+  @Input() carouselItems: Image[] = [];
+  @Input() showDots: Boolean = false;
 
-  constructor(
-    public router: Router,
-  ) { }
+  constructor(public router: Router) {}
 
   ngOnInit(): void {
-    this.imageBaseUrl = baseUrlImages
+    this.imageBaseUrl = baseUrlImages;
   }
 
   showImageDetails(item: Image) {
-    console.log('navigate to ' + item.navPath)
+    console.log('navigate to ' + item.navPath);
     this.router.navigate([item.navPath]);
   }
 
@@ -70,14 +56,14 @@ export class ImagesliderComponent implements OnInit {
   }
 
   imagePath(item: Image): string {
-      return this.imageBaseUrl + item.imagePath
+    return this.imageBaseUrl + item.imagePath;
   }
 
   previous() {
     if (!this.carouselItems.length) return;
     this.currentIndex =
       (this.currentIndex - 1 + this.carouselItems.length) % this.carouselItems.length;
-      this.scrollActiveThumbIntoView();
+    this.scrollActiveThumbIntoView();
   }
 
   next() {
@@ -195,7 +181,7 @@ export class ImagesliderComponent implements OnInit {
 
   private startDrag(clientX: number) {
     if (!this.carouselItems.length) return;
-    console.log("start drag")
+    console.log('start drag');
     this.isDragging = true;
     this.cardTransition = 'none';
     this.startX = clientX;
@@ -203,14 +189,14 @@ export class ImagesliderComponent implements OnInit {
 
   private moveDrag(clientX: number) {
     if (!this.isDragging) return;
-    console.log("move drag: " + clientX)
+    console.log('move drag: ' + clientX);
     const deltaX = clientX - this.startX;
     this.currentTranslate = deltaX;
   }
 
   private endDrag() {
     if (!this.isDragging) return;
-    console.log("end drag")
+    console.log('end drag');
     this.isDragging = false;
 
     const threshold = 60;
@@ -221,7 +207,7 @@ export class ImagesliderComponent implements OnInit {
       this.previous();
     }
 
-    this.endSwipe()
+    this.endSwipe();
   }
 
   private endSwipe() {

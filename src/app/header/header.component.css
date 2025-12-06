@@ -5,7 +5,7 @@
   width: 165px;
   height: 100%;
   z-index: 10;
-  background-color: rgba(0,0,0,0.0);
+  background-color: rgba(0, 0, 0, 0);
 }
 
 button.mat-menu-item {

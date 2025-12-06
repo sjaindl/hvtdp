@@ -8,9 +8,8 @@ describe('SocialmediaComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SocialmediaComponent ]
-    })
-    .compileComponents();
+      declarations: [SocialmediaComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

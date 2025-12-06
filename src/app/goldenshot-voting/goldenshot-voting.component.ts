@@ -4,7 +4,7 @@ import { GoldenShot } from '../shared/goldenshot';
 import { CookieService } from 'ngx-cookie-service';
 import { DeviceDetectorService } from 'ngx-device-detector';
 
-const GOLDENSHOT_VOTING_COOKIE_KEY = 'goldenshot_voted'
+const GOLDENSHOT_VOTING_COOKIE_KEY = 'goldenshot_voted';
 
 @Component({
   selector: 'app-goldenshot-voting',
@@ -12,24 +12,26 @@ const GOLDENSHOT_VOTING_COOKIE_KEY = 'goldenshot_voted'
   styleUrls: ['./goldenshot-voting.component.css'],
 })
 export class GoldenshotVotingComponent implements OnInit {
+  goldenShotOptions: GoldenShot[];
 
-  goldenShotOptions: GoldenShot[]
+  canVote = false;
 
-  canVote = false
+  isMobile = null;
 
-  isMobile = null
-
-  constructor(private mysqlService: MysqlService, private cookieService: CookieService, private deviceService: DeviceDetectorService) { }
+  constructor(
+    private mysqlService: MysqlService,
+    private cookieService: CookieService,
+    private deviceService: DeviceDetectorService
+  ) {}
 
   ngOnInit(): void {
     this.canVote = !this.cookieService.check(GOLDENSHOT_VOTING_COOKIE_KEY);
 
-    this.mysqlService.getGoldenshot().subscribe( options => {
+    this.mysqlService.getGoldenshot().subscribe((options) => {
       this.goldenShotOptions = options.sort((a, b) => {
         if (a.lastName < b.lastName) {
           return -1;
-        }
-        else if (a.lastName > b.lastName) {
+        } else if (a.lastName > b.lastName) {
           return 1;
         } else if (a.firstName < b.firstName) {
           return -1;
@@ -39,21 +41,21 @@ export class GoldenshotVotingComponent implements OnInit {
           return 0;
         }
       });
-    })
+    });
 
-    this.checkDevice()
+    this.checkDevice();
   }
 
   saveVote(vote: GoldenShot) {
-    console.log('post vote', JSON.stringify(vote), vote.id)
-    this.mysqlService.postGoldenShotVote(vote.id).subscribe(result => {
-      this.cookieService.set(GOLDENSHOT_VOTING_COOKIE_KEY, 'true', 1 / 24) // (peristent) cookie expires after 1 hour
-      console.log(`response from server: ${JSON.stringify(result)}`)
-      this.canVote = false
-    })
+    console.log('post vote', JSON.stringify(vote), vote.id);
+    this.mysqlService.postGoldenShotVote(vote.id).subscribe((result) => {
+      this.cookieService.set(GOLDENSHOT_VOTING_COOKIE_KEY, 'true', 1 / 24); // (peristent) cookie expires after 1 hour
+      console.log(`response from server: ${JSON.stringify(result)}`);
+      this.canVote = false;
+    });
   }
 
   checkDevice() {
-    this.isMobile = this.deviceService.isMobile()
+    this.isMobile = this.deviceService.isMobile();
   }
 }

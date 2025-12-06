@@ -8,9 +8,8 @@ describe('HvtdpImageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ HvtdpImageComponent ]
-    })
-    .compileComponents();
+      declarations: [HvtdpImageComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(HvtdpImageComponent);
     component = fixture.componentInstance;

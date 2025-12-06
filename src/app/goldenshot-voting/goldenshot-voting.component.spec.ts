@@ -8,9 +8,8 @@ describe('GoldenshotVotingComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ GoldenshotVotingComponent ]
-    })
-    .compileComponents();
+      declarations: [GoldenshotVotingComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(GoldenshotVotingComponent);
     component = fixture.componentInstance;

@@ -1,8 +1,7 @@
 <div class="slider" *ngIf="currentImage as currentItem">
-
   <div class="slider-main">
-
-    <div class="slider-image-wrapper"
+    <div
+      class="slider-image-wrapper"
       #imageWrapper
       [ngStyle]="{
         transform: 'translateX(' + currentTranslate + 'px)',
@@ -15,28 +14,26 @@
       (touchstart)="onTouchStart($event)"
       (touchmove)="onTouchMove($event)"
       (touchend)="onTouchEnd($event)"
-      (touchcancel)="onTouchEnd($event)">
-
+      (touchcancel)="onTouchEnd($event)"
+    >
       <img
         class="slider-image"
         draggable="false"
         (dragstart)="$event.preventDefault()"
         [src]="imagePath(currentItem)"
-        [alt]="currentItem.title || 'Image'"/>
+        [alt]="currentItem.title || 'Image'"
+      />
 
       <button
         type="button"
         class="slider-fullscreen-btn"
-        (click)="toggleFullscreen(imageWrapper, $event)">
+        (click)="toggleFullscreen(imageWrapper, $event)"
+      >
         <i class="fas fa-expand"></i>
       </button>
 
-      <button class="slider-arrow left" type="button" (click)="previous()">
-        ‹
-      </button>
-      <button class="slider-arrow right" type="button" (click)="next()">
-        ›
-      </button>
+      <button class="slider-arrow left" type="button" (click)="previous()">‹</button>
+      <button class="slider-arrow right" type="button" (click)="next()">›</button>
     </div>
 
     <div class="slider-bottom">
@@ -56,13 +53,13 @@
       </div>
 
       <button
-      *ngIf="currentItem.navPath"
-      type="button"
-      class="slider-details-btn"
-      (click)="showImageDetails(currentItem)">
-      Zum Bericht
-    </button>
-
+        *ngIf="currentItem.navPath"
+        type="button"
+        class="slider-details-btn"
+        (click)="showImageDetails(currentItem)"
+      >
+        Zum Bericht
+      </button>
     </div>
   </div>
 
@@ -73,8 +70,9 @@
       type="button"
       class="thumb"
       [class.active]="i === currentIndex"
-      (click)="goTo(i)">
-        <img [src]="imagePath(item)" [alt]="item.title || 'Thumb'" />
+      (click)="goTo(i)"
+    >
+      <img [src]="imagePath(item)" [alt]="item.title || 'Thumb'" />
     </button>
   </div>
 </div>

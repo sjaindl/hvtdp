@@ -8,9 +8,8 @@ describe('DuckrunComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DuckrunComponent ]
-    })
-    .compileComponents();
+      declarations: [DuckrunComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

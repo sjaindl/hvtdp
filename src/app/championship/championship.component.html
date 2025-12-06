@@ -1,4 +1,4 @@
-<br>
+<br />
 
 <!-- <a class="center" href="http://www.stt-meisterschaft.at/node/7">http://www.stt-meisterschaft.at/node/7</a>
 
@@ -9,99 +9,99 @@
 </div>
 -->
 
-<h1 class="large header">
-  STT - Meisterschaft {{ season }} - aktueller Tabellenstand:
-</h1>
+<h1 class="large header">STT - Meisterschaft {{ season }} - aktueller Tabellenstand:</h1>
 
 <div class="standings">
-  <h3 class="header">
-    Liga B
-  </h3>
+  <h3 class="header">Liga B</h3>
 
-  <br>
+  <br />
 
   <div class="table-scroll" *ngIf="!isMobile">
-    <mat-table [dataSource]="dataSource" matSort matSortActive="place" matSortDirection="asc" matSortDisableClear multiTemplateDataRows>
-
+    <mat-table
+      [dataSource]="dataSource"
+      matSort
+      matSortActive="place"
+      matSortDirection="asc"
+      matSortDisableClear
+      multiTemplateDataRows
+    >
       <ng-container matColumnDef="place">
-          <mat-header-cell *matHeaderCellDef>Platz</mat-header-cell>
-          <mat-cell *matCellDef="let standings">{{standings.place}}</mat-cell>
+        <mat-header-cell *matHeaderCellDef>Platz</mat-header-cell>
+        <mat-cell *matCellDef="let standings">{{ standings.place }}</mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="team">
-          <mat-header-cell *matHeaderCellDef>Mannschaft</mat-header-cell>
-          <mat-cell *matCellDef="let standings">{{standings.team}}</mat-cell>
+        <mat-header-cell *matHeaderCellDef>Mannschaft</mat-header-cell>
+        <mat-cell *matCellDef="let standings">{{ standings.team }}</mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="games">
         <mat-header-cell *matHeaderCellDef>Spiele</mat-header-cell>
-        <mat-cell *matCellDef="let standings">{{standings.games}}</mat-cell>
+        <mat-cell *matCellDef="let standings">{{ standings.games }}</mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="wins">
         <mat-header-cell *matHeaderCellDef>Siege</mat-header-cell>
-        <mat-cell *matCellDef="let standings">{{standings.wins}}</mat-cell>
+        <mat-cell *matCellDef="let standings">{{ standings.wins }}</mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="draws">
         <mat-header-cell *matHeaderCellDef>Unentschieden</mat-header-cell>
-        <mat-cell *matCellDef="let standings">{{standings.draws}}</mat-cell>
+        <mat-cell *matCellDef="let standings">{{ standings.draws }}</mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="losses">
         <mat-header-cell *matHeaderCellDef>Niederlagen</mat-header-cell>
-        <mat-cell *matCellDef="let standings">{{standings.losses}}</mat-cell>
+        <mat-cell *matCellDef="let standings">{{ standings.losses }}</mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="goalDifference">
         <mat-header-cell *matHeaderCellDef>Torverhältnis</mat-header-cell>
-        <mat-cell *matCellDef="let standings">{{standings.goalDifference}}</mat-cell>
+        <mat-cell *matCellDef="let standings">{{ standings.goalDifference }}</mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="points">
         <mat-header-cell *matHeaderCellDef>Punkte</mat-header-cell>
-        <mat-cell *matCellDef="let standings">{{standings.points}}</mat-cell>
+        <mat-cell *matCellDef="let standings">{{ standings.points }}</mat-cell>
       </ng-container>
 
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
 
       <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
-
     </mat-table>
   </div>
 
   <div class="mobile-standings" *ngIf="isMobile">
     <div class="mobile-card" *ngFor="let standings of mobileStandings">
-
       <div class="card-row top">
-        <span class="badge">#{{standings.place}}</span>
-        <div class="team">{{standings.team}}</div>
-        <div class="points">{{standings.points}} P</div>
+        <span class="badge">#{{ standings.place }}</span>
+        <div class="team">{{ standings.team }}</div>
+        <div class="points">{{ standings.points }} P</div>
       </div>
 
       <div class="card-row chips">
         <div class="chip">
           <span>Spiele</span>
-          <strong>{{standings.games}}</strong>
+          <strong>{{ standings.games }}</strong>
         </div>
         <div class="chip">
           <span>Torv.</span>
-          <strong>{{standings.goalDifference}}</strong>
+          <strong>{{ standings.goalDifference }}</strong>
         </div>
       </div>
 
       <div class="stats-grid">
         <div class="stat-block wins">
           <span>S</span>
-          <strong>{{standings.wins}}</strong>
+          <strong>{{ standings.wins }}</strong>
         </div>
         <div class="stat-block draws">
           <span>U</span>
-          <strong>{{standings.draws}}</strong>
+          <strong>{{ standings.draws }}</strong>
         </div>
         <div class="stat-block losses">
           <span>N</span>
-          <strong>{{standings.losses}}</strong>
+          <strong>{{ standings.losses }}</strong>
         </div>
       </div>
     </div>
@@ -109,75 +109,53 @@
 </div>
 
 <div *ngIf="season == '2025-2026'">
-
   <p class="normal">
     <b>Spieltermine Herbst 2025</b>
   </p>
 
-  <p class="normal">
-    3. Runde - TBD - Sportplatz St. Oswald - GSV St. Oswald : HV TDP Stainz
-  </p>
+  <p class="normal">3. Runde - TBD - Sportplatz St. Oswald - GSV St. Oswald : HV TDP Stainz</p>
 
-  <hr>
+  <hr />
 
   <p class="normal">
     <b>Ergebnisse</b>
   </p>
 
-  <p class="small">
-    1. Runde, HV TDP Stainz : SV Geistthal 3:0 (strafverifiziert)
-  </p>
+  <p class="small">1. Runde, HV TDP Stainz : SV Geistthal 3:0 (strafverifiziert)</p>
 
-  <p class="small">
-    Testspiel, USG Berndorf : HV TDP Stainz 12:2
-  </p>
+  <p class="small">Testspiel, USG Berndorf : HV TDP Stainz 12:2</p>
 
-  <p class="small">
-    2. Runde, HV TDP Stainz : STT Fürndörfler 1:1
-  </p>
+  <p class="small">2. Runde, HV TDP Stainz : STT Fürndörfler 1:1</p>
 
-  <p class="small">
-    4. Runde, SV Geistthal : HV TDP Stainz 1:3
-  </p>
+  <p class="small">4. Runde, SV Geistthal : HV TDP Stainz 1:3</p>
 
-  <p class="small">
-    5. Runde, HV TDP Stainz : STT Multitask 3:0 (strafverifiziert)
-  </p>
+  <p class="small">5. Runde, HV TDP Stainz : STT Multitask 3:0 (strafverifiziert)</p>
 
-  <p class="small">
-    Cup 1. Runde, HV TDP Stainz : STT Multitask 3:2
-  </p>
+  <p class="small">Cup 1. Runde, HV TDP Stainz : STT Multitask 3:2</p>
 
-  <p class="small">
-    6. Runde, STT Fürndörfler : HV TDP Stainz 4:2
-  </p>
+  <p class="small">6. Runde, STT Fürndörfler : HV TDP Stainz 4:2</p>
 
-  <p class="small">
-    7. Runde, SK Hohenburg : HV TDP Stainz 4:2
-  </p>
+  <p class="small">7. Runde, SK Hohenburg : HV TDP Stainz 4:2</p>
 
-  <hr>
+  <hr />
 
   <p class="normal">
     <b>Unsere Torschützen</b>
   </p>
 
   <p *ngFor="let scorer of scorers" class="normal">
-    {{ scorer.goalsDisplay }} {{scorer.playerName}}
+    {{ scorer.goalsDisplay }} {{ scorer.playerName }}
   </p>
 
-  <hr>
-
+  <hr />
 </div>
 
 <div *ngIf="season == '2024-2025'">
-
-
   <!-- <p class="normal">
     Cup Halbfinale - MITTWOCH, 09.07.2025 - 19:00 Uhr - Sportplatz St. Johann
   </p> -->
 
-<!--
+  <!--
   <p class="normal">
     <b>Spieltermine Frühjahr 2025:</b>
   </p>
@@ -191,112 +169,72 @@
   </p>
 -->
 
-  <br>
+  <br />
 
   <p class="normal">
     <b>Unsere Torschützen:</b>
   </p>
 
   <p *ngFor="let scorer of scorers" class="normal">
-    {{ scorer.goalsDisplay }} {{scorer.playerName}}
+    {{ scorer.goalsDisplay }} {{ scorer.playerName }}
   </p>
 
-  <br>
+  <br />
 
   <p class="normal">
     <b>Ergebnisse Herbst:</b>
   </p>
 
-  <p class="small">
-    Testspiel - HV TDP Stainz : Sporting Pettersdorf II 1:3
-  </p>
+  <p class="small">Testspiel - HV TDP Stainz : Sporting Pettersdorf II 1:3</p>
 
-  <p class="small">
-    1. Runde, STT Pichler : HV TDP Stainz 7:0
-  </p>
+  <p class="small">1. Runde, STT Pichler : HV TDP Stainz 7:0</p>
 
-  <p class="small">
-    2. Runde, HV TDP Stainz : GSV St. Oswald 2:0
-  </p>
+  <p class="small">2. Runde, HV TDP Stainz : GSV St. Oswald 2:0</p>
 
-  <p class="small">
-    3. Runde, SV Geistthal : HV TDP Stainz 2:3
-  </p>
+  <p class="small">3. Runde, SV Geistthal : HV TDP Stainz 2:3</p>
 
-  <p class="small">
-    4. Runde, HV TDP Stainz : STT Pichler 2:3
-  </p>
+  <p class="small">4. Runde, HV TDP Stainz : STT Pichler 2:3</p>
 
-  <p class="small">
-    Cup Achtelfinale, HV TDP Stainz : STT Fürndörfler 6:5 nach Elfmeterschießen
-  </p>
+  <p class="small">Cup Achtelfinale, HV TDP Stainz : STT Fürndörfler 6:5 nach Elfmeterschießen</p>
 
   <p class="normal">
     <b>Ergebnisse Frühjahr:</b>
   </p>
 
-  <p class="small">
-    Testspiel - HV TDP Stainz : Sporting Pettersdorf II 9:1
-  </p>
+  <p class="small">Testspiel - HV TDP Stainz : Sporting Pettersdorf II 9:1</p>
 
-  <p class="small">
-    6. Runde, HV TDP Stainz : STT Multitask 3:2
-  </p>
+  <p class="small">6. Runde, HV TDP Stainz : STT Multitask 3:2</p>
 
-  <p class="small">
-    7. Runde, HV TDP Stainz : SV Geistthal 1:2
-  </p>
+  <p class="small">7. Runde, HV TDP Stainz : SV Geistthal 1:2</p>
 
-  <p class="small">
-    8. Runde, GSV St. Oswald : HV TDP Stainz 1:2
-  </p>
+  <p class="small">8. Runde, GSV St. Oswald : HV TDP Stainz 1:2</p>
 
-  <p class="small">
-    9. Runde, HV TDP Stainz : SK Hohenburg 3:5
-  </p>
+  <p class="small">9. Runde, HV TDP Stainz : SK Hohenburg 3:5</p>
 
-  <p class="small">
-    Cup Viertelfinale, HV TDP Stainz : SPG HFC St. Johann 2:1
-  </p>
+  <p class="small">Cup Viertelfinale, HV TDP Stainz : SPG HFC St. Johann 2:1</p>
 
-  <p class="small">
-    10. Runde, SK Hohenburg : HV TDP Stainz 1:1
-  </p>
+  <p class="small">10. Runde, SK Hohenburg : HV TDP Stainz 1:1</p>
 
-  <p class="small">
-    11. Runde, STT Multitask : HV TDP Stainz 2:0
-  </p>
+  <p class="small">11. Runde, STT Multitask : HV TDP Stainz 2:0</p>
 
-  <p class="small">
-    12. Runde, SV Geistthal : HV TDP Stainz 2:0
-  </p>
+  <p class="small">12. Runde, SV Geistthal : HV TDP Stainz 2:0</p>
 
-  <p class="small">
-    13. Runde, HV TDP Stainz : STT Pichler 2:1
-  </p>
+  <p class="small">13. Runde, HV TDP Stainz : STT Pichler 2:1</p>
 
-  <p class="small">
-    Nachtragsspiel, 5. Runde - SK Hohenburg : HV TDP Stainz 5:2
-  </p>
+  <p class="small">Nachtragsspiel, 5. Runde - SK Hohenburg : HV TDP Stainz 5:2</p>
 
-  <p class="small">
-    14. Runde, HV TDP Stainz : GSV St. Oswald 3:3
-  </p>
+  <p class="small">14. Runde, HV TDP Stainz : GSV St. Oswald 3:3</p>
 
-  <p class="small">
-    Cup Halbfinale, SK Hohenburg : HV TDP Stainz 3:1
-  </p>
-
+  <p class="small">Cup Halbfinale, SK Hohenburg : HV TDP Stainz 3:1</p>
 </div>
 
 <div *ngIf="season == '2023-2024'">
-
   <!--
   <p class="normal">
     <b>Spieltermine Frühjahr 2024:</b>
   </p>
    -->
-<!--
+  <!--
   <p class="normal">
     13. Runde - DIENSTAG, 18.06.2024 - 19:00 Uhr - Sportplatz Stainz - HV TDP Stainz : FC St. Johann/Köppling
   </p>
@@ -306,89 +244,55 @@
   </p>
   -->
 
-  <hr>
+  <hr />
 
   <p class="normal">
     <b>Unsere Torschützen:</b>
   </p>
 
   <p *ngFor="let scorer of scorers" class="normal">
-    {{ scorer.goalsDisplay }} {{scorer.playerName}}
+    {{ scorer.goalsDisplay }} {{ scorer.playerName }}
   </p>
 
-  <br>
+  <br />
 
   <p class="normal">
     <b>Ergebnisse:</b>
   </p>
 
-  <p class="small">
-    1. Runde - SV Geistthal : HV TDP Stainz 2:7
-  </p>
+  <p class="small">1. Runde - SV Geistthal : HV TDP Stainz 2:7</p>
 
-  <p class="small">
-    2. Runde - SK Hohenburg : HV TDP Stainz 1:2
-  </p>
+  <p class="small">2. Runde - SK Hohenburg : HV TDP Stainz 1:2</p>
 
-  <p class="small">
-    Cup Achtelfinale - HV TDP Stainz : SV Geistthal 4:2
-  </p>
+  <p class="small">Cup Achtelfinale - HV TDP Stainz : SV Geistthal 4:2</p>
 
-  <p class="small">
-    3. Runde - HV TDP Stainz : STT Multitask 2:4
-  </p>
+  <p class="small">3. Runde - HV TDP Stainz : STT Multitask 2:4</p>
 
-  <p class="small">
-    4. Runde - HV TDP Stainz : STT Wörgötter 3:4
-  </p>
+  <p class="small">4. Runde - HV TDP Stainz : STT Wörgötter 3:4</p>
 
-  <p class="small">
-    5. Runde - St. Johann/Köppling : HV TDP Stainz 1:1
-  </p>
+  <p class="small">5. Runde - St. Johann/Köppling : HV TDP Stainz 1:1</p>
 
-  <p class="small">
-    Cup Viertelfinale - HV TDP Stainz : STT Mauser 3:2
-  </p>
+  <p class="small">Cup Viertelfinale - HV TDP Stainz : STT Mauser 3:2</p>
 
-  <p class="small">
-    6. Runde - STT Pichler : HV TDP Stainz 3:1
-  </p>
+  <p class="small">6. Runde - STT Pichler : HV TDP Stainz 3:1</p>
 
-  <p class="small">
-    Testspiel - HV TDP Stainz: GSV St. Oswald bei Plankenwarth 12:0
-  </p>
+  <p class="small">Testspiel - HV TDP Stainz: GSV St. Oswald bei Plankenwarth 12:0</p>
 
-  <p class="small">
-    Testspiel - HV TDP Stainz: HFC Graz 8:1
-  </p>
+  <p class="small">Testspiel - HV TDP Stainz: HFC Graz 8:1</p>
 
-  <p class="small">
-    8. Runde - HV TDP Stainz : STT Pichler 4:1
-  </p>
+  <p class="small">8. Runde - HV TDP Stainz : STT Pichler 4:1</p>
 
-  <p class="small">
-    9. Runde - HV TDP Stainz : SK Hohenburg 3:0
-  </p>
+  <p class="small">9. Runde - HV TDP Stainz : SK Hohenburg 3:0</p>
 
-  <p class="small">
-    10. Runde - HV TDP Stainz : SV Geistthal 3:0 (strafverifiziert)
-  </p>
+  <p class="small">10. Runde - HV TDP Stainz : SV Geistthal 3:0 (strafverifiziert)</p>
 
-  <p class="small">
-    11. Runde - STT Multitask : HV TDP Stainz 3:4
-  </p>
+  <p class="small">11. Runde - STT Multitask : HV TDP Stainz 3:4</p>
 
-  <p class="small">
-    Cup Halbfinale - HV TDP Stainz : STT Fürndörfler 0:4
-  </p>
+  <p class="small">Cup Halbfinale - HV TDP Stainz : STT Fürndörfler 0:4</p>
 
-  <p class="small">
-    12. Runde - STT Wörgötter : HV TDP Stainz 3:0
-  </p>
+  <p class="small">12. Runde - STT Wörgötter : HV TDP Stainz 3:0</p>
 
-  <p class="small">
-    13. Runde - HV TDP Stainz : FC St. Johann/Köppling 3:7
-  </p>
+  <p class="small">13. Runde - HV TDP Stainz : FC St. Johann/Köppling 3:7</p>
 
   <!--
   <br>
@@ -407,85 +311,57 @@
   -->
 
   <!-- <p class="normal">14. Runde - FREITAG, 15.07.2022 - 18:30 Uhr - Sportplatz Södingberg - STT Pichler vs. HV TDP Stainz</p> -->
-  <br>
-
+  <br />
 </div>
 
 <div *ngIf="season == '2022-2023'">
-
   <p class="small">
     <b>Ergebnisse:</b>
   </p>
 
-  <p class="small">
-    1. Runde - STT Pichler : HV TDP Stainz 2:2
-  </p>
+  <p class="small">1. Runde - STT Pichler : HV TDP Stainz 2:2</p>
 
-  <p class="small">
-    2. Runde - HV TDP Stainz vs. STT Fürndörfler 0:3
-  </p>
+  <p class="small">2. Runde - HV TDP Stainz vs. STT Fürndörfler 0:3</p>
 
-  <p class="small">
-    3. Runde - HV TDP Stainz vs. GH Prettenthaler 1:5
-  </p>
+  <p class="small">3. Runde - HV TDP Stainz vs. GH Prettenthaler 1:5</p>
 
-  <p class="small">
-    4. Runde - HV TDP Stainz vs. SV Geistthal 3:1
-  </p>
+  <p class="small">4. Runde - HV TDP Stainz vs. SV Geistthal 3:1</p>
 
-  <p class="small">
-    5. Runde - HV TDP Stainz vs. HFC Gössnitz 4:1 *
-  </p>
+  <p class="small">5. Runde - HV TDP Stainz vs. HFC Gössnitz 4:1 *</p>
 
-  <p class="small">
-    6. Runde - HV TDP Stainz vs. 1. FC Montagskicker 7:3
-  </p>
+  <p class="small">6. Runde - HV TDP Stainz vs. 1. FC Montagskicker 7:3</p>
 
-  <p class="small">
-    7. Runde - HV TDP Stainz vs. SK Hohenburg 3:4
-  </p>
+  <p class="small">7. Runde - HV TDP Stainz vs. SK Hohenburg 3:4</p>
 
-  <p class="small">
-    8. Runde - HV TDP Stainz vs. STT Pichler 2:2
-  </p>
+  <p class="small">8. Runde - HV TDP Stainz vs. STT Pichler 2:2</p>
 
-  <p class="small">
-    9. Runde - GH Prettenthaler : HV TDP Stainz 3:6
-  </p>
+  <p class="small">9. Runde - GH Prettenthaler : HV TDP Stainz 3:6</p>
 
-  <p class="small">
-    10. Runde - STT Fürndörfler : HV TDP Stainz 3:2
-  </p>
+  <p class="small">10. Runde - STT Fürndörfler : HV TDP Stainz 3:2</p>
 
-  <p class="small">
-    11. Runde - SK Hohenburg : HV TDP Stainz 2:2
-  </p>
+  <p class="small">11. Runde - SK Hohenburg : HV TDP Stainz 2:2</p>
 
-  <p class="small">
-    12. Runde - SV Geistthal : HV TDP Stainz 4:5
-  </p>
+  <p class="small">12. Runde - SV Geistthal : HV TDP Stainz 4:5</p>
 
-  <p class="small">
-    13. Runde - Montagskicker : HV TDP Stainz 0:3 (strafverifiziert)
-  </p>
+  <p class="small">13. Runde - Montagskicker : HV TDP Stainz 0:3 (strafverifiziert)</p>
 
-  <hr>
+  <hr />
 
   <p class="small">
     * Spiel wird offiziell nicht gewertet, da Gössnitz aus der Liga ausgestiegen ist.
   </p>
 
-  <br>
+  <br />
 
   <p class="normal">
     <b>Unsere Torschützen:</b>
   </p>
 
   <p *ngFor="let scorer of scorers" class="normal">
-    {{ scorer.goalsDisplay }} {{scorer.playerName}}
+    {{ scorer.goalsDisplay }} {{ scorer.playerName }}
   </p>
 
-  <br>
+  <br />
 
   <!--
 
@@ -498,23 +374,23 @@
 
   -->
 
-  <hr>
-
+  <hr />
 </div>
 
 <div *ngIf="season == '2021-2022'">
   <p class="small">
-    Die Plätze 1 bis 3 spielen am Ende der Saison in einem Play-off gegen die Plätze 5 bis 8 aus Liga A um den Aufstieg.
+    Die Plätze 1 bis 3 spielen am Ende der Saison in einem Play-off gegen die Plätze 5 bis 8 aus
+    Liga A um den Aufstieg.
   </p>
 
-  <br>
+  <br />
 
   <p class="normal">
     <b>Unsere Torschützen:</b>
   </p>
 
   <p *ngFor="let scorer of scorers" class="normal">
-    {{ scorer.goalsDisplay }} {{scorer.playerName}}
+    {{ scorer.goalsDisplay }} {{ scorer.playerName }}
 
     <!-- <span *ngFor="let n of numSequence(player); let i = index;">{{i}} </span> -->
 
@@ -523,73 +399,43 @@
     <!-- <ng-container *ngFor="let i of Arr(6).fill(1)"><i class="fas fa-futbol"></i></ng-container> -->
   </p>
 
-  <br>
+  <br />
 
   <p class="small">
     <b>Ergebnisse:</b>
   </p>
 
-  <p class="small">
-    1. Runde - SK Hohenburg : HV TDP Stainz 0:3
-  </p>
+  <p class="small">1. Runde - SK Hohenburg : HV TDP Stainz 0:3</p>
 
-  <p class="small">
-    2. Runde - HV TDP Stainz : SK UP Voitsberg 3:3
-  </p>
+  <p class="small">2. Runde - HV TDP Stainz : SK UP Voitsberg 3:3</p>
 
-  <p class="small">
-    3. Runde - HFC Mein Lokal Gößnitz : HV TDP Stainz 1:2
-  </p>
+  <p class="small">3. Runde - HFC Mein Lokal Gößnitz : HV TDP Stainz 1:2</p>
 
-  <p class="small">
-    4. Runde - HV TDP Stainz : HFC Studio A Köflach 0:3
-  </p>
+  <p class="small">4. Runde - HV TDP Stainz : HFC Studio A Köflach 0:3</p>
 
-  <p class="small">
-    5. Runde - STT Dorfwirt Müller : HV TDP Stainz 6:2
-  </p>
+  <p class="small">5. Runde - STT Dorfwirt Müller : HV TDP Stainz 6:2</p>
 
-  <p class="small">
-    6. Runde - SV Geistthal : HV TDP Stainz 3:5
-  </p>
+  <p class="small">6. Runde - SV Geistthal : HV TDP Stainz 3:5</p>
 
-  <p class="small">
-    7. Runde - HV TDP Stainz : STT Pichler 2:2
-  </p>
+  <p class="small">7. Runde - HV TDP Stainz : STT Pichler 2:2</p>
 
-  <p class="small">
-    8. Runde - HV TDP Stainz vs. SK Hohenburg 3:0
-  </p>
+  <p class="small">8. Runde - HV TDP Stainz vs. SK Hohenburg 3:0</p>
 
-  <p class="small">
-    9. Runde - SK UP Voitsberg vs. HV TDP Stainz 3:2
-  </p>
+  <p class="small">9. Runde - SK UP Voitsberg vs. HV TDP Stainz 3:2</p>
 
-  <p class="small">
-    10. Runde - HV TDP Stainz vs. STT Mein Lokal Gössnitz 1:1
-  </p>
+  <p class="small">10. Runde - HV TDP Stainz vs. STT Mein Lokal Gössnitz 1:1</p>
 
-  <p class="small">
-    11. Runde - HV TDP Stainz vs. HFC Studio A Köflach 1:2
-  </p>
+  <p class="small">11. Runde - HV TDP Stainz vs. HFC Studio A Köflach 1:2</p>
 
-  <p class="small">
-    12. Runde - HV TDP Stainz vs. STT Dorfwirt Müller 1:0
-  </p>
+  <p class="small">12. Runde - HV TDP Stainz vs. STT Dorfwirt Müller 1:0</p>
 
-  <p class="small">
-    13. Runde - HV TDP Stainz vs. SV Geistthal 4:3
-  </p>
+  <p class="small">13. Runde - HV TDP Stainz vs. SV Geistthal 4:3</p>
 
+  <p class="small">14. Runde - STT Pichler vs. HV TDP Stainz 2:2</p>
 
-  <p class="small">
-    14. Runde - STT Pichler vs. HV TDP Stainz 2:2
-  </p>
+  <br />
 
-  <br>
-
-  <br>
-
+  <br />
 
   <!-- <p class="normal">
     <b>Spieltermine Frühjahr 2022:</b>
@@ -604,8 +450,7 @@
   -->
 
   <!-- <p class="normal">14. Runde - FREITAG, 15.07.2022 - 18:30 Uhr - Sportplatz Södingberg - STT Pichler vs. HV TDP Stainz</p> -->
-
 </div>
 
-<br>
-<br>
+<br />
+<br />

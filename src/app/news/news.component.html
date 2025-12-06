@@ -1,34 +1,40 @@
-<h1 class="large header">
-    HV TDP News
-</h1>
+<h1 class="large header">HV TDP News</h1>
 
 <mat-accordion>
+  <ng-container *ngFor="let newsItem of news">
+    <mat-expansion-panel
+      *ngIf="
+        news.indexOf(newsItem) >= this.pageEvent.pageIndex * this.pageEvent.pageSize &&
+        news.indexOf(newsItem) + 1 <= (this.pageEvent.pageIndex + 1) * this.pageEvent.pageSize
+      "
+      [expanded]="selectedNews != null && newsItem.newsId == selectedNews.newsId"
+      (opened)="opened()"
+    >
+      <mat-expansion-panel-header>
+        {{ newsItem.newsDate }} {{ newsItem.title }}
+      </mat-expansion-panel-header>
 
-<ng-container *ngFor="let newsItem of news">
+      <app-hvtdp-image [imagePath]="imageBaseUrl + newsItem.imagePath"></app-hvtdp-image>
 
-    <mat-expansion-panel *ngIf="news.indexOf(newsItem) >= this.pageEvent.pageIndex * this.pageEvent.pageSize
-                             && news.indexOf(newsItem) + 1 <= (this.pageEvent.pageIndex + 1) * (this.pageEvent.pageSize)" [expanded]="selectedNews != null && newsItem.newsId == selectedNews.newsId" (opened)="opened()">
+      <p style="white-space: pre-line" *ngIf="newsItem.news">
+        {{ newsItem.news }}
+      </p>
 
-        <mat-expansion-panel-header>
-            {{newsItem.newsDate}} {{newsItem.title}}
-        </mat-expansion-panel-header>
-
-        <app-hvtdp-image [imagePath]="imageBaseUrl + newsItem.imagePath"></app-hvtdp-image>
-
-        <p style="white-space: pre-line;" *ngIf="newsItem.news">
-            {{newsItem.news}}
-        </p>
-
-        <div style="white-space: pre-line;" [innerHTML]="formatMessage(newsItem.htmlNews)" *ngIf="newsItem.htmlNews"></div>
+      <div
+        style="white-space: pre-line"
+        [innerHTML]="formatMessage(newsItem.htmlNews)"
+        *ngIf="newsItem.htmlNews"
+      ></div>
     </mat-expansion-panel>
-</ng-container>
-
+  </ng-container>
 </mat-accordion>
 
-<br>
+<br />
 
-<mat-paginator [length]="length"
-               [pageSize]="pageSize"
-               [pageSizeOptions]="pageSizeOptions"
-               (page)="pageEvent = $event">
+<mat-paginator
+  [length]="length"
+  [pageSize]="pageSize"
+  [pageSizeOptions]="pageSizeOptions"
+  (page)="pageEvent = $event"
+>
 </mat-paginator>

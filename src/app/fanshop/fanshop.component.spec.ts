@@ -8,9 +8,8 @@ describe('FanshopComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FanshopComponent ]
-    })
-    .compileComponents();
+      declarations: [FanshopComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

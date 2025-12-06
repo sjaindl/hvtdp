@@ -1,6 +1,4 @@
-<h1 class="large header">
-    Wähle den Spieler des Jahres {{season}}
-</h1>
+<h1 class="large header">Wähle den Spieler des Jahres {{ season }}</h1>
 
 <div *ngIf="canVote">
   <p class="normal">
@@ -8,41 +6,51 @@
   </p>
 
   <mat-selection-list #voting [multiple]="false">
-      <mat-list-option *ngFor="let vote of playerOfSeasonOptions" [value]="vote" style="color: whitesmoke; height: 180px;">
-
+    <mat-list-option
+      *ngFor="let vote of playerOfSeasonOptions"
+      [value]="vote"
+      style="color: whitesmoke; height: 180px"
+    >
       <span *ngFor="let player of players">
         <span *ngIf="matches(vote.player, player)">
           <div class="player-container">
-            <img class="imageSmallCenter" matListAvatar class="img-preview"
-                  src="{{imageBaseUrl + player.imagePath}}"
-                  alt="{{player.firstName}} {{player.lastName}}"
-                  style="width: 80px; height: 130px;">
-            <span class="player-name">{{vote.player}}</span>
+            <img
+              class="imageSmallCenter"
+              matListAvatar
+              class="img-preview"
+              src="{{ imageBaseUrl + player.imagePath }}"
+              alt="{{ player.firstName }} {{ player.lastName }}"
+              style="width: 80px; height: 130px"
+            />
+            <span class="player-name">{{ vote.player }}</span>
           </div>
         </span>
       </span>
-
-      </mat-list-option>
+    </mat-list-option>
   </mat-selection-list>
 
-  <p class="normal" *ngIf="voting.selectedOptions.hasValue() ">
+  <p class="normal" *ngIf="voting.selectedOptions.hasValue()">
     Deine Wahl: {{ voting.selectedOptions.selected[0].value.player }}
   </p>
 
-  <br>
+  <br />
 
   <p class="normal">
-    <button mat-flat-button color="primary" [disabled]="!voting.selectedOptions.hasValue()" (click)="saveVote(voting.selectedOptions.selected[0].value)">Stimme abgeben</button>
+    <button
+      mat-flat-button
+      color="primary"
+      [disabled]="!voting.selectedOptions.hasValue()"
+      (click)="saveVote(voting.selectedOptions.selected[0].value)"
+    >
+      Stimme abgeben
+    </button>
   </p>
 
-  <br><br>
-
+  <br /><br />
 </div>
 
 <div *ngIf="!canVote">
-  <p class="normal center">
-    Vielen Dank für deine Stimme!
-  </p>
+  <p class="normal center">Vielen Dank für deine Stimme!</p>
 </div>
 
-<br>
+<br />

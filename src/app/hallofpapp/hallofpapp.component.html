@@ -1,37 +1,44 @@
-<h1 class="large header">
-  Hall of Papp-Fans
-</h1>
+<h1 class="large header">Hall of Papp-Fans</h1>
 
 <p class="normal">
-  Wir sagen herzlichen Dank für die Unterstützung des Hobbyverein TDP Stainz als Papp-Fan auf unserer Tribüne.
-  Durch Kauf einer Pappfigur im <a href="https://www.ligaportal.at/fan/">Ligaportal</a> kannst du uns auch während der zuschauerfreien Zeit tatkräftig unterstützen. 
-  Wir sagen Danke zu unseren unglaulichen {{pappfans.length}} Unterstützern:
+  Wir sagen herzlichen Dank für die Unterstützung des Hobbyverein TDP Stainz als Papp-Fan auf
+  unserer Tribüne. Durch Kauf einer Pappfigur im
+  <a href="https://www.ligaportal.at/fan/">Ligaportal</a> kannst du uns auch während der
+  zuschauerfreien Zeit tatkräftig unterstützen. Wir sagen Danke zu unseren unglaulichen
+  {{ pappfans.length }} Unterstützern:
 </p>
 
-<br>
-<br>
-<br>
-<br>
+<br />
+<br />
+<br />
+<br />
 
 <div fxLayout="column">
   <mat-list>
-    <mat-list-item class="pappListImage" *ngFor="let pappfan of pappfans">  
-        
-        <img matListAvatar class='papp-preview' src="{{imageBaseUrl + pappfan.imagePath}}" alt="{{pappfan.name}}">
-        <br>
-        <table>
-          <tr>
-          <h4 class='text'>Unterstützer:</h4>
+    <mat-list-item class="pappListImage" *ngFor="let pappfan of pappfans">
+      <img
+        matListAvatar
+        class="papp-preview"
+        src="{{ imageBaseUrl + pappfan.imagePath }}"
+        alt="{{ pappfan.name }}"
+      />
+      <br />
+      <table>
+        <tr>
+          <h4 class="text">Unterstützer:</h4>
           <span *ngIf="pappfan.name.length > 25">
-            <h3 class='text' style="font-size:large;font-weight:bold; max-width: 100%;" >{{pappfan.name}}</h3>
+            <h3 class="text" style="font-size: large; font-weight: bold; max-width: 100%">
+              {{ pappfan.name }}
+            </h3>
           </span>
           <span *ngIf="pappfan.name.length <= 25">
-            <h1 class='text' style="font-size:xx-large;font-weight:bold;" matLine>{{pappfan.name}}</h1>
+            <h1 class="text" style="font-size: xx-large; font-weight: bold" matLine>
+              {{ pappfan.name }}
+            </h1>
           </span>
-          <h4 class='text'>copyright: Ligaportal.at</h4>
-          </tr>
-        </table>
-
+          <h4 class="text">copyright: Ligaportal.at</h4>
+        </tr>
+      </table>
     </mat-list-item>
   </mat-list>
 </div>

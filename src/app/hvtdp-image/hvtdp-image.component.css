@@ -3,7 +3,7 @@
   backdrop-filter: blur(8px);
   cursor: grab;
 
-  display: flex;              /* center image */
+  display: flex; /* center image */
   justify-content: center;
   align-items: center;
 }
@@ -15,11 +15,11 @@
 /* normal (non-fullscreen) state */
 .slider-image {
   display: block;
-  max-width: 100%;            /* use full available width */
-  max-height: 60vh;           /* but don't grow taller than viewport */
+  max-width: 100%; /* use full available width */
+  max-height: 60vh; /* but don't grow taller than viewport */
   width: auto;
   height: auto;
-  object-fit: contain;        /* no cropping */
+  object-fit: contain; /* no cropping */
   margin: 0 auto;
   user-select: none;
   -webkit-user-drag: none;
@@ -44,5 +44,5 @@
   height: 100%;
   max-width: 100%;
   max-height: 100%;
-  object-fit: contain;   /* full width or full height, whichever hits first */
+  object-fit: contain; /* full width or full height, whichever hits first */
 }

@@ -1,26 +1,25 @@
-import { Component, OnInit, ChangeDetectorRef, HostListener } from '@angular/core'
-import { Game } from '../shared/games'
-import { Player } from '../shared/player'
-import { baseUrlImages } from '../shared/baseurls'
-import { MysqlService } from '../services/mysql.service'
-import { DeviceDetectorService } from 'ngx-device-detector'
-import { Title, Meta } from '@angular/platform-browser'
-import { ActivatedRoute } from '@angular/router'
+import { Component, OnInit, ChangeDetectorRef, HostListener } from '@angular/core';
+import { Game } from '../shared/games';
+import { Player } from '../shared/player';
+import { baseUrlImages } from '../shared/baseurls';
+import { MysqlService } from '../services/mysql.service';
+import { DeviceDetectorService } from 'ngx-device-detector';
+import { Title, Meta } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-socialmedia',
   templateUrl: './socialmedia.component.html',
-  styleUrls: ['./socialmedia.component.css']
+  styleUrls: ['./socialmedia.component.css'],
 })
 export class SocialmediaComponent implements OnInit {
+  games: Game[];
+  season: string;
+  players: Player[];
+  imageBaseUrl: String;
+  isMobile = null;
 
-  games: Game[]
-  season: string
-  players: Player[]
-  imageBaseUrl: String
-  isMobile = null
-
-  private sub: any
+  private sub: any;
 
   constructor(
     private mysqlService: MysqlService,
@@ -28,66 +27,73 @@ export class SocialmediaComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private deviceService: DeviceDetectorService,
     private titleService: Title,
-    private metaTagService: Meta) { }
+    private metaTagService: Meta
+  ) {}
 
   ngOnInit() {
-    this.imageBaseUrl = baseUrlImages
+    this.imageBaseUrl = baseUrlImages;
 
-    this.sub = this.route.params.subscribe(params => {
-      this.season = params['season']
+    this.sub = this.route.params.subscribe((params) => {
+      this.season = params['season'];
 
-      this.mysqlService.getGames().subscribe(games => {
-        this.games = games.filter((game) => {
-          return game.season == this.season
-        }).sort((a, b) => {
-          return b.round - a.round
-        })
-      })
+      this.mysqlService.getGames().subscribe((games) => {
+        this.games = games
+          .filter((game) => {
+            return game.season == this.season;
+          })
+          .sort((a, b) => {
+            return b.round - a.round;
+          });
+      });
 
-      this.mysqlService.getPlayers().subscribe(players => {
-        this.players = players
-      })
-    })
+      this.mysqlService.getPlayers().subscribe((players) => {
+        this.players = players;
+      });
+    });
 
-    this.titleService.setTitle("HV TDP Stainz: Videos")
+    this.titleService.setTitle('HV TDP Stainz: Videos');
     this.metaTagService.updateTag({
-      name: 'description', content: "Videos von Veranstaltungen und Toren vom HV TDP Stainz."
-    })
+      name: 'description',
+      content: 'Videos von Veranstaltungen und Toren vom HV TDP Stainz.',
+    });
 
     this.metaTagService.addTags([
-      { name: 'keywords', content: 'Fußballverein, Stainz, SC Stainz, Fußballverein Stainz, HVTDP, HVTDP Stainz' },
+      {
+        name: 'keywords',
+        content: 'Fußballverein, Stainz, SC Stainz, Fußballverein Stainz, HVTDP, HVTDP Stainz',
+      },
       { name: 'author', content: 'Stefan Jaindl' },
-      { charset: 'UTF-8' }
-    ])
+      { charset: 'UTF-8' },
+    ]);
   }
 
   ngAfterViewInit() {
-    this.cdr.detectChanges()
+    this.cdr.detectChanges();
   }
 
   ngOnDestroy() {
-    this.sub.unsubscribe()
+    this.sub.unsubscribe();
   }
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    this.checkDevice()
+    this.checkDevice();
   }
 
   checkDevice() {
-    this.isMobile = this.deviceService.isMobile()
+    this.isMobile = this.deviceService.isMobile();
   }
 
   height() {
-    if(this.isMobile) return '600px' 
-    return '400px'
+    if (this.isMobile) return '600px';
+    return '400px';
   }
 
   matches(name: string, player: Player) {
-    if (name.includes(" ")) {
-        return (player.lastName + ' ' + player.firstName) == name
+    if (name.includes(' ')) {
+      return player.lastName + ' ' + player.firstName == name;
     }
 
-    return player.lastName == name
+    return player.lastName == name;
   }
 }

@@ -8,9 +8,8 @@ describe('HallofpappComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HallofpappComponent ]
-    })
-    .compileComponents();
+      declarations: [HallofpappComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

@@ -4,11 +4,8 @@ import { RouterModule } from '@angular/router';
 import { routes } from './routes';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule.forRoot(routes)
-  ],
-  exports: [ RouterModule ],
-  declarations: []
+  imports: [CommonModule, RouterModule.forRoot(routes)],
+  exports: [RouterModule],
+  declarations: [],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

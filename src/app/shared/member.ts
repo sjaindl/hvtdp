@@ -1,5 +1,5 @@
 export class Member {
-    firstName: string
-    lastName: string
-    per: string
+  firstName: string;
+  lastName: string;
+  per: string;
 }

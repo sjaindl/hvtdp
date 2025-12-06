@@ -1,5 +1,5 @@
 export class PlayerOfTheSeason {
-    season: string;
-    player: string;
-    votes: number;
+  season: string;
+  player: string;
+  votes: number;
 }

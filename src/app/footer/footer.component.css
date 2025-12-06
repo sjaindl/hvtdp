@@ -2,10 +2,7 @@
   margin-top: 3rem;
   padding: 24px 16px;
   border-radius: 20px 20px 0 0;
-  background: radial-gradient(circle at top left,
-    #020617 0%,
-    #020617 40%,
-    #0b1120 100%);
+  background: radial-gradient(circle at top left, #020617 0%, #020617 40%, #0b1120 100%);
   color: #e5e7eb;
   box-shadow: 0 -10px 30px rgba(15, 23, 42, 0.6);
 }
@@ -69,10 +66,18 @@
   box-shadow: 0 8px 18px rgba(15, 23, 42, 0.9);
 }
 
-.social-btn.facebook { background: #1d4ed8; }
-.social-btn.twitter  { background: #0ea5e9; }
-.social-btn.instagram{ background: linear-gradient(135deg, #f97316, #ec4899, #8b5cf6); }
-.social-btn.mail     { background: #dc2626; }
+.social-btn.facebook {
+  background: #1d4ed8;
+}
+.social-btn.twitter {
+  background: #0ea5e9;
+}
+.social-btn.instagram {
+  background: linear-gradient(135deg, #f97316, #ec4899, #8b5cf6);
+}
+.social-btn.mail {
+  background: #dc2626;
+}
 
 .social-btn i {
   pointer-events: none;
@@ -107,18 +112,14 @@
   padding: 8px 10px;
   border-radius: 14px;
   background: rgba(15, 23, 42, 0.85);
-  box-shadow:
-    0 8px 20px rgba(15, 23, 42, 0.7),
-    0 0 0 1px rgba(148, 163, 184, 0.2);
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.7), 0 0 0 1px rgba(148, 163, 184, 0.2);
   transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
 }
 
 .sponsor-card:hover {
   transform: translateY(-3px) scale(1.02);
   background: rgba(15, 23, 42, 1);
-  box-shadow:
-    0 12px 26px rgba(15, 23, 42, 0.9),
-    0 0 0 1px rgba(249, 250, 251, 0.15);
+  box-shadow: 0 12px 26px rgba(15, 23, 42, 0.9), 0 0 0 1px rgba(249, 250, 251, 0.15);
 }
 
 .sponsor-image {

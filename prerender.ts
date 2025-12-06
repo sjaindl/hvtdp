@@ -6,13 +6,13 @@ import { writeFileSync } from 'fs';
 const { AppServerModuleNgFactory } = require('./dist-server/bundle');
 
 renderModuleFactory(AppServerModuleNgFactory, {
-    document: '<app-root></app-root>',
-    url: '/'
+  document: '<app-root></app-root>',
+  url: '/',
 })
-.then(html => {
+  .then((html) => {
     console.log('Pre-rendering successful, saving prerender.html');
     writeFileSync('./prerender.html', html);
-})
-.catch(error => {
+  })
+  .catch((error) => {
     console.error('Error occurred:', error);
-})
+  });

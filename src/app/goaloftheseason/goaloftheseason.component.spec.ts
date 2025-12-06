@@ -8,9 +8,8 @@ describe('GoalOfTheSeasonComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GoalOfTheSeasonComponent ]
-    })
-    .compileComponents();
+      declarations: [GoalOfTheSeasonComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

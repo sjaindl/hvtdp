@@ -5,7 +5,7 @@ import { MysqlService } from './mysql.service';
 describe('MysqlService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [MysqlService]
+      providers: [MysqlService],
     });
   });
 

@@ -8,9 +8,8 @@ describe('PlayerOfTheSeasonComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PlayerOfTheSeasonComponent ]
-    })
-    .compileComponents();
+      declarations: [PlayerOfTheSeasonComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {

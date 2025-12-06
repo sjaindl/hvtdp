@@ -1,11 +1,11 @@
-
 /* Banner */
 
-  body {
-    padding-bottom: 5rem;
-  }
+body {
+  padding-bottom: 5rem;
+}
 
-  h1, h2, p {
-    padding: 0 5%;
-  }
-
+h1,
+h2,
+p {
+  padding: 0 5%;
+}

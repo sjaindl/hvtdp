@@ -8,55 +8,58 @@ import { Album } from '../shared/photos';
 @Component({
   selector: 'app-gallery',
   templateUrl: './gallery.component.html',
-  styleUrls: ['./gallery.component.css']
+  styleUrls: ['./gallery.component.css'],
 })
 export class GalleryComponent implements OnInit {
+  albums: Album[];
+  season: string;
+  imageBaseUrl: String;
+  isMobile = null;
 
-  albums: Album[]
-  season: string
-  imageBaseUrl: String
-  isMobile = null
-
-  private sub: any
+  private sub: any;
 
   constructor(
     private mysqlService: MysqlService,
     private route: ActivatedRoute,
     private titleService: Title,
     private metaTagService: Meta
-    ) { }
+  ) {}
 
   ngOnInit() {
-    this.imageBaseUrl = baseUrlImages
+    this.imageBaseUrl = baseUrlImages;
 
-    this.sub = this.route.params.subscribe(params => {
-      this.season = params['season']
-      this.mysqlService.getPhotos().subscribe(albums => {
+    this.sub = this.route.params.subscribe((params) => {
+      this.season = params['season'];
+      this.mysqlService.getPhotos().subscribe((albums) => {
         this.albums = albums.filter((album) => {
-          return album.season == this.season
-        })
-      })
-    })
+          return album.season == this.season;
+        });
+      });
+    });
 
-    this.titleService.setTitle("HV TDP Stainz: Galerie")
+    this.titleService.setTitle('HV TDP Stainz: Galerie');
     this.metaTagService.updateTag({
-      name: 'description', content: "Die wichtigsten Events des HV TDP Stainz in der Galerie."
-    })
+      name: 'description',
+      content: 'Die wichtigsten Events des HV TDP Stainz in der Galerie.',
+    });
 
     this.metaTagService.addTags([
-      { name: 'keywords', content: 'Fußballverein, Stainz, SC Stainz, Fußballverein Stainz, HVTDP, HVTDP Stainz' },
+      {
+        name: 'keywords',
+        content: 'Fußballverein, Stainz, SC Stainz, Fußballverein Stainz, HVTDP, HVTDP Stainz',
+      },
       { name: 'author', content: 'Stefan Jaindl' },
-      { charset: 'UTF-8' }
-    ])
+      { charset: 'UTF-8' },
+    ]);
   }
 
   ngOnDestroy() {
-    this.sub.unsubscribe()
+    this.sub.unsubscribe();
   }
 
   items(album: Album) {
-    return album.photos.map(photo => {
-      return  {
+    return album.photos.map((photo) => {
+      return {
         imagePath: photo.imagePath,
         navPath: '',
         title: photo.description,

@@ -1,104 +1,119 @@
-<div class="container"
-     fxLayout="column"
-     fxLayoutGap="10px">
-
-     <div fxFlex>
-            <div>
-               <h3 class="large header">Bocciaturnier 2025</h3>
-               <hr>
-            </div>
-     </div>
-
-    <div fxFlex>
-      <div fxLayout="column" fxLayout.gt-sm="row">
-          <div fxFlex="50" fxFlexOffset="10px">
-
-            <p class="normal">
-              Nach der erfolgreichen Premiere bringen wir auch heuer das Kultspiel aus Italien nach Stainz!<br>
-            </p>
-
-            <p class="normal">
-              Hier die wichtigsten Infos:
-            </p>
-
-            <p class="normal">
-              📅 Spieltermin: Samstag, 20.09. 2025<br>
-              ⏱ Beginn: 10:00 Uhr<br>
-              🏟 Spielort: Stadion Stainz<br>
-              💸 Nenngeld: 20,00 €<br>
-              📌 Spielform: 2 Spieler<br>
-            </p>
-
-            <p class="normal">
-              Sichert euch euren Platz und meldet euch an! Wir freuen uns auf euch!<br>
-              Für alle Anmeldungen bis zum 17. August gibt es am Turniertag ein Freigetränk!<br>
-            </p>
-
-            <p class="normal">
-              Anmeldung unter:<br>
-              ➡ direkt hier auf unserer Homepage<br>
-              ➡ 📲 telefonisch unter 0664/43 10 021<br>
-              ➡ 📧 E-Mail: hvtdpstainz@gmx.at<br>
-              ➡ Facebook: HV TDP Stainz<br>
-              ➡ Instagram: hvtdpstainz_2014
-            </p>
-
-            <p class="normal">
-              Kontodaten:<br>
-              IBAN: AT67 3843 9000 0481 3481<br>
-              BIC: RZSTAT2G439<br>
-              Empfänger: HV TDP Stainz<br>
-              Verwendungszweck: Boccia 2025 + euren Mannschaftsnamen
-            </p>
-
-            <p class="normal">
-              Erst mit der Einzahlung des Nenngeldes ist die Anmeldung fixiert!
-            </p>
-
-          </div>
-          <div fxFlex="50" fxFlexOffset="25px">
-            <img class="imageSmallCenter" src="assets/images/boccia_2025.jpeg " style="width: 400px;" >
-          </div>
-      </div>
+<div class="container" fxLayout="column" fxLayoutGap="10px">
+  <div fxFlex>
+    <div>
+      <h3 class="large header">Bocciaturnier 2025</h3>
+      <hr />
     </div>
+  </div>
 
-    <div fxFlex fxFlexOffset="20px" class="form-size" style="padding-left: 20px;">
-      <h3>Sichere dir die Teilnahme gleich jetzt ⬇</h3>
-      <!-- <p>{{ feedbackForm.value | json }} {{ feedbackForm.status | json }}</p> -->
-      <form novalidate [formGroup]="feedbackForm" (ngSubmit)="onSubmit()" style="background-color: darkblue;color: rgba(255,255,255,.7);border: 27.4px solid;">
-        <p>
-          <mat-form-field class="full-width"
-          color="{{(formErrors.name) ? 'warn' : 'primary'}}">
-            <input class="formElement" matInput type="text" formControlName="name" placeholder="Ansprechperson" required>
-            <mat-hint>
-              <span [hidden]="!(formErrors.name)">
-                {{formErrors.name}}</span>
-            </mat-hint>
-          </mat-form-field>
+  <div fxFlex>
+    <div fxLayout="column" fxLayout.gt-sm="row">
+      <div fxFlex="50" fxFlexOffset="10px">
+        <p class="normal">
+          Nach der erfolgreichen Premiere bringen wir auch heuer das Kultspiel aus Italien nach
+          Stainz!<br />
         </p>
 
-        <p>
-            <mat-form-field class="full-width"
-            color="{{(formErrors.teamname) ? 'warn' : 'primary'}}">
-                <input class="formElement" matInput type="text" formControlName="teamname" placeholder="Mannschaftsname" required>
-                <mat-hint>
-                <span [hidden]="!(formErrors.teamname)">
-                    {{formErrors.teamname}}</span>
-                </mat-hint>
-            </mat-form-field>
+        <p class="normal">Hier die wichtigsten Infos:</p>
+
+        <p class="normal">
+          📅 Spieltermin: Samstag, 20.09. 2025<br />
+          ⏱ Beginn: 10:00 Uhr<br />
+          🏟 Spielort: Stadion Stainz<br />
+          💸 Nenngeld: 20,00 €<br />
+          📌 Spielform: 2 Spieler<br />
         </p>
 
-        <button style="margin: 100 auto;float: right; font-size: 20px" class="formElement" type="submit" mat-button class="background-primary" [disabled]="feedbackForm.invalid" >Anmeldung jetzt abschicken</button>
+        <p class="normal">
+          Sichert euch euren Platz und meldet euch an! Wir freuen uns auf euch!<br />
+          Für alle Anmeldungen bis zum 17. August gibt es am Turniertag ein Freigetränk!<br />
+        </p>
 
-      </form>
+        <p class="normal">
+          Anmeldung unter:<br />
+          ➡ direkt hier auf unserer Homepage<br />
+          ➡ 📲 telefonisch unter 0664/43 10 021<br />
+          ➡ 📧 E-Mail: hvtdpstainz@gmx.at<br />
+          ➡ Facebook: HV TDP Stainz<br />
+          ➡ Instagram: hvtdpstainz_2014
+        </p>
 
-      <div *ngIf="submittedFeedback">
-        <div>
-          <h2>Wir haben deine Anmeldung erhalten, Vielen Dank! Wir melden uns bei dir in Kürze.</h2>
-          <p>Ansprechperson: {{submittedFeedback.name}}</p>
-          <p>Teamname: {{submittedFeedback.teamname}}</p>
+        <p class="normal">
+          Kontodaten:<br />
+          IBAN: AT67 3843 9000 0481 3481<br />
+          BIC: RZSTAT2G439<br />
+          Empfänger: HV TDP Stainz<br />
+          Verwendungszweck: Boccia 2025 + euren Mannschaftsnamen
+        </p>
+
+        <p class="normal">Erst mit der Einzahlung des Nenngeldes ist die Anmeldung fixiert!</p>
+      </div>
+      <div fxFlex="50" fxFlexOffset="25px">
+        <img class="imageSmallCenter" src="assets/images/boccia_2025.jpeg " style="width: 400px" />
       </div>
     </div>
+  </div>
 
+  <div fxFlex fxFlexOffset="20px" class="form-size" style="padding-left: 20px">
+    <h3>Sichere dir die Teilnahme gleich jetzt ⬇</h3>
+    <!-- <p>{{ feedbackForm.value | json }} {{ feedbackForm.status | json }}</p> -->
+    <form
+      novalidate
+      [formGroup]="feedbackForm"
+      (ngSubmit)="onSubmit()"
+      style="background-color: darkblue; color: rgba(255, 255, 255, 0.7); border: 27.4px solid"
+    >
+      <p>
+        <mat-form-field class="full-width" color="{{ formErrors.name ? 'warn' : 'primary' }}">
+          <input
+            class="formElement"
+            matInput
+            type="text"
+            formControlName="name"
+            placeholder="Ansprechperson"
+            required
+          />
+          <mat-hint>
+            <span [hidden]="!formErrors.name"> {{ formErrors.name }}</span>
+          </mat-hint>
+        </mat-form-field>
+      </p>
+
+      <p>
+        <mat-form-field class="full-width" color="{{ formErrors.teamname ? 'warn' : 'primary' }}">
+          <input
+            class="formElement"
+            matInput
+            type="text"
+            formControlName="teamname"
+            placeholder="Mannschaftsname"
+            required
+          />
+          <mat-hint>
+            <span [hidden]="!formErrors.teamname"> {{ formErrors.teamname }}</span>
+          </mat-hint>
+        </mat-form-field>
+      </p>
+
+      <button
+        style="margin: 100 auto; float: right; font-size: 20px"
+        class="formElement"
+        type="submit"
+        mat-button
+        class="background-primary"
+        [disabled]="feedbackForm.invalid"
+      >
+        Anmeldung jetzt abschicken
+      </button>
+    </form>
+
+    <div *ngIf="submittedFeedback">
+      <div>
+        <h2>Wir haben deine Anmeldung erhalten, Vielen Dank! Wir melden uns bei dir in Kürze.</h2>
+        <p>Ansprechperson: {{ submittedFeedback.name }}</p>
+        <p>Teamname: {{ submittedFeedback.teamname }}</p>
+      </div>
+    </div>
+  </div>
+  <br />
 </div>
-<br>

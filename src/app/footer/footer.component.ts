@@ -4,17 +4,16 @@ import { StatisticsService } from '../services/statistics.service';
 @Component({
   selector: 'app-footer',
   templateUrl: './footer.component.html',
-  styleUrls: ['./footer.component.css']
+  styleUrls: ['./footer.component.css'],
 })
 export class FooterComponent implements OnInit {
+  sessions: String = null;
 
-  sessions: String = null
-
-  constructor(private statisticsService: StatisticsService) { }
+  constructor(private statisticsService: StatisticsService) {}
 
   ngOnInit() {
-    this.statisticsService.getVisitorCount().subscribe(sessions => {
-      this.sessions = sessions
-    })
+    this.statisticsService.getVisitorCount().subscribe((sessions) => {
+      this.sessions = sessions;
+    });
   }
 }

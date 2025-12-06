@@ -1,20 +1,20 @@
-<h1 class="large header">
-    Dokumente
-</h1>
+<h1 class="large header">Dokumente</h1>
 
 <p class="normal">
-    Hier findest du die Sammlung der wichtigsten Dokumente für HV TDP-Mitglieder und Fans.
+  Hier findest du die Sammlung der wichtigsten Dokumente für HV TDP-Mitglieder und Fans.
 </p>
 
 <p *ngFor="let document of documents" class="normal">
-    <span *ngIf="document.protected != 0">
-        🔐 <a class="link" [routerLink]="" (click)="downloadProtectedDocument(document);">{{document.description}}</a>
-    </span>
-    <span *ngIf="document.protected == 0">
-        <a href="{{documentBaseUrl + document.link}}">{{document.description}}</a>
-    </span>
-    
+  <span *ngIf="document.protected != 0">
+    🔐
+    <a class="link" [routerLink]="" (click)="downloadProtectedDocument(document)">{{
+      document.description
+    }}</a>
+  </span>
+  <span *ngIf="document.protected == 0">
+    <a href="{{ documentBaseUrl + document.link }}">{{ document.description }}</a>
+  </span>
 </p>
 
-<br>
-<br>
+<br />
+<br />

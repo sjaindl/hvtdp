@@ -1,96 +1,96 @@
-import { AppRoutingModule } from './app-routing/app-routing.module'
-import { BrowserModule } from '@angular/platform-browser'
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
-import { FlexLayoutModule } from '@angular/flex-layout'
+import { AppRoutingModule } from './app-routing/app-routing.module';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
-import { MatIconModule } from '@angular/material/icon'
-import { MatToolbarModule } from '@angular/material/toolbar'
-import { MatListModule } from '@angular/material/list'
-import { MatDialogModule } from '@angular/material/dialog'
-import { MatDividerModule } from '@angular/material/divider'
-import { MatSidenavModule } from '@angular/material/sidenav'
-import { MatGridListModule } from '@angular/material/grid-list'
-import { MatInputModule } from '@angular/material/input'
-import { MatFormFieldModule } from '@angular/material/form-field'
-import { MatSlideToggleModule } from '@angular/material/slide-toggle'
-import { MatSelectModule } from '@angular/material/select'
-import { MatCheckboxModule } from '@angular/material/checkbox'
-import { MatExpansionModule } from '@angular/material/expansion'
-import { MatPaginatorModule } from '@angular/material/paginator'
-import { MatTableModule } from '@angular/material/table'
-import { MatSortModule } from '@angular/material/sort'
-import { MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar'
-import { MatMenuModule } from '@angular/material/menu'
+import { MatIconModule } from '@angular/material/icon';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatListModule } from '@angular/material/list';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
+import { MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
+import { MatMenuModule } from '@angular/material/menu';
 
-import { NgModule } from '@angular/core'
+import { NgModule } from '@angular/core';
 
-import { AppComponent } from './app.component'
-import { HomeComponent } from './home/home.component'
-import { HeaderComponent } from './header/header.component'
-import { FooterComponent } from './footer/footer.component'
+import { AppComponent } from './app.component';
+import { HomeComponent } from './home/home.component';
+import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
 
-import { Hammer } from 'hammerjs/hammer'
-import { TeamComponent } from './team/team.component'
-import { NguCarouselModule } from '@ngu/carousel'
-import { NewsComponent } from './news/news.component'
-import { ChampionshipComponent } from './championship/championship.component'
-import { GalleryComponent } from './gallery/gallery.component'
-import { SocialmediaComponent } from './socialmedia/socialmedia.component'
-import { DonationsComponent } from './donations/donations.component'
-import { AboutComponent } from './about/about.component'
-import { ContactComponent } from './contact/contact.component'
-import { DuckrunComponent } from './duckrun/duckrun.component'
-import { FanshopComponent } from './fanshop/fanshop.component'
-import { MembershipComponent } from './membership/membership.component'
-import { HalloffameComponent } from './halloffame/halloffame.component'
-import { GoogleMapsModule } from '@angular/google-maps'
-import { FormsModule, ReactiveFormsModule } from '@angular/forms'
-import { DocumentsComponent } from './documents/documents.component'
-import { SurveysComponent } from './surveys/surveys.component'
-import { MysqlService } from './services/mysql.service'
+import { Hammer } from 'hammerjs/hammer';
+import { TeamComponent } from './team/team.component';
+import { NguCarouselModule } from '@ngu/carousel';
+import { NewsComponent } from './news/news.component';
+import { ChampionshipComponent } from './championship/championship.component';
+import { GalleryComponent } from './gallery/gallery.component';
+import { SocialmediaComponent } from './socialmedia/socialmedia.component';
+import { DonationsComponent } from './donations/donations.component';
+import { AboutComponent } from './about/about.component';
+import { ContactComponent } from './contact/contact.component';
+import { DuckrunComponent } from './duckrun/duckrun.component';
+import { FanshopComponent } from './fanshop/fanshop.component';
+import { MembershipComponent } from './membership/membership.component';
+import { HalloffameComponent } from './halloffame/halloffame.component';
+import { GoogleMapsModule } from '@angular/google-maps';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DocumentsComponent } from './documents/documents.component';
+import { SurveysComponent } from './surveys/surveys.component';
+import { MysqlService } from './services/mysql.service';
 
-import { LocationStrategy, HashLocationStrategy } from '@angular/common'
-import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http'
-import { StatisticsService } from './services/statistics.service'
-import { StartingelevenComponent } from './startingeleven/startingeleven.component'
-import { HallofpappComponent } from './hallofpapp/hallofpapp.component'
-import { PassworddialogComponent } from './passworddialog/passworddialog.component'
-import { SafePipe } from './pipes/SafePipe'
-import { AdventComponent } from './advent/advent.component'
-import { NgcCookieConsentModule, NgcCookieConsentConfig } from 'ngx-cookieconsent'
-import { GoalOfTheSeasonComponent } from './goaloftheseason/goaloftheseason.component'
-import { HallenturnierComponent } from './hallenturnier/hallenturnier.component'
+import { LocationStrategy, HashLocationStrategy } from '@angular/common';
+import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
+import { StatisticsService } from './services/statistics.service';
+import { StartingelevenComponent } from './startingeleven/startingeleven.component';
+import { HallofpappComponent } from './hallofpapp/hallofpapp.component';
+import { PassworddialogComponent } from './passworddialog/passworddialog.component';
+import { SafePipe } from './pipes/SafePipe';
+import { AdventComponent } from './advent/advent.component';
+import { NgcCookieConsentModule, NgcCookieConsentConfig } from 'ngx-cookieconsent';
+import { GoalOfTheSeasonComponent } from './goaloftheseason/goaloftheseason.component';
+import { HallenturnierComponent } from './hallenturnier/hallenturnier.component';
 import { KleinfeldTurnierComponent } from './kleinfeldturnier/kleinfeldturnier.component';
-import { BocciaComponent } from './boccia/boccia.component'
+import { BocciaComponent } from './boccia/boccia.component';
 import { ZehnjahresfeierComponent } from './zehnjahresfeier/zehnjahresfeier.component';
-import { GoldenshotComponent } from './goldenshot/goldenshot.component'
+import { GoldenshotComponent } from './goldenshot/goldenshot.component';
 import { RedirectGuard } from './app-routing/redirect-guard';
-import { GoldenshotVotingComponent } from './goldenshot-voting/goldenshot-voting.component'
-import { MatButtonModule } from '@angular/material/button'
-import { CookieService } from 'ngx-cookie-service'
-import { PlayerOfTheSeasonComponent } from './playeroftheseason/playeroftheseason.component'
-import { ComedyhirtenComponent } from './comedyhirten/comedyhirten.component'
-import { BigdartsComponent } from './bigdarts/bigdarts.component'
-import { StadionFestComponent } from './stadionfest/stadionfest.component'
-import { TickerComponent } from './ticker/ticker.component'
-import { ImagesliderComponent } from './imageslider/imageslider.component'
-import { HvtdpImageComponent } from './hvtdp-image/hvtdp-image.component'
+import { GoldenshotVotingComponent } from './goldenshot-voting/goldenshot-voting.component';
+import { MatButtonModule } from '@angular/material/button';
+import { CookieService } from 'ngx-cookie-service';
+import { PlayerOfTheSeasonComponent } from './playeroftheseason/playeroftheseason.component';
+import { ComedyhirtenComponent } from './comedyhirten/comedyhirten.component';
+import { BigdartsComponent } from './bigdarts/bigdarts.component';
+import { StadionFestComponent } from './stadionfest/stadionfest.component';
+import { TickerComponent } from './ticker/ticker.component';
+import { ImagesliderComponent } from './imageslider/imageslider.component';
+import { HvtdpImageComponent } from './hvtdp-image/hvtdp-image.component';
 
 const cookieConfig: NgcCookieConsentConfig = {
   cookie: {
-    domain: 'hvtdpstainz.at'
+    domain: 'hvtdpstainz.at',
   },
   palette: {
     popup: {
-      background: '#c2185b'
+      background: '#c2185b',
     },
     button: {
-      background: '#f1d600'
-    }
+      background: '#f1d600',
+    },
   },
   theme: 'edgeless',
-  type: 'opt-out'
-}
+  type: 'opt-out',
+};
 
 @NgModule({
   declarations: [
@@ -133,7 +133,7 @@ const cookieConfig: NgcCookieConsentConfig = {
     HvtdpImageComponent,
   ],
   imports: [
-    BrowserModule.withServerTransition({ appId: 'serverApp' }) ,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     BrowserAnimationsModule,
     MatListModule,
     MatCheckboxModule,
@@ -162,7 +162,7 @@ const cookieConfig: NgcCookieConsentConfig = {
     ReactiveFormsModule,
     HttpClientModule,
     HttpClientJsonpModule,
-    NgcCookieConsentModule.forRoot(cookieConfig)
+    NgcCookieConsentModule.forRoot(cookieConfig),
   ],
   providers: [
     MysqlService,
@@ -170,8 +170,8 @@ const cookieConfig: NgcCookieConsentConfig = {
     RedirectGuard,
     CookieService,
     { provide: LocationStrategy, useClass: HashLocationStrategy },
-    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 2500} }
+    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 2500 } },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

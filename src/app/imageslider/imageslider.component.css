@@ -20,16 +20,15 @@
   flex-direction: column;
   border-radius: 12px;
   overflow: hidden;
-  background: radial-gradient(circle at top left,
-    #bfdbfe 0%,    /* brighter blue */
-    #e9d5ff 35%,   /* soft violet */
-    #fee2e2 70%,   /* light coral */
-    #fef9c3 100%   /* pale yellow edge */
+  background: radial-gradient(
+    circle at top left,
+    #bfdbfe 0%,
+    /* brighter blue */ #e9d5ff 35%,
+    /* soft violet */ #fee2e2 70%,
+    /* light coral */ #fef9c3 100% /* pale yellow edge */
   );
 
-  box-shadow:
-    0 18px 45px rgba(15, 23, 42, 0.18),
-    0 0 0 1px rgba(148, 163, 184, 0.25);
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.18), 0 0 0 1px rgba(148, 163, 184, 0.25);
   padding: 8px;
 }
 
@@ -60,10 +59,7 @@
 
   cursor: pointer;
   box-shadow: 0 4px 10px rgba(15, 23, 42, 0.7);
-  transition:
-    background 0.15s ease,
-    transform 0.1s ease,
-    box-shadow 0.15s ease;
+  transition: background 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
 }
 
 .slider-fullscreen-btn i {
@@ -112,8 +108,8 @@
 .slider-image-wrapper:-ms-fullscreen .slider-image {
   width: 100%;
   height: 100%;
-  max-height: none;       /* override the 60vh */
-  object-fit: contain;    /* full width or full height, no cropping */
+  max-height: none; /* override the 60vh */
+  object-fit: contain; /* full width or full height, no cropping */
 }
 
 /* Arrows */
@@ -294,33 +290,23 @@
   font-weight: 500;
   letter-spacing: 0.02em;
 
-  box-shadow:
-    0 6px 16px rgba(15, 23, 42, 0.35),
-    0 0 0 1px rgba(191, 219, 254, 0.4);
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.35), 0 0 0 1px rgba(191, 219, 254, 0.4);
 
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.35rem;
 
-  transition:
-    transform 0.15s ease,
-    box-shadow 0.15s ease,
-    filter 0.15s ease,
-    background 0.15s ease;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease, background 0.15s ease;
 }
 
 .slider-details-btn:hover {
   transform: translateY(-1px);
   filter: brightness(1.05);
-  box-shadow:
-    0 10px 22px rgba(15, 23, 42, 0.45),
-    0 0 0 1px rgba(219, 234, 254, 0.8);
+  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.45), 0 0 0 1px rgba(219, 234, 254, 0.8);
 }
 
 .slider-details-btn:active {
   transform: translateY(0);
-  box-shadow:
-    0 4px 12px rgba(15, 23, 42, 0.35),
-    0 0 0 1px rgba(191, 219, 254, 0.4);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.35), 0 0 0 1px rgba(191, 219, 254, 0.4);
 }

@@ -8,9 +8,8 @@ describe('BigdartsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BigdartsComponent ]
-    })
-    .compileComponents();
+      declarations: [BigdartsComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(BigdartsComponent);
     component = fixture.componentInstance;
