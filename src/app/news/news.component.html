@@ -1,33 +1,26 @@
 <h1 class="large header">HV TDP News</h1>
 
 <mat-accordion>
-  @for (newsItem of news; track newsItem) {
-    @if (
-      news.indexOf(newsItem) >= this.pageEvent.pageIndex * this.pageEvent.pageSize &&
-      news.indexOf(newsItem) + 1 <= (this.pageEvent.pageIndex + 1) * this.pageEvent.pageSize
-      ) {
-      <mat-expansion-panel
-        [expanded]="selectedNews != null && newsItem.newsId == selectedNews.newsId"
-        (opened)="opened()"
-        >
-        <mat-expansion-panel-header>
-          {{ newsItem.newsDate }} {{ newsItem.title }}
-        </mat-expansion-panel-header>
-        <app-hvtdp-image [imagePath]="imageBaseUrl + newsItem.imagePath"></app-hvtdp-image>
-        @if (newsItem.news) {
-          <p style="white-space: pre-line">
-            {{ newsItem.news }}
-          </p>
-        }
-        @if (newsItem.htmlNews) {
-          <div
-            style="white-space: pre-line"
-            [innerHTML]="formatMessage(newsItem.htmlNews)"
-          ></div>
-        }
-      </mat-expansion-panel>
+  @for (newsItem of news; track newsItem) { @if ( news.indexOf(newsItem) >= this.pageEvent.pageIndex
+  * this.pageEvent.pageSize && news.indexOf(newsItem) + 1 <= (this.pageEvent.pageIndex + 1) *
+  this.pageEvent.pageSize ) {
+  <mat-expansion-panel
+    [expanded]="selectedNews != null && newsItem.newsId == selectedNews.newsId"
+    (opened)="opened()"
+  >
+    <mat-expansion-panel-header>
+      {{ formatDate(newsItem.newsDate) }}, {{ newsItem.title }}
+    </mat-expansion-panel-header>
+    <app-hvtdp-image [imagePath]="imageBaseUrl + newsItem.imagePath"></app-hvtdp-image>
+    @if (newsItem.news) {
+    <p style="white-space: pre-line">
+      {{ newsItem.news }}
+    </p>
+    } @if (newsItem.htmlNews) {
+    <div style="white-space: pre-line" [innerHTML]="formatMessage(newsItem.htmlNews)"></div>
     }
-  }
+  </mat-expansion-panel>
+  } }
 </mat-accordion>
 
 <br />
@@ -37,5 +30,5 @@
   [pageSize]="pageSize"
   [pageSizeOptions]="pageSizeOptions"
   (page)="pageEvent = $event"
-  >
+>
 </mat-paginator>

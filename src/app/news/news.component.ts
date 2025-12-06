@@ -1,27 +1,26 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { News } from '../shared/news';
-import { PageEvent } from '@angular/material/paginator';
-import { DeviceDetectorService } from '../../../node_modules/ngx-device-detector';
-import { baseUrlImages } from '../shared/baseurls';
-import { MysqlService } from '../services/mysql.service';
-import { ActivatedRoute } from '@angular/router';
-import { Title, Meta, DomSanitizer } from '@angular/platform-browser';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { DomSanitizer, Meta, Title } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
+import { DeviceDetectorService } from '../../../node_modules/ngx-device-detector';
 import { HvtdpImageComponent } from '../hvtdp-image/hvtdp-image.component';
+import { MysqlService } from '../services/mysql.service';
+import { baseUrlImages } from '../shared/baseurls';
+import { News } from '../shared/news';
+import { DateUtil } from '../shared/utils/date.util';
 
 @Component({
-    selector: 'app-news',
-    templateUrl: './news.component.html',
-    styleUrls: ['./news.component.css'],
-    standalone: true,
-    imports: [CommonModule, MatExpansionModule, MatPaginatorModule, HvtdpImageComponent]
+  selector: 'app-news',
+  templateUrl: './news.component.html',
+  styleUrls: ['./news.component.css'],
+  standalone: true,
+  imports: [CommonModule, MatExpansionModule, MatPaginatorModule, HvtdpImageComponent],
 })
 export class NewsComponent implements OnInit {
   news: News[];
   selectedNews: News;
-  // test: string = 'XXX <p>Unser <span style=\"font-family:Comic Sans MS,cursive\">Meisterfeier</span> gestern hat eine <strong>perfekte</strong> Saison abgeschlossen!</p>\r\n\r\n<p><span style=\"font-size:48px\">Danke an alle Spieler, Fans, <h1> Sponsoren </h1> und Helfer f&uuml;r die <sup>Unterst&uuml;tzung</sup> <sub>und</sub> perfekte <em>Saison</em>! :)</span></p>\r\n\r\n<hr />\r\n<p><span style=\"font-size:16px\"><span style=\"color:#8e44ad\">test</span></span></p>\r\n'
   imageBaseUrl: String;
 
   length: number;
@@ -45,6 +44,8 @@ export class NewsComponent implements OnInit {
     private sanitizer: DomSanitizer,
     private deviceService: DeviceDetectorService
   ) {}
+
+  formatDate = DateUtil.formatDate;
 
   ngOnInit() {
     this.imageBaseUrl = baseUrlImages;
