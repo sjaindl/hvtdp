@@ -1,9 +1,9 @@
-<section class="team-page bg-slate-50 text-slate-900 min-h-screen">
+<section class="team-page min-h-screen">
   <div class="max-w-6xl mx-auto px-4 py-12">
     <div class="text-center mb-12">
       <h1 class="text-4xl font-bold mb-3">Unser Team</h1>
       <br />
-      <p class="text-sm font-semibold text-blue-600 uppercase tracking-[0.18em]">HV TDP Stainz</p>
+      <p class="text-sm font-semibold text-pink-600 uppercase tracking-[0.18em]">HV TDP Stainz</p>
     </div>
 
     @if (!positionGroups?.length) {
@@ -14,7 +14,7 @@
         <span class="text-3xl leading-none">{{ group.icon }}</span>
         <div>
           <h2 class="text-xl font-semibold">{{ group.position }}</h2>
-          <p class="text-sm text-slate-600">
+          <p class="text-sm text-600">
             {{ group.players.length }} {{ group.players.length === 1 ? 'Spieler' : 'Spieler' }}
           </p>
         </div>

@@ -5,5 +5,4 @@ export class Player {
   memberSinceYear: number;
   imagePath: string;
   jerseyNumber?: number;
-  number?: number;
 }

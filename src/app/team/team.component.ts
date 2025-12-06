@@ -120,32 +120,15 @@ export class TeamComponent implements OnInit {
   }
 
   getPlayerNumber(player: Player): number | undefined {
-    const jersey = player?.jerseyNumber ?? player?.number;
+    const jersey = player?.jerseyNumber;
     return jersey === undefined ? undefined : jersey;
   }
 
   getMemberSince(player: Player): string {
-    if (player?.memberSinceDate) {
-      return this.formatDate(player.memberSinceDate);
-    }
-
     if (player?.memberSinceYear) {
       return `${player.memberSinceYear}`;
     }
 
     return 'unbekannt';
-  }
-
-  private formatDate(dateString: string): string {
-    const parsedDate = new Date(dateString);
-    if (Number.isNaN(parsedDate.getTime())) {
-      return dateString;
-    }
-
-    return parsedDate.toLocaleDateString('de-DE', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-    });
   }
 }
