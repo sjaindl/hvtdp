@@ -13,58 +13,100 @@
   STT - Meisterschaft {{ season }} - aktueller Tabellenstand:
 </h1>
 
-<h3 class="header">
-  Liga B
-</h3>
-<br>
+<div class="standings">
+  <h3 class="header">
+    Liga B
+  </h3>
 
-<mat-table [dataSource]="dataSource" matSort matSortActive="place" matSortDirection="asc" matSortDisableClear>
+  <br>
 
-  <ng-container matColumnDef="place">
-      <mat-header-cell *matHeaderCellDef>Platz</mat-header-cell>
-      <mat-cell *matCellDef="let standings">{{standings.place}}</mat-cell>
-  </ng-container>
+  <div class="table-scroll" *ngIf="!isMobile">
+    <mat-table [dataSource]="dataSource" matSort matSortActive="place" matSortDirection="asc" matSortDisableClear multiTemplateDataRows>
 
-  <ng-container matColumnDef="team">
-      <mat-header-cell *matHeaderCellDef>Mannschaft</mat-header-cell>
-      <mat-cell *matCellDef="let standings">{{standings.team}}</mat-cell>
-  </ng-container>
+      <ng-container matColumnDef="place">
+          <mat-header-cell *matHeaderCellDef>Platz</mat-header-cell>
+          <mat-cell *matCellDef="let standings">{{standings.place}}</mat-cell>
+      </ng-container>
 
-  <ng-container matColumnDef="games">
-    <mat-header-cell *matHeaderCellDef>Spiele</mat-header-cell>
-    <mat-cell *matCellDef="let standings">{{standings.games}}</mat-cell>
-  </ng-container>
+      <ng-container matColumnDef="team">
+          <mat-header-cell *matHeaderCellDef>Mannschaft</mat-header-cell>
+          <mat-cell *matCellDef="let standings">{{standings.team}}</mat-cell>
+      </ng-container>
 
-  <ng-container matColumnDef="wins">
-    <mat-header-cell *matHeaderCellDef>S</mat-header-cell>
-    <mat-cell *matCellDef="let standings">{{standings.wins}}</mat-cell>
-  </ng-container>
+      <ng-container matColumnDef="games">
+        <mat-header-cell *matHeaderCellDef>Spiele</mat-header-cell>
+        <mat-cell *matCellDef="let standings">{{standings.games}}</mat-cell>
+      </ng-container>
 
-  <ng-container matColumnDef="draws">
-    <mat-header-cell *matHeaderCellDef>U</mat-header-cell>
-    <mat-cell *matCellDef="let standings">{{standings.draws}}</mat-cell>
-  </ng-container>
+      <ng-container matColumnDef="wins">
+        <mat-header-cell *matHeaderCellDef>Siege</mat-header-cell>
+        <mat-cell *matCellDef="let standings">{{standings.wins}}</mat-cell>
+      </ng-container>
 
-  <ng-container matColumnDef="losses">
-    <mat-header-cell *matHeaderCellDef>N</mat-header-cell>
-    <mat-cell *matCellDef="let standings">{{standings.losses}}</mat-cell>
-  </ng-container>
+      <ng-container matColumnDef="draws">
+        <mat-header-cell *matHeaderCellDef>Unentschieden</mat-header-cell>
+        <mat-cell *matCellDef="let standings">{{standings.draws}}</mat-cell>
+      </ng-container>
 
-  <ng-container matColumnDef="goalDifference">
-    <mat-header-cell *matHeaderCellDef>Torverhältnis</mat-header-cell>
-    <mat-cell *matCellDef="let standings">{{standings.goalDifference}}</mat-cell>
-  </ng-container>
+      <ng-container matColumnDef="losses">
+        <mat-header-cell *matHeaderCellDef>Niederlagen</mat-header-cell>
+        <mat-cell *matCellDef="let standings">{{standings.losses}}</mat-cell>
+      </ng-container>
 
-  <ng-container matColumnDef="points">
-    <mat-header-cell *matHeaderCellDef>Punkte</mat-header-cell>
-    <mat-cell *matCellDef="let standings">{{standings.points}}</mat-cell>
-  </ng-container>
+      <ng-container matColumnDef="goalDifference">
+        <mat-header-cell *matHeaderCellDef>Torverhältnis</mat-header-cell>
+        <mat-cell *matCellDef="let standings">{{standings.goalDifference}}</mat-cell>
+      </ng-container>
 
-  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <ng-container matColumnDef="points">
+        <mat-header-cell *matHeaderCellDef>Punkte</mat-header-cell>
+        <mat-cell *matCellDef="let standings">{{standings.points}}</mat-cell>
+      </ng-container>
 
-  <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
 
-</mat-table>
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+
+    </mat-table>
+  </div>
+
+  <div class="mobile-standings" *ngIf="isMobile">
+    <div class="mobile-card" *ngFor="let standings of mobileStandings">
+
+      <div class="card-row top">
+        <span class="badge">#{{standings.place}}</span>
+        <div class="team">{{standings.team}}</div>
+        <div class="points">{{standings.points}} P</div>
+      </div>
+
+      <div class="card-row chips">
+        <div class="chip">
+          <span>Spiele</span>
+          <strong>{{standings.games}}</strong>
+        </div>
+        <div class="chip">
+          <span>Torv.</span>
+          <strong>{{standings.goalDifference}}</strong>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-block wins">
+          <span>S</span>
+          <strong>{{standings.wins}}</strong>
+        </div>
+        <div class="stat-block draws">
+          <span>U</span>
+          <strong>{{standings.draws}}</strong>
+        </div>
+        <div class="stat-block losses">
+          <span>N</span>
+          <strong>{{standings.losses}}</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div *ngIf="season == '2025-2026'">
 

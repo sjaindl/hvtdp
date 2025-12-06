@@ -3,3 +3,218 @@ html, body {
     width:100%;
     margin:0;
 }
+
+.standings {
+  margin-bottom: 32px;
+}
+
+.standings .header {
+  margin-bottom: 8px;
+}
+
+.table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 8px 12px;
+}
+
+mat-table {
+  min-width: 520px;
+}
+
+.mobile-standings {
+  display: none;
+  margin-top: 8px;
+  padding: 0 12px;
+}
+
+.mobile-card {
+  background: radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.055), rgba(0, 0, 0, 0.28)),
+              linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(0, 0, 0, 0.17));
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 14px;
+  padding: 12px 12px 14px;
+  margin-bottom: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+}
+
+.card-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-row.top {
+  gap: 8px;
+}
+
+.badge {
+  display: inline-block;
+  min-width: 36px;
+  text-align: center;
+  border-radius: 8px;
+  padding: 6px 8px;
+  background: rgba(20, 190, 255, 0.18);
+  border: 1px solid rgba(20, 190, 255, 0.35);
+  font-weight: 700;
+}
+
+.team {
+  flex: 1;
+  font-weight: 600;
+}
+
+.points {
+  font-weight: 700;
+}
+
+.chips {
+  gap: 8px;
+  margin: 10px 0 6px;
+}
+
+.chip {
+  flex: 1;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.chip span {
+  opacity: 0.8;
+  font-size: 13px;
+}
+
+.chip strong {
+  font-size: 15px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.stat-block {
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  text-align: center;
+  border: 1px solid transparent;
+}
+
+.stat-block span {
+  display: block;
+  opacity: 0.8;
+}
+
+.stat-block strong {
+  font-size: 18px;
+}
+
+.stat-block.wins {
+  background: rgba(76, 200, 100, 0.18);
+  border-color: rgba(76, 200, 100, 0.42);
+}
+
+.stat-block.draws {
+  background: rgba(255, 193, 7, 0.16);
+  border-color: rgba(255, 193, 7, 0.35);
+}
+
+.stat-block.losses {
+  background: rgba(244, 67, 54, 0.16);
+  border-color: rgba(244, 67, 54, 0.35);
+}
+
+.mobile-only {
+  display: none;
+}
+
+.expand-btn {
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: inherit;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.expand-btn:hover {
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+.expanded-row {
+  display: none;
+}
+
+.expanded-content {
+  display: none;
+}
+
+.mat-header-cell,
+.mat-cell {
+  padding: 12px 10px;
+  font-size: 15px;
+}
+
+.mat-header-cell {
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .standings {
+    margin-bottom: 24px;
+  }
+
+  .table-scroll {
+    display: none;
+  }
+
+  mat-table {
+    min-width: 480px;
+  }
+
+  .mobile-only {
+    display: table-cell;
+    width: 1%;
+    white-space: nowrap;
+  }
+
+  .expand-btn {
+    width: 100%;
+    font-size: 13px;
+    padding: 6px 8px;
+  }
+
+  .expanded-row {
+    display: table-row;
+  }
+
+  .expanded-content {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    padding: 8px 4px 4px;
+    font-size: 13px;
+  }
+
+  .mat-header-cell,
+  .mat-cell {
+    padding: 10px 8px;
+    font-size: 14px;
+    white-space: normal;
+    line-height: 1.25;
+    word-break: break-word;
+  }
+
+  .mobile-standings {
+    display: block;
+  }
+}

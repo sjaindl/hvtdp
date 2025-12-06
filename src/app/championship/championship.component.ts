@@ -1,11 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core'
-import { MysqlService } from '../services/mysql.service'
-import { Title, Meta } from '@angular/platform-browser'
-import { Standing } from '../shared/standing'
-import { MatTableDataSource } from '@angular/material/table'
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core'
 import { MatSort } from '@angular/material/sort'
+import { MatTableDataSource } from '@angular/material/table'
+import { Meta, Title } from '@angular/platform-browser'
 import { ActivatedRoute } from '@angular/router'
+import { MysqlService } from '../services/mysql.service'
 import { Scorer } from '../shared/scorer'
+import { Standing } from '../shared/standing'
 
 @Component({
   selector: 'app-championship',
@@ -33,6 +33,8 @@ export class ChampionshipComponent implements OnInit {
   season: string
 
   private sub: any
+  expandedStanding: Standing | null = null
+  isMobile = false
 
   // numSequence(n: Player): Array<number> {
   //   console.log(n.goals)
@@ -44,6 +46,8 @@ export class ChampionshipComponent implements OnInit {
   constructor(private mysqlService: MysqlService, private route: ActivatedRoute, private titleService: Title, private metaTagService: Meta) { }
 
   ngOnInit() {
+    this.updateIsMobile()
+
     if (this.route.params == null) {
       return
     }
@@ -99,5 +103,20 @@ export class ChampionshipComponent implements OnInit {
 
   ngOnDestroy() {
     this.sub.unsubscribe()
+  }
+
+  get mobileStandings(): Standing[] {
+    const data = [...this.dataSource.data]
+    return this.sort ? this.dataSource.sortData(data, this.sort) : data
+  }
+
+  @HostListener('window:resize')
+  onResize() {
+    this.updateIsMobile()
+  }
+
+  private updateIsMobile() {
+    if (typeof window === 'undefined') return
+    this.isMobile = window.innerWidth <= 768
   }
 }
