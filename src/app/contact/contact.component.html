@@ -15,7 +15,7 @@
           A-8510 Stainz<br />
           Österreich<br />
           <i class="fa fa-envelope"></i>:
-          <a href="mailto:hvtdpstainz@gmx.at">hvtdpstainz@gmx.at</a>
+          <a href="mailto:hvtdpstainz@gmx.at">hvtdpstainz&#64;gmx.at</a>
         </address>
         <p></p>
 
@@ -30,9 +30,11 @@
         <h3 style="text-align: center">Hier findest du unser Stadion:</h3>
         <!-- this creates a google map on the page with the given lat/lng from -->
         <!-- the component as the initial center of the map: -->
-        <div *ngIf="apiLoaded | async">
-          <google-map [options]="options"></google-map>
-        </div>
+        @if (apiLoaded | async) {
+          <div>
+            <google-map [options]="options"></google-map>
+          </div>
+        }
       </div>
     </div>
   </div>
@@ -45,7 +47,7 @@
       [formGroup]="feedbackForm"
       (ngSubmit)="onSubmit()"
       style="background-color: darkblue; color: rgba(255, 255, 255, 0.7); border: 27.4px solid"
-    >
+      >
       <p>
         <mat-form-field class="half-width" color="{{ formErrors.firstname ? 'warn' : 'primary' }}">
           <input
@@ -55,7 +57,7 @@
             formControlName="firstname"
             placeholder="Vorname"
             required
-          />
+            />
           <mat-hint>
             <span [hidden]="!formErrors.firstname"> {{ formErrors.firstname }}</span>
           </mat-hint>
@@ -68,7 +70,7 @@
             placeholder="Nachname"
             type="text"
             required
-          />
+            />
           <mat-hint>
             <span [hidden]="!formErrors.lastname"> {{ formErrors.lastname }}</span>
           </mat-hint>
@@ -83,7 +85,7 @@
             type="email"
             email
             required
-          />
+            />
           <mat-hint>
             <span [hidden]="!formErrors.email"> {{ formErrors.email }}</span>
           </mat-hint>
@@ -92,50 +94,52 @@
 
       <mat-slide-toggle formControlName="agreeContact"
         >Dürfen wir dich kontaktieren?</mat-slide-toggle
-      >
-      <p>
-        <mat-form-field class="full-width">
-          <textarea
-            class="formElement"
-            matInput
-            formControlName="message"
-            placeholder="Dein Feedback"
-            rows="12"
-          ></textarea>
-        </mat-form-field>
-      </p>
-      <p>
-        <mat-checkbox matInput formControlName="agreeGDPR"
-          >Mit dem Absenden dieser Nachrichten akzeptiere ich die Bestimmungen der
-          Datenschutzgrundverordnung.</mat-checkbox
         >
-        <mat-hint>
-          <span [hidden]="formErrors.gdpr">
-            {{ formErrors.gdpr }}
-          </span>
-        </mat-hint>
-      </p>
+        <p>
+          <mat-form-field class="full-width">
+            <textarea
+              class="formElement"
+              matInput
+              formControlName="message"
+              placeholder="Dein Feedback"
+              rows="12"
+            ></textarea>
+          </mat-form-field>
+        </p>
+        <p>
+          <mat-checkbox matInput formControlName="agreeGDPR"
+            >Mit dem Absenden dieser Nachrichten akzeptiere ich die Bestimmungen der
+            Datenschutzgrundverordnung.</mat-checkbox
+            >
+            <mat-hint>
+              <span [hidden]="formErrors.gdpr">
+                {{ formErrors.gdpr }}
+              </span>
+            </mat-hint>
+          </p>
 
-      <button
-        style="margin: 100 auto; float: right; font-size: 20px"
-        class="formElement"
-        type="submit"
-        mat-button
-        class="background-primary"
-        [disabled]="feedbackForm.invalid || feedbackForm.controls['agreeGDPR'].value == false"
-      >
-        Senden
-      </button>
-    </form>
+          <button
+            style="margin: 100 auto; float: right; font-size: 20px"
+            class="formElement"
+            type="submit"
+            mat-button
+            class="background-primary"
+            [disabled]="feedbackForm.invalid || feedbackForm.controls['agreeGDPR'].value == false"
+            >
+            Senden
+          </button>
+        </form>
 
-    <div *ngIf="submittedFeedback">
-      <h2>Dein Feedback:</h2>
-      <p>Vorname: {{ submittedFeedback.firstname }}</p>
-      <p>Nachname: {{ submittedFeedback.lastname }}</p>
-      <p>E-Mail: {{ submittedFeedback.email }}</p>
-      <p>Dürfen wir dich kontaktieren?: {{ submittedFeedback.agree }}</p>
-      <p>Feedback: {{ submittedFeedback.message }}</p>
+        @if (submittedFeedback) {
+          <div>
+            <h2>Dein Feedback:</h2>
+            <p>Vorname: {{ submittedFeedback.firstname }}</p>
+            <p>Nachname: {{ submittedFeedback.lastname }}</p>
+            <p>E-Mail: {{ submittedFeedback.email }}</p>
+            <p>Dürfen wir dich kontaktieren?: {{ submittedFeedback.agree }}</p>
+            <p>Feedback: {{ submittedFeedback.message }}</p>
+          </div>
+        }
+      </div>
     </div>
-  </div>
-</div>
-<br />
+    <br />

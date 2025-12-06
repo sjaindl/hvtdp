@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { News } from '../shared/news';
 import { PageEvent } from '@angular/material/paginator';
@@ -6,11 +7,16 @@ import { baseUrlImages } from '../shared/baseurls';
 import { MysqlService } from '../services/mysql.service';
 import { ActivatedRoute } from '@angular/router';
 import { Title, Meta, DomSanitizer } from '@angular/platform-browser';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { HvtdpImageComponent } from '../hvtdp-image/hvtdp-image.component';
 
 @Component({
-  selector: 'app-news',
-  templateUrl: './news.component.html',
-  styleUrls: ['./news.component.css'],
+    selector: 'app-news',
+    templateUrl: './news.component.html',
+    styleUrls: ['./news.component.css'],
+    standalone: true,
+    imports: [CommonModule, MatExpansionModule, MatPaginatorModule, HvtdpImageComponent]
 })
 export class NewsComponent implements OnInit {
   news: News[];

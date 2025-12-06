@@ -1,33 +1,32 @@
 <h1 class="large header">Online Adventkalender</h1>
 
 <p class="normal center" style="text-align: center">
-  <span *ngIf="season == '2021'">
-    Premiere! Die Weihnachtszeit ist ja die ruhigste des Jahres! Wir nutzen sie dazu um das
-    Fußballjahr etwas Revue passieren zu lassen.<br /><br />
+  @if (season == '2021') {
+    <span>
+      Premiere! Die Weihnachtszeit ist ja die ruhigste des Jahres! Wir nutzen sie dazu um das
+      Fußballjahr etwas Revue passieren zu lassen.<br /><br />
+      Mit dem HV TDP Stainz Sport Adventkalender stellen wir euch jeden Tag einen Spieler aus dem
+      Meisterschaftskader vor.
+      <br /><br />
+      Schaut jeden Tag auf unserer Homepage vorbei und seid gespannt! 😉
+    </span>
+  }
 
-    Mit dem HV TDP Stainz Sport Adventkalender stellen wir euch jeden Tag einen Spieler aus dem
-    Meisterschaftskader vor.
-    <br /><br />
-    Schaut jeden Tag auf unserer Homepage vorbei und seid gespannt! 😉
-  </span>
-
-  <span *ngIf="season == '2023'">
-    Die Weihnachtszeit ist ja die ruhigste des Jahres! Doch nicht bei uns!<br /><br />
-
-    Wir wollen die Zeit nutzen, um das vergangene Fußballjahr mit einer der schönsten Sachen im
-    Fußball Revue passieren zu lassen. Es geht heuer um Tore!<br /><br />
-
-    Mit dem HV TDP Stainz „Tor Adventkalender“ stellen wir euch jeden Tag eines unserer schönsten
-    Tore aus dem letzten Jahr vor.<br /><br />
-
-    Ab Tag 11 beginnen wir mit den Toren aus dem Fanvoting von der „Wahl zum Tor des Jahres
-    2023“.<br /><br />
-
-    Die Reihenfolge der Tore findet nach dem Endergebnis des Votings statt und endet mit dem 1.
-    Platz am 24. Dezember.
-    <br /><br />
-    Schaut daher jeden Tag auf unserer Homepage vorbei und seid gespannt! 😉
-  </span>
+  @if (season == '2023') {
+    <span>
+      Die Weihnachtszeit ist ja die ruhigste des Jahres! Doch nicht bei uns!<br /><br />
+      Wir wollen die Zeit nutzen, um das vergangene Fußballjahr mit einer der schönsten Sachen im
+      Fußball Revue passieren zu lassen. Es geht heuer um Tore!<br /><br />
+      Mit dem HV TDP Stainz „Tor Adventkalender“ stellen wir euch jeden Tag eines unserer schönsten
+      Tore aus dem letzten Jahr vor.<br /><br />
+      Ab Tag 11 beginnen wir mit den Toren aus dem Fanvoting von der „Wahl zum Tor des Jahres
+      2023“.<br /><br />
+      Die Reihenfolge der Tore findet nach dem Endergebnis des Votings statt und endet mit dem 1.
+      Platz am 24. Dezember.
+      <br /><br />
+      Schaut daher jeden Tag auf unserer Homepage vorbei und seid gespannt! 😉
+    </span>
+  }
 </p>
 
 <br />
@@ -36,43 +35,46 @@
 <img
   class="bordered img_advent"
   src="/assets/images/advent/{{ season }}/{{ season }}_Adventskalender_{{ curDay() }}.jpg"
-/>
+  />
 
 <br />
 <br />
 
-<div *ngFor="let day of dayRange()">
-  <h2 style="text-align: center">
-    <b
-      ><u>Türchen {{ day }}</u></b
-    >
-  </h2>
-  <br />
-
-  <div *ngIf="isMobile">
-    <video width="100%" controls>
-      <source
+@for (day of dayRange(); track day) {
+  <div>
+    <h2 style="text-align: center">
+      <b
+        ><u>Türchen {{ day }}</u></b
+        >
+      </h2>
+      <br />
+      @if (isMobile) {
+        <div>
+          <video width="100%" controls>
+            <source
         src="/assets/videos/advent/{{ season }}/{{ season }}_HV TDP Stainz_Adventskalender_{{
           day
         }}.mp4"
-        type="video/mp4"
-      />
-      Your browser does not support the video tag.
-    </video>
-  </div>
-
-  <video *ngIf="!isMobile" class="center" controls>
-    <source
+              type="video/mp4"
+              />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      }
+      @if (!isMobile) {
+        <video class="center" controls>
+          <source
       src="/assets/videos/advent/{{ season }}/{{ season }}_HV TDP Stainz_Adventskalender_{{
         day
       }}.mp4"
-      type="video/mp4"
-    />
-    Your browser does not support the video tag.
-  </video>
+            type="video/mp4"
+            />
+          Your browser does not support the video tag.
+        </video>
+      }
+      <br />
+    </div>
+  }
 
   <br />
-</div>
-
-<br />
-<br />
+  <br />

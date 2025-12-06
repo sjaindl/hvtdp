@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Title, Meta } from '@angular/platform-browser';
 
 @Component({
-  selector: 'app-comedyhirten',
-  templateUrl: './comedyhirten.component.html',
-  styleUrls: ['./comedyhirten.component.css'],
+    selector: 'app-comedyhirten',
+    templateUrl: './comedyhirten.component.html',
+    styleUrls: ['./comedyhirten.component.css'],
+    standalone: false
 })
 export class ComedyhirtenComponent implements OnInit {
   constructor(private titleService: Title, private metaTagService: Meta) {}

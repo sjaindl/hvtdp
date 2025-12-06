@@ -2,18 +2,20 @@
   <h3 class="large header">Die „Torschuss Challenge“ Abstimmung</h3>
   <h4 class="small header">powered by 11teamsports Graz</h4>
 
-  <img
-    *ngIf="isMobile"
-    class="imageSmallCenter"
-    src="assets/images/torschusschallenge.jpg"
-    style="width: 80%"
-  />
-  <img
-    *ngIf="!isMobile"
-    class="imageSmallCenter"
-    src="assets/images/torschusschallenge.jpg"
-    style="width: 40%"
-  />
+  @if (isMobile) {
+    <img
+      class="imageSmallCenter"
+      src="assets/images/torschusschallenge.jpg"
+      style="width: 80%"
+      />
+  }
+  @if (!isMobile) {
+    <img
+      class="imageSmallCenter"
+      src="assets/images/torschusschallenge.jpg"
+      style="width: 40%"
+      />
+  }
 
   <p class="normal">
     Es geht in die entscheidende Voting Phase!<br />
@@ -62,41 +64,43 @@
 
   <br />
 
-  <div *ngIf="canVote">
-    <p class="normal">
-      Stimme hier für deinen Favoriten für die Torschuss-Challenge am 20. Juli 2024 ab (abstimmt
-      werden kann pro Stunde 1x):
-    </p>
+  @if (canVote) {
+    <div>
+      <p class="normal">
+        Stimme hier für deinen Favoriten für die Torschuss-Challenge am 20. Juli 2024 ab (abstimmt
+        werden kann pro Stunde 1x):
+      </p>
+      <mat-selection-list #voting [multiple]="false">
+        @for (vote of goldenShotOptions; track vote) {
+          <mat-list-option
+            [value]="vote"
+            style="color: whitesmoke"
+            >{{ vote.lastName.toUpperCase() }} {{ vote.firstName }}</mat-list-option
+            >
+          }
+        </mat-selection-list>
+        @if (voting.selectedOptions.hasValue()) {
+          <p>
+            Deine Wahl: {{ voting.selectedOptions.selected[0].value.lastName.toUpperCase() }}
+            {{ voting.selectedOptions.selected[0].value.firstName }}
+          </p>
+        }
+        <br />
+        <button
+          mat-flat-button
+          color="primary"
+          [disabled]="!voting.selectedOptions.hasValue()"
+          (click)="saveVote(voting.selectedOptions.selected[0].value)"
+          >
+          Stimme abgeben
+        </button>
+        <br /><br />
+      </div>
+    }
 
-    <mat-selection-list #voting [multiple]="false">
-      <mat-list-option
-        *ngFor="let vote of goldenShotOptions"
-        [value]="vote"
-        style="color: whitesmoke"
-        >{{ vote.lastName.toUpperCase() }} {{ vote.firstName }}</mat-list-option
-      >
-    </mat-selection-list>
-
-    <p *ngIf="voting.selectedOptions.hasValue()">
-      Deine Wahl: {{ voting.selectedOptions.selected[0].value.lastName.toUpperCase() }}
-      {{ voting.selectedOptions.selected[0].value.firstName }}
-    </p>
-
-    <br />
-
-    <button
-      mat-flat-button
-      color="primary"
-      [disabled]="!voting.selectedOptions.hasValue()"
-      (click)="saveVote(voting.selectedOptions.selected[0].value)"
-    >
-      Stimme abgeben
-    </button>
-
-    <br /><br />
+    @if (!canVote) {
+      <div>
+        <p class="normal center">Vielen Dank für deine Stimme!</p>
+      </div>
+    }
   </div>
-
-  <div *ngIf="!canVote">
-    <p class="normal center">Vielen Dank für deine Stimme!</p>
-  </div>
-</div>

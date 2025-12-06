@@ -1,14 +1,19 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit, HostListener } from '@angular/core';
 import { Item } from '../shared/items';
 import { DeviceDetectorService } from '../../../node_modules/ngx-device-detector';
 import { baseUrlImages } from '../shared/baseurls';
 import { MysqlService } from '../services/mysql.service';
 import { Title, Meta } from '@angular/platform-browser';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  selector: 'app-fanshop',
-  templateUrl: './fanshop.component.html',
-  styleUrls: ['./fanshop.component.css'],
+    selector: 'app-fanshop',
+    templateUrl: './fanshop.component.html',
+    styleUrls: ['./fanshop.component.css'],
+    standalone: true,
+    imports: [CommonModule, MatGridListModule, MatIconModule]
 })
 export class FanshopComponent implements OnInit {
   items: Item[];

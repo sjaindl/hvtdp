@@ -5,9 +5,10 @@ import { MysqlService } from '../services/mysql.service';
 import { Title, Meta } from '@angular/platform-browser';
 
 @Component({
-  selector: 'app-donations',
-  templateUrl: './donations.component.html',
-  styleUrls: ['./donations.component.css'],
+    selector: 'app-donations',
+    templateUrl: './donations.component.html',
+    styleUrls: ['./donations.component.css'],
+    standalone: false
 })
 export class DonationsComponent implements OnInit {
   donations: Donation[];

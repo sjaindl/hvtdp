@@ -1,18 +1,20 @@
 <h3 class="large header">Die „Torschuss Challenge“</h3>
 <h4 class="small header">powered by 11teamsports Graz</h4>
 
-<img
-  *ngIf="isMobile"
-  class="imageSmallCenter"
-  src="assets/images/torschusschallenge.jpg"
-  style="width: 80%"
-/>
-<img
-  *ngIf="!isMobile"
-  class="imageSmallCenter"
-  src="assets/images/torschusschallenge.jpg"
-  style="width: 40%"
-/>
+@if (isMobile) {
+  <img
+    class="imageSmallCenter"
+    src="assets/images/torschusschallenge.jpg"
+    style="width: 80%"
+    />
+}
+@if (!isMobile) {
+  <img
+    class="imageSmallCenter"
+    src="assets/images/torschusschallenge.jpg"
+    style="width: 40%"
+    />
+}
 
 <p class="normal">
   Du traust dir zu den Ball von der Mittellinie direkt (ohne dass der Ball vorher den Boden berührt)
@@ -80,13 +82,13 @@
     margin-left: 10px;
     margin-right: 10px;
   "
->
+  >
   <form
     novalidate
     [formGroup]="feedbackForm"
     (ngSubmit)="onSubmit()"
     style="margin-left: 10px; margin-right: 10px"
-  >
+    >
     <p>
       <mat-form-field class="full-width" color="{{ formErrors.firstName ? 'warn' : 'primary' }}">
         <input
@@ -96,7 +98,7 @@
           formControlName="firstName"
           placeholder="Vorname"
           required
-        />
+          />
         <mat-hint>
           <span [hidden]="!formErrors.firstName"> {{ formErrors.firstName }}</span>
         </mat-hint>
@@ -112,7 +114,7 @@
           formControlName="lastName"
           placeholder="Nachname"
           required
-        />
+          />
         <mat-hint>
           <span [hidden]="!formErrors.lastName"> {{ formErrors.lastName }}</span>
         </mat-hint>
@@ -136,7 +138,7 @@
           formControlName="phone"
           placeholder="Telefonnummer"
           type="text"
-        />
+          />
         <mat-hint>
           <span [hidden]="!formErrors.phone"> {{ formErrors.phone }}</span>
         </mat-hint>
@@ -150,7 +152,7 @@
       mat-button
       class="background-primary"
       [disabled]="feedbackForm.invalid"
-    >
+      >
       Anmeldung jetzt abschicken
     </button>
     <br />
@@ -162,7 +164,7 @@
     accept="image/*"
     (change)="onFileSelected($event)"
     #fileUpload
-  />
+    />
 
   <div class="file-upload" style="margin-left: 10px; margin-right: 10px">
     <br />
@@ -190,15 +192,16 @@
   <br />
 </div>
 
-<div *ngIf="submittedFormData">
+@if (submittedFormData) {
   <div>
-    <h2>Wir haben deine Anmeldung erhalten, Vielen Dank!</h2>
-    <p>Vorname: {{ submittedFormData.firstName }}</p>
-    <p>Nachname: {{ submittedFormData.lastName }}</p>
-    <p>E-Mail: {{ submittedFormData.email }}</p>
-    <p>Telefonnummer: {{ submittedFormData.phone }}</p>
+    <div>
+      <h2>Wir haben deine Anmeldung erhalten, Vielen Dank!</h2>
+      <p>Vorname: {{ submittedFormData.firstName }}</p>
+      <p>Nachname: {{ submittedFormData.lastName }}</p>
+      <p>E-Mail: {{ submittedFormData.email }}</p>
+      <p>Telefonnummer: {{ submittedFormData.phone }}</p>
+    </div>
+    <br /><br />
+    <br /><br />
   </div>
-
-  <br /><br />
-  <br /><br />
-</div>
+}

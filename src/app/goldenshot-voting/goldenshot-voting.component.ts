@@ -7,9 +7,10 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 const GOLDENSHOT_VOTING_COOKIE_KEY = 'goldenshot_voted';
 
 @Component({
-  selector: 'app-goldenshot-voting',
-  templateUrl: './goldenshot-voting.component.html',
-  styleUrls: ['./goldenshot-voting.component.css'],
+    selector: 'app-goldenshot-voting',
+    templateUrl: './goldenshot-voting.component.html',
+    styleUrls: ['./goldenshot-voting.component.css'],
+    standalone: false
 })
 export class GoldenshotVotingComponent implements OnInit {
   goldenShotOptions: GoldenShot[];

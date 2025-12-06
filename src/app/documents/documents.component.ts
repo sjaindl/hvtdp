@@ -8,9 +8,10 @@ import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { PassworddialogComponent } from '../passworddialog/passworddialog.component';
 
 @Component({
-  selector: 'app-documents',
-  templateUrl: './documents.component.html',
-  styleUrls: ['./documents.component.css'],
+    selector: 'app-documents',
+    templateUrl: './documents.component.html',
+    styleUrls: ['./documents.component.css'],
+    standalone: false
 })
 export class DocumentsComponent implements OnInit {
   documentBaseUrl: String;

@@ -1,13 +1,19 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Feedback } from '../shared/feedback';
 import { Title, Meta } from '@angular/platform-browser';
 import { MysqlService } from '../services/mysql.service';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-  selector: 'app-bigdarts',
-  templateUrl: './bigdarts.component.html',
-  styleUrls: ['./bigdarts.component.css'],
+    selector: 'app-bigdarts',
+    templateUrl: './bigdarts.component.html',
+    styleUrls: ['./bigdarts.component.css'],
+    standalone: true,
+    imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule]
 })
 export class BigdartsComponent implements OnInit {
   feedbackForm: FormGroup;

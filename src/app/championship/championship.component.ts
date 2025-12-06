@@ -1,16 +1,20 @@
+import { CommonModule } from '@angular/common';
 import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
 import { MysqlService } from '../services/mysql.service';
 import { Scorer } from '../shared/scorer';
 import { Standing } from '../shared/standing';
 
 @Component({
-  selector: 'app-championship',
-  templateUrl: './championship.component.html',
-  styleUrls: ['./championship.component.css'],
+    selector: 'app-championship',
+    templateUrl: './championship.component.html',
+    styleUrls: ['./championship.component.css'],
+    standalone: true,
+    imports: [CommonModule, MatTableModule, MatSortModule, MatButtonModule]
 })
 export class ChampionshipComponent implements OnInit {
   dataSource: MatTableDataSource<Standing> = new MatTableDataSource<Standing>();

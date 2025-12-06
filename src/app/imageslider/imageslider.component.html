@@ -1,82 +1,89 @@
-<div class="slider" *ngIf="currentImage as currentItem">
-  <div class="slider-main">
-    <div
-      class="slider-image-wrapper"
-      #imageWrapper
+@if (currentImage; as currentItem) {
+  <div class="slider">
+    <div class="slider-main">
+      <div
+        class="slider-image-wrapper"
+        #imageWrapper
       [ngStyle]="{
         transform: 'translateX(' + currentTranslate + 'px)',
         transition: cardTransition
       }"
-      (mousedown)="onMouseDown($event)"
-      (mouseup)="onMouseUp($event)"
-      (mousemove)="onMouseMove($event)"
-      (mouseleave)="onMouseLeave($event)"
-      (touchstart)="onTouchStart($event)"
-      (touchmove)="onTouchMove($event)"
-      (touchend)="onTouchEnd($event)"
-      (touchcancel)="onTouchEnd($event)"
-    >
-      <img
-        class="slider-image"
-        draggable="false"
-        (dragstart)="$event.preventDefault()"
-        [src]="imagePath(currentItem)"
-        [alt]="currentItem.title || 'Image'"
-      />
-
-      <button
-        type="button"
-        class="slider-fullscreen-btn"
-        (click)="toggleFullscreen(imageWrapper, $event)"
-      >
-        <i class="fas fa-expand"></i>
-      </button>
-
-      <button class="slider-arrow left" type="button" (click)="previous()">‹</button>
-      <button class="slider-arrow right" type="button" (click)="next()">›</button>
-    </div>
-
-    <div class="slider-bottom">
-      <div class="slider-dots" *ngIf="carouselItems?.length > 1 && showDots">
+        (mousedown)="onMouseDown($event)"
+        (mouseup)="onMouseUp($event)"
+        (mousemove)="onMouseMove($event)"
+        (mouseleave)="onMouseLeave($event)"
+        (touchstart)="onTouchStart($event)"
+        (touchmove)="onTouchMove($event)"
+        (touchend)="onTouchEnd($event)"
+        (touchcancel)="onTouchEnd($event)"
+        >
+        <img
+          class="slider-image"
+          draggable="false"
+          (dragstart)="$event.preventDefault()"
+          [src]="imagePath(currentItem)"
+          [alt]="currentItem.title || 'Image'"
+          />
         <button
-          *ngFor="let item of carouselItems; let i = index; trackBy: trackByIndex"
           type="button"
-          class="dot"
-          [class.active]="i === currentIndex"
-          (click)="goTo(i)"
-        ></button>
+          class="slider-fullscreen-btn"
+          (click)="toggleFullscreen(imageWrapper, $event)"
+          >
+          <i class="fas fa-expand"></i>
+        </button>
+        <button class="slider-arrow left" type="button" (click)="previous()">‹</button>
+        <button class="slider-arrow right" type="button" (click)="next()">›</button>
       </div>
-
-      <div class="slider-caption">
-        <h2 class="slider-title">{{ currentItem.title }}</h2>
-        <h4 *ngIf="currentItem.date" class="slider-title">{{ currentItem.date }}</h4>
+      <div class="slider-bottom">
+        @if (carouselItems?.length > 1 && showDots) {
+          <div class="slider-dots">
+            @for (item of carouselItems; track trackByIndex(i, item); let i = $index) {
+              <button
+                type="button"
+                class="dot"
+                [class.active]="i === currentIndex"
+                (click)="goTo(i)"
+              ></button>
+            }
+          </div>
+        }
+        <div class="slider-caption">
+          <h2 class="slider-title">{{ currentItem.title }}</h2>
+          @if (currentItem.date) {
+            <h4 class="slider-title">{{ currentItem.date }}</h4>
+          }
+        </div>
+        @if (currentItem.navPath) {
+          <button
+            type="button"
+            class="slider-details-btn"
+            (click)="showImageDetails(currentItem)"
+            >
+            Zum Bericht
+          </button>
+        }
       </div>
-
-      <button
-        *ngIf="currentItem.navPath"
-        type="button"
-        class="slider-details-btn"
-        (click)="showImageDetails(currentItem)"
-      >
-        Zum Bericht
-      </button>
     </div>
+    @if (carouselItems?.length > 1) {
+      <div class="slider-thumbs">
+        @for (item of carouselItems; track trackByIndex(i, item); let i = $index) {
+          <button
+            #thumbBtn
+            type="button"
+            class="thumb"
+            [class.active]="i === currentIndex"
+            (click)="goTo(i)"
+            >
+            <img [src]="imagePath(item)" [alt]="item.title || 'Thumb'" />
+          </button>
+        }
+      </div>
+    }
   </div>
+}
 
-  <div class="slider-thumbs" *ngIf="carouselItems?.length > 1">
-    <button
-      *ngFor="let item of carouselItems; let i = index; trackBy: trackByIndex"
-      #thumbBtn
-      type="button"
-      class="thumb"
-      [class.active]="i === currentIndex"
-      (click)="goTo(i)"
-    >
-      <img [src]="imagePath(item)" [alt]="item.title || 'Thumb'" />
-    </button>
+@if (carouselItems?.length === 0) {
+  <div class="slider slider-empty">
+    <p>Noch keine Einträge vorhanden.</p>
   </div>
-</div>
-
-<div class="slider slider-empty" *ngIf="carouselItems?.length === 0">
-  <p>Noch keine Einträge vorhanden.</p>
-</div>
+}

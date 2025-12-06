@@ -6,9 +6,10 @@ import { List } from 'postcss/lib/list';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-advent',
-  templateUrl: './advent.component.html',
-  styleUrls: ['./advent.component.css'],
+    selector: 'app-advent',
+    templateUrl: './advent.component.html',
+    styleUrls: ['./advent.component.css'],
+    standalone: false
 })
 export class AdventComponent {
   imageBaseUrl: string = '';

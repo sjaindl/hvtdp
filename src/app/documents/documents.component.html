@@ -4,17 +4,23 @@
   Hier findest du die Sammlung der wichtigsten Dokumente für HV TDP-Mitglieder und Fans.
 </p>
 
-<p *ngFor="let document of documents" class="normal">
-  <span *ngIf="document.protected != 0">
-    🔐
-    <a class="link" [routerLink]="" (click)="downloadProtectedDocument(document)">{{
-      document.description
-    }}</a>
-  </span>
-  <span *ngIf="document.protected == 0">
-    <a href="{{ documentBaseUrl + document.link }}">{{ document.description }}</a>
-  </span>
-</p>
+@for (document of documents; track document) {
+  <p class="normal">
+    @if (document.protected != 0) {
+      <span>
+        🔐
+        <a class="link" [routerLink]="" (click)="downloadProtectedDocument(document)">{{
+          document.description
+        }}</a>
+      </span>
+    }
+    @if (document.protected == 0) {
+      <span>
+        <a href="{{ documentBaseUrl + document.link }}">{{ document.description }}</a>
+      </span>
+    }
+  </p>
+}
 
 <br />
 <br />

@@ -5,9 +5,10 @@ import { MysqlService } from '../services/mysql.service';
 import { Member } from '../shared/member';
 
 @Component({
-  selector: 'app-membership',
-  templateUrl: './membership.component.html',
-  styleUrls: ['./membership.component.css'],
+    selector: 'app-membership',
+    templateUrl: './membership.component.html',
+    styleUrls: ['./membership.component.css'],
+    standalone: false
 })
 export class MembershipComponent implements OnInit {
   documentBaseUrl: String;

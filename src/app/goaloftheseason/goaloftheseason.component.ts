@@ -12,9 +12,10 @@ import { CookieService } from 'ngx-cookie-service';
 const GOAL_OF_SEASON_VOTING_COOKIE_KEY = 'goal_of_season_voted';
 
 @Component({
-  selector: 'app-goaloftheseason',
-  templateUrl: './goaloftheseason.component.html',
-  styleUrls: ['./goaloftheseason.component.css'],
+    selector: 'app-goaloftheseason',
+    templateUrl: './goaloftheseason.component.html',
+    styleUrls: ['./goaloftheseason.component.css'],
+    standalone: false
 })
 export class GoalOfTheSeasonComponent implements OnInit {
   games: Game[];

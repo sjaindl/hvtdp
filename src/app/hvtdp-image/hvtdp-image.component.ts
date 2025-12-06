@@ -1,9 +1,12 @@
+import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-hvtdp-image',
-  templateUrl: './hvtdp-image.component.html',
-  styleUrls: ['./hvtdp-image.component.css'],
+    selector: 'app-hvtdp-image',
+    templateUrl: './hvtdp-image.component.html',
+    styleUrls: ['./hvtdp-image.component.css'],
+    standalone: true,
+    imports: [CommonModule]
 })
 export class HvtdpImageComponent implements OnInit {
   @Input() imagePath: string;

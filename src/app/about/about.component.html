@@ -84,130 +84,149 @@
   <br />
   <br />
 
-  <div *ngIf="!isMobile">
-    <mat-list fxLayout="column" fxLayout.gt-sm="row">
-      <mat-list-item class="listImage" *ngFor="let chef of obmaenner">
-        <span *ngIf="chef.firstName != 'Dummy'">
-          <img
-            mat-list-avatar
-            class="img-preview"
-            src="{{ imageBaseUrl.concat(chef.imagePath) }}"
-            alt="{{ chef.firstName }} {{ chef.lastName | uppercase }}"
-          />
-          <h1 mat-line>{{ chef.firstName }} {{ chef.lastName | uppercase }}</h1>
-          <h1 mat-line>{{ chef.function }}</h1>
-        </span>
-      </mat-list-item>
-    </mat-list>
+  @if (!isMobile) {
+    <div>
+      <mat-list fxLayout="column" fxLayout.gt-sm="row">
+        @for (chef of obmaenner; track chef) {
+          <mat-list-item class="listImage">
+            @if (chef.firstName != 'Dummy') {
+              <span>
+                <img
+                  mat-list-avatar
+                  class="img-preview"
+                  src="{{ imageBaseUrl.concat(chef.imagePath) }}"
+                  alt="{{ chef.firstName }} {{ chef.lastName | uppercase }}"
+                  />
+                <h1 mat-line>{{ chef.firstName }} {{ chef.lastName | uppercase }}</h1>
+                <h1 mat-line>{{ chef.function }}</h1>
+              </span>
+            }
+          </mat-list-item>
+        }
+      </mat-list>
+      <br />
+      <br />
+      <mat-list fxLayout="column" fxLayout.gt-sm="row">
+        @for (chef of kassierer; track chef) {
+          <mat-list-item class="listImage">
+            @if (chef.firstName != 'Dummy') {
+              <span>
+                <img
+                  mat-list-avatar
+                  class="img-preview"
+                  src="{{ imageBaseUrl.concat(chef.imagePath) }}"
+                  alt="{{ chef.firstName }} {{ chef.lastName | uppercase }}"
+                  />
+                <h1 mat-line>{{ chef.firstName }} {{ chef.lastName | uppercase }}</h1>
+                <h1 mat-line>{{ chef.function }}</h1>
+              </span>
+            }
+          </mat-list-item>
+        }
+      </mat-list>
+      <br />
+      <br />
+      <mat-list fxLayout="column" fxLayout.gt-sm="row">
+        @for (chef of schriftfuehrer; track chef) {
+          <mat-list-item class="listImage">
+            @if (chef.firstName != 'Dummy') {
+              <span>
+                <img
+                  mat-list-avatar
+                  class="img-preview"
+                  src="{{ imageBaseUrl.concat(chef.imagePath) }}"
+                  alt="{{ chef.firstName }} {{ chef.lastName | uppercase }}"
+                  />
+                <h1 mat-line>{{ chef.firstName }} {{ chef.lastName | uppercase }}</h1>
+                <h1 mat-line>{{ chef.function }}</h1>
+              </span>
+            }
+          </mat-list-item>
+        }
+      </mat-list>
+      <br />
+      <br />
+      <mat-list fxLayout="column" fxLayout.gt-sm="row">
+        @for (chef of rechnungspruefer; track chef) {
+          <mat-list-item class="listImage">
+            @if (chef.firstName != 'Dummy') {
+              <span>
+                <img
+                  mat-list-avatar
+                  class="img-preview"
+                  src="{{ imageBaseUrl.concat(chef.imagePath) }}"
+                  alt="{{ chef.firstName }} {{ chef.lastName | uppercase }}"
+                  />
+                <h1 mat-line>{{ chef.firstName }} {{ chef.lastName | uppercase }}</h1>
+                <h1 mat-line>{{ chef.function }}</h1>
+              </span>
+            }
+          </mat-list-item>
+        }
+      </mat-list>
+    </div>
+  }
 
-    <br />
-    <br />
-
-    <mat-list fxLayout="column" fxLayout.gt-sm="row">
-      <mat-list-item class="listImage" *ngFor="let chef of kassierer">
-        <span *ngIf="chef.firstName != 'Dummy'">
-          <img
-            mat-list-avatar
-            class="img-preview"
-            src="{{ imageBaseUrl.concat(chef.imagePath) }}"
-            alt="{{ chef.firstName }} {{ chef.lastName | uppercase }}"
-          />
-          <h1 mat-line>{{ chef.firstName }} {{ chef.lastName | uppercase }}</h1>
-          <h1 mat-line>{{ chef.function }}</h1>
-        </span>
-      </mat-list-item>
-    </mat-list>
-
-    <br />
-    <br />
-
-    <mat-list fxLayout="column" fxLayout.gt-sm="row">
-      <mat-list-item class="listImage" *ngFor="let chef of schriftfuehrer">
-        <span *ngIf="chef.firstName != 'Dummy'">
-          <img
-            mat-list-avatar
-            class="img-preview"
-            src="{{ imageBaseUrl.concat(chef.imagePath) }}"
-            alt="{{ chef.firstName }} {{ chef.lastName | uppercase }}"
-          />
-          <h1 mat-line>{{ chef.firstName }} {{ chef.lastName | uppercase }}</h1>
-          <h1 mat-line>{{ chef.function }}</h1>
-        </span>
-      </mat-list-item>
-    </mat-list>
-
-    <br />
-    <br />
-
-    <mat-list fxLayout="column" fxLayout.gt-sm="row">
-      <mat-list-item class="listImage" *ngFor="let chef of rechnungspruefer">
-        <span *ngIf="chef.firstName != 'Dummy'">
-          <img
-            mat-list-avatar
-            class="img-preview"
-            src="{{ imageBaseUrl.concat(chef.imagePath) }}"
-            alt="{{ chef.firstName }} {{ chef.lastName | uppercase }}"
-          />
-          <h1 mat-line>{{ chef.firstName }} {{ chef.lastName | uppercase }}</h1>
-          <h1 mat-line>{{ chef.function }}</h1>
-        </span>
-      </mat-list-item>
-    </mat-list>
-  </div>
-
-  <div *ngIf="isMobile">
-    <mat-list fxLayout="column" fxLayout.gt-sm="row">
-      <mat-list-item class="listImageMobile" *ngFor="let chef of obmaennerWithoutDummy">
-        <img
-          mat-list-avatar
-          class="img-preview"
-          src="{{ imageBaseUrl.concat(chef.imagePath) }}"
-          alt="{{ chef.firstName }} {{ chef.lastName | uppercase }}"
-        />
-        <h1 mat-line>{{ chef.firstName }} {{ chef.lastName | uppercase }}</h1>
-        <h1 mat-line>{{ chef.function }}</h1>
-      </mat-list-item>
-    </mat-list>
-
-    <mat-list fxLayout="column" fxLayout.gt-sm="row">
-      <mat-list-item class="listImageMobile" *ngFor="let chef of kassiererWithoutDummy">
-        <img
-          mat-list-avatar
-          class="img-preview"
-          src="{{ imageBaseUrl.concat(chef.imagePath) }}"
-          alt="{{ chef.firstName }} {{ chef.lastName | uppercase }}"
-        />
-        <h1 mat-line>{{ chef.firstName }} {{ chef.lastName | uppercase }}</h1>
-        <h1 mat-line>{{ chef.function }}</h1>
-      </mat-list-item>
-    </mat-list>
-
-    <mat-list fxLayout="column" fxLayout.gt-sm="row">
-      <mat-list-item class="listImageMobile" *ngFor="let chef of schriftfuehrerWithoutDummy">
-        <img
-          mat-list-avatar
-          class="img-preview"
-          src="{{ imageBaseUrl.concat(chef.imagePath) }}"
-          alt="{{ chef.firstName }} {{ chef.lastName | uppercase }}"
-        />
-        <h1 mat-line>{{ chef.firstName }} {{ chef.lastName | uppercase }}</h1>
-        <h1 mat-line>{{ chef.function }}</h1>
-      </mat-list-item>
-    </mat-list>
-
-    <mat-list fxLayout="column" fxLayout.gt-sm="row">
-      <mat-list-item class="listImageMobile" *ngFor="let chef of rechnungsprueferWithoutDummy">
-        <img
-          mat-list-avatar
-          class="img-preview"
-          src="{{ imageBaseUrl.concat(chef.imagePath) }}"
-          alt="{{ chef.firstName }} {{ chef.lastName | uppercase }}"
-        />
-        <h1 mat-line>{{ chef.firstName }} {{ chef.lastName | uppercase }}</h1>
-        <h1 mat-line>{{ chef.function }}</h1>
-      </mat-list-item>
-    </mat-list>
-  </div>
+  @if (isMobile) {
+    <div>
+      <mat-list fxLayout="column" fxLayout.gt-sm="row">
+        @for (chef of obmaennerWithoutDummy; track chef) {
+          <mat-list-item class="listImageMobile">
+            <img
+              mat-list-avatar
+              class="img-preview"
+              src="{{ imageBaseUrl.concat(chef.imagePath) }}"
+              alt="{{ chef.firstName }} {{ chef.lastName | uppercase }}"
+              />
+            <h1 mat-line>{{ chef.firstName }} {{ chef.lastName | uppercase }}</h1>
+            <h1 mat-line>{{ chef.function }}</h1>
+          </mat-list-item>
+        }
+      </mat-list>
+      <mat-list fxLayout="column" fxLayout.gt-sm="row">
+        @for (chef of kassiererWithoutDummy; track chef) {
+          <mat-list-item class="listImageMobile">
+            <img
+              mat-list-avatar
+              class="img-preview"
+              src="{{ imageBaseUrl.concat(chef.imagePath) }}"
+              alt="{{ chef.firstName }} {{ chef.lastName | uppercase }}"
+              />
+            <h1 mat-line>{{ chef.firstName }} {{ chef.lastName | uppercase }}</h1>
+            <h1 mat-line>{{ chef.function }}</h1>
+          </mat-list-item>
+        }
+      </mat-list>
+      <mat-list fxLayout="column" fxLayout.gt-sm="row">
+        @for (chef of schriftfuehrerWithoutDummy; track chef) {
+          <mat-list-item class="listImageMobile">
+            <img
+              mat-list-avatar
+              class="img-preview"
+              src="{{ imageBaseUrl.concat(chef.imagePath) }}"
+              alt="{{ chef.firstName }} {{ chef.lastName | uppercase }}"
+              />
+            <h1 mat-line>{{ chef.firstName }} {{ chef.lastName | uppercase }}</h1>
+            <h1 mat-line>{{ chef.function }}</h1>
+          </mat-list-item>
+        }
+      </mat-list>
+      <mat-list fxLayout="column" fxLayout.gt-sm="row">
+        @for (chef of rechnungsprueferWithoutDummy; track chef) {
+          <mat-list-item class="listImageMobile">
+            <img
+              mat-list-avatar
+              class="img-preview"
+              src="{{ imageBaseUrl.concat(chef.imagePath) }}"
+              alt="{{ chef.firstName }} {{ chef.lastName | uppercase }}"
+              />
+            <h1 mat-line>{{ chef.firstName }} {{ chef.lastName | uppercase }}</h1>
+            <h1 mat-line>{{ chef.function }}</h1>
+          </mat-list-item>
+        }
+      </mat-list>
+    </div>
+  }
 
   <br />
   <br />

@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Title, Meta } from '@angular/platform-browser';
 
 @Component({
-  selector: 'app-halloffame',
-  templateUrl: './halloffame.component.html',
-  styleUrls: ['./halloffame.component.css'],
+    selector: 'app-halloffame',
+    templateUrl: './halloffame.component.html',
+    styleUrls: ['./halloffame.component.css'],
+    standalone: false
 })
 export class HalloffameComponent implements OnInit {
   constructor(private titleService: Title, private metaTagService: Meta) {}

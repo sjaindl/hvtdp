@@ -40,7 +40,7 @@
 
         <p class="normal">
           WEITERE INFOS<br />
-          📧 E-Mail: hvtdpstainz@gmx.at
+          📧 E-Mail: hvtdpstainz&#64;gmx.at
         </p>
 
         <p class="normal">
@@ -73,7 +73,7 @@
       [formGroup]="feedbackForm"
       (ngSubmit)="onSubmit()"
       style="background-color: darkblue; color: rgba(255, 255, 255, 0.7); border: 27.4px solid"
-    >
+      >
       <p>
         <mat-form-field class="full-width" color="{{ formErrors.firstname ? 'warn' : 'primary' }}">
           <input
@@ -83,7 +83,7 @@
             formControlName="firstname"
             placeholder="Vorname"
             required
-          />
+            />
           <mat-hint>
             <span [hidden]="!formErrors.firstname"> {{ formErrors.firstname }}</span>
           </mat-hint>
@@ -96,7 +96,7 @@
             placeholder="Nachname"
             type="text"
             required
-          />
+            />
           <mat-hint>
             <span [hidden]="!formErrors.lastname"> {{ formErrors.lastname }}</span>
           </mat-hint>
@@ -107,11 +107,11 @@
           <!-- color="{{(formErrors.email) ? 'warn' : 'primary'}}"> -->
           <input matInput formControlName="email" placeholder="E-Mail" type="email" />
           <!-- email required
-                <mat-hint>
-                  <span [hidden]="!(formErrors.email)">
-                    {{formErrors.email}}</span>
-                </mat-hint>
-                -->
+          <mat-hint>
+            <span [hidden]="!(formErrors.email)">
+            {{formErrors.email}}</span>
+          </mat-hint>
+          -->
         </mat-form-field>
         <mat-form-field class="full-width" color="{{ formErrors.phone ? 'warn' : 'primary' }}">
           <input
@@ -121,7 +121,7 @@
             placeholder="Telefonnummer"
             type="text"
             required
-          />
+            />
           <mat-hint>
             <span [hidden]="!formErrors.phone"> {{ formErrors.phone }}</span>
           </mat-hint>
@@ -137,7 +137,7 @@
             formControlName="address"
             placeholder="Adresse"
             required
-          />
+            />
           <mat-hint>
             <span [hidden]="!formErrors.address"> {{ formErrors.address }}</span>
           </mat-hint>
@@ -153,7 +153,7 @@
             formControlName="duckcount"
             placeholder="Anzahl der Entenlose"
             required
-          />
+            />
           <mat-hint>
             <span [hidden]="!formErrors.duckcount"> {{ formErrors.duckcount }}</span>
           </mat-hint>
@@ -167,20 +167,22 @@
         mat-button
         class="background-primary"
         [disabled]="feedbackForm.invalid"
-      >
+        >
         Bestellung kostenpflichtig abschicken
       </button>
     </form>
 
-    <div *ngIf="submittedFeedback">
-      <h2>Wir haben deine Bestellung erhalten, Vielen Dank! Wir melden uns bei dir in Kürze.</h2>
-      <p>Vorname: {{ submittedFeedback.firstname }}</p>
-      <p>Nachname: {{ submittedFeedback.lastname }}</p>
-      <p>E-Mail: {{ submittedFeedback.email }}</p>
-      <p>Telefonnummer: {{ submittedFeedback.phone }}</p>
-      <p>Adresse: {{ submittedFeedback.address }}</p>
-      <p>Anzahl der Entenlose: {{ submittedFeedback.duckcount }}</p>
-    </div>
+    @if (submittedFeedback) {
+      <div>
+        <h2>Wir haben deine Bestellung erhalten, Vielen Dank! Wir melden uns bei dir in Kürze.</h2>
+        <p>Vorname: {{ submittedFeedback.firstname }}</p>
+        <p>Nachname: {{ submittedFeedback.lastname }}</p>
+        <p>E-Mail: {{ submittedFeedback.email }}</p>
+        <p>Telefonnummer: {{ submittedFeedback.phone }}</p>
+        <p>Adresse: {{ submittedFeedback.address }}</p>
+        <p>Anzahl der Entenlose: {{ submittedFeedback.duckcount }}</p>
+      </div>
+    }
   </div>
 </div>
 <br />

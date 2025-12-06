@@ -6,9 +6,10 @@ import { baseUrlImages } from '../shared/baseurls';
 import { Album } from '../shared/photos';
 
 @Component({
-  selector: 'app-gallery',
-  templateUrl: './gallery.component.html',
-  styleUrls: ['./gallery.component.css'],
+    selector: 'app-gallery',
+    templateUrl: './gallery.component.html',
+    styleUrls: ['./gallery.component.css'],
+    standalone: false
 })
 export class GalleryComponent implements OnInit {
   albums: Album[];

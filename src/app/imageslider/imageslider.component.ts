@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, ElementRef, Input, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { baseUrlImages } from '../shared/baseurls';
 import { Router } from '@angular/router';
@@ -5,23 +6,25 @@ import { Image } from '../shared/image';
 import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
-  selector: 'app-imageslider',
-  templateUrl: './imageslider.component.html',
-  styleUrls: ['./imageslider.component.css'],
-  animations: [
-    trigger('slideAnimation', [
-      // swipe right
-      transition(':increment', [
-        style({ opacity: 0, transform: 'translateX(24px)' }),
-        animate('250ms ease-out', style({ opacity: 1, transform: 'translateX(0)' })),
-      ]),
-      // swipe left
-      transition(':decrement', [
-        style({ opacity: 0, transform: 'translateX(-24px)' }),
-        animate('250ms ease-out', style({ opacity: 1, transform: 'translateX(0)' })),
-      ]),
-    ]),
-  ],
+    selector: 'app-imageslider',
+    templateUrl: './imageslider.component.html',
+    styleUrls: ['./imageslider.component.css'],
+    standalone: true,
+    imports: [CommonModule],
+    animations: [
+        trigger('slideAnimation', [
+            // swipe right
+            transition(':increment', [
+                style({ opacity: 0, transform: 'translateX(24px)' }),
+                animate('250ms ease-out', style({ opacity: 1, transform: 'translateX(0)' })),
+            ]),
+            // swipe left
+            transition(':decrement', [
+                style({ opacity: 0, transform: 'translateX(-24px)' }),
+                animate('250ms ease-out', style({ opacity: 1, transform: 'translateX(0)' })),
+            ]),
+        ]),
+    ]
 })
 export class ImagesliderComponent implements OnInit {
   @ViewChildren('thumbBtn', { read: ElementRef })

@@ -7,7 +7,7 @@
 <p class="normal">
   Einfach die hier verlinkte
   <a href="{{ documentBaseUrl + 'beitrittserklaerung.pdf' }}">Beitrittserklärung</a> ausfüllen und
-  an unsere E-Mail-Adresse <a href="mailto:hvtdpstainz@gmx.at">hvtdpstainz@gmx.at</a> senden.
+  an unsere E-Mail-Adresse <a href="mailto:hvtdpstainz@gmx.at">hvtdpstainz&#64;gmx.at</a> senden.
 </p>
 
 <br />
@@ -15,17 +15,21 @@
 <p class="normal">AKTIVE Mitglieder (Stand {{ activePer }})</p>
 
 <div class="small">
-  <div *ngFor="let member of activeMembers">
-    {{ member.lastName | uppercase }} {{ member.firstName }} <br />
-  </div>
+  @for (member of activeMembers; track member) {
+    <div>
+      {{ member.lastName | uppercase }} {{ member.firstName }} <br />
+    </div>
+  }
 </div>
 
 <p class="normal">FÖRDERNDE Mitglieder (Stand {{ supportPer }})</p>
 
 <div class="small">
-  <div *ngFor="let member of supportMembers">
-    {{ member.lastName | uppercase }} {{ member.firstName }} <br />
-  </div>
+  @for (member of supportMembers; track member) {
+    <div>
+      {{ member.lastName | uppercase }} {{ member.firstName }} <br />
+    </div>
+  }
 </div>
 
 <br />

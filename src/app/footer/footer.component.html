@@ -7,7 +7,7 @@
   fxLayoutAlign.sm="start stretch"
   fxLayoutAlign.xs="start stretch"
   fxLayoutGap="24px"
->
+  >
   <!-- Social icons -->
   <div fxFlex="100%" fxFlex.gt-sm="30%" class="footer-social">
     <h3 class="footer-heading">Folge uns</h3>
@@ -17,7 +17,7 @@
         href="https://www.facebook.com/hvtdpstainz/"
         target="_blank"
         aria-label="Facebook"
-      >
+        >
         <i class="fab fa-facebook fa-lg"></i>
       </a>
       <a
@@ -25,7 +25,7 @@
         href="https://twitter.com/HvStainz/"
         target="_blank"
         aria-label="Twitter"
-      >
+        >
         <i class="fab fa-twitter fa-lg"></i>
       </a>
       <a
@@ -33,7 +33,7 @@
         href="https://www.instagram.com/hvtdpstainz_2014/"
         target="_blank"
         aria-label="Instagram"
-      >
+        >
         <i class="fab fa-instagram fa-lg"></i>
       </a>
       <a class="social-btn mail" href="mailto:hvtdpstainz@gmx.at" aria-label="E-Mail">
@@ -44,10 +44,12 @@
 
   <!-- Stats, sponsors, copyright -->
   <div fxFlex="100%" fxFlex.gt-sm="65%" class="footer-main" fxLayout="column" fxLayoutGap="16px">
-    <div *ngIf="sessions" class="footer-sessions">
-      Der HV TDP bedankt sich für <strong>{{ sessions }}</strong> Website-Aufrufe seit dem
-      23.07.2018!
-    </div>
+    @if (sessions) {
+      <div class="footer-sessions">
+        Der HV TDP bedankt sich für <strong>{{ sessions }}</strong> Website-Aufrufe seit dem
+        23.07.2018!
+      </div>
+    }
 
     <div class="footer-sponsors">
       <h4 class="footer-heading">Unsere Partner</h4>
@@ -57,7 +59,7 @@
             class="sponsor-image"
             src="assets/images/udemy.jpg"
             alt="Udemy Profil Stefan Jaindl"
-          />
+            />
         </a>
 
         <a href="http://www.textildruckprofi.com/" target="_blank" class="sponsor-card">

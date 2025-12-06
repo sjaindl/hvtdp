@@ -33,7 +33,7 @@
           Anmeldung unter:<br />
           ➡ direkt hier auf unserer Homepage<br />
           ➡ 📲 telefonisch unter 0664/43 10 021<br />
-          ➡ 📧 E-Mail: hvtdpstainz@gmx.at<br />
+          ➡ 📧 E-Mail: hvtdpstainz&#64;gmx.at<br />
           ➡ Facebook: HV TDP Stainz<br />
           ➡ Instagram: hvtdpstainz_2014
         </p>
@@ -62,7 +62,7 @@
       [formGroup]="feedbackForm"
       (ngSubmit)="onSubmit()"
       style="background-color: darkblue; color: rgba(255, 255, 255, 0.7); border: 27.4px solid"
-    >
+      >
       <p>
         <mat-form-field class="full-width" color="{{ formErrors.name ? 'warn' : 'primary' }}">
           <input
@@ -72,7 +72,7 @@
             formControlName="name"
             placeholder="Ansprechperson"
             required
-          />
+            />
           <mat-hint>
             <span [hidden]="!formErrors.name"> {{ formErrors.name }}</span>
           </mat-hint>
@@ -88,7 +88,7 @@
             formControlName="teamname"
             placeholder="Mannschaftsname"
             required
-          />
+            />
           <mat-hint>
             <span [hidden]="!formErrors.teamname"> {{ formErrors.teamname }}</span>
           </mat-hint>
@@ -102,18 +102,20 @@
         mat-button
         class="background-primary"
         [disabled]="feedbackForm.invalid"
-      >
+        >
         Anmeldung jetzt abschicken
       </button>
     </form>
 
-    <div *ngIf="submittedFeedback">
+    @if (submittedFeedback) {
       <div>
-        <h2>Wir haben deine Anmeldung erhalten, Vielen Dank! Wir melden uns bei dir in Kürze.</h2>
-        <p>Ansprechperson: {{ submittedFeedback.name }}</p>
-        <p>Teamname: {{ submittedFeedback.teamname }}</p>
+        <div>
+          <h2>Wir haben deine Anmeldung erhalten, Vielen Dank! Wir melden uns bei dir in Kürze.</h2>
+          <p>Ansprechperson: {{ submittedFeedback.name }}</p>
+          <p>Teamname: {{ submittedFeedback.teamname }}</p>
+        </div>
       </div>
-    </div>
+    }
   </div>
   <br />
 </div>

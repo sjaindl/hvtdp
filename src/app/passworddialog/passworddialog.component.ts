@@ -1,11 +1,24 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { MatDialogRef, MatDialogModule } from '@angular/material/dialog';
+import { FormGroup, FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-  selector: 'app-passworddialog',
-  templateUrl: './passworddialog.component.html',
-  styleUrls: ['./passworddialog.component.css'],
+    selector: 'app-passworddialog',
+    templateUrl: './passworddialog.component.html',
+    styleUrls: ['./passworddialog.component.css'],
+    standalone: true,
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        MatDialogModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule
+    ]
 })
 export class PassworddialogComponent implements OnInit {
   form: FormGroup;

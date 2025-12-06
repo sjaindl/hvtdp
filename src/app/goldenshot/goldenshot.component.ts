@@ -1,15 +1,31 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { GoldenShot } from '../shared/goldenshot';
 import { Meta, Title } from '@angular/platform-browser';
 import { MysqlService } from '../services/mysql.service';
 import { FileUploadService } from '../services/file-upload.service';
 import { DeviceDetectorService } from 'ngx-device-detector';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  selector: 'app-goldenshot',
-  templateUrl: './goldenshot.component.html',
-  styleUrls: ['./goldenshot.component.css'],
+    selector: 'app-goldenshot',
+    templateUrl: './goldenshot.component.html',
+    styleUrls: ['./goldenshot.component.css'],
+    standalone: true,
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule,
+        MatSlideToggleModule,
+        MatIconModule
+    ]
 })
 export class GoldenshotComponent implements OnInit {
   isMobile = null;

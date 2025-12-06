@@ -25,7 +25,7 @@
           Anmeldemöglichkeiten..... <br />
           (ACHTUNG: Begrenzte Teilnehmeranzahl) <br />
           ▶️ Telefon (0664/4310021) <br />
-          ▶️ E-Mail (hvtdpstainz@gmx.at) <br />
+          ▶️ E-Mail (hvtdpstainz&#64;gmx.at) <br />
           ▶️ Facebook (HV TDP Stainz) <br />
           ▶️ Instagram (hvtdpstainz_2014)
         </p>
@@ -72,7 +72,7 @@
       [formGroup]="feedbackForm"
       (ngSubmit)="onSubmit()"
       style="background-color: darkblue; color: rgba(255, 255, 255, 0.7); border: 27.4px solid"
-    >
+      >
       <p>
         <mat-form-field class="full-width" color="{{ formErrors.name ? 'warn' : 'primary' }}">
           <input
@@ -82,7 +82,7 @@
             formControlName="name"
             placeholder="Name"
             required
-          />
+            />
           <mat-hint>
             <span [hidden]="!formErrors.name"> {{ formErrors.name }}</span>
           </mat-hint>
@@ -98,7 +98,7 @@
             type="email"
             email
             required
-          />
+            />
           <mat-hint>
             <span [hidden]="!formErrors.email"> {{ formErrors.email }}</span>
           </mat-hint>
@@ -106,68 +106,70 @@
       </p>
 
       <!-- <p>
-              <mat-form-field class="full-width"
-               color="{{(formErrors.phone) ? 'warn' : 'primary'}}">
-                <input class="formElement" matInput formControlName="phone" placeholder="Telefonnummer" type="text" required>
-                <mat-hint>
-                  <span [hidden]="!(formErrors.phone)">
-                    {{formErrors.phone}}</span>
-                </mat-hint>
-              </mat-form-field>
-            </p> -->
+      <mat-form-field class="full-width"
+        color="{{(formErrors.phone) ? 'warn' : 'primary'}}">
+        <input class="formElement" matInput formControlName="phone" placeholder="Telefonnummer" type="text" required>
+        <mat-hint>
+          <span [hidden]="!(formErrors.phone)">
+          {{formErrors.phone}}</span>
+        </mat-hint>
+      </mat-form-field>
+    </p> -->
 
-      <p>
-        <mat-form-field class="full-width" color="{{ formErrors.teamname ? 'warn' : 'primary' }}">
-          <input
-            class="formElement"
-            matInput
-            type="text"
-            formControlName="teamname"
-            placeholder="Mannschaftsname"
-            required
+    <p>
+      <mat-form-field class="full-width" color="{{ formErrors.teamname ? 'warn' : 'primary' }}">
+        <input
+          class="formElement"
+          matInput
+          type="text"
+          formControlName="teamname"
+          placeholder="Mannschaftsname"
+          required
           />
-          <mat-hint>
-            <span [hidden]="!formErrors.teamname"> {{ formErrors.teamname }}</span>
-          </mat-hint>
-        </mat-form-field>
-      </p>
+        <mat-hint>
+          <span [hidden]="!formErrors.teamname"> {{ formErrors.teamname }}</span>
+        </mat-hint>
+      </mat-form-field>
+    </p>
 
-      <!-- <p>
-                <mat-form-field class="full-width"
-                  color="{{(formErrors.day) ? 'warn' : 'primary'}}">
-                  <mat-label>Präferenz Vorrunde</mat-label>
-                  <mat-select class="formElement" formControlName="day" >
-                      <mat-option value="Freitag"> Freitag </mat-option>
-                      <mat-option value="Samstag"> Samstag </mat-option>
-                  </mat-select>
-                  <mat-hint>
-                      <span [hidden]="!(formErrors.day)">{{formErrors.day}}</span>
-                  </mat-hint>
-                </mat-form-field>
-            </p> -->
+    <!-- <p>
+    <mat-form-field class="full-width"
+      color="{{(formErrors.day) ? 'warn' : 'primary'}}">
+      <mat-label>Präferenz Vorrunde</mat-label>
+      <mat-select class="formElement" formControlName="day" >
+        <mat-option value="Freitag"> Freitag </mat-option>
+        <mat-option value="Samstag"> Samstag </mat-option>
+      </mat-select>
+      <mat-hint>
+        <span [hidden]="!(formErrors.day)">{{formErrors.day}}</span>
+      </mat-hint>
+    </mat-form-field>
+  </p> -->
 
-      <button
-        style="margin: 100 auto; float: right; font-size: 20px; color: black"
-        class="formElement"
-        type="submit"
-        mat-button
-        class="background-primary"
-        [disabled]="feedbackForm.invalid"
-      >
-        Anmeldung jetzt abschicken
-      </button>
-    </form>
+  <button
+    style="margin: 100 auto; float: right; font-size: 20px; color: black"
+    class="formElement"
+    type="submit"
+    mat-button
+    class="background-primary"
+    [disabled]="feedbackForm.invalid"
+    >
+    Anmeldung jetzt abschicken
+  </button>
+</form>
 
-    <div *ngIf="submittedFeedback">
-      <div>
-        <h2>Wir haben deine Anmeldung erhalten, Vielen Dank! Wir melden uns bei dir in Kürze.</h2>
-        <p>Name: {{ submittedFeedback.name }}</p>
-        <p>E-Mail: {{ submittedFeedback.email }}</p>
-        <!-- <p>Telefonnummer: {{submittedFeedback.phone}}</p> -->
-        <p>Teamname: {{ submittedFeedback.teamname }}</p>
-        <!-- <p>Präferenz Vorrunde: {{submittedFeedback.day}}</p> -->
-      </div>
+@if (submittedFeedback) {
+  <div>
+    <div>
+      <h2>Wir haben deine Anmeldung erhalten, Vielen Dank! Wir melden uns bei dir in Kürze.</h2>
+      <p>Name: {{ submittedFeedback.name }}</p>
+      <p>E-Mail: {{ submittedFeedback.email }}</p>
+      <!-- <p>Telefonnummer: {{submittedFeedback.phone}}</p> -->
+      <p>Teamname: {{ submittedFeedback.teamname }}</p>
+      <!-- <p>Präferenz Vorrunde: {{submittedFeedback.day}}</p> -->
     </div>
   </div>
-  <br />
+}
+</div>
+<br />
 </div>

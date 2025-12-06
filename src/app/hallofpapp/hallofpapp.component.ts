@@ -1,13 +1,17 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { PappFan } from '../shared/papp';
 import { baseUrlImages } from '../shared/baseurls';
 import { MysqlService } from '../services/mysql.service';
 import { Title, Meta } from '@angular/platform-browser';
+import { MatListModule } from '@angular/material/list';
 
 @Component({
-  selector: 'app-hallofpapp',
-  templateUrl: './hallofpapp.component.html',
-  styleUrls: ['./hallofpapp.component.css'],
+    selector: 'app-hallofpapp',
+    templateUrl: './hallofpapp.component.html',
+    styleUrls: ['./hallofpapp.component.css'],
+    standalone: true,
+    imports: [CommonModule, MatListModule]
 })
 export class HallofpappComponent implements OnInit {
   pappfans: PappFan[];

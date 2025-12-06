@@ -5,8 +5,9 @@
   offiziellen HV TDP-Galerie.
 </p>
 
-<div *ngFor="let album of albums">
-  <p class="normalCentered" style="color: hotpink">{{ album.date }} / {{ album.name }}</p>
-
-  <app-imageslider [carouselItems]="items(album)" [showDots]="false"></app-imageslider>
-</div>
+@for (album of albums; track album) {
+  <div>
+    <p class="normalCentered" style="color: hotpink">{{ album.date }} / {{ album.name }}</p>
+    <app-imageslider [carouselItems]="items(album)" [showDots]="false"></app-imageslider>
+  </div>
+}
