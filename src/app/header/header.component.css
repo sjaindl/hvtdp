@@ -8,12 +8,37 @@
   background-color: rgba(0, 0, 0, 0);
 }
 
+.mat-mdc-menu-item-text {
+  font-size: 8px;
+}
+
+.mat-mdc-menu-item {
+  overflow: auto;
+  width: auto;
+}
+
 button.mat-menu-item {
   width: auto;
+  font-size: 12px;
+  min-width: auto;
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+.desktop-nav button.mat-menu-item {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 8px;
 }
 
 .mat-toolbar-row {
   padding-left: 0;
+}
+
+.logo {
+  margin-left: 12px;
+  margin-right: 4px;
+  width: 24px;
 }
 
 /* Links */

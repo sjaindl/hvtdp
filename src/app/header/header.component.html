@@ -1,16 +1,10 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
     <!-- Mobile nav -->
-    <button mat-menu-item [matMenuTriggerFor]="mobile" fxShow="true" fxHide.gt-sm>
+    <button mat-menu-item [matMenuTriggerFor]="mobile" class="md:hidden">
       <mat-icon>menu</mat-icon>
     </button>
-    <img
-      class="logo"
-      src="/assets/images/logo.gif"
-      width="24px"
-      height="24px"
-      style="padding-left: 12px"
-    />
+    <img class="logo" src="/assets/images/logo.gif" />
 
     <mat-menu #mobile="matMenu">
       <button mat-menu-item routerLink="/home" routerLinkActive="active">
@@ -20,7 +14,7 @@
         <span class="fa fa-bookmark fa-sm"></span> News
       </button>
       <button mat-menu-item routerLink="/team" routerLinkActive="active">
-        <span class="fa fa-portrait fa-sm"></span> Mannschaft
+        <span class="fa fa-portrait fa-sm"></span> Team
       </button>
 
       <button mat-menu-item routerLink="/startingeleven" routerLinkActive="active">
@@ -28,7 +22,7 @@
       </button>
 
       <button mat-menu-item [matMenuTriggerFor]="championship">
-        <span class="fa fa-bookmark fa-sm"></span> Meisterschaft
+        <span class="fa fa-bookmark fa-sm"></span> Liga
       </button>
       <mat-menu #championship="matMenu">
         <button mat-menu-item routerLink="/championship/2025-2026">Saison 2025/2026</button>
@@ -101,15 +95,17 @@
         <button mat-menu-item routerLink="/social/2018-2019">Saison 2018/2019</button>
         <button mat-menu-item routerLink="/social/2017-2018">Saison 2017/2018</button>
       </mat-menu>
+
+      <button mat-menu-item routerLink="/fanshop" routerLinkActive="active">
+        <span class="fa fa-shopping-cart fa-sm"></span> Fanshop
+      </button>
+
       <!--  <button mat-menu-item routerLink="/kleinfeldturnier" routerLinkActive="active"><span class="fa fa-futbol fa-sm"></span> Kleinfeldturnier</button> -->
       <button mat-menu-item routerLink="/about" routerLinkActive="active">
         <span class="fa fa-info fa-sm"></span> Über uns
       </button>
       <button mat-menu-item routerLink="/contact" routerLinkActive="active">
         <span class="fa fa-info fa-sm"></span> Kontakt
-      </button>
-      <button mat-menu-item routerLink="/fanshop" routerLinkActive="active">
-        <span class="fa fa-shopping-cart fa-sm"></span> Fanshop
       </button>
 
       <button mat-menu-item routerLink="/donation" routerLinkActive="active">
@@ -138,7 +134,7 @@
     </mat-menu>
 
     <!-- Desktop nav -->
-    <div fxLayout="row" fxShow="true" fxHide.lt-md="true">
+    <div class="desktop-nav hidden md:flex md:flex-row md:items-center md:gap-3">
       <button mat-menu-item routerLink="/home" routerLinkActive="active">
         <span class="fa fa-users fa-sm"></span> Home
       </button>
@@ -146,7 +142,7 @@
         <span class="fa fa-bookmark fa-sm"></span> News
       </button>
       <button mat-menu-item routerLink="/team" routerLinkActive="active">
-        <span class="fa fa-portrait fa-sm"></span> Mannschaft
+        <span class="fa fa-portrait fa-sm"></span> Team
       </button>
 
       <button mat-menu-item routerLink="/startingeleven" routerLinkActive="active">
@@ -154,7 +150,7 @@
       </button>
 
       <button mat-menu-item [matMenuTriggerFor]="championship">
-        <span class="fa fa-bookmark fa-sm"></span> Meisterschaft
+        <span class="fa fa-bookmark fa-sm"></span> Liga
       </button>
       <mat-menu #championship="matMenu">
         <button mat-menu-item routerLink="/championship/2025-2026">Saison 2025/2026</button>
@@ -210,24 +206,26 @@
         <button mat-menu-item routerLink="/social/2017-2018">Saison 2017/2018</button>
       </mat-menu>
 
-      <!--  <button mat-menu-item routerLink="/kleinfeldturnier" routerLinkActive="active"><span class="fa fa-futbol fa-sm"></span> Kleinfeldturnier</button> -->
-      <button mat-menu-item routerLink="/about" routerLinkActive="active">
-        <span class="fa fa-info fa-sm"></span> Über uns
-      </button>
-      <button mat-menu-item routerLink="/contact" routerLinkActive="active">
-        <span class="fa fa-info fa-sm"></span> Kontakt
-      </button>
       <button mat-menu-item routerLink="/fanshop" routerLinkActive="active">
         <span class="fa fa-shopping-cart fa-sm"></span> Fanshop
       </button>
 
-      <button mat-menu-item routerLink="/documents" routerLinkActive="active">
-        <span class="fa fa-file fa-sm"></span> Dokumente
+      <!--  <button mat-menu-item routerLink="/kleinfeldturnier" routerLinkActive="active"><span class="fa fa-futbol fa-sm"></span> Kleinfeldturnier</button> -->
+      <button mat-menu-item routerLink="/about" routerLinkActive="active">
+        <span class="fa fa-info fa-sm"></span> Über uns
       </button>
 
-      <button mat-menu-item [mat-menu-trigger-for]="more"><mat-icon>more_horiz</mat-icon></button>
+      <button mat-menu-item [matMenuTriggerFor]="more"><mat-icon>more_horiz</mat-icon></button>
 
       <mat-menu x-position="before" #more="matMenu">
+        <button mat-menu-item routerLink="/contact" routerLinkActive="active">
+          <span class="fa fa-info fa-sm"></span> Kontakt
+        </button>
+
+        <button mat-menu-item routerLink="/documents" routerLinkActive="active">
+          <span class="fa fa-file fa-sm"></span> Dokumente
+        </button>
+
         <button mat-menu-item [matMenuTriggerFor]="goaloftheseason">
           <span class="fa fa-list-ol fa-sm"></span> Tor des Jahres
         </button>
