@@ -1,15 +1,16 @@
-<div class="ticker-wrap" *ngIf="text">
-  <div class="ticker-inner">
-    <div class="ticker-inner-bg">
-      <span class="ticker-icon" aria-hidden="true">
-        <i class="fas fa-info"></i>
-      </span>
-
-      <div class="ticker-text-mask">
-        <div class="ticker-track">
-          <span class="ticker-item">{{ text }}</span>
+@if (text) {
+  <div class="ticker-wrap">
+    <div class="ticker-inner">
+      <div class="ticker-inner-bg">
+        <span class="ticker-icon" aria-hidden="true">
+          <i class="fas fa-info"></i>
+        </span>
+        <div class="ticker-text-mask">
+          <div class="ticker-track">
+            <span class="ticker-item">{{ text }}</span>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+}

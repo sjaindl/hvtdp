@@ -6,212 +6,226 @@
 </p>
 
 <p class="normalCentered">
-  <img src="/assets/images/video.gif" width="20%" *ngIf="!isMobile" />
-  <img src="/assets/images/video.gif" width="90%" *ngIf="isMobile" />
+  @if (!isMobile) {
+    <img src="/assets/images/video.gif" width="20%" />
+  }
+  @if (isMobile) {
+    <img src="/assets/images/video.gif" width="90%" />
+  }
 </p>
 
-<div *ngFor="let game of games">
-  <p class="normalCentered" *ngIf="game.round != 0 && game.round < 90">
-    Saison {{ game.season }}: Runde {{ game.round }}
-  </p>
-  <p class="normalCentered" *ngIf="game.round == 0 || game.round >= 90">Saison {{ game.season }}</p>
-
-  <p class="normalCentered" *ngIf="game.description">{{ game.date }} - {{ game.description }}</p>
-  <p class="normalCentered" *ngIf="!game.description">
-    {{ game.date }}
-  </p>
-
-  <p class="normalCentered" *ngIf="game.customText">
-    {{ game.customText }}
-  </p>
-
-  <br />
-
-  <div class="container" fxLayout="column" fxLayoutGap="10px">
-    <div *ngFor="let link of game.links">
-      <mat-list>
-        <div *ngFor="let player of players">
-          <mat-list-item
-            *ngIf="matches(link.scorer, player)"
-            [ngStyle]="{ height: isMobile ? '600px' : '500px' }"
-          >
-            <div fxFlex>
-              <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="center center">
-                <span class="bordered">
-                  <div fxFlex="15" fxFlexOffset="10px" class="item-detail">
-                    <div fxLayout="column" fxLayoutAlign="center center">
-                      <div fxFlex="50" fxFlexOffset="10px">
-                        <img
-                          class="imageSmallCenter"
-                          matListAvatar
-                          class="img-preview"
-                          src="{{ imageBaseUrl + player.imagePath }}"
-                          alt="{{ player.firstName }} {{ player.lastName }}"
-                          style="width: 80px; height: 130px"
-                        />
-                      </div>
-                      <div fxFlex="50" fxFlexOffset="10px">
-                        <p class="smallCentered">{{ link.description }} {{ link.scorer }}</p>
+@for (game of games; track game) {
+  <div>
+    @if (game.round != 0 && game.round < 90) {
+      <p class="normalCentered">
+        Saison {{ game.season }}: Runde {{ game.round }}
+      </p>
+    }
+    @if (game.round == 0 || game.round >= 90) {
+      <p class="normalCentered">Saison {{ game.season }}</p>
+    }
+    @if (game.description) {
+      <p class="normalCentered">{{ game.date }} - {{ game.description }}</p>
+    }
+    @if (!game.description) {
+      <p class="normalCentered">
+        {{ game.date }}
+      </p>
+    }
+    @if (game.customText) {
+      <p class="normalCentered">
+        {{ game.customText }}
+      </p>
+    }
+    <br />
+    <div class="container" fxLayout="column" fxLayoutGap="10px">
+      @for (link of game.links; track link) {
+        <div>
+          <mat-list>
+            @for (player of players; track player) {
+              <div>
+                @if (matches(link.scorer, player)) {
+                  <mat-list-item
+                    [ngStyle]="{ height: isMobile ? '600px' : '500px' }"
+                    >
+                    <div fxFlex>
+                      <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="center center">
+                        <span class="bordered">
+                          <div fxFlex="15" fxFlexOffset="10px" class="item-detail">
+                            <div fxLayout="column" fxLayoutAlign="center center">
+                              <div fxFlex="50" fxFlexOffset="10px">
+                                <img
+                                  class="imageSmallCenter"
+                                  matListAvatar
+                                  class="img-preview"
+                                  src="{{ imageBaseUrl + player.imagePath }}"
+                                  alt="{{ player.firstName }} {{ player.lastName }}"
+                                  style="width: 80px; height: 130px"
+                                  />
+                              </div>
+                              <div fxFlex="50" fxFlexOffset="10px">
+                                <p class="smallCentered">{{ link.description }} {{ link.scorer }}</p>
+                              </div>
+                            </div>
+                          </div>
+                          @if (isMobile) {
+                            <div
+                              fxFlex="50"
+                              fxFlexOffset="25px"
+                              fxLayoutAlign="center center"
+                              >
+                              <iframe
+                                width="224px"
+                                height="128px"
+                                [src]="link.link | safe"
+                                frameborder="0"
+                                allowfullscreen
+                              ></iframe>
+                            </div>
+                          }
+                          @if (!isMobile) {
+                            <div
+                              fxFlex="50"
+                              fxFlexOffset="25px"
+                              fxLayoutAlign="center center"
+                              >
+                              <iframe
+                                width="560px"
+                                height="315px"
+                                [src]="link.link | safe"
+                                frameborder="0"
+                                allowfullscreen
+                              ></iframe>
+                            </div>
+                          }
+                        </span>
                       </div>
                     </div>
-                  </div>
-
-                  <div
-                    fxFlex="50"
-                    fxFlexOffset="25px"
-                    fxLayoutAlign="center center"
-                    *ngIf="isMobile"
-                  >
-                    <iframe
-                      width="224px"
-                      height="128px"
-                      [src]="link.link | safe"
-                      frameborder="0"
-                      allowfullscreen
-                    ></iframe>
-                  </div>
-
-                  <div
-                    fxFlex="50"
-                    fxFlexOffset="25px"
-                    fxLayoutAlign="center center"
-                    *ngIf="!isMobile"
-                  >
-                    <iframe
-                      width="560px"
-                      height="315px"
-                      [src]="link.link | safe"
-                      frameborder="0"
-                      allowfullscreen
-                    ></iframe>
-                  </div>
-                </span>
+                    <!-- <a href="{{link.link}}" target="_blank"></a>   -->
+                    <!-- https://www.youtube.com/embed/1ozGKlOzEVc -->
+                  </mat-list-item>
+                }
               </div>
-            </div>
-            <!-- <a href="{{link.link}}" target="_blank"></a>   -->
-
-            <!-- https://www.youtube.com/embed/1ozGKlOzEVc -->
-          </mat-list-item>
-        </div>
-
-        <div>
-          <mat-list-item
-            *ngIf="link.scorer == 'Eigentor'"
-            [ngStyle]="{ height: isMobile ? '600px' : '500px' }"
-          >
-            <div fxFlex>
-              <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="center center">
-                <span class="bordered">
-                  <div fxFlex="15" fxFlexOffset="10px" class="item-detail">
-                    <div fxLayout="column" fxLayoutAlign="center center">
-                      <div fxFlex="50" fxFlexOffset="10px">
-                        <img
-                          matListAvatar
-                          class="img-preview"
-                          src="{{ imageBaseUrl + 'team/no_photo.jpg' }}"
-                          alt="{{ link.scorer }}"
-                          style="width: 80; height: 130px"
-                        />
-                      </div>
-                      <div fxFlex="50" fxFlexOffset="10px">
-                        <p class="smallCentered">{{ link.description }} {{ link.scorer }}</p>
-                      </div>
+            }
+            <div>
+              @if (link.scorer == 'Eigentor') {
+                <mat-list-item
+                  [ngStyle]="{ height: isMobile ? '600px' : '500px' }"
+                  >
+                  <div fxFlex>
+                    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="center center">
+                      <span class="bordered">
+                        <div fxFlex="15" fxFlexOffset="10px" class="item-detail">
+                          <div fxLayout="column" fxLayoutAlign="center center">
+                            <div fxFlex="50" fxFlexOffset="10px">
+                              <img
+                                matListAvatar
+                                class="img-preview"
+                                src="{{ imageBaseUrl + 'team/no_photo.jpg' }}"
+                                alt="{{ link.scorer }}"
+                                style="width: 80; height: 130px"
+                                />
+                            </div>
+                            <div fxFlex="50" fxFlexOffset="10px">
+                              <p class="smallCentered">{{ link.description }} {{ link.scorer }}</p>
+                            </div>
+                          </div>
+                        </div>
+                        @if (isMobile) {
+                          <div
+                            fxFlex="50"
+                            fxFlexOffset="25px"
+                            fxLayoutAlign="center center"
+                            >
+                            <iframe
+                              width="224px"
+                              height="128px"
+                              [src]="link.link | safe"
+                              frameborder="0"
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                              allowfullscreen
+                              referrerpolicy="strict-origin-when-cross-origin"
+                            ></iframe>
+                          </div>
+                        }
+                        @if (!isMobile) {
+                          <div
+                            fxFlex="50"
+                            fxFlexOffset="25px"
+                            fxLayoutAlign="center center"
+                            >
+                            <iframe
+                              width="560px"
+                              height="315px"
+                              [src]="link.link | safe"
+                              frameborder="0"
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                              allowfullscreen
+                              referrerpolicy="strict-origin-when-cross-origin"
+                            ></iframe>
+                          </div>
+                        }
+                      </span>
                     </div>
                   </div>
-
-                  <div
-                    fxFlex="50"
-                    fxFlexOffset="25px"
-                    fxLayoutAlign="center center"
-                    *ngIf="isMobile"
-                  >
-                    <iframe
-                      width="224px"
-                      height="128px"
-                      [src]="link.link | safe"
-                      frameborder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      allowfullscreen
-                      referrerpolicy="strict-origin-when-cross-origin"
-                    ></iframe>
-                  </div>
-
-                  <div
-                    fxFlex="50"
-                    fxFlexOffset="25px"
-                    fxLayoutAlign="center center"
-                    *ngIf="!isMobile"
-                  >
-                    <iframe
-                      width="560px"
-                      height="315px"
-                      [src]="link.link | safe"
-                      frameborder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      allowfullscreen
-                      referrerpolicy="strict-origin-when-cross-origin"
-                    ></iframe>
-                  </div>
-                </span>
-              </div>
+                  <br /><br />
+                </mat-list-item>
+              }
             </div>
-
-            <br /><br />
-          </mat-list-item>
-        </div>
-
-        <div>
-          <mat-list-item
-            *ngIf="link.scorer == ''"
-            [ngStyle]="{ height: isMobile ? '600px' : '500px' }"
-          >
-            <div fxFlex>
-              <div fxLayout="column" fxLayoutAlign="center center">
-                <span class="bordered">
-                  <div fxFlex="15" fxFlexOffset="25px" class="item-detail">
-                    {{ link.description }}
-                  </div>
-
-                  <div
-                    fxFlex="50"
-                    fxFlexOffset="25px"
-                    fxLayoutAlign="center center"
-                    *ngIf="isMobile"
+            <div>
+              @if (link.scorer == '') {
+                <mat-list-item
+                  [ngStyle]="{ height: isMobile ? '600px' : '500px' }"
                   >
-                    <iframe
-                      width="224px"
-                      height="128px"
-                      [src]="link.link | safe"
-                      frameborder="0"
-                      allowfullscreen
-                    ></iframe>
+                  <div fxFlex>
+                    <div fxLayout="column" fxLayoutAlign="center center">
+                      <span class="bordered">
+                        <div fxFlex="15" fxFlexOffset="25px" class="item-detail">
+                          {{ link.description }}
+                        </div>
+                        @if (isMobile) {
+                          <div
+                            fxFlex="50"
+                            fxFlexOffset="25px"
+                            fxLayoutAlign="center center"
+                            >
+                            <iframe
+                              width="224px"
+                              height="128px"
+                              [src]="link.link | safe"
+                              frameborder="0"
+                              allowfullscreen
+                            ></iframe>
+                          </div>
+                        }
+                        @if (!isMobile) {
+                          <div
+                            fxFlex="50"
+                            fxFlexOffset="25px"
+                            fxLayoutAlign="center center"
+                            >
+                            <iframe
+                              width="560px"
+                              height="315px"
+                              [src]="link.link | safe"
+                              frameborder="0"
+                              allowfullscreen
+                            ></iframe>
+                          </div>
+                        }
+                      </span>
+                    </div>
                   </div>
-
-                  <div
-                    fxFlex="50"
-                    fxFlexOffset="25px"
-                    fxLayoutAlign="center center"
-                    *ngIf="!isMobile"
-                  >
-                    <iframe
-                      width="560px"
-                      height="315px"
-                      [src]="link.link | safe"
-                      frameborder="0"
-                      allowfullscreen
-                    ></iframe>
-                  </div>
-                </span>
-              </div>
+                  <br /><br />
+                </mat-list-item>
+              }
             </div>
-
-            <br /><br />
-          </mat-list-item>
+          </mat-list>
         </div>
-      </mat-list>
+      }
     </div>
   </div>
-</div>
+}
 
 <br />
 <br />

@@ -11,9 +11,10 @@ import { PlayerOfTheSeason } from '../shared/playeroftheseason';
 const PLAYER_OF_SEASON_VOTING_COOKIE_KEY = 'player_of_season_voted';
 
 @Component({
-  selector: 'app-playeroftheseason',
-  templateUrl: './playeroftheseason.component.html',
-  styleUrls: ['./playeroftheseason.component.css'],
+    selector: 'app-playeroftheseason',
+    templateUrl: './playeroftheseason.component.html',
+    styleUrls: ['./playeroftheseason.component.css'],
+    standalone: false
 })
 export class PlayerOfTheSeasonComponent implements OnInit {
   season: string;

@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Title, Meta } from '@angular/platform-browser';
 
 @Component({
-  selector: 'app-zehnjahresfeier',
-  templateUrl: './zehnjahresfeier.component.html',
-  styleUrls: ['./zehnjahresfeier.component.css'],
+    selector: 'app-zehnjahresfeier',
+    templateUrl: './zehnjahresfeier.component.html',
+    styleUrls: ['./zehnjahresfeier.component.css'],
+    standalone: false
 })
 export class ZehnjahresfeierComponent implements OnInit {
   constructor(private titleService: Title, private metaTagService: Meta) {}

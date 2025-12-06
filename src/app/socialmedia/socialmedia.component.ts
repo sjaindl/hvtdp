@@ -8,9 +8,10 @@ import { Title, Meta } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-socialmedia',
-  templateUrl: './socialmedia.component.html',
-  styleUrls: ['./socialmedia.component.css'],
+    selector: 'app-socialmedia',
+    templateUrl: './socialmedia.component.html',
+    styleUrls: ['./socialmedia.component.css'],
+    standalone: false
 })
 export class SocialmediaComponent implements OnInit {
   games: Game[];

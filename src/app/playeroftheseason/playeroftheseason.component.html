@@ -1,56 +1,62 @@
 <h1 class="large header">Wähle den Spieler des Jahres {{ season }}</h1>
 
-<div *ngIf="canVote">
-  <p class="normal">
-    Stimme hier für deinen Spieler des Jahres {{ season }} (abgestimmt werden kann pro Stunde 1x):
-  </p>
+@if (canVote) {
+  <div>
+    <p class="normal">
+      Stimme hier für deinen Spieler des Jahres {{ season }} (abgestimmt werden kann pro Stunde 1x):
+    </p>
+    <mat-selection-list #voting [multiple]="false">
+      @for (vote of playerOfSeasonOptions; track vote) {
+        <mat-list-option
+          [value]="vote"
+          style="color: whitesmoke; height: 180px"
+          >
+          @for (player of players; track player) {
+            <span>
+              @if (matches(vote.player, player)) {
+                <span>
+                  <div class="player-container">
+                    <img
+                      class="imageSmallCenter"
+                      matListAvatar
+                      class="img-preview"
+                      src="{{ imageBaseUrl + player.imagePath }}"
+                      alt="{{ player.firstName }} {{ player.lastName }}"
+                      style="width: 80px; height: 130px"
+                      />
+                    <span class="player-name">{{ vote.player }}</span>
+                  </div>
+                </span>
+              }
+            </span>
+          }
+        </mat-list-option>
+      }
+    </mat-selection-list>
+    @if (voting.selectedOptions.hasValue()) {
+      <p class="normal">
+        Deine Wahl: {{ voting.selectedOptions.selected[0].value.player }}
+      </p>
+    }
+    <br />
+    <p class="normal">
+      <button
+        mat-flat-button
+        color="primary"
+        [disabled]="!voting.selectedOptions.hasValue()"
+        (click)="saveVote(voting.selectedOptions.selected[0].value)"
+        >
+        Stimme abgeben
+      </button>
+    </p>
+    <br /><br />
+  </div>
+}
 
-  <mat-selection-list #voting [multiple]="false">
-    <mat-list-option
-      *ngFor="let vote of playerOfSeasonOptions"
-      [value]="vote"
-      style="color: whitesmoke; height: 180px"
-    >
-      <span *ngFor="let player of players">
-        <span *ngIf="matches(vote.player, player)">
-          <div class="player-container">
-            <img
-              class="imageSmallCenter"
-              matListAvatar
-              class="img-preview"
-              src="{{ imageBaseUrl + player.imagePath }}"
-              alt="{{ player.firstName }} {{ player.lastName }}"
-              style="width: 80px; height: 130px"
-            />
-            <span class="player-name">{{ vote.player }}</span>
-          </div>
-        </span>
-      </span>
-    </mat-list-option>
-  </mat-selection-list>
-
-  <p class="normal" *ngIf="voting.selectedOptions.hasValue()">
-    Deine Wahl: {{ voting.selectedOptions.selected[0].value.player }}
-  </p>
-
-  <br />
-
-  <p class="normal">
-    <button
-      mat-flat-button
-      color="primary"
-      [disabled]="!voting.selectedOptions.hasValue()"
-      (click)="saveVote(voting.selectedOptions.selected[0].value)"
-    >
-      Stimme abgeben
-    </button>
-  </p>
-
-  <br /><br />
-</div>
-
-<div *ngIf="!canVote">
-  <p class="normal center">Vielen Dank für deine Stimme!</p>
-</div>
+@if (!canVote) {
+  <div>
+    <p class="normal center">Vielen Dank für deine Stimme!</p>
+  </div>
+}
 
 <br />

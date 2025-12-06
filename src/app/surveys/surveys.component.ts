@@ -4,9 +4,10 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Title, Meta } from '@angular/platform-browser';
 
 @Component({
-  selector: 'app-surveys',
-  templateUrl: './surveys.component.html',
-  styleUrls: ['./surveys.component.css'],
+    selector: 'app-surveys',
+    templateUrl: './surveys.component.html',
+    styleUrls: ['./surveys.component.css'],
+    standalone: false
 })
 export class SurveysComponent implements OnInit {
   surveyLink: string = '';

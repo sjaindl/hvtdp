@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Title, Meta } from '@angular/platform-browser';
 
 @Component({
-  selector: 'app-startingeleven',
-  templateUrl: './startingeleven.component.html',
-  styleUrls: ['./startingeleven.component.css'],
+    selector: 'app-startingeleven',
+    templateUrl: './startingeleven.component.html',
+    styleUrls: ['./startingeleven.component.css'],
+    standalone: false
 })
 export class StartingelevenComponent implements OnInit {
   constructor(private titleService: Title, private metaTagService: Meta) {}

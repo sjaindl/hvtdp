@@ -5,9 +5,10 @@ import { MysqlService } from '../services/mysql.service';
 import { Title, Meta } from '@angular/platform-browser';
 
 @Component({
-  selector: 'app-team',
-  templateUrl: './team.component.html',
-  styleUrls: ['./team.component.css'],
+    selector: 'app-team',
+    templateUrl: './team.component.html',
+    styleUrls: ['./team.component.css'],
+    standalone: false
 })
 export class TeamComponent implements OnInit {
   squadPlayers: Player[];

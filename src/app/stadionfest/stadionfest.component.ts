@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Title, Meta } from '@angular/platform-browser';
 
 @Component({
-  selector: 'app-stadionfest',
-  templateUrl: './stadionfest.component.html',
-  styleUrls: ['./stadionfest.component.css'],
+    selector: 'app-stadionfest',
+    templateUrl: './stadionfest.component.html',
+    styleUrls: ['./stadionfest.component.css'],
+    standalone: false
 })
 export class StadionFestComponent implements OnInit {
   constructor(private titleService: Title, private metaTagService: Meta) {}
