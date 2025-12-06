@@ -1,24 +1,122 @@
-/* You can add global styles to this file, and also import other style files */
-@import '~@angular/material/prebuilt-themes/pink-bluegrey.css';
+@import '@angular/material/prebuilt-themes/pink-bluegrey.css';
 
-/* Material Theme */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-$lt-gray: #ddd;
-$background-dark: #512da8;
-$background-light: #9575cd;
-$background-pale: #d1c4e9;
-$primary-color-dark: #512da8;
-$primary-color: #673ab7;
-$primary-color-light: #d1c4e9;
-$primary-color-text: #ffffff;
-$accent-color: #ffc107;
-$primary-text-color: #212121;
-$secondary-text-color: #757575;
-$divider-color: #bdbdbd;
+/* Override Tailwind container max-widths so layout can stretch full width */
+.container {
+  width: 100% !important;
+  max-width: none !important;
+}
 
-@mixin zero-margin($pad-up-down, $pad-left-right) {
-  margin: 0px auto;
-  padding: $pad-up-down $pad-left-right;
+/* Lightweight flex-layout replacements for existing templates */
+[fxLayout='column'] {
+  display: flex;
+  flex-direction: column;
+}
+
+[fxLayout='row'] {
+  display: flex;
+  flex-direction: row;
+}
+
+[fxLayout='row wrap'],
+[fxLayout='column wrap'] {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+[fxLayoutGap='10px'] {
+  gap: 10px;
+}
+
+[fxLayoutGap='16px'] {
+  gap: 16px;
+}
+
+[fxLayoutGap='24px'] {
+  gap: 24px;
+}
+
+[fxLayoutAlign='space-between center'] {
+  justify-content: space-between;
+  align-items: center;
+}
+
+[fxLayoutAlign='start stretch'] {
+  justify-content: flex-start;
+  align-items: stretch;
+}
+
+[fxLayoutAlign='center center'] {
+  justify-content: center;
+  align-items: center;
+}
+
+[fxFlex] {
+  flex: 1 1 0%;
+}
+
+[fxFlex='50'],
+[fxFlex='50'] > * {
+  flex: 0 0 50%;
+  max-width: 50%;
+}
+
+[fxFlex='25'],
+[fxFlex='25'] > * {
+  flex: 0 0 25%;
+  max-width: 25%;
+}
+
+[fxFlex='15'],
+[fxFlex='15'] > * {
+  flex: 0 0 15%;
+  max-width: 15%;
+}
+
+[fxFlexOffset='10px'] {
+  margin-left: 10px;
+}
+
+[fxFlexOffset='20px'] {
+  margin-left: 20px;
+}
+
+[fxFlexOffset='25px'] {
+  margin-left: 25px;
+}
+
+@media (min-width: 600px) {
+  [fxLayout\.gt-sm='row'] {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  [fxLayoutAlign\.gt-sm='space-between center'] {
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+@media (min-width: 960px) {
+  [fxHide\.gt-sm] {
+    display: none !important;
+  }
+
+  [fxLayout\.gt-md='row'] {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 959px) {
+  [fxHide\.lt-md='true'] {
+    display: none !important;
+  }
 }
 
 .hvtdp-padding {
@@ -26,11 +124,11 @@ $divider-color: #bdbdbd;
 }
 
 .background-primary {
-  background-color: $background-dark !important;
+  background-color: #512da8 !important;
 }
 
 .background-accent {
-  background-color: $accent-color !important;
+  background-color: #ffc107 !important;
 }
 
 .text-floral-white {
@@ -42,8 +140,8 @@ $divider-color: #bdbdbd;
 }
 
 .highlight {
-  background-color: $background-pale;
-  border: 1px solid $primary-color-dark;
+  background-color: #d1c4e9;
+  border: 1px solid #512da8;
   z-index: 1;
   transform: scale(1.01);
 }
