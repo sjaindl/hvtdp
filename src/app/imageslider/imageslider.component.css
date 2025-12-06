@@ -37,6 +37,9 @@
   position: relative;
   backdrop-filter: blur(8px); /* optional “glass” look */
   cursor: grab;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Fullscreen button overlay */
@@ -99,6 +102,9 @@
   width: 100vw;
   height: 100vh;
   background: #000;
+  padding: 0;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Inside fullscreen: image fills wrapper, limited by whichever edge hits first (contain) */
@@ -110,6 +116,7 @@
   height: 100%;
   max-height: none; /* override the 60vh */
   object-fit: contain; /* full width or full height, no cropping */
+  max-width: 100%;
 }
 
 /* Arrows */

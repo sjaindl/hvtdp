@@ -1,5 +1,5 @@
-<div class="container" fxLayout="column" fxLayoutGap="10px">
-  <div fxFlex>
+<div class="container flex flex-col gap-3">
+  <div>
     <div>
       <h3 class="large header">Fanshop</h3>
       <hr />
@@ -43,7 +43,7 @@
 
     <br />
 
-    <div fxFlex>
+    <div class="flex-1">
       <mat-grid-list cols="{{ gridColumns }}" rowHeight="600px">
         @for (item of items; track item) {
           <mat-grid-tile appHighlight>

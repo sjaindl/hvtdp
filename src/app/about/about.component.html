@@ -1,6 +1,6 @@
 <h1 class="large header">Über uns</h1>
 
-<div fxLayout="column">
+<div class="flex flex-col gap-4">
   <p class="normal">
     Der Hobbyfußballverein <span class="bold">Textildruckprofi Stainz</span> (kurz
     <span class="bold">HV TDP Stainz</span>) wurde im Jahr 2014 gegründet. Aus einem Gespräch bei
@@ -85,153 +85,151 @@
   <br />
 
   @if (!isMobile) {
-    <div>
-      <mat-list fxLayout="column" fxLayout.gt-sm="row">
-        @for (chef of obmaenner; track chef) {
-          <mat-list-item class="listImage">
-            @if (chef.firstName != 'Dummy') {
-              <span>
-                <img
-                  mat-list-avatar
-                  class="img-preview"
-                  src="{{ imageBaseUrl.concat(chef.imagePath) }}"
-                  alt="{{ chef.firstName }} {{ chef.lastName | uppercase }}"
-                  />
-                <h1 mat-line>{{ chef.firstName }} {{ chef.lastName | uppercase }}</h1>
-                <h1 mat-line>{{ chef.function }}</h1>
-              </span>
-            }
-          </mat-list-item>
+  <div>
+    <mat-list class="flex flex-col md:flex-row">
+      @for (chef of obmaenner; track chef) {
+      <mat-list-item class="listImage">
+        @if (chef.firstName != 'Dummy') {
+        <span>
+          <img
+            mat-list-avatar
+            class="img-preview"
+            src="{{ imageBaseUrl.concat(chef.imagePath) }}"
+            alt="{{ chef.firstName }} {{ chef.lastName | uppercase }}"
+          />
+          <h1 mat-line>{{ chef.firstName }} {{ chef.lastName | uppercase }}</h1>
+          <h1 mat-line>{{ chef.function }}</h1>
+        </span>
         }
-      </mat-list>
-      <br />
-      <br />
-      <mat-list fxLayout="column" fxLayout.gt-sm="row">
-        @for (chef of kassierer; track chef) {
-          <mat-list-item class="listImage">
-            @if (chef.firstName != 'Dummy') {
-              <span>
-                <img
-                  mat-list-avatar
-                  class="img-preview"
-                  src="{{ imageBaseUrl.concat(chef.imagePath) }}"
-                  alt="{{ chef.firstName }} {{ chef.lastName | uppercase }}"
-                  />
-                <h1 mat-line>{{ chef.firstName }} {{ chef.lastName | uppercase }}</h1>
-                <h1 mat-line>{{ chef.function }}</h1>
-              </span>
-            }
-          </mat-list-item>
+      </mat-list-item>
+      }
+    </mat-list>
+    <br />
+    <br />
+    <mat-list class="flex flex-col md:flex-row">
+      @for (chef of kassierer; track chef) {
+      <mat-list-item class="listImage">
+        @if (chef.firstName != 'Dummy') {
+        <span>
+          <img
+            mat-list-avatar
+            class="img-preview"
+            src="{{ imageBaseUrl.concat(chef.imagePath) }}"
+            alt="{{ chef.firstName }} {{ chef.lastName | uppercase }}"
+          />
+          <h1 mat-line>{{ chef.firstName }} {{ chef.lastName | uppercase }}</h1>
+          <h1 mat-line>{{ chef.function }}</h1>
+        </span>
         }
-      </mat-list>
-      <br />
-      <br />
-      <mat-list fxLayout="column" fxLayout.gt-sm="row">
-        @for (chef of schriftfuehrer; track chef) {
-          <mat-list-item class="listImage">
-            @if (chef.firstName != 'Dummy') {
-              <span>
-                <img
-                  mat-list-avatar
-                  class="img-preview"
-                  src="{{ imageBaseUrl.concat(chef.imagePath) }}"
-                  alt="{{ chef.firstName }} {{ chef.lastName | uppercase }}"
-                  />
-                <h1 mat-line>{{ chef.firstName }} {{ chef.lastName | uppercase }}</h1>
-                <h1 mat-line>{{ chef.function }}</h1>
-              </span>
-            }
-          </mat-list-item>
+      </mat-list-item>
+      }
+    </mat-list>
+    <br />
+    <br />
+    <mat-list class="flex flex-col md:flex-row">
+      @for (chef of schriftfuehrer; track chef) {
+      <mat-list-item class="listImage">
+        @if (chef.firstName != 'Dummy') {
+        <span>
+          <img
+            mat-list-avatar
+            class="img-preview"
+            src="{{ imageBaseUrl.concat(chef.imagePath) }}"
+            alt="{{ chef.firstName }} {{ chef.lastName | uppercase }}"
+          />
+          <h1 mat-line>{{ chef.firstName }} {{ chef.lastName | uppercase }}</h1>
+          <h1 mat-line>{{ chef.function }}</h1>
+        </span>
         }
-      </mat-list>
-      <br />
-      <br />
-      <mat-list fxLayout="column" fxLayout.gt-sm="row">
-        @for (chef of rechnungspruefer; track chef) {
-          <mat-list-item class="listImage">
-            @if (chef.firstName != 'Dummy') {
-              <span>
-                <img
-                  mat-list-avatar
-                  class="img-preview"
-                  src="{{ imageBaseUrl.concat(chef.imagePath) }}"
-                  alt="{{ chef.firstName }} {{ chef.lastName | uppercase }}"
-                  />
-                <h1 mat-line>{{ chef.firstName }} {{ chef.lastName | uppercase }}</h1>
-                <h1 mat-line>{{ chef.function }}</h1>
-              </span>
-            }
-          </mat-list-item>
+      </mat-list-item>
+      }
+    </mat-list>
+    <br />
+    <br />
+    <mat-list class="flex flex-col md:flex-row">
+      @for (chef of rechnungspruefer; track chef) {
+      <mat-list-item class="listImage">
+        @if (chef.firstName != 'Dummy') {
+        <span>
+          <img
+            mat-list-avatar
+            class="img-preview"
+            src="{{ imageBaseUrl.concat(chef.imagePath) }}"
+            alt="{{ chef.firstName }} {{ chef.lastName | uppercase }}"
+          />
+          <h1 mat-line>{{ chef.firstName }} {{ chef.lastName | uppercase }}</h1>
+          <h1 mat-line>{{ chef.function }}</h1>
+        </span>
         }
-      </mat-list>
-    </div>
-  }
-
-  @if (isMobile) {
-    <div>
-      <mat-list fxLayout="column" fxLayout.gt-sm="row">
-        @for (chef of obmaennerWithoutDummy; track chef) {
-          <mat-list-item class="listImageMobile">
-            <img
-              mat-list-avatar
-              class="img-preview"
-              src="{{ imageBaseUrl.concat(chef.imagePath) }}"
-              alt="{{ chef.firstName }} {{ chef.lastName | uppercase }}"
-              />
-            <h1 mat-line>{{ chef.firstName }} {{ chef.lastName | uppercase }}</h1>
-            <h1 mat-line>{{ chef.function }}</h1>
-          </mat-list-item>
-        }
-      </mat-list>
-      <mat-list fxLayout="column" fxLayout.gt-sm="row">
-        @for (chef of kassiererWithoutDummy; track chef) {
-          <mat-list-item class="listImageMobile">
-            <img
-              mat-list-avatar
-              class="img-preview"
-              src="{{ imageBaseUrl.concat(chef.imagePath) }}"
-              alt="{{ chef.firstName }} {{ chef.lastName | uppercase }}"
-              />
-            <h1 mat-line>{{ chef.firstName }} {{ chef.lastName | uppercase }}</h1>
-            <h1 mat-line>{{ chef.function }}</h1>
-          </mat-list-item>
-        }
-      </mat-list>
-      <mat-list fxLayout="column" fxLayout.gt-sm="row">
-        @for (chef of schriftfuehrerWithoutDummy; track chef) {
-          <mat-list-item class="listImageMobile">
-            <img
-              mat-list-avatar
-              class="img-preview"
-              src="{{ imageBaseUrl.concat(chef.imagePath) }}"
-              alt="{{ chef.firstName }} {{ chef.lastName | uppercase }}"
-              />
-            <h1 mat-line>{{ chef.firstName }} {{ chef.lastName | uppercase }}</h1>
-            <h1 mat-line>{{ chef.function }}</h1>
-          </mat-list-item>
-        }
-      </mat-list>
-      <mat-list fxLayout="column" fxLayout.gt-sm="row">
-        @for (chef of rechnungsprueferWithoutDummy; track chef) {
-          <mat-list-item class="listImageMobile">
-            <img
-              mat-list-avatar
-              class="img-preview"
-              src="{{ imageBaseUrl.concat(chef.imagePath) }}"
-              alt="{{ chef.firstName }} {{ chef.lastName | uppercase }}"
-              />
-            <h1 mat-line>{{ chef.firstName }} {{ chef.lastName | uppercase }}</h1>
-            <h1 mat-line>{{ chef.function }}</h1>
-          </mat-list-item>
-        }
-      </mat-list>
-    </div>
+      </mat-list-item>
+      }
+    </mat-list>
+  </div>
+  } @if (isMobile) {
+  <div>
+    <mat-list class="flex flex-col md:flex-row">
+      @for (chef of obmaennerWithoutDummy; track chef) {
+      <mat-list-item class="listImageMobile">
+        <img
+          mat-list-avatar
+          class="img-preview"
+          src="{{ imageBaseUrl.concat(chef.imagePath) }}"
+          alt="{{ chef.firstName }} {{ chef.lastName | uppercase }}"
+        />
+        <h1 mat-line>{{ chef.firstName }} {{ chef.lastName | uppercase }}</h1>
+        <h1 mat-line>{{ chef.function }}</h1>
+      </mat-list-item>
+      }
+    </mat-list>
+    <mat-list class="flex flex-col md:flex-row">
+      @for (chef of kassiererWithoutDummy; track chef) {
+      <mat-list-item class="listImageMobile">
+        <img
+          mat-list-avatar
+          class="img-preview"
+          src="{{ imageBaseUrl.concat(chef.imagePath) }}"
+          alt="{{ chef.firstName }} {{ chef.lastName | uppercase }}"
+        />
+        <h1 mat-line>{{ chef.firstName }} {{ chef.lastName | uppercase }}</h1>
+        <h1 mat-line>{{ chef.function }}</h1>
+      </mat-list-item>
+      }
+    </mat-list>
+    <mat-list class="flex flex-col md:flex-row">
+      @for (chef of schriftfuehrerWithoutDummy; track chef) {
+      <mat-list-item class="listImageMobile">
+        <img
+          mat-list-avatar
+          class="img-preview"
+          src="{{ imageBaseUrl.concat(chef.imagePath) }}"
+          alt="{{ chef.firstName }} {{ chef.lastName | uppercase }}"
+        />
+        <h1 mat-line>{{ chef.firstName }} {{ chef.lastName | uppercase }}</h1>
+        <h1 mat-line>{{ chef.function }}</h1>
+      </mat-list-item>
+      }
+    </mat-list>
+    <mat-list class="flex flex-col md:flex-row">
+      @for (chef of rechnungsprueferWithoutDummy; track chef) {
+      <mat-list-item class="listImageMobile">
+        <img
+          mat-list-avatar
+          class="img-preview"
+          src="{{ imageBaseUrl.concat(chef.imagePath) }}"
+          alt="{{ chef.firstName }} {{ chef.lastName | uppercase }}"
+        />
+        <h1 mat-line>{{ chef.firstName }} {{ chef.lastName | uppercase }}</h1>
+        <h1 mat-line>{{ chef.function }}</h1>
+      </mat-list-item>
+      }
+    </mat-list>
+  </div>
   }
 
   <br />
   <br />
 
-  <div fxFlex="50" fxFlexOffset="10px">
+  <div class="md:w-1/2 md:ml-2.5">
     <img class="center" src="assets/images/aboutus/vorstand.JPG" />
   </div>
 
@@ -243,56 +241,54 @@
 
   <br />
 
-  <div fxFlex="50" fxFlexOffset="10px">
+  <div class="md:w-1/2 md:ml-2.5">
     <hr />
   </div>
 
   <br />
 
   <h2 class="header">Mannschaftsfoto 2023</h2>
-  <div fxFlex="50" fxFlexOffset="10px">
+  <div class="md:w-1/2 md:ml-2.5">
     <img class="center" src="assets/images/aboutus/2023_Mannschaft.jpg" />
   </div>
 
   <h2 class="header">Mannschaftsfoto 2022</h2>
-  <div fxFlex="50" fxFlexOffset="10px">
+  <div class="md:w-1/2 md:ml-2.5">
     <img class="center" src="assets/images/aboutus/2022_Mannschaft.jpg" />
   </div>
 
   <h2 class="header">Mannschaftsfoto 2021</h2>
-  <div fxFlex="50" fxFlexOffset="10px">
+  <div class="md:w-1/2 md:ml-2.5">
     <img class="center" src="assets/images/aboutus/2021_Mannschaft.jpg" />
   </div>
 
   <h2 class="header">Mannschaftsfoto 2020</h2>
-  <div fxFlex="50" fxFlexOffset="10px">
+  <div class="md:w-1/2 md:ml-2.5">
     <img class="center" src="assets/images/aboutus/2020_Mannschaft.jpg" />
   </div>
 
   <h2 class="header">Mannschaftsfoto 2018/2019</h2>
-  <div fxFlex="50" fxFlexOffset="10px">
+  <div class="md:w-1/2 md:ml-2.5">
     <img class="center" src="assets/images/aboutus/2018_2019_Mannschaft.jpg" />
   </div>
 
   <h2 class="header">Mannschaftsfoto 2017/2018</h2>
-  <div fxFlex="50" fxFlexOffset="10px">
+  <div class="md:w-1/2 md:ml-2.5">
     <img class="center" src="assets/images/aboutus/2017_2018_Mannschaft.jpg" />
   </div>
 
   <h2 class="header">Mannschaftsfoto 2016/2017</h2>
-  <div fxFlex="50" fxFlexOffset="10px">
+  <div class="md:w-1/2 md:ml-2.5">
     <img class="center" src="assets/images/aboutus/2016_2017_Mannschaft.jpg" />
   </div>
 
   <h2 class="header">Mannschaftsfoto 2015/2016</h2>
-  <div fxFlex="50" fxFlexOffset="10px">
+  <div class="md:w-1/2 md:ml-2.5">
     <img class="center" src="assets/images/aboutus/2015_2016_Mannschaft.jpg" />
   </div>
 
   <h2 class="header">Mannschaftsfoto 2014</h2>
-  <div fxFlex="50" fxFlexOffset="10px">
+  <div class="md:w-1/2 md:ml-2.5">
     <img class="center" src="assets/images/aboutus/2014_Mannschaft.jpg" />
   </div>
 </div>
-
-<br /><br />

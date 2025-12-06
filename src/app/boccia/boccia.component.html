@@ -1,14 +1,14 @@
-<div class="container" fxLayout="column" fxLayoutGap="10px">
-  <div fxFlex>
+<div class="container flex flex-col gap-3">
+  <div>
     <div>
       <h3 class="large header">Bocciaturnier 2025</h3>
       <hr />
     </div>
   </div>
 
-  <div fxFlex>
-    <div fxLayout="column" fxLayout.gt-sm="row">
-      <div fxFlex="50" fxFlexOffset="10px">
+  <div>
+    <div class="flex flex-col md:flex-row">
+      <div class="md:w-1/2 md:ml-2.5">
         <p class="normal">
           Nach der erfolgreichen Premiere bringen wir auch heuer das Kultspiel aus Italien nach
           Stainz!<br />
@@ -48,21 +48,21 @@
 
         <p class="normal">Erst mit der Einzahlung des Nenngeldes ist die Anmeldung fixiert!</p>
       </div>
-      <div fxFlex="50" fxFlexOffset="25px">
+      <div class="md:w-1/2 md:ml-6">
         <img class="imageSmallCenter" src="assets/images/boccia_2025.jpeg " style="width: 400px" />
       </div>
     </div>
   </div>
 
-  <div fxFlex fxFlexOffset="20px" class="form-size" style="padding-left: 20px">
+  <div class="form-size md:ml-5" style="padding-left: 20px">
     <h3>Sichere dir die Teilnahme gleich jetzt ⬇</h3>
     <!-- <p>{{ feedbackForm.value | json }} {{ feedbackForm.status | json }}</p> -->
     <form
       novalidate
       [formGroup]="feedbackForm"
       (ngSubmit)="onSubmit()"
-      style="background-color: darkblue; color: rgba(255, 255, 255, 0.7); border: 27.4px solid"
-      >
+      class="form-panel form-stacked"
+    >
       <p>
         <mat-form-field class="full-width" color="{{ formErrors.name ? 'warn' : 'primary' }}">
           <input
@@ -72,7 +72,7 @@
             formControlName="name"
             placeholder="Ansprechperson"
             required
-            />
+          />
           <mat-hint>
             <span [hidden]="!formErrors.name"> {{ formErrors.name }}</span>
           </mat-hint>
@@ -88,33 +88,34 @@
             formControlName="teamname"
             placeholder="Mannschaftsname"
             required
-            />
+          />
           <mat-hint>
             <span [hidden]="!formErrors.teamname"> {{ formErrors.teamname }}</span>
           </mat-hint>
         </mat-form-field>
       </p>
 
-      <button
-        style="margin: 100 auto; float: right; font-size: 20px"
-        class="formElement"
-        type="submit"
-        mat-button
-        class="background-primary"
-        [disabled]="feedbackForm.invalid"
+      <div class="form-actions">
+        <button
+          class="formElement background-primary"
+          type="submit"
+          mat-button
+          [disabled]="feedbackForm.invalid"
+          style="font-size: 20px"
         >
-        Anmeldung jetzt abschicken
-      </button>
+          Anmeldung jetzt abschicken
+        </button>
+      </div>
     </form>
 
     @if (submittedFeedback) {
+    <div>
       <div>
-        <div>
-          <h2>Wir haben deine Anmeldung erhalten, Vielen Dank! Wir melden uns bei dir in Kürze.</h2>
-          <p>Ansprechperson: {{ submittedFeedback.name }}</p>
-          <p>Teamname: {{ submittedFeedback.teamname }}</p>
-        </div>
+        <h2>Wir haben deine Anmeldung erhalten, Vielen Dank! Wir melden uns bei dir in Kürze.</h2>
+        <p>Ansprechperson: {{ submittedFeedback.name }}</p>
+        <p>Teamname: {{ submittedFeedback.teamname }}</p>
       </div>
+    </div>
     }
   </div>
   <br />

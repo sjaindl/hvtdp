@@ -10,6 +10,45 @@
   max-width: none !important;
 }
 
+/* Restores sensible margins for basic typography after Tailwind preflight zeroes them */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0 0 0.75em;
+}
+
+p {
+  margin: 0 0 1em;
+}
+
+ul,
+ol {
+  margin: 0 0 1em 1.25em;
+}
+
+.form-panel {
+  padding: 16px 20px 20px;
+  border-radius: 12px;
+  box-sizing: border-box;
+
+  border: 20px solid;
+}
+
+.form-stacked {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
+}
+
 /* Lightweight flex-layout replacements for existing templates */
 [fxLayout='column'] {
   display: flex;

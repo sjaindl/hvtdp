@@ -1,108 +1,98 @@
-<div class="container" fxLayout="column" fxLayoutGap="10px">
-  <div fxFlex>
-    <div>
-      <h3 class="large header">Stainzer Hallenturnier 2026</h3>
-      <hr />
-    </div>
+<div class="container flex flex-col gap-3">
+  <div>
+    <h3 class="large header">Stainzer Hallenturnier 2026</h3>
+    <hr />
   </div>
 
-  <div fxFlex>
-    <div fxLayout="column" fxLayout.gt-sm="row">
-      <div fxFlex="50" fxFlexOffset="10px">
-        <p class="normal"></p>
-        <p class="normal">Das legendäre Stainzer Hallenturnier kommt auch 2026 wieder!</p>
-        <p class="normal">
-          📅 WANN <br />
-          <!-- Samstag, 10.01.2026 (Erweiterung auf Freitag 09.01. bei entsprechender Teilnehmerzahl möglich) <br> -->
-          Samstag, 10.01.2026 <br />
-        </p>
+  <div class="flex flex-col md:flex-row">
+    <div class="md:w-1/2 md:ml-2.5">
+      <p class="normal"></p>
+      <p class="normal">Das legendäre Stainzer Hallenturnier kommt auch 2026 wieder!</p>
+      <p class="normal">
+        📅 WANN <br />
+        <!-- Samstag, 10.01.2026 (Erweiterung auf Freitag 09.01. bei entsprechender Teilnehmerzahl möglich) <br> -->
+        Samstag, 10.01.2026 <br />
+      </p>
 
-        <p class="normal">
-          🏟 Wo: Mittelschule Stainz<br />
-          👨👩👧👦 Spielform: 3+1<br />
-          💵 Nenngeld: 70 €
-        </p>
+      <p class="normal">
+        🏟 Wo: Mittelschule Stainz<br />
+        👨👩👧👦 Spielform: 3+1<br />
+        💵 Nenngeld: 70 €
+      </p>
 
-        <p class="normal">
-          📝 Anmeldemöglichkeiten<br />
-          ➡ Telefon (06644310021)<br />
-          ➡ E-Mail (hvtdpstainz&#64;gmx.at)<br />
-          ➡ Facebook (HV TDP Stainz)<br />
-          ➡ Instagram (hvtdpstainz_2014)<br />
-          ➡ Über dieses Anmeldeformular
-        </p>
+      <p class="normal">
+        📝 Anmeldemöglichkeiten<br />
+        ➡ Telefon (06644310021)<br />
+        ➡ E-Mail (hvtdpstainz&#64;gmx.at)<br />
+        ➡ Facebook (HV TDP Stainz)<br />
+        ➡ Instagram (hvtdpstainz_2014)<br />
+        ➡ Über dieses Anmeldeformular
+      </p>
 
-        <p class="normal">
-          Anmeldeschluss: Mittwoch, 07.01.2026 (ACHTUNG: Begrenzte Teilnehmerzahl!!!)<br />
-          Das Nenngeld MUSS im Vorhinein überwiesen werden, denn nur dann ist man FIX angemeldet!
-          <!-- (Bei der Anmeldung kann man den Vorrundentag entscheiden, solange verfügbar) -->
-        </p>
+      <p class="normal">
+        Anmeldeschluss: Mittwoch, 07.01.2026 (ACHTUNG: Begrenzte Teilnehmerzahl!!!)<br />
+        Das Nenngeld MUSS im Vorhinein überwiesen werden, denn nur dann ist man FIX angemeldet!
+        <!-- (Bei der Anmeldung kann man den Vorrundentag entscheiden, solange verfügbar) -->
+      </p>
 
-        <p class="normal">
-          Bankdaten<br />
-          ➡ Empfänger: HV TDP Stainz<br />
-          ➡ IBAN: AT67 3843 9000 0481 3481<br />
-          ➡ Verwendungszweck: Hallenturnier 2026 – Mannschaftsname<br /><br />
+      <p class="normal">
+        Bankdaten<br />
+        ➡ Empfänger: HV TDP Stainz<br />
+        ➡ IBAN: AT67 3843 9000 0481 3481<br />
+        ➡ Verwendungszweck: Hallenturnier 2026 – Mannschaftsname<br /><br />
 
-          Der Turnierklassiker in Stainz - Anmelden, mitspielen und Spaß haben! 😉
-          <br />
-        </p>
-      </div>
-      <div fxFlex="50" fxFlexOffset="25px">
-        <!-- <h3 style="text-align: center;">Hier findest du unser Stadion:</h3> -->
-        <!-- this creates a google map on the page with the given lat/lng from -->
-        <!-- the component as the initial center of the map: -->
-        <img
-          class="imageSmallCenter"
-          src="assets/images/hallenturnier_2026.jpeg "
-          style="width: 450px"
-          />
-      </div>
+        Der Turnierklassiker in Stainz - Anmelden, mitspielen und Spaß haben! 😉
+        <br />
+      </p>
+    </div>
+    <div class="md:w-1/2 md:ml-6">
+      <!-- <h3 style="text-align: center;">Hier findest du unser Stadion:</h3> -->
+      <!-- this creates a google map on the page with the given lat/lng from -->
+      <!-- the component as the initial center of the map: -->
+      <img
+        class="imageSmallCenter"
+        src="assets/images/hallenturnier_2026.jpeg "
+        style="width: 450px"
+      />
     </div>
   </div>
+</div>
 
-  <div fxFlex fxFlexOffset="20px" class="form-size">
-    <h3>Sichere dir die Teilnahme am legendären Stainzer Hallenklassiker gleich jetzt ⬇</h3>
-    <!-- <p>{{ feedbackForm.value | json }} {{ feedbackForm.status | json }}</p> -->
-    <form
-      novalidate
-      [formGroup]="feedbackForm"
-      (ngSubmit)="onSubmit()"
-      style="background-color: darkblue; color: rgba(255, 255, 255, 0.7); border: 27.4px solid"
-      >
-      <p>
-        <mat-form-field class="full-width" color="{{ formErrors.name ? 'warn' : 'primary' }}">
-          <input
-            class="formElement"
-            matInput
-            type="text"
-            formControlName="name"
-            placeholder="Name"
-            required
-            />
-          <mat-hint>
-            <span [hidden]="!formErrors.name"> {{ formErrors.name }}</span>
-          </mat-hint>
-        </mat-form-field>
-      </p>
+<div class="form-size md:ml-5">
+  <h3>Sichere dir die Teilnahme am legendären Stainzer Hallenklassiker gleich jetzt ⬇</h3>
+  <!-- <p>{{ feedbackForm.value | json }} {{ feedbackForm.status | json }}</p> -->
+  <form
+    novalidate
+    [formGroup]="feedbackForm"
+    (ngSubmit)="onSubmit()"
+    class="form-panel form-stacked"
+  >
+    <p>
+      <mat-form-field class="full-width" color="{{ formErrors.name ? 'warn' : 'primary' }}">
+        <input
+          class="formElement"
+          matInput
+          type="text"
+          formControlName="name"
+          placeholder="Name"
+          required
+        />
+        <mat-hint>
+          <span [hidden]="!formErrors.name"> {{ formErrors.name }}</span>
+        </mat-hint>
+      </mat-form-field>
+    </p>
 
-      <p>
-        <mat-form-field class="full-width" color="{{ formErrors.email ? 'warn' : 'primary' }}">
-          <input
-            matInput
-            formControlName="email"
-            placeholder="E-Mail"
-            type="email"
-            email
-            required
-            />
-          <mat-hint>
-            <span [hidden]="!formErrors.email"> {{ formErrors.email }}</span>
-          </mat-hint>
-        </mat-form-field>
-      </p>
+    <p>
+      <mat-form-field class="full-width" color="{{ formErrors.email ? 'warn' : 'primary' }}">
+        <input matInput formControlName="email" placeholder="E-Mail" type="email" email required />
+        <mat-hint>
+          <span [hidden]="!formErrors.email"> {{ formErrors.email }}</span>
+        </mat-hint>
+      </mat-form-field>
+    </p>
 
-      <!-- <p>
+    <!-- <p>
       <mat-form-field class="full-width"
         color="{{(formErrors.phone) ? 'warn' : 'primary'}}">
         <input class="formElement" matInput formControlName="phone" placeholder="Telefonnummer" type="text" required>
@@ -122,7 +112,7 @@
           formControlName="teamname"
           placeholder="Mannschaftsname"
           required
-          />
+        />
         <mat-hint>
           <span [hidden]="!formErrors.teamname"> {{ formErrors.teamname }}</span>
         </mat-hint>
@@ -141,21 +131,22 @@
         <span [hidden]="!(formErrors.day)">{{formErrors.day}}</span>
       </mat-hint>
     </mat-form-field>
-  </p> -->
+    </p> -->
 
-  <button
-    style="margin: 100 auto; float: right; font-size: 20px"
-    class="formElement"
-    type="submit"
-    mat-button
-    class="background-primary"
-    [disabled]="feedbackForm.invalid"
-    >
-    Anmeldung jetzt abschicken
-  </button>
-</form>
+    <div class="form-actions">
+      <button
+        class="formElement background-primary"
+        type="submit"
+        mat-button
+        [disabled]="feedbackForm.invalid"
+        style="font-size: 20px"
+      >
+        Anmelden
+      </button>
+    </div>
+  </form>
 
-@if (submittedFeedback) {
+  @if (submittedFeedback) {
   <div>
     <div>
       <h2>Wir haben deine Anmeldung erhalten, Vielen Dank! Wir melden uns bei dir in Kürze.</h2>
@@ -166,7 +157,5 @@
       <!-- <p>Präferenz Vorrunde: {{submittedFeedback.day}}</p> -->
     </div>
   </div>
-}
-</div>
-<br />
+  }
 </div>
