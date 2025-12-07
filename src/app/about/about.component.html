@@ -71,224 +71,165 @@
     <li><span class="fa fa-medal fa-sm"></span> Österreichischer Fan Meister (2021)</li>
   </ul>
 
-  <br />
-
   <p class="normal">
     Seit Dezember 2017 ist der HV TDP Stainz auch ein gemeldeter Verein.
     <br />
     Unser Vorstand setzt sich zusammen aus:
-    <br />
-    <br />
   </p>
 
-  <br />
-  <br />
+  <div class="chef-section">
+    <div class="chef-list">
+      @for (chef of (isMobile ? obmaennerWithoutDummy : obmaenner); track chef) { @if
+      (chef.firstName != 'Dummy') {
+      <div class="team-entry chef-card">
+        <app-hvtdp-image
+          class="img-preview"
+          [imagePath]="imageBaseUrl.concat(chef.imagePath)"
+          [altText]="chef.firstName + chef.lastName | uppercase"
+        />
+        <h3 class="chef-name">{{ chef.firstName }} {{ chef.lastName | uppercase }}</h3>
+        <p class="chef-role">{{ chef.function }}</p>
+      </div>
+      } }
+    </div>
 
-  @if (!isMobile) {
-  <div>
-    <mat-list class="flex flex-col md:flex-row">
-      @for (chef of obmaenner; track chef) {
-      <mat-list-item class="listImage">
-        @if (chef.firstName != 'Dummy') {
-        <span>
-          <img
-            mat-list-avatar
-            class="img-preview"
-            src="{{ imageBaseUrl.concat(chef.imagePath) }}"
-            alt="{{ chef.firstName }} {{ chef.lastName | uppercase }}"
-          />
-          <h1 mat-line>{{ chef.firstName }} {{ chef.lastName | uppercase }}</h1>
-          <h1 mat-line>{{ chef.function }}</h1>
-        </span>
-        }
-      </mat-list-item>
-      }
-    </mat-list>
-    <br />
-    <br />
-    <mat-list class="flex flex-col md:flex-row">
-      @for (chef of kassierer; track chef) {
-      <mat-list-item class="listImage">
-        @if (chef.firstName != 'Dummy') {
-        <span>
-          <img
-            mat-list-avatar
-            class="img-preview"
-            src="{{ imageBaseUrl.concat(chef.imagePath) }}"
-            alt="{{ chef.firstName }} {{ chef.lastName | uppercase }}"
-          />
-          <h1 mat-line>{{ chef.firstName }} {{ chef.lastName | uppercase }}</h1>
-          <h1 mat-line>{{ chef.function }}</h1>
-        </span>
-        }
-      </mat-list-item>
-      }
-    </mat-list>
-    <br />
-    <br />
-    <mat-list class="flex flex-col md:flex-row">
-      @for (chef of schriftfuehrer; track chef) {
-      <mat-list-item class="listImage">
-        @if (chef.firstName != 'Dummy') {
-        <span>
-          <img
-            mat-list-avatar
-            class="img-preview"
-            src="{{ imageBaseUrl.concat(chef.imagePath) }}"
-            alt="{{ chef.firstName }} {{ chef.lastName | uppercase }}"
-          />
-          <h1 mat-line>{{ chef.firstName }} {{ chef.lastName | uppercase }}</h1>
-          <h1 mat-line>{{ chef.function }}</h1>
-        </span>
-        }
-      </mat-list-item>
-      }
-    </mat-list>
-    <br />
-    <br />
-    <mat-list class="flex flex-col md:flex-row">
-      @for (chef of rechnungspruefer; track chef) {
-      <mat-list-item class="listImage">
-        @if (chef.firstName != 'Dummy') {
-        <span>
-          <img
-            mat-list-avatar
-            class="img-preview"
-            src="{{ imageBaseUrl.concat(chef.imagePath) }}"
-            alt="{{ chef.firstName }} {{ chef.lastName | uppercase }}"
-          />
-          <h1 mat-line>{{ chef.firstName }} {{ chef.lastName | uppercase }}</h1>
-          <h1 mat-line>{{ chef.function }}</h1>
-        </span>
-        }
-      </mat-list-item>
-      }
-    </mat-list>
-  </div>
-  } @if (isMobile) {
-  <div>
-    <mat-list class="flex flex-col md:flex-row">
-      @for (chef of obmaennerWithoutDummy; track chef) {
-      <mat-list-item class="listImageMobile">
-        <img
-          mat-list-avatar
+    <div class="chef-list">
+      @for (chef of (isMobile ? kassiererWithoutDummy : kassierer); track chef) { @if
+      (chef.firstName != 'Dummy') {
+      <div class="team-entry chef-card">
+        <app-hvtdp-image
           class="img-preview"
-          src="{{ imageBaseUrl.concat(chef.imagePath) }}"
-          alt="{{ chef.firstName }} {{ chef.lastName | uppercase }}"
+          [imagePath]="imageBaseUrl.concat(chef.imagePath)"
+          [altText]="chef.firstName + chef.lastName | uppercase"
         />
-        <h1 mat-line>{{ chef.firstName }} {{ chef.lastName | uppercase }}</h1>
-        <h1 mat-line>{{ chef.function }}</h1>
-      </mat-list-item>
-      }
-    </mat-list>
-    <mat-list class="flex flex-col md:flex-row">
-      @for (chef of kassiererWithoutDummy; track chef) {
-      <mat-list-item class="listImageMobile">
-        <img
-          mat-list-avatar
-          class="img-preview"
-          src="{{ imageBaseUrl.concat(chef.imagePath) }}"
-          alt="{{ chef.firstName }} {{ chef.lastName | uppercase }}"
-        />
-        <h1 mat-line>{{ chef.firstName }} {{ chef.lastName | uppercase }}</h1>
-        <h1 mat-line>{{ chef.function }}</h1>
-      </mat-list-item>
-      }
-    </mat-list>
-    <mat-list class="flex flex-col md:flex-row">
-      @for (chef of schriftfuehrerWithoutDummy; track chef) {
-      <mat-list-item class="listImageMobile">
-        <img
-          mat-list-avatar
-          class="img-preview"
-          src="{{ imageBaseUrl.concat(chef.imagePath) }}"
-          alt="{{ chef.firstName }} {{ chef.lastName | uppercase }}"
-        />
-        <h1 mat-line>{{ chef.firstName }} {{ chef.lastName | uppercase }}</h1>
-        <h1 mat-line>{{ chef.function }}</h1>
-      </mat-list-item>
-      }
-    </mat-list>
-    <mat-list class="flex flex-col md:flex-row">
-      @for (chef of rechnungsprueferWithoutDummy; track chef) {
-      <mat-list-item class="listImageMobile">
-        <img
-          mat-list-avatar
-          class="img-preview"
-          src="{{ imageBaseUrl.concat(chef.imagePath) }}"
-          alt="{{ chef.firstName }} {{ chef.lastName | uppercase }}"
-        />
-        <h1 mat-line>{{ chef.firstName }} {{ chef.lastName | uppercase }}</h1>
-        <h1 mat-line>{{ chef.function }}</h1>
-      </mat-list-item>
-      }
-    </mat-list>
-  </div>
-  }
+        <h3 class="chef-name">{{ chef.firstName }} {{ chef.lastName | uppercase }}</h3>
+        <p class="chef-role">{{ chef.function }}</p>
+      </div>
+      } }
+    </div>
 
-  <br />
-  <br />
+    <div class="chef-list">
+      @for (chef of (isMobile ? schriftfuehrerWithoutDummy : schriftfuehrer); track chef) { @if
+      (chef.firstName != 'Dummy') {
+      <div class="team-entry chef-card">
+        <app-hvtdp-image
+          class="img-preview"
+          [imagePath]="imageBaseUrl.concat(chef.imagePath)"
+          [altText]="chef.firstName + chef.lastName | uppercase"
+        />
+        <h3 class="chef-name">{{ chef.firstName }} {{ chef.lastName | uppercase }}</h3>
+        <p class="chef-role">{{ chef.function }}</p>
+      </div>
+      } }
+    </div>
 
-  <div class="md:w-1/2 md:ml-2.5">
-    <img class="center" src="assets/images/aboutus/vorstand.JPG" />
+    <div class="chef-list">
+      @for (chef of (isMobile ? rechnungsprueferWithoutDummy : rechnungspruefer); track chef) { @if
+      (chef.firstName != 'Dummy') {
+      <div class="team-entry chef-card">
+        <app-hvtdp-image
+          class="img-preview"
+          [imagePath]="imageBaseUrl.concat(chef.imagePath)"
+          [altText]="chef.firstName + chef.lastName | uppercase"
+        />
+        <h3 class="chef-name">{{ chef.firstName }} {{ chef.lastName | uppercase }}</h3>
+        <p class="chef-role">{{ chef.function }}</p>
+      </div>
+      } }
+    </div>
   </div>
 
-  <p class="normal center">
+  <br />
+  <br />
+
+  <div class="ml-2.5 mr-2.5">
+    <app-hvtdp-image [imagePath]="'assets/images/aboutus/vorstand.JPG'" />
+  </div>
+
+  <p class="normal ml-2.5 mr-2.5">
     v.l.n.r.: Heritsch (Rechnungsprüfer), Oswald (Schriftführer Stellvertreter), Jaindl
     (Schriftführer), Fabian (Obmann), Seidl (Obmann Stellvertreter), Bohacek (Kassier), Ronegg
     (Kassier Stellvertreter)
   </p>
 
-  <br />
-
-  <div class="md:w-1/2 md:ml-2.5">
+  <div class="ml-2.5 mr-2.5">
     <hr />
   </div>
 
   <br />
 
-  <h2 class="header">Mannschaftsfoto 2023</h2>
-  <div class="md:w-1/2 md:ml-2.5">
-    <img class="center" src="assets/images/aboutus/2023_Mannschaft.jpg" />
-  </div>
-
-  <h2 class="header">Mannschaftsfoto 2022</h2>
-  <div class="md:w-1/2 md:ml-2.5">
-    <img class="center" src="assets/images/aboutus/2022_Mannschaft.jpg" />
-  </div>
-
-  <h2 class="header">Mannschaftsfoto 2021</h2>
-  <div class="md:w-1/2 md:ml-2.5">
-    <img class="center" src="assets/images/aboutus/2021_Mannschaft.jpg" />
-  </div>
-
-  <h2 class="header">Mannschaftsfoto 2020</h2>
-  <div class="md:w-1/2 md:ml-2.5">
-    <img class="center" src="assets/images/aboutus/2020_Mannschaft.jpg" />
-  </div>
-
-  <h2 class="header">Mannschaftsfoto 2018/2019</h2>
-  <div class="md:w-1/2 md:ml-2.5">
-    <img class="center" src="assets/images/aboutus/2018_2019_Mannschaft.jpg" />
-  </div>
-
-  <h2 class="header">Mannschaftsfoto 2017/2018</h2>
-  <div class="md:w-1/2 md:ml-2.5">
-    <img class="center" src="assets/images/aboutus/2017_2018_Mannschaft.jpg" />
-  </div>
-
-  <h2 class="header">Mannschaftsfoto 2016/2017</h2>
-  <div class="md:w-1/2 md:ml-2.5">
-    <img class="center" src="assets/images/aboutus/2016_2017_Mannschaft.jpg" />
-  </div>
-
-  <h2 class="header">Mannschaftsfoto 2015/2016</h2>
-  <div class="md:w-1/2 md:ml-2.5">
-    <img class="center" src="assets/images/aboutus/2015_2016_Mannschaft.jpg" />
-  </div>
-
-  <h2 class="header">Mannschaftsfoto 2014</h2>
-  <div class="md:w-1/2 md:ml-2.5">
-    <img class="center" src="assets/images/aboutus/2014_Mannschaft.jpg" />
+  <div class="team-gallery">
+    <figure class="team-entry">
+      <h2 class="team-title">Mannschaftsfoto 2023</h2>
+      <app-hvtdp-image
+        class="team-image"
+        [imagePath]="'assets/images/aboutus/2023_Mannschaft.jpg'"
+        [altText]="'Mannschaftsfoto 2023'"
+      />
+    </figure>
+    <figure class="team-entry">
+      <h2 class="team-title">Mannschaftsfoto 2022</h2>
+      <app-hvtdp-image
+        class="team-image"
+        [imagePath]="'assets/images/aboutus/2022_Mannschaft.jpg'"
+        [altText]="'Mannschaftsfoto 2022'"
+      />
+    </figure>
+    <figure class="team-entry">
+      <h2 class="team-title">Mannschaftsfoto 2021</h2>
+      <app-hvtdp-image
+        class="team-image"
+        [imagePath]="'assets/images/aboutus/2021_Mannschaft.jpg'"
+        [altText]="'Mannschaftsfoto 2021'"
+      />
+    </figure>
+    <figure class="team-entry">
+      <h2 class="team-title">Mannschaftsfoto 2020</h2>
+      <app-hvtdp-image
+        class="team-image"
+        [imagePath]="'assets/images/aboutus/2020_Mannschaft.jpg'"
+        [altText]="'Mannschaftsfoto 2020'"
+      />
+    </figure>
+    <figure class="team-entry">
+      <h2 class="team-title">Mannschaftsfoto 2018/2019</h2>
+      <app-hvtdp-image
+        class="team-image"
+        [imagePath]="'assets/images/aboutus/2018_2019_Mannschaft.jpg'"
+        [altText]="'Mannschaftsfoto 2018/2019'"
+      />
+    </figure>
+    <figure class="team-entry">
+      <h2 class="team-title">Mannschaftsfoto 2017/2018</h2>
+      <app-hvtdp-image
+        class="team-image"
+        [imagePath]="'assets/images/aboutus/2017_2018_Mannschaft.jpg'"
+        [altText]="'Mannschaftsfoto 2017/2018'"
+      />
+    </figure>
+    <figure class="team-entry">
+      <h2 class="team-title">Mannschaftsfoto 2016/2017</h2>
+      <app-hvtdp-image
+        class="team-image"
+        [imagePath]="'assets/images/aboutus/2016_2017_Mannschaft.jpg'"
+        [altText]="'Mannschaftsfoto 2016/2017'"
+      />
+    </figure>
+    <figure class="team-entry">
+      <h2 class="team-title">Mannschaftsfoto 2015/2016</h2>
+      <app-hvtdp-image
+        class="team-image"
+        [imagePath]="'assets/images/aboutus/2015_2016_Mannschaft.jpg'"
+        [altText]="'Mannschaftsfoto 2015/2016'"
+      />
+    </figure>
+    <figure class="team-entry">
+      <h2 class="team-title">Mannschaftsfoto 2014</h2>
+      <app-hvtdp-image
+        class="team-image"
+        [imagePath]="'assets/images/aboutus/2014_Mannschaft.jpg'"
+        [altText]="'Mannschaftsfoto 2014'"
+      />
+    </figure>
   </div>
 </div>
