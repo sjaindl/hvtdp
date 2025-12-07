@@ -1,15 +1,68 @@
-.mat-list .mat-list-item .mat-list-avatar.papp-preview {
-  width: 250px;
-  height: 250px;
-  margin-right: 20px;
+.papp-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+  padding: 0.5rem;
 }
 
-.pappListImage {
-  float: left;
-  margin-bottom: 250px;
-  width: 700px;
+.papp-card {
+  background: linear-gradient(145deg, #ffffff 0%, #f6f8fd 100%);
+  border: 1px solid #dfe7f4;
+  border-radius: 14px;
+  box-shadow: 0 12px 24px rgba(18, 51, 95, 0.12);
+  padding: 0.75rem 0.75rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: center;
+  text-align: center;
 }
 
-.text {
-  color: white;
+.papp-preview {
+  display: block;
+}
+
+.papp-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.papp-label {
+  margin: 0;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 700;
+  color: #0f2c59;
+}
+
+.papp-name {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #0f2c59;
+  word-break: break-word;
+}
+
+.papp-credit {
+  margin: 0;
+  color: #4a576d;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+/* Ensure hvtdp image fits */
+:host ::ng-deep .papp-preview .slider-image-wrapper {
+  width: 100%;
+  height: 100%;
+}
+
+:host ::ng-deep .papp-preview .slider-image {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 12px;
 }

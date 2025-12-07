@@ -8,43 +8,19 @@
   {{ pappfans.length }} Unterstützern:
 </p>
 
-<br />
-<br />
-<br />
-<br />
-
-<div class="flex flex-col">
-  <mat-list>
-    @for (pappfan of pappfans; track pappfan) {
-      <mat-list-item class="pappListImage">
-        <img
-          matListAvatar
-          class="papp-preview"
-          src="{{ imageBaseUrl + pappfan.imagePath }}"
-          alt="{{ pappfan.name }}"
-          />
-        <br />
-        <table>
-          <tr>
-            <h4 class="text">Unterstützer:</h4>
-            @if (pappfan.name.length > 25) {
-              <span>
-                <h3 class="text" style="font-size: large; font-weight: bold; max-width: 100%">
-                  {{ pappfan.name }}
-                </h3>
-              </span>
-            }
-            @if (pappfan.name.length <= 25) {
-              <span>
-                <h1 class="text" style="font-size: xx-large; font-weight: bold" matLine>
-                  {{ pappfan.name }}
-                </h1>
-              </span>
-            }
-            <h4 class="text">copyright: Ligaportal.at</h4>
-          </tr>
-        </table>
-      </mat-list-item>
-    }
-  </mat-list>
+<div class="papp-grid">
+  @for (pappfan of pappfans; track pappfan) {
+  <article class="papp-card">
+    <app-hvtdp-image
+      class="papp-preview"
+      [imagePath]="imageBaseUrl + pappfan.imagePath"
+      [altText]="pappfan.name"
+    />
+    <div class="papp-meta">
+      <p class="papp-label">Unterstützer</p>
+      <p class="papp-name">{{ pappfan.name }}</p>
+      <p class="papp-credit">copyright: Ligaportal.at</p>
+    </div>
+  </article>
+  }
 </div>

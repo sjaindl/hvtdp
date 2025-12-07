@@ -4,14 +4,14 @@ import { PappFan } from '../shared/papp';
 import { baseUrlImages } from '../shared/baseurls';
 import { MysqlService } from '../services/mysql.service';
 import { Title, Meta } from '@angular/platform-browser';
-import { MatListModule } from '@angular/material/list';
+import { HvtdpImageComponent } from '../hvtdp-image/hvtdp-image.component';
 
 @Component({
     selector: 'app-hallofpapp',
     templateUrl: './hallofpapp.component.html',
     styleUrls: ['./hallofpapp.component.css'],
     standalone: true,
-    imports: [CommonModule, MatListModule]
+    imports: [CommonModule, HvtdpImageComponent]
 })
 export class HallofpappComponent implements OnInit {
   pappfans: PappFan[];
