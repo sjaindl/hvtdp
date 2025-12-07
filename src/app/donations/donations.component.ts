@@ -12,7 +12,6 @@ import { Title, Meta } from '@angular/platform-browser';
 })
 export class DonationsComponent implements OnInit {
   donations: Donation[];
-  selectedDonation: Donation = null;
   imageBaseUrl: String;
 
   constructor(
@@ -34,8 +33,6 @@ export class DonationsComponent implements OnInit {
           return 0;
         }
       });
-
-      this.selectedDonation = null;
     });
 
     this.titleService.setTitle('HV TDP Stainz: Matchballspenden');
@@ -52,13 +49,5 @@ export class DonationsComponent implements OnInit {
       { name: 'author', content: 'Stefan Jaindl' },
       { charset: 'UTF-8' },
     ]);
-  }
-
-  selectDonation(donation: Donation) {
-    this.selectedDonation = donation;
-  }
-
-  back() {
-    this.selectedDonation = null;
   }
 }

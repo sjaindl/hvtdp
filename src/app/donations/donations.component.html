@@ -1,4 +1,4 @@
-@if (!selectedDonation) {
+<div class="donations-shell container flex flex-col gap-4">
   <div>
     <h1 class="large header">Matchballspenden</h1>
     <p class="normal">
@@ -6,63 +6,38 @@
       Matchballspenden. Durch Förderung bzw. Unterstützung ist es dem Verein möglich, einen
       reibungslosen Spielbetrieb aufrecht zu erhalten.
     </p>
-    <br />
-    <br />
-    <br />
   </div>
-}
 
-@if (!selectedDonation) {
-  <div>
-    <div class="flex flex-col">
-      <mat-list>
-        @for (donation of donations; track donation) {
-          <mat-list-item class="matchballListImage">
-            <img
-              matListAvatar
-              class="matchball-preview"
-              src="{{ imageBaseUrl + donation.matchBallImagePath }}"
-              alt="{{ donation.game }}"
-              (click)="selectDonation(donation)"
-              />
-            <br />
-            <h1 style="font-size: xx-large; font-weight: bold" matLine>{{ donation.date }}</h1>
-            <h1 style="font-size: x-large" matLine>{{ donation.donator }}</h1>
-            <h1 style="font-size: x-large" matLine>{{ donation.game }}</h1>
-          </mat-list-item>
-        }
-      </mat-list>
-    </div>
-  </div>
-}
+  <div class="donation-grid">
+    @for (donation of donations; track donation) {
+    <article class="donation-card">
+      <div class="donation-header">
+        <div>
+          <p class="donation-date">{{ donation.date }}</p>
+          <p class="donation-game">{{ donation.game }}</p>
+        </div>
+        <span class="donation-chip">Sponsor: {{ donation.donator }}</span>
+      </div>
 
-@for (donation of donations; track donation) {
-  <div>
-    @if (selectedDonation == donation) {
-      <div>
-        <p class="large">{{ donation.date }}, {{ donation.game }}</p>
-        <img
-          class="center"
-          style="width: 25vw"
-          src="{{ imageBaseUrl + donation.imagePath }}"
-          alt="{{ donation.donator }}"
-          (click)="back()"
+      <div class="donation-media">
+        <figure class="media-block">
+          <div class="label">Matchball</div>
+          <app-hvtdp-image
+            class="matchball-preview"
+            [imagePath]="imageBaseUrl + donation.matchBallImagePath"
+            [altText]="donation.game"
           />
-        <!-- <p class="normal">
-        {{donation.description}}
-      </p> -->
-      <button
-        style="margin-left: 15px; font-size: 20px"
-        mat-button
-        class="background-primary"
-        (click)="back()"
-        >
-        Zurück zur Übersicht
-      </button>
-    </div>
-  }
+        </figure>
+        <figure class="media-block">
+          <div class="label">Übergabe</div>
+          <app-hvtdp-image
+            class="donation-preview"
+            [imagePath]="imageBaseUrl + donation.imagePath"
+            [altText]="donation.donator"
+          />
+        </figure>
+      </div>
+    </article>
+    }
+  </div>
 </div>
-}
-
-<br />
-<br />
