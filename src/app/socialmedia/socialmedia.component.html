@@ -5,214 +5,67 @@
   Videoarchiv!
 </p>
 
-<p class="normalCentered">
+<p>
   @if (!isMobile) {
-    <img src="/assets/images/video.gif" width="20%" />
-  }
-  @if (isMobile) {
-    <img src="/assets/images/video.gif" width="90%" />
+  <img class="centerWithoutWidth" src="/assets/images/video.gif" width="20%" />
+  } @else {
+  <img class="centerWithoutWidth" src="/assets/images/video.gif" width="80%" />
   }
 </p>
 
 @for (game of games; track game) {
-  <div>
-    @if (game.round != 0 && game.round < 90) {
-      <p class="normalCentered">
-        Saison {{ game.season }}: Runde {{ game.round }}
+<section class="game-block">
+  <div class="game-header">
+    <div class="game-meta">
+      <span class="chip">Saison {{ game.season }}</span>
+      @if (game.round != 0 && game.round < 90) {
+      <span class="chip muted">Runde {{ game.round }}</span>
+      }
+    </div>
+    <div class="game-title">
+      <div class="title-line">
+        <span class="game-date">{{ game.date }}</span>
+        @if (game.customText) {
+        <span class="chip accent">{{ game.customText }}</span>
+        }
+      </div>
+      <p class="game-desc">
+        {{ game.description || 'Spiel-Highlights' }}
       </p>
-    }
-    @if (game.round == 0 || game.round >= 90) {
-      <p class="normalCentered">Saison {{ game.season }}</p>
-    }
-    @if (game.description) {
-      <p class="normalCentered">{{ game.date }} - {{ game.description }}</p>
-    }
-    @if (!game.description) {
-      <p class="normalCentered">
-        {{ game.date }}
-      </p>
-    }
-    @if (game.customText) {
-      <p class="normalCentered">
-        {{ game.customText }}
-      </p>
-    }
-    <br />
-    <div class="container flex flex-col gap-3">
+    </div>
+  </div>
+
+  <div class="game-slider">
+    <div class="card-row">
       @for (link of game.links; track link) {
-        <div>
-          <mat-list>
-            @for (player of players; track player) {
-              <div>
-                @if (matches(link.scorer, player)) {
-                  <mat-list-item
-                    [ngStyle]="{ height: isMobile ? '600px' : '500px' }"
-                    >
-                    <div class="flex-1">
-                      <div class="flex flex-col md:flex-row items-center justify-center">
-                        <span class="bordered flex flex-col md:flex-row items-center justify-center gap-4 w-full">
-                          <div class="item-detail md:w-1/6 md:ml-2.5">
-                            <div class="flex flex-col items-center justify-center">
-                              <div class="md:w-1/2 md:ml-2.5">
-                                <img
-                                  class="imageSmallCenter"
-                                  matListAvatar
-                                  class="img-preview"
-                                  src="{{ imageBaseUrl + player.imagePath }}"
-                                  alt="{{ player.firstName }} {{ player.lastName }}"
-                                  style="width: 80px; height: 130px"
-                                  />
-                              </div>
-                              <div class="md:w-1/2 md:ml-2.5">
-                                <p class="smallCentered">{{ link.description }} {{ link.scorer }}</p>
-                              </div>
-                            </div>
-                          </div>
-                          @if (isMobile) {
-                            <div
-                              class="md:w-1/2 md:ml-6 flex justify-center items-center"
-                              >
-                              <iframe
-                                width="224px"
-                                height="128px"
-                                [src]="link.link | safe"
-                                frameborder="0"
-                                allowfullscreen
-                              ></iframe>
-                            </div>
-                          }
-                          @if (!isMobile) {
-                            <div
-                              class="md:w-1/2 md:ml-6 flex justify-center items-center"
-                              >
-                              <iframe
-                                width="560px"
-                                height="315px"
-                                [src]="link.link | safe"
-                                frameborder="0"
-                                allowfullscreen
-                              ></iframe>
-                            </div>
-                          }
-                        </span>
-                      </div>
-                    </div>
-                    <!-- <a href="{{link.link}}" target="_blank"></a>   -->
-                    <!-- https://www.youtube.com/embed/1ozGKlOzEVc -->
-                  </mat-list-item>
-                }
-              </div>
-            }
-            <div>
-              @if (link.scorer == 'Eigentor') {
-                <mat-list-item
-                  [ngStyle]="{ height: isMobile ? '600px' : '500px' }"
-                  >
-                    <div class="flex-1">
-                    <div class="flex flex-col md:flex-row items-center justify-center">
-                      <span class="bordered flex flex-col md:flex-row items-center justify-center gap-4 w-full">
-                        <div class="item-detail md:w-1/6 md:ml-2.5">
-                          <div class="flex flex-col items-center justify-center">
-                            <div class="md:w-1/2 md:ml-2.5">
-                              <img
-                                matListAvatar
-                                class="img-preview"
-                                src="{{ imageBaseUrl + 'team/no_photo.jpg' }}"
-                                alt="{{ link.scorer }}"
-                                style="width: 80; height: 130px"
-                                />
-                            </div>
-                            <div class="md:w-1/2 md:ml-2.5">
-                              <p class="smallCentered">{{ link.description }} {{ link.scorer }}</p>
-                            </div>
-                          </div>
-                        </div>
-                        @if (isMobile) {
-                          <div
-                            class="md:w-1/2 md:ml-6 flex justify-center items-center"
-                            >
-                            <iframe
-                              width="224px"
-                              height="128px"
-                              [src]="link.link | safe"
-                              frameborder="0"
-                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                              allowfullscreen
-                              referrerpolicy="strict-origin-when-cross-origin"
-                            ></iframe>
-                          </div>
-                        }
-                        @if (!isMobile) {
-                          <div
-                            class="md:w-1/2 md:ml-6 flex justify-center items-center"
-                            >
-                            <iframe
-                              width="560px"
-                              height="315px"
-                              [src]="link.link | safe"
-                              frameborder="0"
-                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                              allowfullscreen
-                              referrerpolicy="strict-origin-when-cross-origin"
-                            ></iframe>
-                          </div>
-                        }
-                      </span>
-                    </div>
-                  </div>
-                  <br /><br />
-                </mat-list-item>
-              }
-            </div>
-            <div>
-              @if (link.scorer == '') {
-                <mat-list-item
-                  [ngStyle]="{ height: isMobile ? '600px' : '500px' }"
-                  >
-                  <div class="flex-1">
-                    <div class="flex flex-col items-center justify-center">
-                      <span class="bordered">
-                        <div class="item-detail md:w-1/6 md:ml-6">
-                          {{ link.description }}
-                        </div>
-                        @if (isMobile) {
-                          <div
-                            class="md:w-1/2 md:ml-6 flex justify-center items-center"
-                            >
-                            <iframe
-                              width="224px"
-                              height="128px"
-                              [src]="link.link | safe"
-                              frameborder="0"
-                              allowfullscreen
-                            ></iframe>
-                          </div>
-                        }
-                        @if (!isMobile) {
-                          <div
-                            class="md:w-1/2 md:ml-6 flex justify-center items-center"
-                            >
-                            <iframe
-                              width="560px"
-                              height="315px"
-                              [src]="link.link | safe"
-                              frameborder="0"
-                              allowfullscreen
-                            ></iframe>
-                          </div>
-                        }
-                      </span>
-                    </div>
-                  </div>
-                  <br /><br />
-                </mat-list-item>
-              }
-            </div>
-          </mat-list>
+      <article class="video-card snap-start">
+        <div class="video-frame">
+          <iframe
+            [src]="safeVideo(link.link)"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+            referrerpolicy="strict-origin-when-cross-origin"
+            title="{{ link.description || 'Highlight' }}"
+          ></iframe>
         </div>
+        <div class="card-body">
+          <div class="scorer">
+            <app-hvtdp-image
+              [imagePath]="scorerImage(link.scorer)"
+              [altText]="scorerName(link.scorer)"
+            />
+
+            <div>
+              <p class="scorer-name">{{ scorerName(link.scorer) }}</p>
+              <p class="scorer-meta">{{ link.description || 'Video-Highlight' }}</p>
+            </div>
+          </div>
+        </div>
+      </article>
       }
     </div>
   </div>
+</section>
 }
 
 <br />

@@ -1,17 +1,19 @@
-import { Component, OnInit, ChangeDetectorRef, HostListener } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, OnInit } from '@angular/core';
+import { DomSanitizer, Meta, SafeResourceUrl, Title } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
+import { DeviceDetectorService } from 'ngx-device-detector';
+import { HvtdpImageComponent } from '../hvtdp-image/hvtdp-image.component';
+import { MysqlService } from '../services/mysql.service';
+import { baseUrlImages } from '../shared/baseurls';
 import { Game } from '../shared/games';
 import { Player } from '../shared/player';
-import { baseUrlImages } from '../shared/baseurls';
-import { MysqlService } from '../services/mysql.service';
-import { DeviceDetectorService } from 'ngx-device-detector';
-import { Title, Meta } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
-    selector: 'app-socialmedia',
-    templateUrl: './socialmedia.component.html',
-    styleUrls: ['./socialmedia.component.css'],
-    standalone: false
+  selector: 'app-socialmedia',
+  templateUrl: './socialmedia.component.html',
+  styleUrls: ['./socialmedia.component.css'],
+  standalone: true,
+  imports: [HvtdpImageComponent],
 })
 export class SocialmediaComponent implements OnInit {
   games: Game[];
@@ -28,7 +30,8 @@ export class SocialmediaComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private deviceService: DeviceDetectorService,
     private titleService: Title,
-    private metaTagService: Meta
+    private metaTagService: Meta,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit() {
@@ -85,16 +88,37 @@ export class SocialmediaComponent implements OnInit {
     this.isMobile = this.deviceService.isMobile();
   }
 
-  height() {
-    if (this.isMobile) return '600px';
-    return '400px';
-  }
-
   matches(name: string, player: Player) {
     if (name.includes(' ')) {
       return player.lastName + ' ' + player.firstName == name;
     }
 
     return player.lastName == name;
+  }
+
+  getPlayerByName(name: string): Player | undefined {
+    if (!name || !this.players) return undefined;
+    return this.players.find((player) => this.matches(name, player));
+  }
+
+  scorerImage(name: string): string {
+    const player = this.getPlayerByName(name);
+    if (player?.imagePath) {
+      return this.imageBaseUrl + player.imagePath;
+    }
+
+    return this.imageBaseUrl + 'team/no_photo.jpg';
+  }
+
+  scorerName(name: string): string {
+    if (name && name.trim().length > 0) {
+      return name;
+    }
+
+    return 'Highlight';
+  }
+
+  safeVideo(link: string): SafeResourceUrl {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(link);
   }
 }

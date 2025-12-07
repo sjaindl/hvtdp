@@ -84,7 +84,6 @@ import { ZehnjahresfeierComponent } from './zehnjahresfeier/zehnjahresfeier.comp
     MembershipComponent,
     PlayerOfTheSeasonComponent,
     SafePipe,
-    SocialmediaComponent,
     StadionFestComponent,
     StartingelevenComponent,
     SurveysComponent,
@@ -136,6 +135,7 @@ import { ZehnjahresfeierComponent } from './zehnjahresfeier/zehnjahresfeier.comp
     BocciaComponent,
     FanshopComponent,
     TeamComponent,
+    SocialmediaComponent,
   ],
   bootstrap: [AppComponent],
   providers: [
