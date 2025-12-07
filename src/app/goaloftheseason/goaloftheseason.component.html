@@ -4,22 +4,21 @@
 <!-- <button style="margin: auto; font-size: 20px;" mat-button class="background-primary" (click)="goToSurvey()">Zur Umfrage</button> -->
 
 @if (season == '2022') {
-  <a
-    href="https://www.umfrageonline.com/c/zwsdprsc"
-    style="font-size: 20px; text-align: center; display: block"
-    target="_blank"
-    >
-    Zur Umfrage
-  </a>
-}
-@if (season == '2023') {
-  <a
-    href="https://www.umfrageonline.com/c/djhufanr"
-    style="font-size: 20px; text-align: center; display: block"
-    target="_blank"
-    >
-    Zur Umfrage
-  </a>
+<a
+  href="https://www.umfrageonline.com/c/zwsdprsc"
+  style="font-size: 20px; text-align: center; display: block"
+  target="_blank"
+>
+  Zur Umfrage
+</a>
+} @if (season == '2023') {
+<a
+  href="https://www.umfrageonline.com/c/djhufanr"
+  style="font-size: 20px; text-align: center; display: block"
+  target="_blank"
+>
+  Zur Umfrage
+</a>
 }
 
 <br />
@@ -36,148 +35,53 @@
 </iframe>
 </div> -->
 
-<div class="container flex flex-col gap-3">
-  @if (!isMobile) {
-    <div class="flex-1">
-      @if (!isMobile) {
-        <mat-grid-list cols="2" rowHeight="400px">
-          @for (link of links; track link) {
-            <div>
-              @for (player of players; track player) {
-                <div>
-                  @if (matches(link.link.scorer, player)) {
-                    <mat-grid-tile
-                      [ngStyle]="{ height: '130px' }"
-                      appHighlight
-                      class="bordered-light"
-                      >
-                      <div class="flex justify-center items-center w-full">
-                        <iframe
-                          width="560px"
-                          height="315px"
-                          [src]="link.link.link | safe"
-                          frameborder="0"
-                          allowfullscreen
-                        ></iframe>
-                      </div>
-                      <div class="item-detail flex flex-col items-center justify-center w-full">
-                        <div class="mb-2">
-                          <img
-                            class="imageSmallCenter"
-                            matListAvatar
-                            class="img-preview"
-                            src="{{ imageBaseUrl + player.imagePath }}"
-                            alt="{{ player.firstName }} {{ player.lastName }}"
-                            style="width: 80px; height: 130px"
-                            />
-                        </div>
-                        <div class="text-center">
-                          <p class="small">{{ player.firstName }} {{ player.lastName }}</p>
-                        </div>
-                      </div>
-                    </mat-grid-tile>
-                  }
-                </div>
-              }
-            </div>
-          }
-        </mat-grid-list>
-      }
-    </div>
-  }
-
-  @if (isMobile) {
-    <div class="flex-1">
-      <mat-grid-list cols="1" rowHeight="425px">
-        @for (link of links; track link) {
-          <div>
-            @for (player of players; track player) {
-              <div>
-                @if (matches(link.link.scorer, player)) {
-                  <mat-grid-tile
-                    [ngStyle]="{ height: '180px' }"
-                    appHighlight
-                    class="bordered-light"
-                    >
-                    <div class="flex flex-col items-center justify-center gap-3">
-                      <div class="flex justify-center items-center w-full">
-                        <iframe
-                          width="224px"
-                          height="128px"
-                          [src]="link.link.link | safe"
-                          frameborder="0"
-                          allowfullscreen
-                        ></iframe>
-                      </div>
-                      <div class="item-detail flex flex-col items-center justify-center w-full">
-                        <div class="mb-2">
-                          <img
-                            class="imageSmallCenter"
-                            matListAvatar
-                            class="img-preview"
-                            src="{{ imageBaseUrl + player.imagePath }}"
-                            alt="{{ player.firstName }} {{ player.lastName }}"
-                            style="width: 80px; height: 130px"
-                            />
-                        </div>
-                        <div class="text-center">
-                          <p class="small">{{ player.firstName }} {{ player.lastName }}</p>
-                        </div>
-                      </div>
-                    </div>
-                  </mat-grid-tile>
-                }
-              </div>
-            }
-          </div>
-        }
-      </mat-grid-list>
-    </div>
+<div class="video-grid">
+  @for (link of links; track link.link.link) {
+    <app-video-card
+      [videoUrl]="link.link.link"
+      [scorerImage]="scorerImage(link.link.scorer)"
+      [scorerName]="scorerDisplayName(link.link.scorer)"
+      [description]="link.link.description || 'Video-Highlight'"
+    />
   }
 </div>
 
 @if (season == '2025') {
+<div>
+  @if (canVote) {
   <div>
-    @if (canVote) {
-      <div>
-        <p class="normal">
-          Stimme hier für dein Tor des Jahres 2025 (abgestimmt werden kann pro Stunde 1x):
-        </p>
-        <mat-selection-list #voting [multiple]="false">
-          @for (vote of goalOfSeasonOptions; track vote) {
-            <mat-list-option
-              [value]="vote"
-              style="color: whitesmoke"
-              >
-              {{ vote.player }}
-            </mat-list-option>
-          }
-        </mat-selection-list>
-        @if (voting.selectedOptions.hasValue()) {
-          <p class="normal">
-            Deine Wahl: {{ voting.selectedOptions.selected[0].value.player }}
-          </p>
-        }
-        <br />
-        <p class="normal">
-          <button
-            mat-flat-button
-            color="primary"
-            [disabled]="!voting.selectedOptions.hasValue()"
-            (click)="saveVote(voting.selectedOptions.selected[0].value)"
-            >
-            Stimme abgeben
-          </button>
-        </p>
-        <br /><br />
-      </div>
+    <p class="normal">
+      Stimme hier für dein Tor des Jahres 2025 (abgestimmt werden kann pro Stunde 1x):
+    </p>
+    <mat-selection-list #voting [multiple]="false">
+      @for (vote of goalOfSeasonOptions; track vote) {
+      <mat-list-option [value]="vote" style="color: whitesmoke">
+        {{ vote.player }}
+      </mat-list-option>
+      }
+    </mat-selection-list>
+    @if (voting.selectedOptions.hasValue()) {
+    <p class="normal">Deine Wahl: {{ voting.selectedOptions.selected[0].value.player }}</p>
     }
-    @if (!canVote) {
-      <div>
-        <p class="normal center">Vielen Dank für deine Stimme!</p>
-      </div>
-    }
+    <br />
+    <p class="normal">
+      <button
+        mat-flat-button
+        color="primary"
+        [disabled]="!voting.selectedOptions.hasValue()"
+        (click)="saveVote(voting.selectedOptions.selected[0].value)"
+      >
+        Stimme abgeben
+      </button>
+    </p>
+    <br /><br />
   </div>
+  } @if (!canVote) {
+  <div>
+    <p class="normal center">Vielen Dank für deine Stimme!</p>
+  </div>
+  }
+</div>
 }
 
 <br />

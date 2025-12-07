@@ -9,3 +9,17 @@ mat-list-option[aria-selected='true'] {
 mat-list-option[aria-selected='false'] {
   background: #3b3b3b;
 }
+
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  padding: 8px;
+}
+
+@media (max-width: 640px) {
+  .video-grid {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 12px;
+  }
+}

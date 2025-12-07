@@ -156,4 +156,24 @@ export class GoalOfTheSeasonComponent implements OnInit {
       this.canVote = false;
     });
   }
+
+  private getPlayerByName(name: string): Player | undefined {
+    if (!name || !this.players) return undefined;
+    return this.players.find((player) => this.matches(name, player));
+  }
+
+  scorerImage(name: string): string {
+    const player = this.getPlayerByName(name);
+    if (player?.imagePath) {
+      return this.imageBaseUrl + player.imagePath;
+    }
+    return this.imageBaseUrl + 'team/no_photo.jpg';
+  }
+
+  scorerDisplayName(name: string): string {
+    if (name && name.trim().length > 0) {
+      return name;
+    }
+    return 'Highlight';
+  }
 }
