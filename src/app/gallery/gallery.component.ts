@@ -1,15 +1,18 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { MysqlService } from '../services/mysql.service';
 import { baseUrlImages } from '../shared/baseurls';
 import { Album } from '../shared/photos';
+import { ImagesliderComponent } from '../imageslider/imageslider.component';
 
 @Component({
     selector: 'app-gallery',
     templateUrl: './gallery.component.html',
     styleUrls: ['./gallery.component.css'],
-    standalone: false
+    standalone: true,
+    imports: [CommonModule, ImagesliderComponent]
 })
 export class GalleryComponent implements OnInit {
   albums: Album[];

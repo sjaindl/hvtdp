@@ -1,8 +1,11 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { MysqlService } from '../services/mysql.service';
 import { GoldenShot } from '../shared/goldenshot';
 import { CookieService } from 'ngx-cookie-service';
 import { DeviceDetectorService } from 'ngx-device-detector';
+import { MatListModule } from '@angular/material/list';
+import { MatButtonModule } from '@angular/material/button';
 
 const GOLDENSHOT_VOTING_COOKIE_KEY = 'goldenshot_voted';
 
@@ -10,7 +13,8 @@ const GOLDENSHOT_VOTING_COOKIE_KEY = 'goldenshot_voted';
     selector: 'app-goldenshot-voting',
     templateUrl: './goldenshot-voting.component.html',
     styleUrls: ['./goldenshot-voting.component.css'],
-    standalone: false
+    standalone: true,
+    imports: [CommonModule, MatListModule, MatButtonModule]
 })
 export class GoldenshotVotingComponent implements OnInit {
   goldenShotOptions: GoldenShot[];

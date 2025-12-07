@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Title, Meta } from '@angular/platform-browser';
 
@@ -5,7 +6,8 @@ import { Title, Meta } from '@angular/platform-browser';
     selector: 'app-comedyhirten',
     templateUrl: './comedyhirten.component.html',
     styleUrls: ['./comedyhirten.component.css'],
-    standalone: false
+    standalone: true,
+    imports: [CommonModule]
 })
 export class ComedyhirtenComponent implements OnInit {
   constructor(private titleService: Title, private metaTagService: Meta) {}

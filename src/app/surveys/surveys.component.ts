@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { MysqlService } from '../services/mysql.service';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -7,7 +8,8 @@ import { Title, Meta } from '@angular/platform-browser';
     selector: 'app-surveys',
     templateUrl: './surveys.component.html',
     styleUrls: ['./surveys.component.css'],
-    standalone: false
+    standalone: true,
+    imports: [CommonModule]
 })
 export class SurveysComponent implements OnInit {
   surveyLink: string = '';

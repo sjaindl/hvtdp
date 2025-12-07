@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { MysqlService } from '../services/mysql.service';
 import { baseUrlDocuments } from '../shared/baseurls';
@@ -6,12 +7,16 @@ import { Title, Meta } from '@angular/platform-browser';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { PassworddialogComponent } from '../passworddialog/passworddialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { RouterModule } from '@angular/router';
 
 @Component({
     selector: 'app-documents',
     templateUrl: './documents.component.html',
     styleUrls: ['./documents.component.css'],
-    standalone: false
+    standalone: true,
+    imports: [CommonModule, RouterModule, MatDialogModule, MatSnackBarModule]
 })
 export class DocumentsComponent implements OnInit {
   documentBaseUrl: String;

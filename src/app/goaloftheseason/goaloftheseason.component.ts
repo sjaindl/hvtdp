@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit, ChangeDetectorRef, HostListener } from '@angular/core';
 import { Game, Link, GameLinkFlat } from '../shared/games';
 import { Player } from '../shared/player';
@@ -8,6 +9,9 @@ import { Title, Meta } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { GoalOfTheSeason } from '../shared/goaloftheseason';
 import { CookieService } from 'ngx-cookie-service';
+import { VideoCardComponent } from '../video-card/video-card.component';
+import { MatListModule } from '@angular/material/list';
+import { MatButtonModule } from '@angular/material/button';
 
 const GOAL_OF_SEASON_VOTING_COOKIE_KEY = 'goal_of_season_voted';
 
@@ -15,7 +19,8 @@ const GOAL_OF_SEASON_VOTING_COOKIE_KEY = 'goal_of_season_voted';
     selector: 'app-goaloftheseason',
     templateUrl: './goaloftheseason.component.html',
     styleUrls: ['./goaloftheseason.component.css'],
-    standalone: false
+    standalone: true,
+    imports: [CommonModule, VideoCardComponent, MatListModule, MatButtonModule]
 })
 export class GoalOfTheSeasonComponent implements OnInit {
   games: Game[];

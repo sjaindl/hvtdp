@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { baseUrlImages } from '../shared/baseurls';
 import { DeviceDetectorService } from '../../../node_modules/ngx-device-detector';
@@ -9,7 +10,8 @@ import { ActivatedRoute } from '@angular/router';
     selector: 'app-advent',
     templateUrl: './advent.component.html',
     styleUrls: ['./advent.component.css'],
-    standalone: false
+    standalone: true,
+    imports: [CommonModule]
 })
 export class AdventComponent {
   imageBaseUrl: string = '';

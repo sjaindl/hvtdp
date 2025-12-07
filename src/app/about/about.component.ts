@@ -1,15 +1,18 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { Chef } from '../shared/chefs';
-import { baseUrlImages } from '../shared/baseurls';
+import { Meta, Title } from '@angular/platform-browser';
 import { DeviceDetectorService } from '../../../node_modules/ngx-device-detector';
+import { HvtdpImageComponent } from '../hvtdp-image/hvtdp-image.component';
 import { MysqlService } from '../services/mysql.service';
-import { Title, Meta } from '@angular/platform-browser';
+import { baseUrlImages } from '../shared/baseurls';
+import { Chef } from '../shared/chefs';
 
 @Component({
-    selector: 'app-about',
-    templateUrl: './about.component.html',
-    styleUrls: ['./about.component.css'],
-    standalone: false
+  selector: 'app-about',
+  templateUrl: './about.component.html',
+  styleUrls: ['./about.component.css'],
+  standalone: true,
+  imports: [CommonModule, HvtdpImageComponent],
 })
 export class AboutComponent implements OnInit {
   obmaenner: Chef[];

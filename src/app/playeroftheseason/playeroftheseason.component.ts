@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit, ChangeDetectorRef, HostListener } from '@angular/core';
 import { Player } from '../shared/player';
 import { baseUrlImages } from '../shared/baseurls';
@@ -7,6 +8,8 @@ import { Title, Meta } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { PlayerOfTheSeason } from '../shared/playeroftheseason';
+import { MatListModule } from '@angular/material/list';
+import { MatButtonModule } from '@angular/material/button';
 
 const PLAYER_OF_SEASON_VOTING_COOKIE_KEY = 'player_of_season_voted';
 
@@ -14,7 +17,8 @@ const PLAYER_OF_SEASON_VOTING_COOKIE_KEY = 'player_of_season_voted';
     selector: 'app-playeroftheseason',
     templateUrl: './playeroftheseason.component.html',
     styleUrls: ['./playeroftheseason.component.css'],
-    standalone: false
+    standalone: true,
+    imports: [CommonModule, MatListModule, MatButtonModule]
 })
 export class PlayerOfTheSeasonComponent implements OnInit {
   season: string;

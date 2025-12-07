@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Title, Meta } from '@angular/platform-browser';
 import { baseUrlDocuments } from '../shared/baseurls';
@@ -8,7 +9,8 @@ import { Member } from '../shared/member';
     selector: 'app-membership',
     templateUrl: './membership.component.html',
     styleUrls: ['./membership.component.css'],
-    standalone: false
+    standalone: true,
+    imports: [CommonModule]
 })
 export class MembershipComponent implements OnInit {
   documentBaseUrl: String;

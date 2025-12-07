@@ -1,14 +1,17 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Donation } from '../shared/donations';
 import { baseUrlImages } from '../shared/baseurls';
 import { MysqlService } from '../services/mysql.service';
 import { Title, Meta } from '@angular/platform-browser';
+import { HvtdpImageComponent } from '../hvtdp-image/hvtdp-image.component';
 
 @Component({
     selector: 'app-donations',
     templateUrl: './donations.component.html',
     styleUrls: ['./donations.component.css'],
-    standalone: false
+    standalone: true,
+    imports: [CommonModule, HvtdpImageComponent]
 })
 export class DonationsComponent implements OnInit {
   donations: Donation[];

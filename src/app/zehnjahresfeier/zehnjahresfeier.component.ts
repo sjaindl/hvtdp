@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Title, Meta } from '@angular/platform-browser';
 
@@ -5,7 +6,8 @@ import { Title, Meta } from '@angular/platform-browser';
     selector: 'app-zehnjahresfeier',
     templateUrl: './zehnjahresfeier.component.html',
     styleUrls: ['./zehnjahresfeier.component.css'],
-    standalone: false
+    standalone: true,
+    imports: [CommonModule]
 })
 export class ZehnjahresfeierComponent implements OnInit {
   constructor(private titleService: Title, private metaTagService: Meta) {}
