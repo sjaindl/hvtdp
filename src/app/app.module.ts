@@ -27,7 +27,6 @@ import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { CookieService } from 'ngx-cookie-service';
-import { NgcCookieConsentConfig } from 'ngx-cookieconsent';
 
 import { RedirectGuard } from './app-routing/redirect-guard';
 import { AppComponent } from './app.component';
@@ -70,22 +69,6 @@ import { SurveysComponent } from './surveys/surveys.component';
 import { TeamComponent } from './team/team.component';
 import { TickerComponent } from './ticker/ticker.component';
 import { ZehnjahresfeierComponent } from './zehnjahresfeier/zehnjahresfeier.component';
-
-const cookieConfig: NgcCookieConsentConfig = {
-  cookie: {
-    domain: 'hvtdpstainz.at',
-  },
-  palette: {
-    popup: {
-      background: '#c2185b',
-    },
-    button: {
-      background: '#f1d600',
-    },
-  },
-  theme: 'edgeless',
-  type: 'opt-out',
-};
 
 @NgModule({
   declarations: [

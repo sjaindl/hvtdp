@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
+import { cookieConsentConfig } from './shared/cookieconsent.config';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +12,7 @@ import { HeaderComponent } from './header/header.component';
   standalone: true,
   imports: [CommonModule, RouterModule, HeaderComponent, FooterComponent],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   constructor(public router: Router) {
     this.router.events.subscribe((event) => {
       // if (event instanceof NavigationEnd) {
@@ -19,6 +20,18 @@ export class AppComponent {
       //   ga('send', 'pageview');
       // }
     });
+  }
+
+  ngOnInit(): void {
+    this.initCookieConsent();
+  }
+
+  private initCookieConsent(): void {
+    const cc: any = (window as any).cookieconsent;
+    if (!cc || typeof cc.initialise !== 'function') {
+      return;
+    }
+    cc.initialise(cookieConsentConfig);
   }
 }
 

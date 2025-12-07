@@ -1,18 +1,23 @@
-import { Component, OnInit, HostListener, ChangeDetectorRef } from '@angular/core';
-import { News } from '../shared/news';
+import { AsyncPipe, CommonModule } from '@angular/common';
+import { ChangeDetectorRef, Component, HostListener, OnInit } from '@angular/core';
+import { Meta, Title } from '@angular/platform-browser';
 import { DeviceDetectorService } from '../../../node_modules/ngx-device-detector';
 import { MysqlService } from '../services/mysql.service';
+import { News } from '../shared/news';
 import { Ticker } from '../shared/ticker';
-import { Title, Meta } from '@angular/platform-browser';
 
-import { NgcCookieConsentService } from 'ngx-cookieconsent';
-import { Image } from '../shared/image';
 import { map, Observable, tap } from 'rxjs';
+import { ImagesliderComponent } from '../imageslider/imageslider.component';
+import { Image } from '../shared/image';
+import { DateUtil } from '../shared/utils/date.util';
+import { TickerComponent } from '../ticker/ticker.component';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
+  standalone: true,
+  imports: [CommonModule, AsyncPipe, ImagesliderComponent, TickerComponent],
 })
 export class HomeComponent implements OnInit {
   tickerItems: Ticker[] = [];
@@ -24,7 +29,6 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private deviceService: DeviceDetectorService,
-    private ccService: NgcCookieConsentService,
     private mysqlService: MysqlService,
     private cdr: ChangeDetectorRef,
     private titleService: Title,
@@ -41,7 +45,7 @@ export class HomeComponent implements OnInit {
                 newsItem.imagePathHome !== '' ? newsItem.imagePathHome : newsItem.imagePath,
               navPath: '/news/' + newsItem.newsId,
               title: newsItem.title,
-              date: newsItem.newsDate,
+              date: DateUtil.formatDate(newsItem.newsDate),
             };
           });
         }),
