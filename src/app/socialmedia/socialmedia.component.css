@@ -7,7 +7,7 @@
 .card-row {
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: minmax(280px, 360px);
+  grid-auto-columns: minmax(320px, 420px);
   gap: 16px;
   padding: 8px;
   scroll-snap-type: x mandatory;
