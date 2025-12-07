@@ -69,6 +69,7 @@ import { SurveysComponent } from './surveys/surveys.component';
 import { TeamComponent } from './team/team.component';
 import { TickerComponent } from './ticker/ticker.component';
 import { ZehnjahresfeierComponent } from './zehnjahresfeier/zehnjahresfeier.component';
+import { VideoCardComponent } from './video-card/video-card.component';
 
 @NgModule({
   declarations: [
@@ -128,6 +129,7 @@ import { ZehnjahresfeierComponent } from './zehnjahresfeier/zehnjahresfeier.comp
     TickerComponent,
     ImagesliderComponent,
     HvtdpImageComponent,
+    VideoCardComponent,
     HallenturnierComponent,
     HallofpappComponent,
     BigdartsComponent,
