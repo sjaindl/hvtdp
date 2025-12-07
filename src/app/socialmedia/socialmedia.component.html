@@ -38,30 +38,13 @@
   <div class="game-slider">
     <div class="card-row">
       @for (link of game.links; track link) {
-      <article class="video-card snap-start">
-        <div class="video-frame">
-          <iframe
-            [src]="safeVideo(link.link)"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen
-            referrerpolicy="strict-origin-when-cross-origin"
-            title="{{ link.description || 'Highlight' }}"
-          ></iframe>
-        </div>
-        <div class="card-body">
-          <div class="scorer">
-            <app-hvtdp-image
-              [imagePath]="scorerImage(link.scorer)"
-              [altText]="scorerName(link.scorer)"
-            />
-
-            <div>
-              <p class="scorer-name">{{ scorerName(link.scorer) }}</p>
-              <p class="scorer-meta">{{ link.description || 'Video-Highlight' }}</p>
-            </div>
-          </div>
-        </div>
-      </article>
+      <app-video-card
+        class="snap-start"
+        [videoUrl]="link.link"
+        [scorerImage]="scorerImage(link.scorer)"
+        [scorerName]="scorerName(link.scorer)"
+        [description]="link.description || 'Video-Highlight'"
+      />
       }
     </div>
   </div>

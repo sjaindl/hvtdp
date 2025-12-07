@@ -1,19 +1,19 @@
 import { ChangeDetectorRef, Component, HostListener, OnInit } from '@angular/core';
-import { DomSanitizer, Meta, SafeResourceUrl, Title } from '@angular/platform-browser';
+import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { DeviceDetectorService } from 'ngx-device-detector';
-import { HvtdpImageComponent } from '../hvtdp-image/hvtdp-image.component';
 import { MysqlService } from '../services/mysql.service';
 import { baseUrlImages } from '../shared/baseurls';
 import { Game } from '../shared/games';
 import { Player } from '../shared/player';
+import { VideoCardComponent } from '../video-card/video-card.component';
 
 @Component({
   selector: 'app-socialmedia',
   templateUrl: './socialmedia.component.html',
   styleUrls: ['./socialmedia.component.css'],
   standalone: true,
-  imports: [HvtdpImageComponent],
+  imports: [VideoCardComponent],
 })
 export class SocialmediaComponent implements OnInit {
   games: Game[];
@@ -30,8 +30,7 @@ export class SocialmediaComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private deviceService: DeviceDetectorService,
     private titleService: Title,
-    private metaTagService: Meta,
-    private sanitizer: DomSanitizer
+    private metaTagService: Meta
   ) {}
 
   ngOnInit() {
@@ -116,9 +115,5 @@ export class SocialmediaComponent implements OnInit {
     }
 
     return 'Highlight';
-  }
-
-  safeVideo(link: string): SafeResourceUrl {
-    return this.sanitizer.bypassSecurityTrustResourceUrl(link);
   }
 }
