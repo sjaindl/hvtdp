@@ -38,7 +38,7 @@
       </p>
     }
     <br />
-    <div class="container" fxLayout="column" fxLayoutGap="10px">
+    <div class="container flex flex-col gap-3">
       @for (link of game.links; track link) {
         <div>
           <mat-list>
@@ -48,12 +48,12 @@
                   <mat-list-item
                     [ngStyle]="{ height: isMobile ? '600px' : '500px' }"
                     >
-                    <div fxFlex>
-                      <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="center center">
-                        <span class="bordered">
-                          <div fxFlex="15" fxFlexOffset="10px" class="item-detail">
-                            <div fxLayout="column" fxLayoutAlign="center center">
-                              <div fxFlex="50" fxFlexOffset="10px">
+                    <div class="flex-1">
+                      <div class="flex flex-col md:flex-row items-center justify-center">
+                        <span class="bordered flex flex-col md:flex-row items-center justify-center gap-4 w-full">
+                          <div class="item-detail md:w-1/6 md:ml-2.5">
+                            <div class="flex flex-col items-center justify-center">
+                              <div class="md:w-1/2 md:ml-2.5">
                                 <img
                                   class="imageSmallCenter"
                                   matListAvatar
@@ -63,16 +63,14 @@
                                   style="width: 80px; height: 130px"
                                   />
                               </div>
-                              <div fxFlex="50" fxFlexOffset="10px">
+                              <div class="md:w-1/2 md:ml-2.5">
                                 <p class="smallCentered">{{ link.description }} {{ link.scorer }}</p>
                               </div>
                             </div>
                           </div>
                           @if (isMobile) {
                             <div
-                              fxFlex="50"
-                              fxFlexOffset="25px"
-                              fxLayoutAlign="center center"
+                              class="md:w-1/2 md:ml-6 flex justify-center items-center"
                               >
                               <iframe
                                 width="224px"
@@ -85,9 +83,7 @@
                           }
                           @if (!isMobile) {
                             <div
-                              fxFlex="50"
-                              fxFlexOffset="25px"
-                              fxLayoutAlign="center center"
+                              class="md:w-1/2 md:ml-6 flex justify-center items-center"
                               >
                               <iframe
                                 width="560px"
@@ -112,12 +108,12 @@
                 <mat-list-item
                   [ngStyle]="{ height: isMobile ? '600px' : '500px' }"
                   >
-                  <div fxFlex>
-                    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="center center">
-                      <span class="bordered">
-                        <div fxFlex="15" fxFlexOffset="10px" class="item-detail">
-                          <div fxLayout="column" fxLayoutAlign="center center">
-                            <div fxFlex="50" fxFlexOffset="10px">
+                    <div class="flex-1">
+                    <div class="flex flex-col md:flex-row items-center justify-center">
+                      <span class="bordered flex flex-col md:flex-row items-center justify-center gap-4 w-full">
+                        <div class="item-detail md:w-1/6 md:ml-2.5">
+                          <div class="flex flex-col items-center justify-center">
+                            <div class="md:w-1/2 md:ml-2.5">
                               <img
                                 matListAvatar
                                 class="img-preview"
@@ -126,16 +122,14 @@
                                 style="width: 80; height: 130px"
                                 />
                             </div>
-                            <div fxFlex="50" fxFlexOffset="10px">
+                            <div class="md:w-1/2 md:ml-2.5">
                               <p class="smallCentered">{{ link.description }} {{ link.scorer }}</p>
                             </div>
                           </div>
                         </div>
                         @if (isMobile) {
                           <div
-                            fxFlex="50"
-                            fxFlexOffset="25px"
-                            fxLayoutAlign="center center"
+                            class="md:w-1/2 md:ml-6 flex justify-center items-center"
                             >
                             <iframe
                               width="224px"
@@ -150,9 +144,7 @@
                         }
                         @if (!isMobile) {
                           <div
-                            fxFlex="50"
-                            fxFlexOffset="25px"
-                            fxLayoutAlign="center center"
+                            class="md:w-1/2 md:ml-6 flex justify-center items-center"
                             >
                             <iframe
                               width="560px"
@@ -177,17 +169,15 @@
                 <mat-list-item
                   [ngStyle]="{ height: isMobile ? '600px' : '500px' }"
                   >
-                  <div fxFlex>
-                    <div fxLayout="column" fxLayoutAlign="center center">
+                  <div class="flex-1">
+                    <div class="flex flex-col items-center justify-center">
                       <span class="bordered">
-                        <div fxFlex="15" fxFlexOffset="25px" class="item-detail">
+                        <div class="item-detail md:w-1/6 md:ml-6">
                           {{ link.description }}
                         </div>
                         @if (isMobile) {
                           <div
-                            fxFlex="50"
-                            fxFlexOffset="25px"
-                            fxLayoutAlign="center center"
+                            class="md:w-1/2 md:ml-6 flex justify-center items-center"
                             >
                             <iframe
                               width="224px"
@@ -200,9 +190,7 @@
                         }
                         @if (!isMobile) {
                           <div
-                            fxFlex="50"
-                            fxFlexOffset="25px"
-                            fxLayoutAlign="center center"
+                            class="md:w-1/2 md:ml-6 flex justify-center items-center"
                             >
                             <iframe
                               width="560px"
