@@ -1,9 +1,10 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
     <!-- Mobile nav -->
-    <button mat-menu-item [matMenuTriggerFor]="mobile" class="md:hidden">
+    <button mat-menu-item [matMenuTriggerFor]="mobile" class="mobile-toggle">
       <mat-icon>menu</mat-icon>
     </button>
+
     <img class="logo" src="/assets/images/logo.gif" />
 
     <mat-menu #mobile="matMenu">
