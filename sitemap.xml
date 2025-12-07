@@ -1,62 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset
-      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://www.hvtdpstainz.at/#/home</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://www.hvtdpstainz.at/#/news</loc><changefreq>daily</changefreq></url>
+  <url><loc>https://www.hvtdpstainz.at/#/team</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://www.hvtdpstainz.at/#/championship/2025-2026</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://www.hvtdpstainz.at/#/championship/2024-2025</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://www.hvtdpstainz.at/#/championship/2023-2024</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://www.hvtdpstainz.at/#/championship/2022-2023</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://www.hvtdpstainz.at/#/championship/2021-2022</loc><changefreq>weekly</changefreq></url>
 
-<url>
-  <loc>https://www.hvtdpstainz.at/#/home</loc>
-  <lastmod>2018-12-17T23:27:55+00:00</lastmod>
-</url>
-<url>
-  <loc>https://www.hvtdpstainz.at/#/news</loc>
-  <lastmod>2018-12-17T23:27:55+00:00</lastmod>
-</url>
-<url>
-  <loc>https://www.hvtdpstainz.at/#/team</loc>
-  <lastmod>2018-12-17T23:27:55+00:00</lastmod>
-</url>
-<url>
-  <loc>https://www.hvtdpstainz.at/#/championship</loc>
-  <lastmod>2018-12-17T23:27:55+00:00</lastmod>
-</url>
-<url>
-  <loc>https://www.hvtdpstainz.at/#/gallery</loc>
-  <lastmod>2018-12-17T23:27:55+00:00</lastmod>
-</url>
-<url>
-  <loc>https://www.hvtdpstainz.at/#/social</loc>
-  <lastmod>2018-12-17T23:27:55+00:00</lastmod>
-</url>
-<url>
-  <loc>https://www.hvtdpstainz.at/#/donation</loc>
-  <lastmod>2018-12-17T23:27:55+00:00</lastmod>
-</url>
-<url>
-  <loc>https://www.hvtdpstainz.at/#/about</loc>
-  <lastmod>2018-12-17T23:27:55+00:00</lastmod>
-</url>
-<url>
-  <loc>https://www.hvtdpstainz.at/#/contact</loc>
-  <lastmod>2018-12-17T23:27:55+00:00</lastmod>
-</url>
-<url>
-  <loc>https://www.hvtdpstainz.at/#/fanshop</loc>
-  <lastmod>2018-12-17T23:27:55+00:00</lastmod>
-</url>
-<url>
-  <loc>https://www.hvtdpstainz.at/#/membership</loc>
-  <lastmod>2018-12-17T23:27:55+00:00</lastmod>
-</url>
-<url>
-  <loc>https://www.hvtdpstainz.at/#/documents</loc>
-  <lastmod>2018-12-17T23:27:55+00:00</lastmod>
-</url>
-<url>
-  <loc>https://www.hvtdpstainz.at/#/surveys</loc>
-  <lastmod>2018-12-17T23:27:55+00:00</lastmod>
-</url>
+  <url><loc>https://www.hvtdpstainz.at/#/gallery/2025</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.hvtdpstainz.at/#/gallery/2024</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.hvtdpstainz.at/#/gallery/2023</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.hvtdpstainz.at/#/gallery/2022</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.hvtdpstainz.at/#/gallery/2021</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.hvtdpstainz.at/#/gallery/2019</loc><changefreq>yearly</changefreq></url>
+  <url><loc>https://www.hvtdpstainz.at/#/gallery/2018</loc><changefreq>yearly</changefreq></url>
+  <url><loc>https://www.hvtdpstainz.at/#/gallery/2015</loc><changefreq>yearly</changefreq></url>
 
+  <url><loc>https://www.hvtdpstainz.at/#/social/2025-2026</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.hvtdpstainz.at/#/social/2024-2025</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.hvtdpstainz.at/#/social/2023-2024</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.hvtdpstainz.at/#/social/2022-2023</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.hvtdpstainz.at/#/social/2021-2022</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.hvtdpstainz.at/#/social/2018-2019</loc><changefreq>yearly</changefreq></url>
+  <url><loc>https://www.hvtdpstainz.at/#/social/2017-2018</loc><changefreq>yearly</changefreq></url>
+
+  <url><loc>https://www.hvtdpstainz.at/#/goaloftheseason/2022</loc><changefreq>yearly</changefreq></url>
+  <url><loc>https://www.hvtdpstainz.at/#/goaloftheseason/2023</loc><changefreq>yearly</changefreq></url>
+  <url><loc>https://www.hvtdpstainz.at/#/goaloftheseason/2024</loc><changefreq>yearly</changefreq></url>
+  <url><loc>https://www.hvtdpstainz.at/#/goaloftheseason/2025</loc><changefreq>yearly</changefreq></url>
+
+  <url><loc>https://www.hvtdpstainz.at/#/playeroftheseason/2024</loc><changefreq>yearly</changefreq></url>
+  <url><loc>https://www.hvtdpstainz.at/#/playeroftheseason/2025</loc><changefreq>yearly</changefreq></url>
+
+  <url><loc>https://www.hvtdpstainz.at/#/donation</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.hvtdpstainz.at/#/about</loc><changefreq>yearly</changefreq></url>
+  <url><loc>https://www.hvtdpstainz.at/#/contact</loc><changefreq>yearly</changefreq></url>
+  <url><loc>https://www.hvtdpstainz.at/#/fanshop</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.hvtdpstainz.at/#/membership</loc><changefreq>yearly</changefreq></url>
+  <url><loc>https://www.hvtdpstainz.at/#/halloffame</loc><changefreq>yearly</changefreq></url>
+  <url><loc>https://www.hvtdpstainz.at/#/documents</loc><changefreq>yearly</changefreq></url>
+  <url><loc>https://www.hvtdpstainz.at/#/surveys</loc><changefreq>monthly</changefreq></url>
+  <url><loc>https://www.hvtdpstainz.at/#/hallofpapp</loc><changefreq>yearly</changefreq></url>
+  <url><loc>https://www.hvtdpstainz.at/#/advent/2021</loc><changefreq>yearly</changefreq></url>
+  <url><loc>https://www.hvtdpstainz.at/#/advent/2023</loc><changefreq>yearly</changefreq></url>
+  <url><loc>https://www.hvtdpstainz.at/#/hallenturnier</loc><changefreq>yearly</changefreq></url>
+  <url><loc>https://www.hvtdpstainz.at/#/kleinfeldturnier</loc><changefreq>yearly</changefreq></url>
+  <url><loc>https://www.hvtdpstainz.at/#/bocciaturnier</loc><changefreq>yearly</changefreq></url>
+  <url><loc>https://www.hvtdpstainz.at/#/10-jahre-hvtdp</loc><changefreq>yearly</changefreq></url>
+  <url><loc>https://www.hvtdpstainz.at/#/stadionfest</loc><changefreq>yearly</changefreq></url>
+  <url><loc>https://www.hvtdpstainz.at/#/torschusschallenge</loc><changefreq>yearly</changefreq></url>
+  <url><loc>https://www.hvtdpstainz.at/#/comedyhirten</loc><changefreq>yearly</changefreq></url>
+  <url><loc>https://www.hvtdpstainz.at/#/bigdarts</loc><changefreq>yearly</changefreq></url>
+  <url><loc>https://www.hvtdpstainz.at/#/startingeleven</loc><changefreq>yearly</changefreq></url>
 </urlset>
