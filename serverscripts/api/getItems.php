@@ -30,7 +30,8 @@
             $array = array(
                 'name'=> mb_convert_encoding($res["name"], 'UTF8'),
                 'description'=> mb_convert_encoding($res["description"], 'UTF8'),
-                'price'=> mb_convert_encoding($res["price"], 'UTF8')
+                'price'=> mb_convert_encoding($res["price"], 'UTF8'),
+                'category'=> mb_convert_encoding($res["category"], 'UTF8')
             );
 
             if (!$llm) {

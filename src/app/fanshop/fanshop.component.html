@@ -1,104 +1,77 @@
-<div class="container flex flex-col gap-3">
-  <div>
+<div class="fanshop-shell container flex flex-col gap-4">
+  <div class="fanshop-heading">
     <div>
       <h3 class="large header">Fanshop</h3>
       <hr />
     </div>
-  </div>
+    <p class="normal">Was darf bei einem richtigen Fan des HV TDP Stainz nicht fehlen?</p>
 
-  <p class="normal">Was darf bei einem richtigen Fan des HV TDP Stainz nicht fehlen?</p>
-
-  <p class="small">
-    Natürlich die passenden Souvenirs und Outfits. Deshalb bieten wir ein paar nette Geschenke und
-    Andenken in unserem offiziellen Fanshop an!
-    <br />
-    Mit einem Kauf wird nicht nur das heimische Wohnen und sein eigener Dresscode aufgepeppt,
-    sondern man fördert mit einem Kauf auch das Vereinsleben und den sportlichen Betrieb unseres
-    Vereines.
-  </p>
-
-  <!-- <p class="small">
-  Als Dankeschön bieten wir unseren treuen Vereinsmitgliedern einen Rabatt von 15 % auf alle Artikel an!
-</p> -->
-
-<!--
-<h2 style="text-align: center; padding-left: 10px; padding-right: 10px;">
-  Weihnachtsspecial! Schlage jetzt zu in unserem Fanshop und erhalte bis Weihnachten 15 % Rabatt auf alle Artikel!
-</h2>
-
-
-<br>
-
-  <img class="centerWithoutWidth" src="/assets/images/xmas.jpeg" width="20%" *ngIf="!isMobile">
-  <img class="center" src="/assets/images/xmas.jpeg" width="20%" *ngIf="isMobile">
-
-  <br>
-    -->
+    <p class="small">
+      Natürlich die passenden Souvenirs und Outfits. Deshalb bieten wir ein paar nette Geschenke und
+      Andenken in unserem offiziellen Fanshop an! Mit einem Kauf wird nicht nur das heimische Wohnen
+      und sein eigener Dresscode aufgepeppt, sondern man fördert mit einem Kauf auch das
+      Vereinsleben und den sportlichen Betrieb unseres Vereines.
+    </p>
 
     <p class="small">
       Folgende Artikel stehen zur Auswahl:
       <br />
       (bestellen ganz einfach mit einer Nachricht an unsere Facebookseite oder E-Mail Adresse)
     </p>
-
-    <br />
-
-    <div class="flex-1">
-      <mat-grid-list cols="{{ gridColumns }}" rowHeight="600px">
-        @for (item of items; track item) {
-          <mat-grid-tile appHighlight>
-            <img
-              class="fanshopImg"
-              [style.height.px]="gridImageHeight"
-              src="{{ imageBaseUrl + item.imagePath }}"
-              alt="{{ item.name }}"
-              />
-            <mat-grid-tile-header style="margin-top: 30px">
-              <h1 mat-line [style.font-size.em]="titleSizeEm">{{ item.name | uppercase }}</h1>
-              <h2 mat-line style="text-align: right" [style.font-size.em]="priceSizeEm">
-                {{ item.price }}
-              </h2>
-            </mat-grid-tile-header>
-            @if (isMobile) {
-              <mat-grid-tile-footer
-                [style.font-size.em]="detailSizeEm"
-                style="text-align: center; min-height: 220px; height: auto"
-                >
-                {{ item.description }}
-                &nbsp;
-                <a
-                  md-icon-button
-                  class="btn-mail"
-            href="mailto:hvtdpstainz@gmx.at?subject=Bestellung {{ item.name }}&body={{
-              item.description
-            }} Bitte um Angabe von Anzahl und Größe."
-                  >
-                  <i class="fa fa-envelope"> jetzt bestellen!</i>
-                </a>
-              </mat-grid-tile-footer>
-            }
-            @if (!isMobile) {
-              <mat-grid-tile-footer
-                [style.font-size.em]="detailSizeEm"
-                style="text-align: center; min-height: 110px; height: auto"
-                >
-                {{ item.description }}
-                &nbsp;
-                <a
-                  md-icon-button
-                  class="btn-mail"
-            href="mailto:hvtdpstainz@gmx.at?subject=Bestellung {{ item.name }}&body={{
-              item.description
-            }} Bitte um Angabe von Anzahl und Größe."
-                  >
-                  <i class="fa fa-envelope"> jetzt bestellen!</i>
-                </a>
-              </mat-grid-tile-footer>
-            }
-          </mat-grid-tile>
-        }
-      </mat-grid-list>
-    </div>
   </div>
 
-  <br />
+  @if (categories.length) {
+  <div class="filter-bar">
+    <span class="filter-label">Kategorie</span>
+    <div class="filter-chips">
+      @for (category of categories; track category) {
+      <button
+        type="button"
+        class="filter-chip"
+        [class.active]="category === selectedCategory"
+        (click)="applyFilter(category)"
+      >
+        {{ category }}
+      </button>
+      }
+    </div>
+  </div>
+  } @if (itemsLoaded && !filteredItems.length) {
+  <p class="small muted">Aktuell sind keine Artikel in dieser Kategorie verfügbar.</p>
+  }
+
+  <div class="fanshop-grid">
+    @for (item of filteredItems; track item.name) {
+    <article class="fanshop-card" appHighlight>
+      <div class="card-media">
+        <app-hvtdp-image
+          [imagePath]="imageBaseUrl + item.imagePath"
+          [altText]="item.name"
+          loading="lazy"
+        />
+
+        <span class="category-tag">{{ item.category || 'Sonstiges' }}</span>
+      </div>
+      <div class="card-content">
+        <div class="card-header">
+          <h2>{{ item.name }}</h2>
+          <span class="price">{{ item.price }}</span>
+        </div>
+        <p class="description">{{ item.description }}</p>
+        <a
+          class="btn-mail order-link"
+          [href]="
+            'mailto:hvtdpstainz@gmx.at?subject=Bestellung ' +
+            item.name +
+            '&body=' +
+            item.description +
+            ' Bitte um Angabe von Anzahl und Größe.'
+          "
+        >
+          <i class="fa fa-envelope"></i> jetzt bestellen!
+        </a>
+      </div>
+    </article>
+    }
+  </div>
+</div>

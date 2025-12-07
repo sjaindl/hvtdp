@@ -1,57 +1,43 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, HostListener } from '@angular/core';
-import { Item } from '../shared/items';
-import { DeviceDetectorService } from '../../../node_modules/ngx-device-detector';
-import { baseUrlImages } from '../shared/baseurls';
+import { Component, OnInit } from '@angular/core';
+import { Meta, Title } from '@angular/platform-browser';
+import { HvtdpImageComponent } from '../hvtdp-image/hvtdp-image.component';
 import { MysqlService } from '../services/mysql.service';
-import { Title, Meta } from '@angular/platform-browser';
-import { MatGridListModule } from '@angular/material/grid-list';
-import { MatIconModule } from '@angular/material/icon';
+import { baseUrlImages } from '../shared/baseurls';
+import { Item } from '../shared/items';
 
 @Component({
-    selector: 'app-fanshop',
-    templateUrl: './fanshop.component.html',
-    styleUrls: ['./fanshop.component.css'],
-    standalone: true,
-    imports: [CommonModule, MatGridListModule, MatIconModule]
+  selector: 'app-fanshop',
+  templateUrl: './fanshop.component.html',
+  styleUrls: ['./fanshop.component.css'],
+  standalone: true,
+  imports: [CommonModule, HvtdpImageComponent],
 })
 export class FanshopComponent implements OnInit {
-  items: Item[];
+  items: Item[] = [];
+  filteredItems: Item[] = [];
+  categories: string[] = [];
+  selectedCategory = 'Alle';
   imageBaseUrl: String;
-
-  gridImageHeight = null;
-  gridColumns = null;
-  titleSizeEm = 2.0;
-  priceSizeEm = 1.5;
-  detailSizeEm = 1.0;
-
-  isMobile = null;
+  itemsLoaded = false;
 
   constructor(
-    private deviceService: DeviceDetectorService,
     private mysqlService: MysqlService,
     private titleService: Title,
     private metaTagService: Meta
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.imageBaseUrl = baseUrlImages;
 
-    /*
-    this.deviceInfo = this.deviceService.getDeviceInfo();
-
-    device info holds the following properties:
-    browser
-    os
-    device (mobile/table/desktop)
-    userAgent
-    os_version
-    */
-    this.checkDevice();
-    this.isMobile || window.innerWidth < 641 ? this.setMobile() : this.setDesktop();
-
     this.mysqlService.getItems().subscribe((items) => {
-      this.items = items;
+      this.items = (items || []).map((item) => ({
+        ...item,
+        category: this.normalizeCategory(item),
+      }));
+      this.setupCategories();
+      this.applyFilter('Alle');
+      this.itemsLoaded = true;
     });
 
     this.titleService.setTitle('HV TDP Stainz: Fanshop');
@@ -70,29 +56,20 @@ export class FanshopComponent implements OnInit {
     ]);
   }
 
-  checkDevice() {
-    this.isMobile = this.deviceService.isMobile();
+  applyFilter(category: string): void {
+    this.selectedCategory = category;
+    this.filteredItems =
+      category === 'Alle'
+        ? [...this.items]
+        : this.items.filter((item) => item.category === category);
   }
 
-  @HostListener('window:resize', ['$event'])
-  onResize(event) {
-    this.checkDevice();
-    event.target.innerWidth < 641 ? this.setMobile() : this.setDesktop();
+  private setupCategories(): void {
+    const categorySet = new Set<string>(this.items.map((item) => item.category));
+    this.categories = ['Alle', ...Array.from(categorySet)];
   }
 
-  setMobile() {
-    this.setAttributes(1, 250, 1.4, 1.0, 0.85);
-  }
-
-  setDesktop() {
-    this.setAttributes(2, 400, 2.0, 1.5, 1.0);
-  }
-
-  setAttributes(gridColumns, gridImageHeight, titleSizeEm, priceSizeEm, detailSizeEm) {
-    this.gridColumns = gridColumns;
-    this.gridImageHeight = gridImageHeight;
-    this.titleSizeEm = titleSizeEm;
-    this.priceSizeEm = priceSizeEm;
-    this.detailSizeEm = detailSizeEm;
+  private normalizeCategory(item: Item): string {
+    return (item?.category || 'Sonstiges').toString();
   }
 }
