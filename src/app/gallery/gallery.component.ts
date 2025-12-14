@@ -1,44 +1,46 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { ImagesliderComponent } from '../imageslider/imageslider.component';
 import { MysqlService } from '../services/mysql.service';
 import { baseUrlImages } from '../shared/baseurls';
 import { Album } from '../shared/photos';
-import { ImagesliderComponent } from '../imageslider/imageslider.component';
 
 @Component({
-    selector: 'app-gallery',
-    templateUrl: './gallery.component.html',
-    styleUrls: ['./gallery.component.css'],
-    standalone: true,
-    imports: [CommonModule, ImagesliderComponent]
+  selector: 'app-gallery',
+  templateUrl: './gallery.component.html',
+  styleUrls: ['./gallery.component.css'],
+  standalone: true,
+  imports: [CommonModule, ImagesliderComponent],
 })
-export class GalleryComponent implements OnInit {
-  albums: Album[];
-  season: string;
+export class GalleryComponent implements OnInit, OnDestroy {
+  albums: Album[] = [];
+  season: String;
   imageBaseUrl: String;
   isMobile = null;
+  selectedAlbum: Album | null = null;
 
-  private sub: any;
+  private routeSub: Subscription;
+  private photosSub: Subscription;
+  private selectedAlbumSlug: String | null = null;
 
   constructor(
     private mysqlService: MysqlService,
     private route: ActivatedRoute,
     private titleService: Title,
-    private metaTagService: Meta
+    private metaTagService: Meta,
+    private router: Router
   ) {}
 
   ngOnInit() {
     this.imageBaseUrl = baseUrlImages;
 
-    this.sub = this.route.params.subscribe((params) => {
+    this.routeSub = this.route.params.subscribe((params) => {
       this.season = params['season'];
-      this.mysqlService.getPhotos().subscribe((albums) => {
-        this.albums = albums.filter((album) => {
-          return album.season == this.season;
-        });
-      });
+      this.selectedAlbumSlug = params['albumId'] ? decodeURIComponent(params['albumId']) : null;
+      this.loadAlbums();
     });
 
     this.titleService.setTitle('HV TDP Stainz: Galerie');
@@ -58,10 +60,31 @@ export class GalleryComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.sub.unsubscribe();
+    this.routeSub?.unsubscribe();
+    this.photosSub?.unsubscribe();
+  }
+
+  albumSlug(album: Album): string {
+    const slug = (album.name || '')
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+    return slug || 'album';
+  }
+
+  openAlbum(album: Album) {
+    this.router.navigate(['/gallery', this.season, this.albumSlug(album)]);
+  }
+
+  backToOverview() {
+    this.router.navigate(['/gallery', this.season]);
   }
 
   items(album: Album) {
+    if (!album?.photos) {
+      return [];
+    }
     return album.photos.map((photo) => {
       return {
         imagePath: photo.imagePath,
@@ -69,6 +92,17 @@ export class GalleryComponent implements OnInit {
         title: photo.description,
         date: undefined,
       };
+    });
+  }
+
+  private loadAlbums() {
+    this.photosSub?.unsubscribe();
+    this.photosSub = this.mysqlService.getPhotos().subscribe((albums) => {
+      this.albums = albums.filter((album) => album.season == this.season);
+      this.selectedAlbum =
+        this.selectedAlbumSlug && this.albums.length
+          ? this.albums.find((album) => this.albumSlug(album) === this.selectedAlbumSlug) || null
+          : null;
     });
   }
 }

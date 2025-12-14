@@ -5,9 +5,27 @@
   offiziellen HV TDP-Galerie.
 </p>
 
-@for (album of albums; track album) {
-  <div>
-    <p class="normalCentered" style="color: hotpink">{{ album.date }} / {{ album.name }}</p>
-    <app-imageslider [carouselItems]="items(album)" [showDots]="false"></app-imageslider>
-  </div>
-}
+@if (selectedAlbum) {
+<div class="album-detail">
+  <button class="gallery-back-btn" type="button" (click)="backToOverview()">
+    Zurück zur Übersicht
+  </button>
+  <p class="normalCentered" style="color: hotpink">
+    {{ selectedAlbum.date }} / {{ selectedAlbum.name }}
+  </p>
+  <app-imageslider [carouselItems]="items(selectedAlbum)" [showDots]="false"></app-imageslider>
+</div>
+} @else { @for (album of albums; track album) {
+<div class="album-preview" (click)="openAlbum(album)">
+  <p class="normalCentered" style="color: hotpink">{{ album.date }} / {{ album.name }}</p>
+  @if (album.photos?.length > 0) {
+  <img
+    class="album-cover"
+    [src]="imageBaseUrl + album.photos[0].imagePath"
+    [alt]="album.photos[0].description || album.name"
+  />
+  } @else {
+  <div class="album-cover album-cover-empty">Kein Bild verfügbar</div>
+  }
+</div>
+} }

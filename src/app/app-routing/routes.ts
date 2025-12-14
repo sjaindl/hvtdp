@@ -38,6 +38,7 @@ export const routes: Routes = [
   { path: 'news/:newsId', component: NewsComponent },
   { path: 'team', component: TeamComponent },
   { path: 'championship/:season', component: ChampionshipComponent },
+  { path: 'gallery/:season/:albumId', component: GalleryComponent },
   { path: 'gallery/:season', component: GalleryComponent },
   { path: 'social/:season', component: SocialmediaComponent },
   { path: 'donation', component: DonationsComponent },
