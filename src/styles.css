@@ -501,3 +501,9 @@ h4.header {
   -webkit-user-select: none !important;
   user-select: none !important;
 }
+
+ol,
+ul,
+menu {
+  list-style: auto;
+}
