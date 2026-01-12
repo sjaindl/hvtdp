@@ -83,7 +83,7 @@
 
 @media (max-width: 640px) {
   .card-row {
-    grid-auto-columns: minmax(240px, 85vw);
+    grid-auto-columns: clamp(260px, 85vw, 340px);
     gap: 12px;
   }
 }
