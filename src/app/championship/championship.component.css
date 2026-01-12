@@ -218,4 +218,8 @@ mat-table {
   .mobile-standings {
     display: block;
   }
+
+  .mobile-card {
+    background: linear-gradient(135deg, rgba(210, 210, 210, 0.2), rgba(20, 20, 20, 0.75));
+  }
 }
