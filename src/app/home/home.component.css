@@ -9,3 +9,8 @@ h2,
 p {
   padding: 0 5%;
 }
+
+app-ticker {
+  display: block;
+  padding: 1rem 16px 0;
+}
