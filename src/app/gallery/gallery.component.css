@@ -9,6 +9,17 @@
   margin-bottom: 32px;
 }
 
+.album-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  padding: 0 16px 8px;
+}
+
+.album-grid .album-preview {
+  margin-bottom: 0;
+}
+
 .album-cover {
   display: block;
   width: 100%;
@@ -60,4 +71,10 @@
 .gallery-back-btn:active {
   transform: translateY(0);
   box-shadow: 0 4px 12px rgba(255, 77, 141, 0.3);
+}
+
+@media (min-width: 900px) {
+  .album-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }

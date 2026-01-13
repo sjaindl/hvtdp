@@ -15,17 +15,21 @@
   </p>
   <app-imageslider [carouselItems]="items(selectedAlbum)" [showDots]="false"></app-imageslider>
 </div>
-} @else { @for (album of albums; track album) {
-<div class="album-preview" (click)="openAlbum(album)">
-  <p class="normalCentered" style="color: hotpink">{{ album.date }} / {{ album.name }}</p>
-  @if (album.photos?.length > 0) {
-  <img
-    class="album-cover"
-    [src]="imageBaseUrl + album.photos[0].imagePath"
-    [alt]="album.photos[0].description || album.name"
-  />
-  } @else {
-  <div class="album-cover album-cover-empty">Kein Bild verfügbar</div>
+} @else {
+<div class="album-grid">
+  @for (album of albums; track album) {
+  <div class="album-preview" (click)="openAlbum(album)">
+    <p class="normalCentered" style="color: hotpink">{{ album.date }} / {{ album.name }}</p>
+    @if (album.photos?.length > 0) {
+    <img
+      class="album-cover"
+      [src]="imageBaseUrl + album.photos[0].imagePath"
+      [alt]="album.photos[0].description || album.name"
+    />
+    } @else {
+    <div class="album-cover album-cover-empty">Kein Bild verfügbar</div>
+    }
+  </div>
   }
 </div>
-} }
+}
