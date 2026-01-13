@@ -14,6 +14,7 @@ import { StatisticsService } from '../services/statistics.service';
 })
 export class FooterComponent implements OnInit {
   sessions: String = null;
+  currentYear = new Date().getFullYear();
 
   constructor(private statisticsService: StatisticsService) {}
 
