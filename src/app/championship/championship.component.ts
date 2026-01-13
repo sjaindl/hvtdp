@@ -1,20 +1,21 @@
 import { CommonModule } from '@angular/common';
 import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { MatButtonModule } from '@angular/material/button';
 import { MysqlService } from '../services/mysql.service';
+import { MatchInfo } from '../shared/match-info';
 import { Scorer } from '../shared/scorer';
 import { Standing } from '../shared/standing';
 
 @Component({
-    selector: 'app-championship',
-    templateUrl: './championship.component.html',
-    styleUrls: ['./championship.component.css'],
-    standalone: true,
-    imports: [CommonModule, MatTableModule, MatSortModule, MatButtonModule]
+  selector: 'app-championship',
+  templateUrl: './championship.component.html',
+  styleUrls: ['./championship.component.css'],
+  standalone: true,
+  imports: [CommonModule, MatTableModule, MatSortModule, MatButtonModule],
 })
 export class ChampionshipComponent implements OnInit {
   dataSource: MatTableDataSource<Standing> = new MatTableDataSource<Standing>();
@@ -41,6 +42,8 @@ export class ChampionshipComponent implements OnInit {
   ];
 
   scorers: Scorer[];
+  matchInfo: MatchInfo[] = [];
+  private matchInfoBySeason = new Map<string, MatchInfo[]>();
 
   season: string;
 
@@ -97,6 +100,18 @@ export class ChampionshipComponent implements OnInit {
           }
         });
       });
+
+      this.mysqlService.getMatchInfo().subscribe((matches) => {
+        this.matchInfo = matches ?? [];
+        this.matchInfoBySeason.clear();
+        console.log(this.matchInfo);
+        this.matchInfo.forEach((match) => {
+          const seasonMatches = this.matchInfoBySeason.get(match.season) ?? [];
+          seasonMatches.push(match);
+          this.matchInfoBySeason.set(match.season, seasonMatches);
+          console.log(this.matchInfoBySeason);
+        });
+      });
     });
 
     this.titleService.setTitle('HV TDP Stainz: Meisterschaft');
@@ -127,6 +142,64 @@ export class ChampionshipComponent implements OnInit {
   get mobileStandings(): Standing[] {
     const data = [...this.dataSource.data];
     return this.sort ? this.dataSource.sortData(data, this.sort) : data;
+  }
+
+  getMatchesForSeason(season: string): MatchInfo[] {
+    const matches = this.matchInfoBySeason.get(season) ?? [];
+    return [...matches].sort((a, b) => (b.id ?? 0) - (a.id ?? 0));
+  }
+
+  getResultsForSeason(season: string): MatchInfo[] {
+    return this.getMatchesForSeason(season).filter((match) => this.hasScore(match));
+  }
+
+  getUpcomingForSeason(season: string): MatchInfo[] {
+    return this.getMatchesForSeason(season).filter((match) => !this.hasScore(match));
+  }
+
+  formatMatch(match: MatchInfo): string {
+    const parts: string[] = [];
+
+    if (match.matchInfo) {
+      parts.push(match.matchInfo);
+    }
+    if (match.dateTime) {
+      parts.push(match.dateTime);
+    }
+    if (match.venue) {
+      parts.push(match.venue);
+    }
+
+    const teams = [match.homeTeam, match.awayTeam].filter(Boolean).join(' : ');
+    if (teams) {
+      if (this.hasScore(match)) {
+        parts.push(`${teams} ${match.homeScore}:${match.awayScore}`);
+      } else {
+        parts.push(teams);
+      }
+    }
+
+    const additional = (match.additionalInfo ?? '').trim();
+    if (additional) {
+      if (additional === '*') {
+        parts.push(additional);
+      } else if (additional.startsWith('(')) {
+        parts.push(additional);
+      } else {
+        parts.push(`(${additional})`);
+      }
+    }
+
+    return parts.join(' - ');
+  }
+
+  private hasScore(match: MatchInfo): boolean {
+    return (
+      match.homeScore !== null &&
+      match.homeScore !== undefined &&
+      match.awayScore !== null &&
+      match.awayScore !== undefined
+    );
   }
 
   @HostListener('window:resize')

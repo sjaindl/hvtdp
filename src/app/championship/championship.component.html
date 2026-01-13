@@ -106,19 +106,18 @@
   <p class="normal">
     <b>Spieltermine Herbst 2025</b>
   </p>
-  <p class="normal">3. Runde - TBD - Sportplatz St. Oswald - GSV St. Oswald : HV TDP Stainz</p>
+  @if (getUpcomingForSeason('2025-2026').length) {
+  @for (match of getUpcomingForSeason('2025-2026'); track match.id) {
+  <p class="normal">{{ formatMatch(match) }}</p>
+  }
   <hr />
+  }
   <p class="normal">
     <b>Ergebnisse</b>
   </p>
-  <p class="small">1. Runde, HV TDP Stainz : SV Geistthal 3:0 (strafverifiziert)</p>
-  <p class="small">Testspiel, USG Berndorf : HV TDP Stainz 12:2</p>
-  <p class="small">2. Runde, HV TDP Stainz : STT Fürndörfler 1:1</p>
-  <p class="small">4. Runde, SV Geistthal : HV TDP Stainz 1:3</p>
-  <p class="small">5. Runde, HV TDP Stainz : STT Multitask 3:0 (strafverifiziert)</p>
-  <p class="small">Cup 1. Runde, HV TDP Stainz : STT Multitask 3:2</p>
-  <p class="small">6. Runde, STT Fürndörfler : HV TDP Stainz 4:2</p>
-  <p class="small">7. Runde, SK Hohenburg : HV TDP Stainz 3:2</p>
+  @for (match of getResultsForSeason('2025-2026'); track match.id) {
+  <p class="small">{{ formatMatch(match) }}</p>
+  }
   <hr />
   <p class="normal">
     <b>Unsere Torschützen</b>
@@ -153,30 +152,11 @@
   }
   <br />
   <p class="normal">
-    <b>Ergebnisse Herbst:</b>
+    <b>Ergebnisse:</b>
   </p>
-  <p class="small">Testspiel - HV TDP Stainz : Sporting Pettersdorf II 1:3</p>
-  <p class="small">1. Runde, STT Pichler : HV TDP Stainz 7:0</p>
-  <p class="small">2. Runde, HV TDP Stainz : GSV St. Oswald 2:0</p>
-  <p class="small">3. Runde, SV Geistthal : HV TDP Stainz 2:3</p>
-  <p class="small">4. Runde, HV TDP Stainz : STT Pichler 2:3</p>
-  <p class="small">Cup Achtelfinale, HV TDP Stainz : STT Fürndörfler 6:5 nach Elfmeterschießen</p>
-  <p class="normal">
-    <b>Ergebnisse Frühjahr:</b>
-  </p>
-  <p class="small">Testspiel - HV TDP Stainz : Sporting Pettersdorf II 9:1</p>
-  <p class="small">6. Runde, HV TDP Stainz : STT Multitask 3:2</p>
-  <p class="small">7. Runde, HV TDP Stainz : SV Geistthal 1:2</p>
-  <p class="small">8. Runde, GSV St. Oswald : HV TDP Stainz 1:2</p>
-  <p class="small">9. Runde, HV TDP Stainz : SK Hohenburg 3:5</p>
-  <p class="small">Cup Viertelfinale, HV TDP Stainz : SPG HFC St. Johann 2:1</p>
-  <p class="small">10. Runde, SK Hohenburg : HV TDP Stainz 1:1</p>
-  <p class="small">11. Runde, STT Multitask : HV TDP Stainz 2:0</p>
-  <p class="small">12. Runde, SV Geistthal : HV TDP Stainz 2:0</p>
-  <p class="small">13. Runde, HV TDP Stainz : STT Pichler 2:1</p>
-  <p class="small">Nachtragsspiel, 5. Runde - SK Hohenburg : HV TDP Stainz 5:2</p>
-  <p class="small">14. Runde, HV TDP Stainz : GSV St. Oswald 3:3</p>
-  <p class="small">Cup Halbfinale, SK Hohenburg : HV TDP Stainz 3:1</p>
+  @for (match of getResultsForSeason('2024-2025'); track match.id) {
+  <p class="small">{{ formatMatch(match) }}</p>
+  }
 </div>
 } @if (season == '2023-2024') {
 <div>
@@ -204,23 +184,9 @@
   <p class="normal">
     <b>Ergebnisse:</b>
   </p>
-  <p class="small">1. Runde - SV Geistthal : HV TDP Stainz 2:7</p>
-  <p class="small">2. Runde - SK Hohenburg : HV TDP Stainz 1:2</p>
-  <p class="small">Cup Achtelfinale - HV TDP Stainz : SV Geistthal 4:2</p>
-  <p class="small">3. Runde - HV TDP Stainz : STT Multitask 2:4</p>
-  <p class="small">4. Runde - HV TDP Stainz : STT Wörgötter 3:4</p>
-  <p class="small">5. Runde - St. Johann/Köppling : HV TDP Stainz 1:1</p>
-  <p class="small">Cup Viertelfinale - HV TDP Stainz : STT Mauser 3:2</p>
-  <p class="small">6. Runde - STT Pichler : HV TDP Stainz 3:1</p>
-  <p class="small">Testspiel - HV TDP Stainz: GSV St. Oswald bei Plankenwarth 12:0</p>
-  <p class="small">Testspiel - HV TDP Stainz: HFC Graz 8:1</p>
-  <p class="small">8. Runde - HV TDP Stainz : STT Pichler 4:1</p>
-  <p class="small">9. Runde - HV TDP Stainz : SK Hohenburg 3:0</p>
-  <p class="small">10. Runde - HV TDP Stainz : SV Geistthal 3:0 (strafverifiziert)</p>
-  <p class="small">11. Runde - STT Multitask : HV TDP Stainz 3:4</p>
-  <p class="small">Cup Halbfinale - HV TDP Stainz : STT Fürndörfler 0:4</p>
-  <p class="small">12. Runde - STT Wörgötter : HV TDP Stainz 3:0</p>
-  <p class="small">13. Runde - HV TDP Stainz : FC St. Johann/Köppling 3:7</p>
+  @for (match of getResultsForSeason('2023-2024'); track match.id) {
+  <p class="small">{{ formatMatch(match) }}</p>
+  }
   <!--
     <br>
       <p class="normal">
@@ -240,19 +206,9 @@
   <p class="small">
     <b>Ergebnisse:</b>
   </p>
-  <p class="small">1. Runde - STT Pichler : HV TDP Stainz 2:2</p>
-  <p class="small">2. Runde - HV TDP Stainz vs. STT Fürndörfler 0:3</p>
-  <p class="small">3. Runde - HV TDP Stainz vs. GH Prettenthaler 1:5</p>
-  <p class="small">4. Runde - HV TDP Stainz vs. SV Geistthal 3:1</p>
-  <p class="small">5. Runde - HV TDP Stainz vs. HFC Gössnitz 4:1 *</p>
-  <p class="small">6. Runde - HV TDP Stainz vs. 1. FC Montagskicker 7:3</p>
-  <p class="small">7. Runde - HV TDP Stainz vs. SK Hohenburg 3:4</p>
-  <p class="small">8. Runde - HV TDP Stainz vs. STT Pichler 2:2</p>
-  <p class="small">9. Runde - GH Prettenthaler : HV TDP Stainz 3:6</p>
-  <p class="small">10. Runde - STT Fürndörfler : HV TDP Stainz 3:2</p>
-  <p class="small">11. Runde - SK Hohenburg : HV TDP Stainz 2:2</p>
-  <p class="small">12. Runde - SV Geistthal : HV TDP Stainz 4:5</p>
-  <p class="small">13. Runde - Montagskicker : HV TDP Stainz 0:3 (strafverifiziert)</p>
+  @for (match of getResultsForSeason('2022-2023'); track match.id) {
+  <p class="small">{{ formatMatch(match) }}</p>
+  }
   <hr />
   <p class="small">
     * Spiel wird offiziell nicht gewertet, da Gössnitz aus der Liga ausgestiegen ist.
@@ -297,20 +253,9 @@
   <p class="small">
     <b>Ergebnisse:</b>
   </p>
-  <p class="small">1. Runde - SK Hohenburg : HV TDP Stainz 0:3</p>
-  <p class="small">2. Runde - HV TDP Stainz : SK UP Voitsberg 3:3</p>
-  <p class="small">3. Runde - HFC Mein Lokal Gößnitz : HV TDP Stainz 1:2</p>
-  <p class="small">4. Runde - HV TDP Stainz : HFC Studio A Köflach 0:3</p>
-  <p class="small">5. Runde - STT Dorfwirt Müller : HV TDP Stainz 6:2</p>
-  <p class="small">6. Runde - SV Geistthal : HV TDP Stainz 3:5</p>
-  <p class="small">7. Runde - HV TDP Stainz : STT Pichler 2:2</p>
-  <p class="small">8. Runde - HV TDP Stainz vs. SK Hohenburg 3:0</p>
-  <p class="small">9. Runde - SK UP Voitsberg vs. HV TDP Stainz 3:2</p>
-  <p class="small">10. Runde - HV TDP Stainz vs. STT Mein Lokal Gössnitz 1:1</p>
-  <p class="small">11. Runde - HV TDP Stainz vs. HFC Studio A Köflach 1:2</p>
-  <p class="small">12. Runde - HV TDP Stainz vs. STT Dorfwirt Müller 1:0</p>
-  <p class="small">13. Runde - HV TDP Stainz vs. SV Geistthal 4:3</p>
-  <p class="small">14. Runde - STT Pichler vs. HV TDP Stainz 2:2</p>
+  @for (match of getResultsForSeason('2021-2022'); track match.id) {
+  <p class="small">{{ formatMatch(match) }}</p>
+  }
   <br />
   <br />
   <!-- <p class="normal">
