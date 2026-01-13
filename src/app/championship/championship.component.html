@@ -101,176 +101,40 @@
   }
 </div>
 
-@if (season == '2025-2026') {
 <div>
+  @if (seasonContent?.preface?.length) { @for (line of seasonContent.preface; track line) {
+  <p class="small">{{ line }}</p>
+  }
+  <br />
+  } @if (seasonContent?.upcomingTitle && getUpcomingForSeason(season).length) {
   <p class="normal">
-    <b>Spieltermine Herbst 2025</b>
+    <b>{{ seasonContent.upcomingTitle }}</b>
   </p>
-  @if (getUpcomingForSeason('2025-2026').length) {
-  @for (match of getUpcomingForSeason('2025-2026'); track match.id) {
+  @for (match of getUpcomingForSeason(season); track match.id) {
   <p class="normal">{{ formatMatch(match) }}</p>
   }
   <hr />
-  }
-  <p class="normal">
-    <b>Ergebnisse</b>
-  </p>
-  @for (match of getResultsForSeason('2025-2026'); track match.id) {
-  <p class="small">{{ formatMatch(match) }}</p>
-  }
-  <hr />
+  <br />
+  } @if (scorers?.length) {
   <p class="normal">
     <b>Unsere Torschützen</b>
   </p>
   @for (scorer of scorers; track scorer) {
   <p class="normal">{{ scorer.goalsDisplay }} {{ scorer.playerName }}</p>
   }
-  <hr />
-</div>
-} @if (season == '2024-2025') {
-<div>
-  <!-- <p class="normal">
-    Cup Halbfinale - MITTWOCH, 09.07.2025 - 19:00 Uhr - Sportplatz St. Johann
-  </p> -->
-  <!--
-  <p class="normal">
-    <b>Spieltermine Frühjahr 2025:</b>
-  </p>
-  <p class="normal">
-    13. Runde - FREITAG, 20.06.2025 - 19:00 Uhr - Stadion Stainz - HV TDP Stainz : STT Multitask
-  </p>
-  <p class="normal">
-    Nachtragsspiel - SAMSTAG, 27.06.2025 - 18:30 Uhr - Sportplatz St. Johann - SK Hohenburg : HV TDP Stainz
-  </p>
-  -->
   <br />
+  } @if (getResultsForSeason(season).length) {
   <p class="normal">
-    <b>Unsere Torschützen:</b>
+    <b>Ergebnisse</b>
   </p>
-  @for (scorer of scorers; track scorer) {
-  <p class="normal">{{ scorer.goalsDisplay }} {{ scorer.playerName }}</p>
-  }
-  <br />
-  <p class="normal">
-    <b>Ergebnisse:</b>
-  </p>
-  @for (match of getResultsForSeason('2024-2025'); track match.id) {
+  @for (match of getResultsForSeason(season); track match.id) {
   <p class="small">{{ formatMatch(match) }}</p>
-  }
-</div>
-} @if (season == '2023-2024') {
-<div>
-  <!--
-    <p class="normal">
-      <b>Spieltermine Frühjahr 2024:</b>
-    </p>
-    -->
-  <!--
-    <p class="normal">
-      13. Runde - DIENSTAG, 18.06.2024 - 19:00 Uhr - Sportplatz Stainz - HV TDP Stainz : FC St. Johann/Köppling
-    </p>
-    <p class="normal">
-      SAMSTAG, 15.06.2024 - Sirnitz (Kärnten) - Hinti-Cup
-    </p>
-    -->
+  } } @if (seasonContent?.postResults?.length) {
   <hr />
-  <p class="normal">
-    <b>Unsere Torschützen:</b>
-  </p>
-  @for (scorer of scorers; track scorer) {
-  <p class="normal">{{ scorer.goalsDisplay }} {{ scorer.playerName }}</p>
-  }
-  <br />
-  <p class="normal">
-    <b>Ergebnisse:</b>
-  </p>
-  @for (match of getResultsForSeason('2023-2024'); track match.id) {
-  <p class="small">{{ formatMatch(match) }}</p>
-  }
-  <!--
-    <br>
-      <p class="normal">
-        <b>Spieltermine Herbst 2023:</b>
-      </p>
-      <hr>
-        <p class="normal">
-          1. Runde - SAMSTAG, 28.10.2023 - 17:00 Uhr - Sportplatz Södingberg - STT Pichler : HV TDP Stainz
-        </p>
-        <hr>
-          -->
-  <!-- <p class="normal">14. Runde - FREITAG, 15.07.2022 - 18:30 Uhr - Sportplatz Södingberg - STT Pichler vs. HV TDP Stainz</p> -->
-  <br />
+  @for (line of seasonContent.postResults; track line) {
+  <p class="small">{{ line }}</p>
+  } }
 </div>
-} @if (season == '2022-2023') {
-<div>
-  <p class="small">
-    <b>Ergebnisse:</b>
-  </p>
-  @for (match of getResultsForSeason('2022-2023'); track match.id) {
-  <p class="small">{{ formatMatch(match) }}</p>
-  }
-  <hr />
-  <p class="small">
-    * Spiel wird offiziell nicht gewertet, da Gössnitz aus der Liga ausgestiegen ist.
-  </p>
-  <br />
-  <p class="normal">
-    <b>Unsere Torschützen:</b>
-  </p>
-  @for (scorer of scorers; track scorer) {
-  <p class="normal">{{ scorer.goalsDisplay }} {{ scorer.playerName }}</p>
-  }
-  <br />
-  <!--
-          <p class="normal">
-            <b>Spieltermine Frühjahr 2023:</b>
-          </p>
-          <p class="normal">12. Runde - Samstag, 01.07.2023, 18:30 - Sportplatz Geistthal - SV Geistthal : HV TDP Stainz</p>
-          <hr>
-            -->
-  <hr />
-</div>
-} @if (season == '2021-2022') {
-<div>
-  <p class="small">
-    Die Plätze 1 bis 3 spielen am Ende der Saison in einem Play-off gegen die Plätze 5 bis 8 aus
-    Liga A um den Aufstieg.
-  </p>
-  <br />
-  <p class="normal">
-    <b>Unsere Torschützen:</b>
-  </p>
-  @for (scorer of scorers; track scorer) {
-  <p class="normal">
-    {{ scorer.goalsDisplay }} {{ scorer.playerName }}
-    <!-- <span *ngFor="let n of numSequence(player); let i = index;">{{i}} </span> -->
-    <!-- <ng-container *ngFor="let _ of [].constructor(player.goals)"><i class="fas fa-futbol"></i></ng-container> -->
-    <!-- __ -->
-    <!-- <ng-container *ngFor="let i of Arr(6).fill(1)"><i class="fas fa-futbol"></i></ng-container> -->
-  </p>
-  }
-  <br />
-  <p class="small">
-    <b>Ergebnisse:</b>
-  </p>
-  @for (match of getResultsForSeason('2021-2022'); track match.id) {
-  <p class="small">{{ formatMatch(match) }}</p>
-  }
-  <br />
-  <br />
-  <!-- <p class="normal">
-            <b>Spieltermine Frühjahr 2022:</b>
-          </p> -->
-  <!--
-          <p class="normal">12. Runde - MITTWOCH, 22.06.2022 - 19:00 Uhr - Stadion Stainz - HV TDP Stainz vs. STT Dorfwirt Müller</p>
-          <hr>
-            <p class="normal">13. Runde - SAMSTAG, 02.07.2022 - 18:30 Uhr - Stadion Stainz - HV TDP Stainz vs. SV Geistthal</p>
-            <hr>
-              <p class="normal">14. Runde - FREITAG, 15.07.2022 - 18:30 Uhr - Sportplatz Södingberg - STT Pichler vs. HV TDP Stainz</p>
-              -->
-  <!-- <p class="normal">14. Runde - FREITAG, 15.07.2022 - 18:30 Uhr - Sportplatz Södingberg - STT Pichler vs. HV TDP Stainz</p> -->
-</div>
-}
 
 <br />
 <br />

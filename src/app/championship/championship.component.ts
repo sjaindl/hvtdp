@@ -44,6 +44,7 @@ export class ChampionshipComponent implements OnInit {
   scorers: Scorer[];
   matchInfo: MatchInfo[] = [];
   private matchInfoBySeason = new Map<string, MatchInfo[]>();
+  seasonContent: SeasonContent;
 
   season: string;
 
@@ -70,6 +71,7 @@ export class ChampionshipComponent implements OnInit {
     this.sub = this.route.params.subscribe((params) => {
       this.season = params['season'];
       console.log(' season: ' + this.season);
+      this.seasonContent = this.getSeasonContent(this.season);
 
       this.mysqlService.getStandings().subscribe((standings) => {
         this.dataSource.data = standings.filter((standing) => {
@@ -211,4 +213,32 @@ export class ChampionshipComponent implements OnInit {
     if (typeof window === 'undefined') return;
     this.isMobile = window.innerWidth <= 768;
   }
+
+  private getSeasonContent(season: string): SeasonContent {
+    const content: Record<string, SeasonContent> = {
+      '2025-2026': {
+        upcomingTitle: 'Spieltermine Herbst 2025',
+      },
+      '2022-2023': {
+        postResults: [
+          '* Spiel wird offiziell nicht gewertet, da Gössnitz aus der Liga ausgestiegen ist.',
+        ],
+      },
+      '2021-2022': {
+        preface: [
+          'Die Plätze 1 bis 3 spielen am Ende der Saison in einem Play-off gegen die Plätze 5 bis 8 aus Liga A um den Aufstieg.',
+        ],
+      },
+    };
+
+    return {
+      ...content[season],
+    };
+  }
+}
+
+interface SeasonContent {
+  upcomingTitle?: string;
+  preface?: string[];
+  postResults?: string[];
 }
