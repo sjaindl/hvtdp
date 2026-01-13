@@ -101,39 +101,70 @@
   }
 </div>
 
-<div>
-  @if (seasonContent?.preface?.length) { @for (line of seasonContent.preface; track line) {
-  <p class="small">{{ line }}</p>
+<div class="championship-sections">
+  @if (seasonContent?.preface?.length) {
+  <div class="champ-note">
+    @for (line of seasonContent.preface; track line) {
+    <p class="small">{{ line }}</p>
+    }
+  </div>
   }
-  <br />
-  } @if (seasonContent?.upcomingTitle && getUpcomingForSeason(season).length) {
-  <p class="normal">
-    <b>{{ seasonContent.upcomingTitle }}</b>
-  </p>
-  @for (match of getUpcomingForSeason(season); track match.id) {
-  <p class="normal">{{ formatMatch(match) }}</p>
+
+  @if (seasonContent?.upcomingTitle && getUpcomingForSeason(season).length) {
+  <section class="champ-section">
+    <div class="section-header">
+      <h2>{{ seasonContent.upcomingTitle }}</h2>
+    </div>
+    <div class="section-body">
+      @for (match of getUpcomingForSeason(season); track match.id) {
+      <div class="match-row upcoming">
+        <span class="match-dot"></span>
+        <span>{{ formatMatch(match) }}</span>
+      </div>
+      }
+    </div>
+  </section>
   }
-  <hr />
-  <br />
-  } @if (scorers?.length) {
-  <p class="normal">
-    <b>Unsere Torschützen</b>
-  </p>
-  @for (scorer of scorers; track scorer) {
-  <p class="normal">{{ scorer.goalsDisplay }} {{ scorer.playerName }}</p>
+
+  @if (scorers?.length) {
+  <section class="champ-section">
+    <div class="section-header">
+      <h2>Unsere Torschützen</h2>
+    </div>
+    <div class="section-body scorers-grid">
+      @for (scorer of scorers; track scorer) {
+      <div class="scorer-card">
+        <span class="scorer-goals">{{ scorer.goalsDisplay }}</span>
+        <span class="scorer-name">{{ scorer.playerName }}</span>
+      </div>
+      }
+    </div>
+  </section>
   }
-  <br />
-  } @if (getResultsForSeason(season).length) {
-  <p class="normal">
-    <b>Ergebnisse</b>
-  </p>
-  @for (match of getResultsForSeason(season); track match.id) {
-  <p class="small">{{ formatMatch(match) }}</p>
-  } } @if (seasonContent?.postResults?.length) {
-  <hr />
-  @for (line of seasonContent.postResults; track line) {
-  <p class="small">{{ line }}</p>
-  } }
+
+  @if (getResultsForSeason(season).length) {
+  <section class="champ-section">
+    <div class="section-header">
+      <h2>Ergebnisse</h2>
+    </div>
+    <div class="section-body">
+      @for (match of getResultsForSeason(season); track match.id) {
+      <div class="match-row result">
+        <span class="match-dot"></span>
+        <span>{{ formatMatch(match) }}</span>
+      </div>
+      }
+    </div>
+  </section>
+  }
+
+  @if (seasonContent?.postResults?.length) {
+  <div class="champ-note subtle">
+    @for (line of seasonContent.postResults; track line) {
+    <p class="small">{{ line }}</p>
+    }
+  </div>
+  }
 </div>
 
 <br />
