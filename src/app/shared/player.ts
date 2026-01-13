@@ -4,5 +4,7 @@ export class Player {
   position: string;
   memberSinceYear: number;
   imagePath: string;
+  games: number;
+  goals: number;
   jerseyNumber?: number;
 }

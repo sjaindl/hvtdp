@@ -28,6 +28,8 @@
                 'firstName'=> $res["firstName"],
                 'lastName'=> $res["lastName"],
                 'memberSinceYear'=> $res["memberSinceYear"],
+                'games'=> $res["games"],
+                'goals'=> $res["goals"],
                 'imagePath'=> $res["imagePath"]));
         }
 

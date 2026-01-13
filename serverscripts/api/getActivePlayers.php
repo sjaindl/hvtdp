@@ -29,6 +29,8 @@
                 'position'=> $res["position"],
                 'firstName'=> $res["firstName"],
                 'lastName'=> $res["lastName"],
+                'games'=> $res["games"],
+                'goals'=> $res["goals"],
                 'memberSinceYear'=> $res["memberSinceYear"]
             );
 
