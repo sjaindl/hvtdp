@@ -1,36 +1,44 @@
-<h1 class="large header">Werde Mitglied</h1>
+<div class="membership-page">
+  <header class="membership-hero">
+    <h1 class="large header">Werde Mitglied</h1>
+    <p class="normal">Werde aktives oder förderndes Mitglied vom HV TDP Stainz.</p>
+  </header>
 
-<p class="normal">Werde aktives oder förderndes Mitglied vom HV TDP Stainz.</p>
-
-<p class="normal">So einfach geht's:</p>
-
-<p class="normal">
-  Einfach die hier verlinkte
-  <a href="{{ documentBaseUrl + 'beitrittserklaerung.pdf' }}">Beitrittserklärung</a> ausfüllen und
-  an unsere E-Mail-Adresse <a href="mailto:hvtdpstainz@gmx.at">hvtdpstainz&#64;gmx.at</a> senden.
-</p>
-
-<br />
-
-<p class="normal">AKTIVE Mitglieder (Stand {{ activePer }})</p>
-
-<div class="small">
-  @for (member of activeMembers; track member) {
-    <div>
-      {{ member.lastName | uppercase }} {{ member.firstName }} <br />
+  <section class="membership-card">
+    <h2 class="section-title">So einfach geht's</h2>
+    <p class="normal card-text">
+      Einfach die hier verlinkte
+      <a href="{{ documentBaseUrl + 'beitrittserklaerung.pdf' }}">Beitrittserklärung</a> ausfüllen
+      und an unsere E-Mail-Adresse
+      <a href="mailto:hvtdpstainz@gmx.at">hvtdpstainz&#64;gmx.at</a> senden.
+    </p>
+    <div class="cta-row">
+      <a class="cta-link" href="{{ documentBaseUrl + 'beitrittserklaerung.pdf' }}">
+        Beitrittserklärung herunterladen
+      </a>
+      <a class="cta-link" href="mailto:hvtdpstainz@gmx.at">hvtdpstainz&#64;gmx.at</a>
     </div>
-  }
-</div>
+  </section>
 
-<p class="normal">FÖRDERNDE Mitglieder (Stand {{ supportPer }})</p>
-
-<div class="small">
-  @for (member of supportMembers; track member) {
-    <div>
-      {{ member.lastName | uppercase }} {{ member.firstName }} <br />
+  <section class="membership-card">
+    <h2 class="section-title">Aktive Mitglieder (Stand {{ activePer }})</h2>
+    <div class="member-list small">
+      @for (member of activeMembers; track member) {
+        <div class="member-item">
+          {{ member.lastName | uppercase }} {{ member.firstName }}
+        </div>
+      }
     </div>
-  }
-</div>
+  </section>
 
-<br />
-<br />
+  <section class="membership-card">
+    <h2 class="section-title">Fördernde Mitglieder (Stand {{ supportPer }})</h2>
+    <div class="member-list small">
+      @for (member of supportMembers; track member) {
+        <div class="member-item">
+          {{ member.lastName | uppercase }} {{ member.firstName }}
+        </div>
+      }
+    </div>
+  </section>
+</div>
