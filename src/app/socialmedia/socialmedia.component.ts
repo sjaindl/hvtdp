@@ -116,4 +116,20 @@ export class SocialmediaComponent implements OnInit {
 
     return 'Highlight';
   }
+
+  scoreLabel(game: Game): string {
+    if (!game) return '';
+    const homeScore = game.homeScore;
+    const awayScore = game.awayScore;
+    if (
+      homeScore === null ||
+      homeScore === undefined ||
+      awayScore === null ||
+      awayScore === undefined
+    ) {
+      return '';
+    }
+
+    return `${homeScore}:${awayScore}`;
+  }
 }

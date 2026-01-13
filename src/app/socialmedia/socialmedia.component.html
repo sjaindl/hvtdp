@@ -31,6 +31,9 @@
       </div>
       <p class="game-desc">
         {{ game.description || 'Spiel-Highlights' }}
+        @if (scoreLabel(game)) {
+        <span>· {{ scoreLabel(game) }}</span>
+        }
       </p>
     </div>
   </div>

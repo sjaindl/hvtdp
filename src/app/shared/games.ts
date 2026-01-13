@@ -12,6 +12,8 @@ export class Game {
   date: string;
   links: Link[];
   customText: string;
+  homeScore: number | null;
+  awayScore: number | null;
 }
 
 export class GameLinkFlat {
@@ -21,6 +23,8 @@ export class GameLinkFlat {
   date: string;
   link: Link;
   customText: string;
+  homeScore: number | null;
+  awayScore: number | null;
 
   constructor(
     season: string,
@@ -36,5 +40,7 @@ export class GameLinkFlat {
     this.date = date;
     this.link = link;
     this.customText = customText;
+    this.homeScore = null;
+    this.awayScore = null;
   }
 }

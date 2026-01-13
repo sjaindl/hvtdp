@@ -25,7 +25,7 @@
         while ($row_seasons = mysqli_fetch_assoc($fetchSeasons)) {
             $season = utf8_encode($row_seasons['season']);
 
-            $fetch_games = mysqli_query($con, "SELECT round, description, date, gameId, customText
+            $fetch_games = mysqli_query($con, "SELECT round, description, date, gameId, customText, homeScore, awayScore
                 FROM Game g where g.season = '$season' order by date DESC") or die(mysqli_error($con));
 
             $gameId = 0;
@@ -41,6 +41,8 @@
                 $game_array['date'] = $row_games['date'];
                 $game_array['gameId'] = $gameId;
                 $game_array['customText'] = $row_games['customText'];
+                $game_array['homeScore'] = $row_games['homeScore'];
+                $game_array['awayScore'] = $row_games['awayScore'];
                 $game_array['links'] = array();
 
                 $fetch_links = mysqli_query($con, "SELECT link, description, scorer, goalOfSeasonCandidate
@@ -85,5 +87,4 @@
     }
 
 ?>
-
 
