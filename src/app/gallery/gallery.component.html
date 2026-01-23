@@ -1,4 +1,4 @@
-<h1 class="large header">Galerie</h1>
+<h1 class="large header">Fotos</h1>
 
 <p class="normalCentered">
   Für unsere Fans haben wir alle HV TDP-Veranstaltungen archiviert. Viel Spaß beim Durchstöbern der
@@ -19,7 +19,9 @@
 <div class="album-grid">
   @for (album of albums; track album) {
   <div class="album-preview" (click)="openAlbum(album)">
-    <p class="normalCentered" style="color: hotpink">{{ album.date }} / {{ album.name }}</p>
+    <p class="normalCentered" style="color: hotpink; font-size: 120%">
+      {{ album.date }} / {{ album.name }}
+    </p>
     @if (album.photos?.length > 0) {
     <img
       class="album-cover"
