@@ -9,12 +9,13 @@
 
     function postGoldenshot($name, $user, $pass, $host) {
         $con = @mysqli_connect($host, $user, $pass, $name);
-        mysqli_set_charset($con, "utf8mb4");
 
         if (!$con) {
             echo "Error: " . mysqli_connect_error();
             exit();
         }
+
+        mysqli_set_charset($con, "utf8mb4");
 
         $firstName = $_GET['firstName'];
         $lastName = $_GET['lastName'];
@@ -26,7 +27,7 @@
         $language = $_GET['language'];
         $platform = $_GET['platform'];
 
-        $sql = "INSERT INTO Goldenshot (firstName, lastName, phone, email, photo) VALUES ('$firstName', '$lastName', '$phone', '$mail', '$photo')";
+        $sql = "INSERT INTO Goldenshot (firstName, lastName, email, phone, photo, season, votes) VALUES ('$firstName', '$lastName', '$mail', '$phone', '$photo', '2026', 0)";
 
         if ($con->query($sql) === TRUE) {
             echo "New record created successfully";
@@ -38,7 +39,7 @@
         mysqli_close ($con);
 
         $to = "hvtdpstainz@gmx.at";
-        $subject = "Anmeldung Torschuss-Challenge 2024: " . $teamname;
+        $subject = "Anmeldung Torschusschallenge";
 
         $message = "Vorname: " . $firstName . "\r\n";
         $message .= "Nachname: " . $lastName . "\r\n";

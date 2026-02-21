@@ -1,61 +1,58 @@
-<h3 class="large header">Die „Torschuss Challenge“</h3>
+<h3 class="large header">Die „Torschuss Challenge 2.0“</h3>
 <h4 class="small header">powered by 11teamsports Graz</h4>
 
 @if (isMobile) {
-  <img
-    class="imageSmallCenter"
-    src="assets/images/torschusschallenge.jpg"
-    style="width: 80%"
-    />
-}
-@if (!isMobile) {
-  <img
-    class="imageSmallCenter"
-    src="assets/images/torschusschallenge.jpg"
-    style="width: 40%"
-    />
+<img class="imageSmallCenter" src="assets/images/torschusschallenge.jpeg" style="width: 80%" />
+} @if (!isMobile) {
+<img class="imageSmallCenter" src="assets/images/torschusschallenge.jpeg" style="width: 40%" />
 }
 
 <p class="normal">
-  Du traust dir zu den Ball von der Mittellinie direkt (ohne dass der Ball vorher den Boden berührt)
-  ins Tor zu treffen und willst dabei auch noch etwas gewinnen?!? Dann bist du hier genau richtig!
+  Die Legende ist zurück!
+  <br />
+  Nach einer erfolgreichen Premiere beim letzten Stadionfest gibt es auch dieses Mal unsere
+  legendäre Torschusschallenge!
 </p>
 
 <p class="normal">
-  Im Zuge unserer 10 Jahresfeier findet am Tag unseres Sommerfestes die „Torschuss Challenge“ statt!
-  Für das Finale können sich 3 Teilnehmer qualifizieren. Auf den möglichen Gewinner wartet ein
-  sensationeller Preis!
+  Du traust dir zu den Ball von der Mittellinie direkt (ohne Berührung vor der Torlinie) ins Tor zu
+  treffen und willst dabei auch noch einen sensationellen Preis gewinnen?!? Dann bist du hier genau
+  richtig!
 </p>
 
 <p class="normal">
-  Die Anmeldung ist völlig KOSTENLOS und ausschließlich über unser Anmeldeformular möglich!
+  Die Anmeldung ist für jeden und jede interessierte geöffnet und ist völlig KOSTENLOS.
+  Anmeldemöglichkeit ausschließlich über das offizielle Anmeldeformular!
 </p>
 
-<p class="normal">Sichere dir deinen Platz und nutze die Chance ins Finale zu kommen!</p>
+<p class="normal">
+  Sichere dir deinen Platz, melde dich an und mit etwas Glück sehen wir uns beim Finaltag am 06.
+  Juni 2026 im Stadion Stainz!
+</p>
 
-<p class="normal">📅 WANN: Samstag 20. Juli 2024</p>
+<p class="normal">
+  <b>WANN:</b> Samstag, 06. Juni 2026 (in der Halbzeitpause vom Legendenspiel der SK Rapid Allstars)
+</p>
 
-<p class="normal">🏟 Wo: Stadion Stainz</p>
+<p class="normal"><b>WO:</b> Stadion Stainz</p>
 
 <br />
 
-<p class="normal">
+<!-- <p class="normal">
   <b><u>Was gibt es zu gewinnen?</u></b>
-</p>
+</p> -->
 
-<p class="normal">
+<!-- <p class="normal">
   Der mögliche Gewinner erhält
   <b>2 VIP Karten für ein Heimspiel des SK Puntigamer Sturm Graz!</b> (gesponsert von 11teamsports
   Graz) Die 3 Finalisten erhalten für ihre Teilnahme GRATIS Eintritt zu unserem Sommerfest!
-</p>
-
-<br />
+</p> -->
 
 <p class="normal">
   <b><u>Wer kann teilnehmen?</u></b>
 </p>
 
-<p class="normal">Jeder der mindestens 18 Jahre alt ist.</p>
+<p class="normal">Jeder, der mindestens 18 Jahre alt ist.</p>
 
 <br />
 
@@ -63,12 +60,14 @@
   <b><u>Wie läuft der Bewerb ab?</u></b>
 </p>
 
-<ul>
-  <li class="normal">Anmeldung über unser Online Formular</li>
-  <li class="normal">Online Voting auf unserer Homepage (max. 50 Teilnehmer stehen zur Wahl!)</li>
+<ul style="margin-left: 40px">
+  <li class="normal">1. Phase - Anmeldung über unser Online Formular (KOSTENLOS!)</li>
   <li class="normal">
-    Die Top 3 des Online Votings schaffen den Einzug ins Finale und dürfen am Tag des Sommerfestes
-    um den Hauptpreis spielen!
+    2. Phase - Online Voting auf unserer Homepage (die ersten 50 Anmeldungen stehen zur Wahl!)
+  </li>
+  <li class="normal">
+    3. Phase - Die Top 3 vom Online Voting schaffen den Einzug ins Finale und dürfen am Tag vom
+    Stadionfest um den Hauptpreis spielen!
   </li>
 </ul>
 
@@ -82,14 +81,14 @@
     margin-left: 10px;
     margin-right: 10px;
   "
-  >
+>
   <form
     novalidate
     [formGroup]="feedbackForm"
     (ngSubmit)="onSubmit()"
     style="margin-left: 10px; margin-right: 10px"
-    >
-    <p>
+  >
+    <p style="margin-top: 20px">
       <mat-form-field class="full-width" color="{{ formErrors.firstName ? 'warn' : 'primary' }}">
         <input
           class="formElement"
@@ -98,7 +97,7 @@
           formControlName="firstName"
           placeholder="Vorname"
           required
-          />
+        />
         <mat-hint>
           <span [hidden]="!formErrors.firstName"> {{ formErrors.firstName }}</span>
         </mat-hint>
@@ -114,7 +113,7 @@
           formControlName="lastName"
           placeholder="Nachname"
           required
-          />
+        />
         <mat-hint>
           <span [hidden]="!formErrors.lastName"> {{ formErrors.lastName }}</span>
         </mat-hint>
@@ -138,7 +137,7 @@
           formControlName="phone"
           placeholder="Telefonnummer"
           type="text"
-          />
+        />
         <mat-hint>
           <span [hidden]="!formErrors.phone"> {{ formErrors.phone }}</span>
         </mat-hint>
@@ -152,8 +151,8 @@
       mat-button
       class="background-primary"
       [disabled]="feedbackForm.invalid"
-      >
-      Anmeldung jetzt abschicken
+    >
+      Anmeldung abschicken
     </button>
     <br />
   </form>
@@ -164,7 +163,7 @@
     accept="image/*"
     (change)="onFileSelected($event)"
     #fileUpload
-    />
+  />
 
   <div class="file-upload" style="margin-left: 10px; margin-right: 10px">
     <br />
@@ -193,15 +192,15 @@
 </div>
 
 @if (submittedFormData) {
+<div>
   <div>
-    <div>
-      <h2>Wir haben deine Anmeldung erhalten, Vielen Dank!</h2>
-      <p>Vorname: {{ submittedFormData.firstName }}</p>
-      <p>Nachname: {{ submittedFormData.lastName }}</p>
-      <p>E-Mail: {{ submittedFormData.email }}</p>
-      <p>Telefonnummer: {{ submittedFormData.phone }}</p>
-    </div>
-    <br /><br />
-    <br /><br />
+    <h2>Wir haben deine Anmeldung erhalten, Vielen Dank!</h2>
+    <p>Vorname: {{ submittedFormData.firstName }}</p>
+    <p>Nachname: {{ submittedFormData.lastName }}</p>
+    <p>E-Mail: {{ submittedFormData.email }}</p>
+    <p>Telefonnummer: {{ submittedFormData.phone }}</p>
   </div>
+  <br /><br />
+  <br /><br />
+</div>
 }
