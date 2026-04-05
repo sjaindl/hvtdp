@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:api.github.com)",
+      "Bash(npm outdated:*)",
+      "Bash(ls /Users/stefanjaindl/Code/hvtdp/.eslintrc* /Users/stefanjaindl/Code/hvtdp/eslint.config*)",
+      "Bash(npx ng:*)",
+      "Bash(npm install:*)",
+      "Bash(git stash:*)",
+      "Bash(npm show:*)",
+      "Bash(npm uninstall:*)",
+      "Bash(npm audit:*)",
+      "Bash(python3 -c \"import json,sys; versions=json.load\\(sys.stdin\\); print\\(versions[-5:]\\)\")",
+      "Bash(npm run:*)",
+      "Bash(mkdir -p ~/.claude/channels/discord)",
+      "Read(//Users/stefanjaindl/.claude/channels/discord/**)"
+    ]
+  }
+}
