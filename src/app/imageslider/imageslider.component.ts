@@ -30,7 +30,7 @@ export class ImagesliderComponent implements OnInit {
   @ViewChildren('thumbBtn', { read: ElementRef })
   thumbButtons!: QueryList<ElementRef<HTMLButtonElement>>;
 
-  imageBaseUrl: String;
+  imageBaseUrl: string;
   currentIndex = 0;
 
   // Swipe state
@@ -40,7 +40,7 @@ export class ImagesliderComponent implements OnInit {
   private isDragging = false;
 
   @Input() carouselItems: Image[] = [];
-  @Input() showDots: Boolean = false;
+  @Input() showDots: boolean = false;
 
   constructor(public router: Router) {}
 

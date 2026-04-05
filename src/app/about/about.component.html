@@ -132,7 +132,7 @@
   <div class="chef-section">
     <div class="chef-list">
       @for (chef of (isMobile ? obmaennerWithoutDummy : obmaenner); track chef) { @if
-      (chef.firstName != 'Dummy') {
+      (chef.firstName !== 'Dummy') {
       <div class="team-entry chef-card">
         <app-hvtdp-image
           class="img-preview"
@@ -147,7 +147,7 @@
 
     <div class="chef-list">
       @for (chef of (isMobile ? kassiererWithoutDummy : kassierer); track chef) { @if
-      (chef.firstName != 'Dummy') {
+      (chef.firstName !== 'Dummy') {
       <div class="team-entry chef-card">
         <app-hvtdp-image
           class="img-preview"
@@ -162,7 +162,7 @@
 
     <div class="chef-list">
       @for (chef of (isMobile ? schriftfuehrerWithoutDummy : schriftfuehrer); track chef) { @if
-      (chef.firstName != 'Dummy') {
+      (chef.firstName !== 'Dummy') {
       <div class="team-entry chef-card">
         <app-hvtdp-image
           class="img-preview"
@@ -177,7 +177,7 @@
 
     <div class="chef-list">
       @for (chef of (isMobile ? rechnungsprueferWithoutDummy : rechnungspruefer); track chef) { @if
-      (chef.firstName != 'Dummy') {
+      (chef.firstName !== 'Dummy') {
       <div class="team-entry chef-card">
         <app-hvtdp-image
           class="img-preview"

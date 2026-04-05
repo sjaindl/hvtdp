@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
     selector: 'app-hvtdp-image',
@@ -8,13 +8,9 @@ import { Component, Input, OnInit } from '@angular/core';
     standalone: true,
     imports: [CommonModule]
 })
-export class HvtdpImageComponent implements OnInit {
+export class HvtdpImageComponent {
   @Input() imagePath: string;
   @Input() altText: string = '';
-
-  constructor() {}
-
-  ngOnInit(): void {}
 
   toggleFullscreen(container: HTMLElement, event: MouseEvent): void {
     event.stopPropagation();

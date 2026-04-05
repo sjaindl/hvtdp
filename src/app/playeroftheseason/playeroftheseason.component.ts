@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ChangeDetectorRef, HostListener } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, HostListener, AfterViewInit, OnDestroy } from '@angular/core';
 import { Player } from '../shared/player';
 import { baseUrlImages } from '../shared/baseurls';
 import { MysqlService } from '../services/mysql.service';
@@ -20,10 +20,10 @@ const PLAYER_OF_SEASON_VOTING_COOKIE_KEY = 'player_of_season_voted';
     standalone: true,
     imports: [CommonModule, MatListModule, MatButtonModule]
 })
-export class PlayerOfTheSeasonComponent implements OnInit {
+export class PlayerOfTheSeasonComponent implements OnInit, AfterViewInit, OnDestroy {
   season: string;
   players: Player[];
-  imageBaseUrl: String;
+  imageBaseUrl: string;
   isMobile = null;
   canVote = false;
   playerOfSeasonOptions: PlayerOfTheSeason[];

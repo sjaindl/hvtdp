@@ -15,7 +15,7 @@ import { HvtdpImageComponent } from '../hvtdp-image/hvtdp-image.component';
 })
 export class HallofpappComponent implements OnInit {
   pappfans: PappFan[];
-  imageBaseUrl: String;
+  imageBaseUrl: string;
 
   constructor(
     private mysqlService: MysqlService,

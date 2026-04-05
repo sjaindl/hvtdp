@@ -5,7 +5,7 @@
   * this.pageEvent.pageSize && news.indexOf(newsItem) + 1 <= (this.pageEvent.pageIndex + 1) *
   this.pageEvent.pageSize ) {
   <mat-expansion-panel
-    [expanded]="selectedNews != null && newsItem.newsId == selectedNews.newsId"
+    [expanded]="selectedNews != null && newsItem.newsId === selectedNews.newsId"
     (opened)="opened()"
   >
     <mat-expansion-panel-header>

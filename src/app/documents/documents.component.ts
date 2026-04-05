@@ -19,7 +19,7 @@ import { RouterModule } from '@angular/router';
     imports: [CommonModule, RouterModule, MatDialogModule, MatSnackBarModule]
 })
 export class DocumentsComponent implements OnInit {
-  documentBaseUrl: String;
+  documentBaseUrl: string;
   documents: HvtdpDocument[];
 
   constructor(

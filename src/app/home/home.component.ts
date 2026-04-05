@@ -1,5 +1,5 @@
 import { AsyncPipe, CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, HostListener, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, OnInit, AfterViewInit } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { DeviceDetectorService } from '../../../node_modules/ngx-device-detector';
 import { MysqlService } from '../services/mysql.service';
@@ -19,7 +19,7 @@ import { TickerComponent } from '../ticker/ticker.component';
   standalone: true,
   imports: [CommonModule, AsyncPipe, ImagesliderComponent, TickerComponent],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, AfterViewInit {
   tickerItems: Ticker[] = [];
   isMobile = null;
 
@@ -122,16 +122,6 @@ export class HomeComponent implements OnInit {
 
   ngAfterViewInit() {
     this.cdr.detectChanges();
-  }
-
-  ngOnDestroy() {
-    // unsubscribe to cookieconsent observables to prevent memory leaks
-    // this.popupOpenSubscription.unsubscribe()
-    // this.popupCloseSubscription.unsubscribe()
-    // this.initializeSubscription.unsubscribe()
-    // this.statusChangeSubscription.unsubscribe()
-    // this.revokeChoiceSubscription.unsubscribe()
-    // this.noCookieLawSubscription.unsubscribe()
   }
 
   checkDevice() {

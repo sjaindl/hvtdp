@@ -18,7 +18,7 @@
   <div class="game-header">
     <div class="game-meta">
       <span class="chip">Saison {{ game.season }}</span>
-      @if (game.round != 0 && game.round < 90) {
+      @if (game.round !== 0 && game.round < 90) {
       <span class="chip muted">Runde {{ game.round }}</span>
       }
     </div>

@@ -17,14 +17,14 @@ import { Album } from '../shared/photos';
 })
 export class GalleryComponent implements OnInit, OnDestroy {
   albums: Album[] = [];
-  season: String;
-  imageBaseUrl: String;
+  season: string;
+  imageBaseUrl: string;
   isMobile = null;
   selectedAlbum: Album | null = null;
 
   private routeSub: Subscription;
   private photosSub: Subscription;
-  private selectedAlbumSlug: String | null = null;
+  private selectedAlbumSlug: string | null = null;
 
   constructor(
     private mysqlService: MysqlService,

@@ -157,7 +157,7 @@ export class ContactComponent implements OnInit {
     this.submittedFeedback = this.feedback;
     // })
 
-    var mailSubject = 'Feedback ';
+    let mailSubject = 'Feedback ';
     mailSubject +=
       this.submittedFeedback.firstname +
       ' ' +

@@ -1,6 +1,6 @@
 export interface Chef {
-  firstName: String;
-  lastName: String;
-  function: String;
-  imagePath: String;
+  firstName: string;
+  lastName: string;
+  function: string;
+  imagePath: string;
 }

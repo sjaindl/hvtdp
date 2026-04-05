@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, HostListener, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { DeviceDetectorService } from 'ngx-device-detector';
@@ -15,11 +15,11 @@ import { VideoCardComponent } from '../video-card/video-card.component';
   standalone: true,
   imports: [VideoCardComponent],
 })
-export class SocialmediaComponent implements OnInit {
+export class SocialmediaComponent implements OnInit, AfterViewInit, OnDestroy {
   games: Game[];
   season: string;
   players: Player[];
-  imageBaseUrl: String;
+  imageBaseUrl: string;
   isMobile = null;
 
   private sub: any;

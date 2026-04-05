@@ -25,7 +25,7 @@ export class AboutComponent implements OnInit {
   schriftfuehrerWithoutDummy: Chef[];
   rechnungsprueferWithoutDummy: Chef[];
 
-  imageBaseUrl: String;
+  imageBaseUrl: string;
 
   isMobile = null;
 

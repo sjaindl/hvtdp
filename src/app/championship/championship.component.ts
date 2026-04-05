@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild, OnChanges, OnDestroy } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -17,7 +17,7 @@ import { Standing } from '../shared/standing';
   standalone: true,
   imports: [CommonModule, MatTableModule, MatSortModule, MatButtonModule],
 })
-export class ChampionshipComponent implements OnInit {
+export class ChampionshipComponent implements OnInit, OnChanges, OnDestroy {
   dataSource: MatTableDataSource<Standing> = new MatTableDataSource<Standing>();
   @ViewChild(MatSort, { static: false }) sort: MatSort;
 
@@ -97,7 +97,7 @@ export class ChampionshipComponent implements OnInit {
 
         this.scorers.forEach((scorer) => {
           scorer.goalsDisplay = '';
-          for (var _i = 0; _i < scorer.goals; _i++) {
+          for (let _i = 0; _i < scorer.goals; _i++) {
             scorer.goalsDisplay += '⚽';
           }
         });

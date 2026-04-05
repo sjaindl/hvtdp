@@ -113,7 +113,7 @@ export class MysqlService {
     address: string,
     duckcount: number
   ): Observable<any> {
-    var url = this.baseUrl + 'postDuckrun.php?';
+    let url = this.baseUrl + 'postDuckrun.php?';
     url += 'firstname=' + firstname;
     url += '&lastname=' + lastname;
     url += '&mail=' + mail;
@@ -145,7 +145,7 @@ export class MysqlService {
     teamname: string
     // day: string
   ): Observable<any> {
-    var url = this.baseUrl + 'postHallenturnier.php?';
+    let url = this.baseUrl + 'postHallenturnier.php?';
     url += '&name=' + name;
     url += '&mail=' + mail;
     // url += '&phone=' + phone
@@ -175,7 +175,7 @@ export class MysqlService {
     teamname: string
     // day: string
   ): Observable<any> {
-    var url = this.baseUrl + 'postBigDarts.php?';
+    let url = this.baseUrl + 'postBigDarts.php?';
     url += '&name=' + name;
     url += '&mail=' + mail;
     // url += '&phone=' + phone
@@ -199,7 +199,7 @@ export class MysqlService {
   }
 
   public postTurnier(name: string, mail: string, phone: string, teamname: string): Observable<any> {
-    var url = this.baseUrl + 'postKleinfeldturnier.php?';
+    let url = this.baseUrl + 'postKleinfeldturnier.php?';
     url += '&name=' + name;
     url += '&mail=' + mail;
     url += '&phone=' + phone;
@@ -231,7 +231,7 @@ export class MysqlService {
     phone: string,
     photo: string
   ): Observable<any> {
-    var url = this.baseUrl + 'postGoldenShot.php?';
+    let url = this.baseUrl + 'postGoldenShot.php?';
     url += '&firstName=' + firstName;
     url += '&lastName=' + lastName;
     url += '&mail=' + mail;
@@ -255,7 +255,7 @@ export class MysqlService {
   }
 
   public postGoldenShotVote(id: string): Observable<any> {
-    var url = this.baseUrl + 'postGoldenShotVote.php?';
+    const url = this.baseUrl + 'postGoldenShotVote.php?';
 
     return this.http.get<any>(url, {
       params: new HttpParams().append('id', id),
@@ -267,7 +267,7 @@ export class MysqlService {
   }
 
   public postGoalOfTheSeasonVote(season: string, player: string): Observable<any> {
-    var url = this.baseUrl + 'postGoalOfTheSeasonVote.php?';
+    const url = this.baseUrl + 'postGoalOfTheSeasonVote.php?';
 
     return this.http.get<any>(url, {
       params: new HttpParams().append('season', season).append('player', player),
@@ -279,7 +279,7 @@ export class MysqlService {
   }
 
   public postPlayerOfTheSeasonVote(season: string, player: string): Observable<any> {
-    var url = this.baseUrl + 'postPlayerOfTheSeasonVote.php?';
+    const url = this.baseUrl + 'postPlayerOfTheSeasonVote.php?';
 
     return this.http.get<any>(url, {
       params: new HttpParams().append('season', season).append('player', player),

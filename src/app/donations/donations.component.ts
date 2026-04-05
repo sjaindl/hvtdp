@@ -15,7 +15,7 @@ import { HvtdpImageComponent } from '../hvtdp-image/hvtdp-image.component';
 })
 export class DonationsComponent implements OnInit {
   donations: Donation[];
-  imageBaseUrl: String;
+  imageBaseUrl: string;
 
   constructor(
     private mysqlService: MysqlService,

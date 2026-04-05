@@ -3,7 +3,7 @@
 <!-- <button style="margin: auto; font-size: 20px;" mat-button class="background-primary" (click)="reload()"> Umfrage laden</button> -->
 <!-- <button style="margin: auto; font-size: 20px;" mat-button class="background-primary" (click)="goToSurvey()">Zur Umfrage</button> -->
 
-@if (season == '2022') {
+@if (season === '2022') {
 <a
   href="https://www.umfrageonline.com/c/zwsdprsc"
   style="font-size: 20px; text-align: center; display: block"
@@ -11,7 +11,7 @@
 >
   Zur Umfrage
 </a>
-} @if (season == '2023') {
+} @if (season === '2023') {
 <a
   href="https://www.umfrageonline.com/c/djhufanr"
   style="font-size: 20px; text-align: center; display: block"
@@ -46,7 +46,7 @@
   }
 </div>
 
-@if (season == '2025') {
+@if (season === '2025') {
 <div>
   @if (canVote) {
   <div>

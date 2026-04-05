@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ChangeDetectorRef, HostListener } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, HostListener, AfterViewInit, OnDestroy } from '@angular/core';
 import { Game, Link, GameLinkFlat } from '../shared/games';
 import { Player } from '../shared/player';
 import { baseUrlImages } from '../shared/baseurls';
@@ -22,12 +22,12 @@ const GOAL_OF_SEASON_VOTING_COOKIE_KEY = 'goal_of_season_voted';
     standalone: true,
     imports: [CommonModule, VideoCardComponent, MatListModule, MatButtonModule]
 })
-export class GoalOfTheSeasonComponent implements OnInit {
+export class GoalOfTheSeasonComponent implements OnInit, AfterViewInit, OnDestroy {
   games: Game[];
   links: GameLinkFlat[] = [];
   season: string;
   players: Player[];
-  imageBaseUrl: String;
+  imageBaseUrl: string;
   isMobile = null;
   canVote = false;
   goalOfSeasonOptions: GoalOfTheSeason[];
@@ -57,11 +57,11 @@ export class GoalOfTheSeasonComponent implements OnInit {
         this.links = [];
 
         games.forEach((game) => {
-          var links = game.links.filter((link) => link.goalOfSeasonCandidate == 1);
+          const links = game.links.filter((link) => link.goalOfSeasonCandidate == 1);
           console.log(links.length);
           links.forEach((link) => {
             if (game.date.startsWith(this.season)) {
-              let flat = new GameLinkFlat(
+              const flat = new GameLinkFlat(
                 game.season,
                 game.round,
                 game.description,

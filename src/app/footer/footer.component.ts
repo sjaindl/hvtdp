@@ -13,7 +13,7 @@ import { StatisticsService } from '../services/statistics.service';
     imports: [CommonModule, RouterModule, MatButtonModule, MatIconModule]
 })
 export class FooterComponent implements OnInit {
-  sessions: String = null;
+  sessions: string = null;
   currentYear = new Date().getFullYear();
 
   constructor(private statisticsService: StatisticsService) {}

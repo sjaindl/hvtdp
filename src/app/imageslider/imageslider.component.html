@@ -43,6 +43,7 @@
                 class="dot"
                 [class.active]="i === currentIndex"
                 (click)="goTo(i)"
+                [attr.aria-label]="'Image ' + (i + 1)"
               ></button>
             }
           </div>

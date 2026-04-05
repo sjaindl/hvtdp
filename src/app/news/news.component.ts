@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { DomSanitizer, Meta, Title } from '@angular/platform-browser';
@@ -18,10 +18,10 @@ import { DateUtil } from '../shared/utils/date.util';
   standalone: true,
   imports: [CommonModule, MatExpansionModule, MatPaginatorModule, HvtdpImageComponent],
 })
-export class NewsComponent implements OnInit {
+export class NewsComponent implements OnInit, OnDestroy {
   news: News[];
   selectedNews: News;
-  imageBaseUrl: String;
+  imageBaseUrl: string;
 
   length: number;
   pageSize: number;
@@ -97,7 +97,7 @@ export class NewsComponent implements OnInit {
       console.log(' news id: ' + this.newsId);
 
       //Load news details:
-      var pageIndexToSelect = 0;
+      let pageIndexToSelect = 0;
       this.news.forEach((element) => {
         if (element.newsId == this.newsId) {
           this.selectedNews = element;

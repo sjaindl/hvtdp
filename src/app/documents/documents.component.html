@@ -6,7 +6,7 @@
 
 @for (document of documents; track document) {
   <p class="normal">
-    @if (document.protected != 0) {
+    @if (document.protected !== 0) {
       <span>
         🔐
         <a class="link" [routerLink]="" (click)="downloadProtectedDocument(document)">{{
@@ -14,7 +14,7 @@
         }}</a>
       </span>
     }
-    @if (document.protected == 0) {
+    @if (document.protected === 0) {
       <span>
         <a href="{{ documentBaseUrl + document.link }}">{{ document.description }}</a>
       </span>

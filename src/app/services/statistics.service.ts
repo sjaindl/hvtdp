@@ -6,11 +6,11 @@ import { HttpClient } from '@angular/common/http';
 export class StatisticsService {
   constructor(private http: HttpClient) {}
 
-  public getNumberOfSessions(): Observable<String> {
-    return this.http.get<String>('https://www.hvtdpstainz.at/api/getAnalyticsData.php');
+  public getNumberOfSessions(): Observable<string> {
+    return this.http.get<string>('https://www.hvtdpstainz.at/api/getAnalyticsData.php');
   }
 
-  public getVisitorCount(): Observable<String> {
-    return this.http.get<String>('https://www.hvtdpstainz.at/api/getVisitCount.php');
+  public getVisitorCount(): Observable<string> {
+    return this.http.get<string>('https://www.hvtdpstainz.at/api/getVisitCount.php');
   }
 }

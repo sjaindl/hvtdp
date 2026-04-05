@@ -13,11 +13,11 @@ import { Member } from '../shared/member';
     imports: [CommonModule]
 })
 export class MembershipComponent implements OnInit {
-  documentBaseUrl: String;
+  documentBaseUrl: string;
   activeMembers: Member[];
   supportMembers: Member[];
-  activePer: String;
-  supportPer: String;
+  activePer: string;
+  supportPer: string;
 
   constructor(
     private mysqlService: MysqlService,
@@ -60,7 +60,7 @@ export class MembershipComponent implements OnInit {
         }
       });
 
-      this.activePer = this.activeMembers[0].per;
+      this.activePer = this.activeMembers[0]?.per;
     });
 
     this.mysqlService.getSupportMembers().subscribe((members) => {
@@ -78,7 +78,7 @@ export class MembershipComponent implements OnInit {
         }
       });
 
-      this.supportPer = this.supportMembers[0].per;
+      this.supportPer = this.supportMembers[0]?.per;
     });
   }
 }

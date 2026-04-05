@@ -18,7 +18,7 @@ export class FanshopComponent implements OnInit {
   filteredItems: Item[] = [];
   categories: string[] = [];
   selectedCategory = 'Alle';
-  imageBaseUrl: String;
+  imageBaseUrl: string;
   itemsLoaded = false;
 
   constructor(

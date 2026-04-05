@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { baseUrlImages } from '../shared/baseurls';
 import { DeviceDetectorService } from '../../../node_modules/ngx-device-detector';
 import { Title, Meta } from '@angular/platform-browser';
@@ -13,7 +13,7 @@ import { ActivatedRoute } from '@angular/router';
     standalone: true,
     imports: [CommonModule]
 })
-export class AdventComponent {
+export class AdventComponent implements OnInit, OnDestroy {
   imageBaseUrl: string = '';
   isMobile = null;
   season: string;
@@ -63,8 +63,8 @@ export class AdventComponent {
   curDay(): number {
     if (this.season == '2021') return 24;
 
-    var now = new Date();
-    var day = Math.min(now.getUTCDate(), 24);
+    const now = new Date();
+    const day = Math.min(now.getUTCDate(), 24);
 
     // if (now.getUTCHours() < 11) {
     //   return day - 1

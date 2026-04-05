@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
     selector: 'app-ticker',
@@ -8,10 +8,6 @@ import { Component, OnInit, Input } from '@angular/core';
     standalone: true,
     imports: [CommonModule]
 })
-export class TickerComponent implements OnInit {
+export class TickerComponent {
   @Input() text: string = '';
-
-  constructor() {}
-
-  ngOnInit(): void {}
 }
