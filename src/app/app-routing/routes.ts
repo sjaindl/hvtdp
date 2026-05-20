@@ -1,34 +1,33 @@
 import { Routes } from '@angular/router';
 
-import { HomeComponent } from '../home/home.component';
-import { TeamComponent } from '../team/team.component';
-import { NewsComponent } from '../news/news.component';
-import { ChampionshipComponent } from '../championship/championship.component';
-import { GalleryComponent } from '../gallery/gallery.component';
-import { SocialmediaComponent } from '../socialmedia/socialmedia.component';
-import { DonationsComponent } from '../donations/donations.component';
 import { AboutComponent } from '../about/about.component';
-import { ContactComponent } from '../contact/contact.component';
-import { FanshopComponent } from '../fanshop/fanshop.component';
-import { MembershipComponent } from '../membership/membership.component';
-import { HalloffameComponent } from '../halloffame/halloffame.component';
-import { DocumentsComponent } from '../documents/documents.component';
-import { SurveysComponent } from '../surveys/surveys.component';
-import { HallofpappComponent } from '../hallofpapp/hallofpapp.component';
-import { DuckrunComponent } from '../duckrun/duckrun.component';
 import { AdventComponent } from '../advent/advent.component';
-import { GoalOfTheSeasonComponent } from '../goaloftheseason/goaloftheseason.component';
-import { HallenturnierComponent } from '../hallenturnier/hallenturnier.component';
-import { KleinfeldTurnierComponent } from '../kleinfeldturnier/kleinfeldturnier.component';
-import { BocciaComponent } from '../boccia/boccia.component';
-import { ZehnjahresfeierComponent } from '../zehnjahresfeier/zehnjahresfeier.component';
-import { GoldenshotComponent } from '../goldenshot/goldenshot.component';
-import { RedirectGuard } from './redirect-guard';
-import { GoldenshotVotingComponent } from '../goldenshot-voting/goldenshot-voting.component';
-import { PlayerOfTheSeasonComponent } from '../playeroftheseason/playeroftheseason.component';
-import { ComedyhirtenComponent } from '../comedyhirten/comedyhirten.component';
 import { BigdartsComponent } from '../bigdarts/bigdarts.component';
+import { BocciaComponent } from '../boccia/boccia.component';
+import { ChampionshipComponent } from '../championship/championship.component';
+import { ComedyhirtenComponent } from '../comedyhirten/comedyhirten.component';
+import { ContactComponent } from '../contact/contact.component';
+import { DocumentsComponent } from '../documents/documents.component';
+import { DonationsComponent } from '../donations/donations.component';
+import { FanshopComponent } from '../fanshop/fanshop.component';
+import { GalleryComponent } from '../gallery/gallery.component';
+import { GoalOfTheSeasonComponent } from '../goaloftheseason/goaloftheseason.component';
+import { GoldenshotVotingComponent } from '../goldenshot-voting/goldenshot-voting.component';
+import { GoldenshotComponent } from '../goldenshot/goldenshot.component';
+import { HallenturnierComponent } from '../hallenturnier/hallenturnier.component';
+import { HalloffameComponent } from '../halloffame/halloffame.component';
+import { HallofpappComponent } from '../hallofpapp/hallofpapp.component';
+import { HomeComponent } from '../home/home.component';
+import { KleinfeldTurnierComponent } from '../kleinfeldturnier/kleinfeldturnier.component';
+import { MembershipComponent } from '../membership/membership.component';
+import { NewsComponent } from '../news/news.component';
+import { PlayerOfTheSeasonComponent } from '../playeroftheseason/playeroftheseason.component';
+import { SocialmediaComponent } from '../socialmedia/socialmedia.component';
 import { StadionFestComponent } from '../stadionfest/stadionfest.component';
+import { SurveysComponent } from '../surveys/surveys.component';
+import { TeamComponent } from '../team/team.component';
+import { ZehnjahresfeierComponent } from '../zehnjahresfeier/zehnjahresfeier.component';
+import { RedirectGuard } from './redirect-guard';
 
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -70,6 +69,5 @@ export const routes: Routes = [
   { path: 'torschusschallenge', component: GoldenshotComponent },
   { path: 'comedyhirten', component: ComedyhirtenComponent },
   { path: 'bigdarts', component: BigdartsComponent },
-
-  //  {path: "torschusschallenge-voting", component: GoldenshotVotingComponent},
+  { path: 'torschusschallenge-voting', component: GoldenshotVotingComponent },
 ];

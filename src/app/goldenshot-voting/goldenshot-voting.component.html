@@ -2,29 +2,31 @@
   <h3 class="large header">Die „Torschuss Challenge“ Abstimmung</h3>
   <h4 class="small header">powered by 11teamsports Graz</h4>
 
-  @if (isMobile) {
-    <img
-      class="imageSmallCenter"
-      src="assets/images/torschusschallenge.jpg"
-      style="width: 80%"
-      />
-  }
-  @if (!isMobile) {
-    <img
-      class="imageSmallCenter"
-      src="assets/images/torschusschallenge.jpg"
-      style="width: 40%"
-      />
+  @if (votingEnded) {
+    @if (isMobile) {
+      <img class="imageSmallCenter" src="assets/images/goldenshot_voting_2026_result.jpeg" style="width: 80%" />
+    } @else {
+      <img class="imageSmallCenter" src="assets/images/goldenshot_voting_2026_result.jpeg" style="width: 60%" />
+    }
+  } @else {
+      @if (isMobile) {
+        <img class="imageSmallCenter" src="assets/images/goldenshot_voting.png" style="width: 80%" />
+      }
+      @else {
+        <img class="imageSmallCenter" src="assets/images/goldenshot_voting.png" style="width: 20%" />
+      }
+
+      <p class="normal">
+        Es geht in die entscheidende Voting Phase!<br />
+        <b>{{ goldenShotOptions?.length }} Teilnehmer</b> (alphabetische Reihenfolge) stehen zur Wahl,
+        doch nur <b>3</b> schaffen es ins Finale am 06. Juni 2026!<br />
+        Stimmt daher für euren Favoriten fleißig ab!
+      </p>
+
+      <p class="normal">Votingende: Sonntag, 17.05.2026 - 23:55 Uhr</p>
   }
 
-  <p class="normal">
-    Es geht in die entscheidende Voting Phase!<br />
-    <b>16 Teilnehmer</b> (alphabetische Reihenfolge) stehen zur Wahl, doch nur <b>3</b> schaffen es
-    ins Finale am 20. Juli 2024!<br />
-    Stimmt daher für euren Favoriten fleißig ab!
-  </p>
-
-  <p class="normal">Votingende: Sonntag, 30.06.2024 - 23:55 Uhr</p>
+  <br>
 
   <p class="normal">
     <b><u>Was gibt es zu gewinnen?</u></b>
@@ -54,7 +56,6 @@
     </li>
     <li class="normal">
       <i class="fa fa-check fa-sm" style="color: green"></i> Online Voting auf unserer Homepage
-      (max. 50 Teilnehmer stehen zur Wahl!)
     </li>
     <li class="normal">
       Die Top 3 des Online Votings schaffen den Einzug ins Finale und dürfen am Tag des Sommerfestes
@@ -64,18 +65,23 @@
 
   <br />
 
-  @if (canVote) {
+  @if (votingEnded) {
     <div>
-      <p class="normal">
-        Stimme hier für deinen Favoriten für die Torschuss-Challenge am 20. Juli 2024 ab (abstimmt
-        werden kann pro Stunde 1x):
+      <p class="normal center">
+        Das Voting ist beendet! Vielen Dank an alle Teilnehmer für eure Stimmen!
       </p>
-      <mat-selection-list #voting [multiple]="false">
-        @for (vote of goldenShotOptions; track vote) {
-          <mat-list-option
-            [value]="vote"
-            style="color: whitesmoke"
-            >{{ vote.lastName.toUpperCase() }} {{ vote.firstName }}</mat-list-option
+    </div>
+  } @else {
+    @if (canVote) {
+      <div>
+        <p class="normal">
+          Stimme hier für deinen Favoriten für die Torschuss-Challenge am 06. Juni 2026 ab (abstimmt
+          werden kann pro Stunde 1x):
+        </p>
+        <mat-selection-list #voting [multiple]="false">
+          @for (vote of goldenShotOptions; track vote) {
+            <mat-list-option [value]="vote" style="color: whitesmoke"
+              >{{ vote.lastName.toUpperCase() }} {{ vote.firstName }}</mat-list-option
             >
           }
         </mat-selection-list>
@@ -91,7 +97,7 @@
           color="primary"
           [disabled]="!voting.selectedOptions.hasValue()"
           (click)="saveVote(voting.selectedOptions.selected[0].value)"
-          >
+        >
           Stimme abgeben
         </button>
         <br /><br />
@@ -103,4 +109,5 @@
         <p class="normal center">Vielen Dank für deine Stimme!</p>
       </div>
     }
-  </div>
+  }
+</div>

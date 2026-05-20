@@ -18,7 +18,7 @@
 
         $con->set_charset("utf8mb4");
 
-        $sql = "SELECT id, firstName, lastName, email, phone, photo, votes FROM Goldenshot";
+        $sql = "SELECT id, firstName, lastName, email, phone, photo, votes FROM Goldenshot WHERE season = '2026'";
         $q = mysqli_query($con, $sql);
 
         $goldenshot_array = array();

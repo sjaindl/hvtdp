@@ -1,25 +1,26 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { MysqlService } from '../services/mysql.service';
-import { GoldenShot } from '../shared/goldenshot';
+import { MatButtonModule } from '@angular/material/button';
+import { MatListModule } from '@angular/material/list';
 import { CookieService } from 'ngx-cookie-service';
 import { DeviceDetectorService } from 'ngx-device-detector';
-import { MatListModule } from '@angular/material/list';
-import { MatButtonModule } from '@angular/material/button';
+import { MysqlService } from '../services/mysql.service';
+import { GoldenShot } from '../shared/goldenshot';
 
 const GOLDENSHOT_VOTING_COOKIE_KEY = 'goldenshot_voted';
 
 @Component({
-    selector: 'app-goldenshot-voting',
-    templateUrl: './goldenshot-voting.component.html',
-    styleUrls: ['./goldenshot-voting.component.css'],
-    standalone: true,
-    imports: [CommonModule, MatListModule, MatButtonModule]
+  selector: 'app-goldenshot-voting',
+  templateUrl: './goldenshot-voting.component.html',
+  styleUrls: ['./goldenshot-voting.component.css'],
+  standalone: true,
+  imports: [CommonModule, MatListModule, MatButtonModule],
 })
 export class GoldenshotVotingComponent implements OnInit {
   goldenShotOptions: GoldenShot[];
 
   canVote = false;
+  votingEnded = true;
 
   isMobile = null;
 
