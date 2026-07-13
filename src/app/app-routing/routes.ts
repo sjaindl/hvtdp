@@ -2,31 +2,23 @@ import { Routes } from '@angular/router';
 
 import { AboutComponent } from '../about/about.component';
 import { AdventComponent } from '../advent/advent.component';
-import { BigdartsComponent } from '../bigdarts/bigdarts.component';
 import { BocciaComponent } from '../boccia/boccia.component';
 import { ChampionshipComponent } from '../championship/championship.component';
-import { ComedyhirtenComponent } from '../comedyhirten/comedyhirten.component';
 import { ContactComponent } from '../contact/contact.component';
 import { DocumentsComponent } from '../documents/documents.component';
 import { DonationsComponent } from '../donations/donations.component';
 import { FanshopComponent } from '../fanshop/fanshop.component';
 import { GalleryComponent } from '../gallery/gallery.component';
 import { GoalOfTheSeasonComponent } from '../goaloftheseason/goaloftheseason.component';
-import { GoldenshotVotingComponent } from '../goldenshot-voting/goldenshot-voting.component';
-import { GoldenshotComponent } from '../goldenshot/goldenshot.component';
-import { HallenturnierComponent } from '../hallenturnier/hallenturnier.component';
 import { HalloffameComponent } from '../halloffame/halloffame.component';
 import { HallofpappComponent } from '../hallofpapp/hallofpapp.component';
 import { HomeComponent } from '../home/home.component';
-import { KleinfeldTurnierComponent } from '../kleinfeldturnier/kleinfeldturnier.component';
 import { MembershipComponent } from '../membership/membership.component';
 import { NewsComponent } from '../news/news.component';
 import { PlayerOfTheSeasonComponent } from '../playeroftheseason/playeroftheseason.component';
 import { SocialmediaComponent } from '../socialmedia/socialmedia.component';
-import { StadionFestComponent } from '../stadionfest/stadionfest.component';
 import { SurveysComponent } from '../surveys/surveys.component';
 import { TeamComponent } from '../team/team.component';
-import { ZehnjahresfeierComponent } from '../zehnjahresfeier/zehnjahresfeier.component';
 import { RedirectGuard } from './redirect-guard';
 
 export const routes: Routes = [
@@ -61,13 +53,13 @@ export const routes: Routes = [
   },
   { path: 'hallofpapp', component: HallofpappComponent },
   { path: 'advent/:season', component: AdventComponent },
-  { path: 'hallenturnier', component: HallenturnierComponent },
-  { path: 'kleinfeldturnier', component: KleinfeldTurnierComponent },
+  // { path: 'hallenturnier', component: HallenturnierComponent },
+  // { path: 'kleinfeldturnier', component: KleinfeldTurnierComponent },
   { path: 'bocciaturnier', component: BocciaComponent },
-  { path: '10-jahre-hvtdp', component: ZehnjahresfeierComponent },
-  { path: 'stadionfest', component: StadionFestComponent },
-  { path: 'torschusschallenge', component: GoldenshotComponent },
-  { path: 'comedyhirten', component: ComedyhirtenComponent },
-  { path: 'bigdarts', component: BigdartsComponent },
-  { path: 'torschusschallenge-voting', component: GoldenshotVotingComponent },
+  // { path: '10-jahre-hvtdp', component: ZehnjahresfeierComponent },
+  // { path: 'stadionfest', component: StadionFestComponent },
+  // { path: 'torschusschallenge', component: GoldenshotComponent },
+  // { path: 'comedyhirten', component: ComedyhirtenComponent },
+  // { path: 'bigdarts', component: BigdartsComponent },
+  // { path: 'torschusschallenge-voting', component: GoldenshotVotingComponent },
 ];

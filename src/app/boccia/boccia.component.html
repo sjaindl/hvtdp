@@ -1,7 +1,7 @@
 <div class="container flex flex-col gap-3">
   <div>
     <div>
-      <h3 class="large header">Bocciaturnier 2025</h3>
+      <h3 class="large header">4. Bocciaturnier 2026</h3>
       <hr />
     </div>
   </div>
@@ -10,24 +10,21 @@
     <div class="flex flex-col md:flex-row">
       <div class="md:w-1/2 md:ml-2.5">
         <p class="normal">
-          Nach der erfolgreichen Premiere bringen wir auch heuer das Kultspiel aus Italien nach
-          Stainz!<br />
+          Wir bringen auch heuer wieder das Kultspiel aus Italien nach Stainz!<br />
         </p>
 
         <p class="normal">Hier die wichtigsten Infos:</p>
 
         <p class="normal">
-          📅 Spieltermin: Samstag, 20.09. 2025<br />
-          ⏱ Beginn: 10:00 Uhr<br />
+          📅 Spieltermin: Samstag, 22.08.2026<br />
+          ⏱ Beginn: 12:30 Uhr<br />
           🏟 Spielort: Stadion Stainz<br />
-          💸 Nenngeld: 20,00 €<br />
+          💸 Nenngeld: 25,00 € (inklusive 1 Freigetränk pro Spieler)<br />
           📌 Spielform: 2 Spieler<br />
         </p>
 
-        <p class="normal">
-          Sichert euch euren Platz und meldet euch an! Wir freuen uns auf euch!<br />
-          Für alle Anmeldungen bis zum 17. August gibt es am Turniertag ein Freigetränk!<br />
-        </p>
+        <p class="normal">Sichert euch euren Platz und meldet euch an! Wir freuen uns auf euch!</p>
+        Für jeden Spieler gibt es am Turniertag ein Freigetränk!<br />
 
         <p class="normal">
           Anmeldung unter:<br />
@@ -43,13 +40,13 @@
           IBAN: AT67 3843 9000 0481 3481<br />
           BIC: RZSTAT2G439<br />
           Empfänger: HV TDP Stainz<br />
-          Verwendungszweck: Boccia 2025 + euren Mannschaftsnamen
+          Verwendungszweck: Boccia 2026 + euren Mannschaftsnamen
         </p>
 
         <p class="normal">Erst mit der Einzahlung des Nenngeldes ist die Anmeldung fixiert!</p>
       </div>
       <div class="md:w-1/2 md:ml-6">
-        <img class="imageSmallCenter" src="assets/images/boccia_2025.jpeg " style="width: 400px" />
+        <img class="imageSmallCenter" src="assets/images/boccia_2026.jpeg " style="width: 400px" />
       </div>
     </div>
   </div>
@@ -75,6 +72,22 @@
           />
           <mat-hint>
             <span [hidden]="!formErrors.name"> {{ formErrors.name }}</span>
+          </mat-hint>
+        </mat-form-field>
+      </p>
+
+      <p>
+        <mat-form-field class="full-width" color="{{ formErrors.email ? 'warn' : 'primary' }}">
+          <input
+            class="formElement"
+            matInput
+            type="email"
+            formControlName="email"
+            placeholder="E-Mail"
+            required
+          />
+          <mat-hint>
+            <span [hidden]="!formErrors.email"> {{ formErrors.email }}</span>
           </mat-hint>
         </mat-form-field>
       </p>

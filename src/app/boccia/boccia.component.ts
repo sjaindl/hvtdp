@@ -22,6 +22,7 @@ export class BocciaComponent implements OnInit {
 
   formErrors = {
     name: '',
+    email: '',
     teamname: '',
   };
 
@@ -30,6 +31,10 @@ export class BocciaComponent implements OnInit {
       required: 'Die Ansprechperson ist verpflichtend.',
       minlength: 'Die Ansprechperson muss mindestens 2 Zeichen lang sein.',
       maxlength: 'Die Ansprechperson darf maximal 25 Zeichen lang sein.',
+    },
+    email: {
+      required: 'Die E-Mail-Adresse ist verpflichtend.',
+      email: 'Bitte gib eine gültige E-Mail-Adresse ein.',
     },
     teamname: {
       pattern: 'Der Teamname ist ungültig.',
@@ -66,6 +71,7 @@ export class BocciaComponent implements OnInit {
   createForm() {
     this.feedbackForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(25)]],
+      email: ['', [Validators.required, Validators.email]],
       teamname: ['', [Validators.minLength(1)]],
     });
 
@@ -101,7 +107,7 @@ export class BocciaComponent implements OnInit {
     this.mysqlService
       .postTurnier(
         this.submittedFeedback.name,
-        '', // no mail
+        this.submittedFeedback.email,
         '', // no phone nr.
         this.submittedFeedback.teamname
       )
@@ -111,6 +117,7 @@ export class BocciaComponent implements OnInit {
 
     this.feedbackForm.reset({
       name: '',
+      email: '',
       teamname: '',
     });
   }
