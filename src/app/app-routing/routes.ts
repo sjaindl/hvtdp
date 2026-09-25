@@ -10,6 +10,7 @@ import { DonationsComponent } from '../donations/donations.component';
 import { FanshopComponent } from '../fanshop/fanshop.component';
 import { GalleryComponent } from '../gallery/gallery.component';
 import { GoalOfTheSeasonComponent } from '../goaloftheseason/goaloftheseason.component';
+import { HallenturnierComponent } from '../hallenturnier/hallenturnier.component';
 import { HalloffameComponent } from '../halloffame/halloffame.component';
 import { HallofpappComponent } from '../hallofpapp/hallofpapp.component';
 import { HomeComponent } from '../home/home.component';
@@ -53,9 +54,9 @@ export const routes: Routes = [
   },
   { path: 'hallofpapp', component: HallofpappComponent },
   { path: 'advent/:season', component: AdventComponent },
-  // { path: 'hallenturnier', component: HallenturnierComponent },
+  { path: 'hallenturnier', component: HallenturnierComponent },
   // { path: 'kleinfeldturnier', component: KleinfeldTurnierComponent },
-  { path: 'bocciaturnier', component: BocciaComponent },
+  //{ path: 'bocciaturnier', component: BocciaComponent },
   // { path: '10-jahre-hvtdp', component: ZehnjahresfeierComponent },
   // { path: 'stadionfest', component: StadionFestComponent },
   // { path: 'torschusschallenge', component: GoldenshotComponent },

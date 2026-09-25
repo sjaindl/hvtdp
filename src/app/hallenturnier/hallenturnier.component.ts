@@ -64,7 +64,7 @@ export class HallenturnierComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.titleService.setTitle('HV TDP Stainz: Hallenturnier 2024');
+    this.titleService.setTitle('HV TDP Stainz: Hallenturnier 2027');
     this.metaTagService.updateTag({
       name: 'description',
       content: 'Melde dich an für das Hallenturnier des HV TDP Stainz.',
