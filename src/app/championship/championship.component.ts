@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostListener, OnInit, ViewChild, OnChanges, OnDestroy } from '@angular/core';
+import { Component, HostListener, OnChanges, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -9,6 +9,11 @@ import { MysqlService } from '../services/mysql.service';
 import { MatchInfo } from '../shared/match-info';
 import { Scorer } from '../shared/scorer';
 import { Standing } from '../shared/standing';
+
+// TODO: Sortierung oben-unten, Meisterschaft, Cup, Testspiele
+// Ergebnisse: Stadion + Datum weg
+
+// oben: Datum, Runde, Uhrzeit - Sortierung nach Datum
 
 @Component({
   selector: 'app-championship',
@@ -216,8 +221,11 @@ export class ChampionshipComponent implements OnInit, OnChanges, OnDestroy {
 
   private getSeasonContent(season: string): SeasonContent {
     const content: Record<string, SeasonContent> = {
+      '2026-2027': {
+        upcomingTitle: 'Spieltermine',
+      },
       '2025-2026': {
-        upcomingTitle: 'Spieltermine Herbst 2025',
+        upcomingTitle: 'Spieltermine',
       },
       '2022-2023': {
         postResults: [
