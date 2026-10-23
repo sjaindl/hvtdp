@@ -17,7 +17,7 @@
       {{ newsItem.news }}
     </p>
     } @if (newsItem.htmlNews) {
-    <div style="white-space: pre-line" [innerHTML]="formatMessage(newsItem.htmlNews)"></div>
+    <div style="white-space: pre-line" [innerHTML]="safeHtmlNews.get(newsItem.newsId)"></div>
     }
   </mat-expansion-panel>
   } }

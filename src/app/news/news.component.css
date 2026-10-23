@@ -3,13 +3,3 @@ th,
 td {
   border: 1px solid white;
 }
-
-.mat-expansion-panel-content,
-.mat-expansion-panel-body,
-.mat-expansion-panel .mat-expansion-panel-body p {
-  user-select: text !important;
-  -webkit-user-select: text !important;
-}
-.mat-expansion-panel-header {
-  user-select: none;
-}

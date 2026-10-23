@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { DomSanitizer, Meta, Title } from '@angular/platform-browser';
+import { DomSanitizer, Meta, SafeHtml, Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { DeviceDetectorService } from '../../../node_modules/ngx-device-detector';
 import { HvtdpImageComponent } from '../hvtdp-image/hvtdp-image.component';
@@ -20,6 +20,7 @@ import { DateUtil } from '../shared/utils/date.util';
 })
 export class NewsComponent implements OnInit, OnDestroy {
   news: News[];
+  safeHtmlNews = new Map<number, SafeHtml>();
   selectedNews: News;
   imageBaseUrl: string;
 
@@ -52,6 +53,12 @@ export class NewsComponent implements OnInit, OnDestroy {
 
     this.mysqlService.getNews().subscribe((news) => {
       this.news = news;
+      this.safeHtmlNews.clear();
+      news
+        .filter((newsItem) => newsItem.htmlNews)
+        .forEach((newsItem) =>
+          this.safeHtmlNews.set(newsItem.newsId, this.sanitizer.bypassSecurityTrustHtml(newsItem.htmlNews))
+        );
 
       this.initPageEvent(5, 0);
       this.readRouteParams();
@@ -81,10 +88,6 @@ export class NewsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.sub.unsubscribe();
-  }
-
-  formatMessage(message) {
-    return this.sanitizer.bypassSecurityTrustHtml(message);
   }
 
   readRouteParams() {

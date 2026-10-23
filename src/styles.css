@@ -488,20 +488,6 @@ h4.header {
   z-index: 11;
 }
 
-/* global styles.css (nicht in Component-CSS, außer mit ::ng-deep) */
-.mat-expansion-panel .mat-expansion-panel-content,
-.mat-expansion-panel .mat-expansion-panel-body,
-.mat-expansion-panel .mat-expansion-panel-body * {
-  -webkit-user-select: text !important;
-  user-select: text !important;
-  -webkit-touch-callout: text !important;
-}
-
-.mat-expansion-panel-header {
-  -webkit-user-select: none !important;
-  user-select: none !important;
-}
-
 ol,
 ul,
 menu {
