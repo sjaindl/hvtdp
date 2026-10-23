@@ -87,6 +87,10 @@ export class MysqlService {
     return this.http.get<Member[]>(this.baseUrl + 'getSupportMembership.php');
   }
 
+  public getKidsMembers(): Observable<Member[]> {
+    return this.http.get<Member[]>(this.baseUrl + 'getKidsMembership.php');
+  }
+
   public getStandings(): Observable<Standing[]> {
     return this.http.get<Standing[]>(this.baseUrl + 'getStandings.php');
   }

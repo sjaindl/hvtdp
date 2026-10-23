@@ -41,4 +41,17 @@
       }
     </div>
   </section>
+
+  @if (kidsMembers?.length) {
+    <section class="membership-card">
+      <h2 class="section-title">Kids Corner (Stand {{ kidsPer }})</h2>
+      <div class="member-list small">
+        @for (member of kidsMembers; track member) {
+          <div class="member-item">
+            {{ member.lastName | uppercase }} {{ member.firstName }}
+          </div>
+        }
+      </div>
+    </section>
+  }
 </div>

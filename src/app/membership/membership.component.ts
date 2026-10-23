@@ -18,6 +18,8 @@ export class MembershipComponent implements OnInit {
   supportMembers: Member[];
   activePer: string;
   supportPer: string;
+  kidsMembers: Member[];
+  kidsPer: string;
 
   constructor(
     private mysqlService: MysqlService,
@@ -44,41 +46,34 @@ export class MembershipComponent implements OnInit {
     this.documentBaseUrl = baseUrlDocuments;
 
     this.mysqlService.getActiveMembers().subscribe((members) => {
-      this.activeMembers = members.sort((a, b) => {
-        if (a.lastName < b.lastName) {
-          return -1;
-        } else if (a.lastName > b.lastName) {
-          return 1;
-        } else {
-          if (a.firstName < b.firstName) {
-            return -1;
-          } else if (a.firstName > b.firstName) {
-            return 1;
-          } else {
-            return 0;
-          }
-        }
-      });
-
+      this.activeMembers = this.sortMembers(members);
       this.activePer = this.activeMembers[0]?.per;
     });
 
     this.mysqlService.getSupportMembers().subscribe((members) => {
-      this.supportMembers = members.sort((a, b) => {
-        if (a.lastName < b.lastName) {
-          return -1;
-        } else if (a.lastName > b.lastName) {
-          return 1;
-        } else if (a.firstName < b.firstName) {
-          return -1;
-        } else if (a.firstName > b.firstName) {
-          return 1;
-        } else {
-          return 0;
-        }
-      });
-
+      this.supportMembers = this.sortMembers(members);
       this.supportPer = this.supportMembers[0]?.per;
+    });
+
+    this.mysqlService.getKidsMembers().subscribe((members) => {
+      this.kidsMembers = this.sortMembers(members);
+      this.kidsPer = this.kidsMembers[0]?.per;
+    });
+  }
+
+  private sortMembers(members: Member[]): Member[] {
+    return members.sort((a, b) => {
+      if (a.lastName < b.lastName) {
+        return -1;
+      } else if (a.lastName > b.lastName) {
+        return 1;
+      } else if (a.firstName < b.firstName) {
+        return -1;
+      } else if (a.firstName > b.firstName) {
+        return 1;
+      } else {
+        return 0;
+      }
     });
   }
 }
