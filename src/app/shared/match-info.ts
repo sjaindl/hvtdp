@@ -9,4 +9,5 @@ export class MatchInfo {
   homeScore: number | null;
   awayScore: number | null;
   additionalInfo: string | null;
+  goalScorer?: string | null;
 }

@@ -200,6 +200,10 @@ export class ChampionshipComponent implements OnInit, OnChanges, OnDestroy {
     return parts.join(' - ');
   }
 
+  getGoalScorers(match: MatchInfo): string {
+    return (match.goalScorer ?? '').trim();
+  }
+
   private hasScore(match: MatchInfo): boolean {
     return (
       match.homeScore !== null &&

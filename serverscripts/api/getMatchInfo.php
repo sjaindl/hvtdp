@@ -35,7 +35,8 @@
                 'awayTeam'=> $res["awayTeam"],
                 'homeScore'=> $res["homeScore"],
                 'awayScore'=> $res["awayScore"],
-                'additionalInfo'=> $res["additionalInfo"]
+                'additionalInfo'=> $res["additionalInfo"],
+                'goalScorer'=> $res["goalScorer"]
             ));
         }
 

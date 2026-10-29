@@ -213,6 +213,18 @@ mat-table {
   line-height: 1.35;
 }
 
+.match-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.match-scorers {
+  font-weight: 400;
+  font-size: 0.9em;
+  color: #6b6355;
+}
+
 .match-dot {
   width: 10px;
   height: 10px;
