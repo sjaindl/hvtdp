@@ -45,7 +45,7 @@ export class GoalOfTheSeasonComponent implements OnInit, AfterViewInit, OnDestro
   ) {}
 
   ngOnInit() {
-    //this.canVote = !this.cookieService.check(GOAL_OF_SEASON_VOTING_COOKIE_KEY);
+    this.canVote = !this.cookieService.check(GOAL_OF_SEASON_VOTING_COOKIE_KEY);
     this.imageBaseUrl = baseUrlImages;
 
     this.checkDevice();
