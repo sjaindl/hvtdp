@@ -33,17 +33,23 @@ ng generate service src/app/services/<name>
 
 ## Architecture
 
-**Framework**: Angular 21 with Angular Material, Tailwind CSS, and SSR (Angular Universal/Express).
+**Framework**: Angular 21 with Angular Material and Tailwind CSS (an Express SSR setup exists, see Deployment).
 
 **Routing**: Hash-based (`#`) routing defined in `src/app/app-routing/routes.ts` with 30+ routes.
 
-**API**: All backend calls go through `src/app/services/mysql.service.ts` which hits PHP endpoints at `https://www.hvtdpstainz.at/api/`. No local backend — data comes from a live remote server.
+**API**: Two backends, both remote (no local backend):
+- **News** comes from a self-hosted Strapi 5 CMS at `https://cms.hvtdpstainz.at` via `src/app/services/cms.service.ts` (`GET /api/news-items`, paged at 100 per request and cached with `shareReplay`). The CMS URL is `environment.cmsUrl` (`src/environments/`): `http://localhost:1337` in dev, `https://cms.hvtdpstainz.at` in production. News are edited in the Strapi admin (`https://cms.hvtdpstainz.at/admin`).
+- **Everything else** goes through `src/app/services/mysql.service.ts`, which hits the PHP endpoints at `https://www.hvtdpstainz.at/api/` (sources in `serverscripts/api/`).
+
+**News content**: `News.content` is Markdown, rendered in `NewsComponent` with `marked` (`breaks: true`, `gfm: true`) and bound via `[innerHTML]` so Angular's sanitizer applies — don't bypass it. Image URLs are absolute CMS URLs; relative `/uploads/...` paths are resolved with `CmsService.resolveUrl()`. Deep links `/news/:newsId` use the numeric `newsId` field, which Strapi assigns automatically for new items.
+
+**Strapi project**: lives in the sibling repo `../strapi-cloud-template-blog-49970f95ac` (content type `news-item`, migration script `scripts/migrate-news.js`, VPS runbook `DEPLOY-VPS.md`).
 
 **Data models**: Shared TypeScript interfaces live in `src/app/shared/` (Player, Game, Standing, News, Album, Member, etc.).
 
 **Components**: 47 feature components declared in `AppModule` (`src/app/app.module.ts`). Each feature (e.g. gallery, tournament, team) has its own directory under `src/app/`.
 
-**SSR**: `server.ts` runs an Express server serving the Angular app. Static assets are served with a 1-year cache header. Deploy with `npm run build` then `npm run serve:ssr:hvtdp`.
+**Deployment**: Production is served as static files by nginx (CloudPanel) on the VPS. Run `npm run build` and upload the *contents* of `dist/hvtdp/` (`index.html`, hashed `*.js`/`*.css`, `assets/`) directly into the site's document root, keeping the existing `api/` folder (PHP endpoints). Verify with `curl -I https://www.hvtdpstainz.at/<main.[hash].js>` — a 404 means the files went to the wrong folder. `server.ts` (Express SSR, `npm run serve:ssr:hvtdp`) exists but is not used in production.
 
 **Third-party integrations embedded in `src/index.html`**:
 - Flowise AI chatbot

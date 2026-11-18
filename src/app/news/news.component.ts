@@ -40,9 +40,25 @@ export class NewsComponent implements OnInit, OnDestroy {
     breaks: true,
     gfm: true,
     walkTokens: (token) => {
-      if (token.type === 'image' || token.type === 'link') {
+      // Images and media links live on the CMS; other relative links point to this site.
+      const isMedia =
+        token.type === 'image' || (token.type === 'link' && token.href.startsWith('/uploads/'));
+      if (isMedia) {
         token.href = this.cmsService.resolveUrl(token.href);
       }
+    },
+    renderer: {
+      // External links open in a new tab; links within the site (e.g. /#/news/12) stay in it.
+      link({ href, title, tokens }) {
+        const text = this.parser.parseInline(tokens);
+        const escapeAttr = (value: string) =>
+          value.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+        const titleAttr = title ? ` title="${escapeAttr(title)}"` : '';
+        const external =
+          /^https?:\/\//.test(href) && !/^https?:\/\/(www\.)?hvtdpstainz\.at/.test(href);
+        const targetAttr = external ? ' target="_blank" rel="noopener noreferrer"' : '';
+        return `<a href="${escapeAttr(href)}"${titleAttr}${targetAttr}>${text}</a>`;
+      },
     },
   });
 

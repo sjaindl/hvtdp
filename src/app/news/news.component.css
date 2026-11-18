@@ -4,14 +4,138 @@ td {
   border: 1px solid white;
 }
 
-/* Markdown content is inserted via [innerHTML] and not covered by view encapsulation. */
+/*
+ * Markdown content is inserted via [innerHTML] and not covered by view encapsulation.
+ * Tailwind's preflight resets typography, so headings, lists, code and quotes are restored here.
+ */
+:host ::ng-deep .news-content h1,
+:host ::ng-deep .news-content h2,
+:host ::ng-deep .news-content h3,
+:host ::ng-deep .news-content h4,
+:host ::ng-deep .news-content h5,
+:host ::ng-deep .news-content h6 {
+  font-weight: bold;
+  line-height: 1.3;
+  margin: 1.25em 0 0.5em;
+}
+
+:host ::ng-deep .news-content > :first-child {
+  margin-top: 0;
+}
+
+:host ::ng-deep .news-content h1 {
+  font-size: 2em;
+}
+
+:host ::ng-deep .news-content h2 {
+  font-size: 1.6em;
+}
+
+:host ::ng-deep .news-content h3 {
+  font-size: 1.35em;
+}
+
+:host ::ng-deep .news-content h4 {
+  font-size: 1.15em;
+}
+
+:host ::ng-deep .news-content h5 {
+  font-size: 1em;
+}
+
+:host ::ng-deep .news-content h6 {
+  font-size: 0.9em;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+:host ::ng-deep .news-content ul,
+:host ::ng-deep .news-content ol {
+  padding-left: 1.5em;
+  margin: 0 0 1em;
+}
+
+:host ::ng-deep .news-content ul {
+  list-style: disc;
+}
+
+:host ::ng-deep .news-content ol {
+  list-style: decimal;
+}
+
+:host ::ng-deep .news-content li > ul,
+:host ::ng-deep .news-content li > ol {
+  margin-bottom: 0;
+}
+
+:host ::ng-deep .news-content ul ul {
+  list-style: circle;
+}
+
+:host ::ng-deep .news-content code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.9em;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 4px;
+  padding: 0.1em 0.35em;
+}
+
+:host ::ng-deep .news-content pre {
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: 6px;
+  padding: 0.75em 1em;
+  margin: 0 0 1em;
+  overflow-x: auto;
+}
+
+:host ::ng-deep .news-content pre code {
+  background: none;
+  padding: 0;
+  font-size: 0.875em;
+}
+
+:host ::ng-deep .news-content blockquote {
+  border-left: 4px solid hotpink;
+  padding: 0.25em 0 0.25em 1em;
+  margin: 0 0 1em;
+  font-style: italic;
+  opacity: 0.9;
+}
+
+:host ::ng-deep .news-content hr {
+  border: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  margin: 1.5em 0;
+}
+
+:host ::ng-deep .news-content a {
+  text-decoration: underline;
+}
+
 :host ::ng-deep .news-content img {
   max-width: 100%;
   height: auto;
+  display: inline-block;
 }
 
 :host ::ng-deep .news-content table,
 :host ::ng-deep .news-content th,
 :host ::ng-deep .news-content td {
   border: 1px solid white;
+}
+
+:host ::ng-deep .news-content table {
+  border-collapse: collapse;
+  margin: 0 0 1em;
+  /* Block display lets wide tables scroll on small screens; max-content keeps the border tight. */
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+:host ::ng-deep .news-content th,
+:host ::ng-deep .news-content td {
+  padding: 0.25em 0.6em;
+  text-align: left;
 }
