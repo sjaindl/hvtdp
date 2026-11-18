@@ -11,14 +11,10 @@
     <mat-expansion-panel-header>
       {{ formatDate(newsItem.newsDate) }}, {{ newsItem.title }}
     </mat-expansion-panel-header>
-    <app-hvtdp-image [imagePath]="imageBaseUrl + newsItem.imagePath"></app-hvtdp-image>
-    @if (newsItem.news) {
-    <p style="white-space: pre-line">
-      {{ newsItem.news }}
-    </p>
-    } @if (newsItem.htmlNews) {
-    <div style="white-space: pre-line" [innerHTML]="safeHtmlNews.get(newsItem.newsId)"></div>
+    @if (newsItem.imageUrl) {
+    <app-hvtdp-image [imagePath]="newsItem.imageUrl" [altText]="newsItem.title"></app-hvtdp-image>
     }
+    <div class="news-content" [innerHTML]="htmlNews.get(newsItem.newsId)"></div>
   </mat-expansion-panel>
   } }
 </mat-accordion>

@@ -10,7 +10,6 @@ import { GoldenShot } from '../shared/goldenshot';
 import { Item } from '../shared/items';
 import { MatchInfo } from '../shared/match-info';
 import { Member } from '../shared/member';
-import { News } from '../shared/news';
 import { PappFan } from '../shared/papp';
 import { Album } from '../shared/photos';
 import { Player } from '../shared/player';
@@ -49,10 +48,6 @@ export class MysqlService {
 
   public getItems(): Observable<Item[]> {
     return this.http.get<Item[]>(this.baseUrl + 'getItems.php');
-  }
-
-  public getNews(): Observable<News[]> {
-    return this.http.get<News[]>(this.baseUrl + 'getNews.php');
   }
 
   public getGames(): Observable<Game[]> {

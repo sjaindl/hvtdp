@@ -2,12 +2,12 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { DomSanitizer, Meta, SafeHtml, Title } from '@angular/platform-browser';
+import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
+import { Marked } from 'marked';
 import { DeviceDetectorService } from '../../../node_modules/ngx-device-detector';
 import { HvtdpImageComponent } from '../hvtdp-image/hvtdp-image.component';
-import { MysqlService } from '../services/mysql.service';
-import { baseUrlImages } from '../shared/baseurls';
+import { CmsService } from '../services/cms.service';
 import { News } from '../shared/news';
 import { DateUtil } from '../shared/utils/date.util';
 
@@ -20,9 +20,8 @@ import { DateUtil } from '../shared/utils/date.util';
 })
 export class NewsComponent implements OnInit, OnDestroy {
   news: News[];
-  safeHtmlNews = new Map<number, SafeHtml>();
+  htmlNews = new Map<number, string>();
   selectedNews: News;
-  imageBaseUrl: string;
 
   length: number;
   pageSize: number;
@@ -37,28 +36,34 @@ export class NewsComponent implements OnInit, OnDestroy {
   initialOpen = true;
   isMobile = null;
 
+  private readonly markdown = new Marked({
+    breaks: true,
+    gfm: true,
+    walkTokens: (token) => {
+      if (token.type === 'image' || token.type === 'link') {
+        token.href = this.cmsService.resolveUrl(token.href);
+      }
+    },
+  });
+
   constructor(
-    private mysqlService: MysqlService,
+    private cmsService: CmsService,
     private route: ActivatedRoute,
     private titleService: Title,
     private metaTagService: Meta,
-    private sanitizer: DomSanitizer,
     private deviceService: DeviceDetectorService
   ) {}
 
   formatDate = DateUtil.formatDate;
 
   ngOnInit() {
-    this.imageBaseUrl = baseUrlImages;
-
-    this.mysqlService.getNews().subscribe((news) => {
+    this.cmsService.getNews().subscribe((news) => {
       this.news = news;
-      this.safeHtmlNews.clear();
-      news
-        .filter((newsItem) => newsItem.htmlNews)
-        .forEach((newsItem) =>
-          this.safeHtmlNews.set(newsItem.newsId, this.sanitizer.bypassSecurityTrustHtml(newsItem.htmlNews))
-        );
+      this.htmlNews.clear();
+      // Rendered HTML is bound via [innerHTML], so Angular's sanitizer cleans it.
+      news.forEach((newsItem) =>
+        this.htmlNews.set(newsItem.newsId, this.markdown.parse(newsItem.content, { async: false }))
+      );
 
       this.initPageEvent(5, 0);
       this.readRouteParams();
@@ -87,7 +92,7 @@ export class NewsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.sub.unsubscribe();
+    this.sub?.unsubscribe();
   }
 
   readRouteParams() {

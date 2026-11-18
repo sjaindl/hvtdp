@@ -3,3 +3,15 @@ th,
 td {
   border: 1px solid white;
 }
+
+/* Markdown content is inserted via [innerHTML] and not covered by view encapsulation. */
+:host ::ng-deep .news-content img {
+  max-width: 100%;
+  height: auto;
+}
+
+:host ::ng-deep .news-content table,
+:host ::ng-deep .news-content th,
+:host ::ng-deep .news-content td {
+  border: 1px solid white;
+}

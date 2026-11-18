@@ -59,7 +59,8 @@ export class ImagesliderComponent implements OnInit {
   }
 
   imagePath(item: Image): string {
-    return this.imageBaseUrl + item.imagePath;
+    // Absolute URLs (e.g. CMS images) are used as-is; asset paths are relative to the image base.
+    return /^https?:\/\//.test(item.imagePath) ? item.imagePath : this.imageBaseUrl + item.imagePath;
   }
 
   previous() {

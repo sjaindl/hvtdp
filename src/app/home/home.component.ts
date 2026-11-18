@@ -2,6 +2,7 @@ import { AsyncPipe, CommonModule } from '@angular/common';
 import { ChangeDetectorRef, Component, HostListener, OnInit, AfterViewInit } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { DeviceDetectorService } from '../../../node_modules/ngx-device-detector';
+import { CmsService } from '../services/cms.service';
 import { MysqlService } from '../services/mysql.service';
 import { News } from '../shared/news';
 import { Ticker } from '../shared/ticker';
@@ -30,24 +31,26 @@ export class HomeComponent implements OnInit, AfterViewInit {
   constructor(
     private deviceService: DeviceDetectorService,
     private mysqlService: MysqlService,
+    private cmsService: CmsService,
     private cdr: ChangeDetectorRef,
     private titleService: Title,
     private metaTagService: Meta
   ) {
-    this.mysqlService.getNews().subscribe((news) => {
+    this.cmsService.getNews().subscribe((news) => {
       this.news = news;
 
-      this.carouselItems$ = this.mysqlService.getNews().pipe(
+      this.carouselItems$ = this.cmsService.getNews().pipe(
         map((news) => {
-          return news.map((newsItem) => {
-            return {
-              imagePath:
-                newsItem.imagePathHome !== '' ? newsItem.imagePathHome : newsItem.imagePath,
-              navPath: '/news/' + newsItem.newsId,
-              title: newsItem.title,
-              date: DateUtil.formatDate(newsItem.newsDate),
-            };
-          });
+          return news
+            .filter((newsItem) => newsItem.homeImageUrl ?? newsItem.imageUrl)
+            .map((newsItem) => {
+              return {
+                imagePath: newsItem.homeImageUrl ?? newsItem.imageUrl,
+                navPath: '/news/' + newsItem.newsId,
+                title: newsItem.title,
+                date: DateUtil.formatDate(newsItem.newsDate),
+              };
+            });
         }),
         tap(console.info)
       );

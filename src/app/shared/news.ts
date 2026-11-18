@@ -2,8 +2,7 @@ export class News {
   newsId: number;
   newsDate: Date;
   title: string;
-  news: string;
-  htmlNews: string;
-  imagePath: string;
-  imagePathHome: string;
+  content: string;
+  imageUrl: string | null;
+  homeImageUrl: string | null;
 }
