@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { CmsService } from '../services/cms.service';
 import { News } from '../shared/news';
 import { DateUtil } from '../shared/utils/date.util';
+import { ErrorUtil } from '../shared/utils/error.util';
 import { TextUtil } from '../shared/utils/text.util';
 import { EmptyStateComponent } from '../ui/empty-state/empty-state.component';
 import { NewsCardComponent } from '../ui/news-card/news-card.component';
@@ -25,6 +26,7 @@ export class NewsComponent implements OnInit, OnDestroy {
   news: News[] = [];
   loaded = false;
   failed = false;
+  errorText = '';
 
   /** Year filter. TODO(API): replace with news categories (Spielbericht, Vereinsleben, …) once the CMS has them. */
   years: string[] = [];
@@ -92,9 +94,10 @@ export class NewsComponent implements OnInit, OnDestroy {
         this.sub?.unsubscribe();
         this.sub = this.route.params.subscribe((params) => this.selectNews(params['newsId']));
       },
-      error: () => {
+      error: (error: unknown) => {
         this.loaded = true;
         this.failed = true;
+        this.errorText = ErrorUtil.message(error);
       },
     });
   }

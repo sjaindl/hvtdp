@@ -32,8 +32,8 @@
 
 <div class="page-container flex flex-col gap-10 py-7 lg:gap-14 lg:py-10">
   @if (failed) {
-    <app-empty-state icon="wifi_off" tone="error" title="Kader konnte nicht geladen werden"
-      text="Bitte prüfe deine Internetverbindung und versuche es erneut.">
+    <app-empty-state icon="error_outline" tone="error" title="Kader konnte nicht geladen werden"
+      [text]="errorText">
       <button type="button" class="btn-primary" (click)="load()">Erneut versuchen <span class="material-icons text-xl">refresh</span></button>
     </app-empty-state>
   }

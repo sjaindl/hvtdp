@@ -6,6 +6,7 @@ import { MysqlService } from '../services/mysql.service';
 import { baseUrlDocuments } from '../shared/baseurls';
 import { HvtdpDocument } from '../shared/document';
 import { DateUtil } from '../shared/utils/date.util';
+import { ErrorUtil } from '../shared/utils/error.util';
 import { EmptyStateComponent } from '../ui/empty-state/empty-state.component';
 import { PageIntroComponent } from '../ui/page-intro/page-intro.component';
 import { ToastService } from '../ui/toast/toast.service';
@@ -34,6 +35,7 @@ export class DocumentsComponent implements OnInit {
   groups: DocumentGroup[] = [];
   loaded = false;
   failed = false;
+  errorText = '';
 
   constructor(
     private mysqlService: MysqlService,
@@ -59,9 +61,10 @@ export class DocumentsComponent implements OnInit {
         this.groups = this.group(documents.map((document) => this.toItem(document)));
         this.loaded = true;
       },
-      error: () => {
+      error: (error: unknown) => {
         this.loaded = true;
         this.failed = true;
+        this.errorText = ErrorUtil.message(error);
       },
     });
   }
@@ -78,12 +81,15 @@ export class DocumentsComponent implements OnInit {
         if (password === undefined) {
           return;
         }
-        this.mysqlService.checkPassword(password).subscribe((result) => {
-          if (result.length != 1 || !result[0].valid) {
-            this.toastService.show('Passwort ungültig', 'error');
-          } else {
-            window.location.href = this.documentBaseUrl + item.document.link;
-          }
+        this.mysqlService.checkPassword(password).subscribe({
+          next: (result) => {
+            if (result.length != 1 || !result[0].valid) {
+              this.toastService.show('Passwort ungültig', 'error');
+            } else {
+              window.location.href = this.documentBaseUrl + item.document.link;
+            }
+          },
+          error: (error: unknown) => this.toastService.showError('Passwort konnte nicht geprüft werden', error),
         });
       });
   }

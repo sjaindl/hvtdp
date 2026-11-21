@@ -5,6 +5,7 @@ import { CmsService } from '../services/cms.service';
 import { MysqlService } from '../services/mysql.service';
 import { MatchInfo } from '../shared/match-info';
 import { News } from '../shared/news';
+import { ErrorUtil } from '../shared/utils/error.util';
 import { MatchUtil } from '../shared/utils/match.util';
 import { EmptyStateComponent } from '../ui/empty-state/empty-state.component';
 import { LastResultComponent } from '../ui/match-widgets/last-result.component';
@@ -30,6 +31,7 @@ import { NewsRowComponent } from '../ui/news-row/news-row.component';
 export class HomeComponent implements OnInit {
   news: News[] = [];
   newsLoaded = false;
+  newsErrorText = '';
   lastResult: MatchInfo | null = null;
   nextMatch: MatchInfo | null = null;
   matchesLoaded = false;
@@ -67,12 +69,16 @@ export class HomeComponent implements OnInit {
 
   loadNews() {
     this.newsLoaded = false;
+    this.newsErrorText = '';
     this.cmsService.getNews().subscribe({
       next: (news) => {
         this.news = news;
         this.newsLoaded = true;
       },
-      error: () => (this.newsLoaded = true),
+      error: (error: unknown) => {
+        this.newsLoaded = true;
+        this.newsErrorText = ErrorUtil.message(error);
+      },
     });
   }
 

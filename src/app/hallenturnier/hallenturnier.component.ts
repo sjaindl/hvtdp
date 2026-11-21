@@ -123,9 +123,9 @@ export class HallenturnierComponent implements OnInit {
         this.busy = false;
         this.submitted = true;
       },
-      error: () => {
+      error: (error: unknown) => {
         this.busy = false;
-        this.toastService.show('Senden fehlgeschlagen', 'error', 'Erneut', () => this.onSubmit());
+        this.toastService.showError('Senden fehlgeschlagen', error, 'Erneut', () => this.onSubmit());
       },
     });
   }

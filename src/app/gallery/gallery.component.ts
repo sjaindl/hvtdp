@@ -7,6 +7,7 @@ import { baseUrlImages } from '../shared/baseurls';
 import { Album, Photo } from '../shared/photos';
 import { Seasons } from '../shared/seasons';
 import { DateUtil } from '../shared/utils/date.util';
+import { ErrorUtil } from '../shared/utils/error.util';
 import { EmptyStateComponent } from '../ui/empty-state/empty-state.component';
 import { PageIntroComponent } from '../ui/page-intro/page-intro.component';
 
@@ -28,6 +29,7 @@ export class GalleryComponent implements OnInit, OnDestroy {
   selectedAlbum: Album | null = null;
   loaded = false;
   failed = false;
+  errorText = '';
 
   visiblePhotos = PHOTO_PAGE_SIZE;
   lightboxIndex: number | null = null;
@@ -144,9 +146,10 @@ export class GalleryComponent implements OnInit, OnDestroy {
         }
         this.loaded = true;
       },
-      error: () => {
+      error: (error: unknown) => {
         this.loaded = true;
         this.failed = true;
+        this.errorText = ErrorUtil.message(error);
       },
     });
   }

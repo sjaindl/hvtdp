@@ -7,6 +7,7 @@ import { Game } from '../shared/games';
 import { Player } from '../shared/player';
 import { Seasons, formatSeason } from '../shared/seasons';
 import { DateUtil } from '../shared/utils/date.util';
+import { ErrorUtil } from '../shared/utils/error.util';
 import { EmptyStateComponent } from '../ui/empty-state/empty-state.component';
 import { PageIntroComponent } from '../ui/page-intro/page-intro.component';
 import { VideoCardComponent } from '../video-card/video-card.component';
@@ -26,6 +27,7 @@ export class SocialmediaComponent implements OnInit, OnDestroy {
   players: Player[] = [];
   loaded = false;
   failed = false;
+  errorText = '';
 
   private sub: Subscription;
 
@@ -64,9 +66,10 @@ export class SocialmediaComponent implements OnInit, OnDestroy {
           .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime() || Number(b.round) - Number(a.round));
         this.loaded = true;
       },
-      error: () => {
+      error: (error: unknown) => {
         this.loaded = true;
         this.failed = true;
+        this.errorText = ErrorUtil.message(error);
       },
     });
   }

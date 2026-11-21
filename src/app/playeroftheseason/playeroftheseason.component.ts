@@ -8,6 +8,7 @@ import { baseUrlImages } from '../shared/baseurls';
 import { Player } from '../shared/player';
 import { PlayerOfTheSeason } from '../shared/playeroftheseason';
 import { CurrentSeason, Seasons } from '../shared/seasons';
+import { ErrorUtil } from '../shared/utils/error.util';
 import { EmptyStateComponent } from '../ui/empty-state/empty-state.component';
 import { PageIntroComponent } from '../ui/page-intro/page-intro.component';
 import { ToastService } from '../ui/toast/toast.service';
@@ -37,6 +38,7 @@ export class PlayerOfTheSeasonComponent implements OnInit, OnDestroy {
   busy = false;
   loaded = false;
   failed = false;
+  errorText = '';
 
   private sub: Subscription;
 
@@ -84,9 +86,10 @@ export class PlayerOfTheSeasonComponent implements OnInit, OnDestroy {
           }));
         this.loaded = true;
       },
-      error: () => {
+      error: (error: unknown) => {
         this.loaded = true;
         this.failed = true;
+        this.errorText = ErrorUtil.message(error);
       },
     });
   }
@@ -109,9 +112,9 @@ export class PlayerOfTheSeasonComponent implements OnInit, OnDestroy {
         this.busy = false;
         this.toastService.show('Deine Stimme wurde gezählt');
       },
-      error: () => {
+      error: (error: unknown) => {
         this.busy = false;
-        this.toastService.show('Senden fehlgeschlagen', 'error', 'Erneut', () => this.vote());
+        this.toastService.showError('Senden fehlgeschlagen', error, 'Erneut', () => this.vote());
       },
     });
   }

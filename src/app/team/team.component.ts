@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { MysqlService } from '../services/mysql.service';
 import { Player } from '../shared/player';
+import { ErrorUtil } from '../shared/utils/error.util';
 import { EmptyStateComponent } from '../ui/empty-state/empty-state.component';
 import { PageIntroComponent } from '../ui/page-intro/page-intro.component';
 import { PlayerCardComponent } from '../ui/player-card/player-card.component';
@@ -33,6 +34,7 @@ export class TeamComponent implements OnInit {
   selectedPosition: string | null = null;
   loaded = false;
   failed = false;
+  errorText = '';
 
   /** TODO(API): the date of the squad list is not part of the API. */
   readonly asOf = 'Stand 12/2025';
@@ -60,9 +62,10 @@ export class TeamComponent implements OnInit {
         this.positionGroups = this.buildPositionGroups(this.squadPlayers);
         this.loaded = true;
       },
-      error: () => {
+      error: (error: unknown) => {
         this.loaded = true;
         this.failed = true;
+        this.errorText = ErrorUtil.message(error);
       },
     });
     this.mysqlService.getActivePlayers().subscribe((players) => (this.activePlayers = this.sortPlayers(players)));

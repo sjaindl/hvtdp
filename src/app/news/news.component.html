@@ -76,8 +76,8 @@
 
   <section class="page-container flex flex-col gap-3 py-6 lg:gap-6 lg:py-10">
     @if (failed) {
-      <app-empty-state icon="wifi_off" tone="error" title="Nachrichten konnten nicht geladen werden"
-        text="Bitte prüfe deine Internetverbindung und versuche es erneut.">
+      <app-empty-state icon="error_outline" tone="error" title="Nachrichten konnten nicht geladen werden"
+        [text]="errorText">
         <button type="button" class="btn-primary" (click)="load()">
           Erneut versuchen <span class="material-icons text-xl">refresh</span>
         </button>

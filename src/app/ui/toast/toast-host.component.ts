@@ -11,8 +11,8 @@ import { ToastService } from './toast.service';
     >
       @for (toast of toastService.toasts(); track toast.id) {
         <div
-          class="pointer-events-auto flex items-center gap-3 rounded-xl bg-gray-900 px-4 py-3.5 text-[15px] font-medium text-white shadow-xl"
-          role="status"
+          class="pointer-events-auto flex max-w-md items-center gap-3 rounded-xl bg-gray-900 px-4 py-3.5 text-[15px] font-medium text-white shadow-xl"
+          [attr.role]="toast.type === 'error' ? 'alert' : 'status'"
         >
           <span
             class="material-icons text-[22px]"
@@ -20,11 +20,16 @@ import { ToastService } from './toast.service';
             [class.text-gray-400]="toast.type === 'info'"
             >{{ toast.type === 'success' ? 'check_circle' : toast.type === 'error' ? 'error' : 'info' }}</span
           >
-          <span>{{ toast.message }}</span>
+          <span class="min-w-0 flex-1">
+            {{ toast.message }}
+            @if (toast.detail) {
+              <span class="mt-0.5 block break-words text-[13px] font-normal text-gray-300">{{ toast.detail }}</span>
+            }
+          </span>
           @if (toast.actionLabel) {
             <button
               type="button"
-              class="font-bold text-pink-100 hover:text-white"
+              class="shrink-0 font-bold text-pink-100 hover:text-white"
               (click)="toast.action?.(); toastService.dismiss(toast.id)"
             >
               {{ toast.actionLabel }}

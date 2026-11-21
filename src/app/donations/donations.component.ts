@@ -5,6 +5,7 @@ import { baseUrlImages } from '../shared/baseurls';
 import { Donation } from '../shared/donations';
 import { CLUB_EMAIL } from '../shared/seasons';
 import { DateUtil } from '../shared/utils/date.util';
+import { ErrorUtil } from '../shared/utils/error.util';
 import { EmptyStateComponent } from '../ui/empty-state/empty-state.component';
 import { PageIntroComponent } from '../ui/page-intro/page-intro.component';
 
@@ -30,6 +31,7 @@ export class DonationsComponent implements OnInit {
   showAll = false;
   loaded = false;
   failed = false;
+  errorText = '';
 
   constructor(
     private mysqlService: MysqlService,
@@ -59,9 +61,10 @@ export class DonationsComponent implements OnInit {
         this.years = [...byYear.entries()].map(([year, items]) => ({ year, donations: items }));
         this.loaded = true;
       },
-      error: () => {
+      error: (error: unknown) => {
         this.loaded = true;
         this.failed = true;
+        this.errorText = ErrorUtil.message(error);
       },
     });
   }

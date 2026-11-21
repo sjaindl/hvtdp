@@ -5,6 +5,7 @@ import { MysqlService } from '../services/mysql.service';
 import { baseUrlImages } from '../shared/baseurls';
 import { Item } from '../shared/items';
 import { CLUB_EMAIL } from '../shared/seasons';
+import { ErrorUtil } from '../shared/utils/error.util';
 import { EmptyStateComponent } from '../ui/empty-state/empty-state.component';
 import { PageIntroComponent } from '../ui/page-intro/page-intro.component';
 import { ToastService } from '../ui/toast/toast.service';
@@ -32,6 +33,7 @@ export class FanshopComponent implements OnInit {
   selectedCategory = 'Alle';
   loaded = false;
   failed = false;
+  errorText = '';
 
   order: Order | null = null;
 
@@ -59,9 +61,10 @@ export class FanshopComponent implements OnInit {
         this.categories = ['Alle', ...new Set(this.items.map((item) => item.category))];
         this.loaded = true;
       },
-      error: () => {
+      error: (error: unknown) => {
         this.loaded = true;
         this.failed = true;
+        this.errorText = ErrorUtil.message(error);
       },
     });
   }

@@ -7,6 +7,7 @@ import { MatchInfo } from '../shared/match-info';
 import { Scorer } from '../shared/scorer';
 import { Seasons, formatSeason } from '../shared/seasons';
 import { Standing } from '../shared/standing';
+import { ErrorUtil } from '../shared/utils/error.util';
 import { MatchOutcome, MatchUtil } from '../shared/utils/match.util';
 import { EmptyStateComponent } from '../ui/empty-state/empty-state.component';
 import { NextMatchComponent } from '../ui/match-widgets/next-match.component';
@@ -37,6 +38,7 @@ export class ChampionshipComponent implements OnInit, OnDestroy {
   nextMatch: MatchInfo | null = null;
   loaded = false;
   failed = false;
+  errorText = '';
 
   private sub: Subscription;
 
@@ -85,9 +87,10 @@ export class ChampionshipComponent implements OnInit, OnDestroy {
         this.nextMatch = MatchUtil.nextMatch(seasonMatches);
         this.loaded = true;
       },
-      error: () => {
+      error: (error: unknown) => {
         this.loaded = true;
         this.failed = true;
+        this.errorText = ErrorUtil.message(error);
       },
     });
   }
