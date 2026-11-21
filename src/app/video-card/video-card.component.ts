@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, inject } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 /**
@@ -12,6 +12,8 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
   templateUrl: './video-card.component.html',
 })
 export class VideoCardComponent implements OnChanges {
+  private sanitizer = inject(DomSanitizer);
+
   @Input() videoUrl = '';
   @Input() title = '';
   @Input() meta = '';
@@ -29,19 +31,21 @@ export class VideoCardComponent implements OnChanges {
   isFile = false;
   playerUrl: SafeResourceUrl = '';
 
-  constructor(private sanitizer: DomSanitizer) {}
-
   ngOnChanges(): void {
     const youtubeId = this.youtubeId(this.videoUrl);
     this.isFile = !youtubeId && /\.(mp4|webm|mov)$/i.test(this.videoUrl);
     this.thumbnail = youtubeId ? `https://i.ytimg.com/vi/${youtubeId}/hqdefault.jpg` : this.poster;
-    const embed = youtubeId ? `https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1&rel=0` : this.videoUrl;
+    const embed = youtubeId
+      ? `https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1&rel=0`
+      : this.videoUrl;
     this.playerUrl = this.sanitizer.bypassSecurityTrustResourceUrl(embed || '');
     this.playing = false;
   }
 
   private youtubeId(url: string): string | null {
-    const match = (url ?? '').match(/(?:youtube(?:-nocookie)?\.com\/(?:embed\/|watch\?v=|shorts\/)|youtu\.be\/)([\w-]{6,})/);
+    const match = (url ?? '').match(
+      /(?:youtube(?:-nocookie)?\.com\/(?:embed\/|watch\?v=|shorts\/)|youtu\.be\/)([\w-]{6,})/
+    );
     return match ? match[1] : null;
   }
 }

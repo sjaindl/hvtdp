@@ -2,12 +2,13 @@ import { Component, Input } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { News } from '../../shared/news';
 import { DateUtil } from '../../shared/utils/date.util';
+import { FittedImageComponent } from '../fitted-image/fitted-image.component';
 
 /** Design: "Card/NewsRow" – compact list item with thumbnail, full-row tap target. */
 @Component({
   selector: 'app-news-row',
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule, FittedImageComponent],
   host: { class: 'block' },
   template: `
     <a
@@ -16,7 +17,7 @@ import { DateUtil } from '../../shared/utils/date.util';
     >
       <div class="h-[88px] w-[88px] shrink-0 overflow-hidden rounded-xl bg-gray-100">
         @if (news.imageUrl) {
-          <img [src]="news.imageUrl" alt="" class="card-media" loading="lazy" />
+          <app-fitted-image [src]="news.imageUrl" alt="" [zoomable]="false"></app-fitted-image>
         } @else {
           <div class="flex h-full items-center justify-center bg-pink-50">
             <img src="hvtdp.png" alt="" class="h-12 opacity-80" />

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ToastService } from './toast.service';
 
 @Component({
@@ -18,12 +18,16 @@ import { ToastService } from './toast.service';
             class="material-icons text-[22px]"
             [class.text-pink-600]="toast.type !== 'info'"
             [class.text-gray-400]="toast.type === 'info'"
-            >{{ toast.type === 'success' ? 'check_circle' : toast.type === 'error' ? 'error' : 'info' }}</span
+            >{{
+              toast.type === 'success' ? 'check_circle' : toast.type === 'error' ? 'error' : 'info'
+            }}</span
           >
           <span class="min-w-0 flex-1">
             {{ toast.message }}
             @if (toast.detail) {
-              <span class="mt-0.5 block break-words text-[13px] font-normal text-gray-300">{{ toast.detail }}</span>
+              <span class="mt-0.5 block break-words text-[13px] font-normal text-gray-300">{{
+                toast.detail
+              }}</span>
             }
           </span>
           @if (toast.actionLabel) {
@@ -41,5 +45,5 @@ import { ToastService } from './toast.service';
   `,
 })
 export class ToastHostComponent {
-  constructor(public toastService: ToastService) {}
+  toastService = inject(ToastService);
 }

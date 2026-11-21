@@ -1,16 +1,18 @@
 import { Component, Input } from '@angular/core';
 import { baseUrlImages } from '../../shared/baseurls';
 import { Player } from '../../shared/player';
+import { ZoomableDirective } from '../image-viewer/zoomable.directive';
 
 /** Design: "Card/Player" – photo, position, name, member since, games and goals. */
 @Component({
   selector: 'app-player-card',
   standalone: true,
+  imports: [ZoomableDirective],
   host: { class: 'block' },
   template: `
     <article class="card-interactive group flex h-full flex-col">
       <div class="aspect-[6/7] overflow-hidden bg-gray-100">
-        <img [src]="imageBaseUrl + player.imagePath" [alt]="name" class="card-media object-top" loading="lazy" />
+        <img [src]="imageBaseUrl + player.imagePath" [alt]="name" class="card-media object-top" loading="lazy" appZoomable />
       </div>
       <div class="flex flex-1 flex-col gap-1.5 px-3.5 pb-4 pt-3 sm:px-5 sm:pb-5 sm:pt-4">
         @if (position) {

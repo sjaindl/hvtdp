@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
@@ -28,6 +28,13 @@ interface Candidate {
   imports: [RouterModule, EmptyStateComponent, PageIntroComponent, VoteBarComponent],
 })
 export class PlayerOfTheSeasonComponent implements OnInit, OnDestroy {
+  private cookieService = inject(CookieService);
+  private mysqlService = inject(MysqlService);
+  private route = inject(ActivatedRoute);
+  private titleService = inject(Title);
+  private metaTagService = inject(Meta);
+  private toastService = inject(ToastService);
+
   readonly seasons = Seasons.playerOfTheSeason;
   readonly imageBaseUrl = baseUrlImages;
 
@@ -42,15 +49,6 @@ export class PlayerOfTheSeasonComponent implements OnInit, OnDestroy {
 
   private sub: Subscription;
 
-  constructor(
-    private cookieService: CookieService,
-    private mysqlService: MysqlService,
-    private route: ActivatedRoute,
-    private titleService: Title,
-    private metaTagService: Meta,
-    private toastService: ToastService
-  ) {}
-
   ngOnInit() {
     this.canVote = !this.cookieService.check(PLAYER_OF_SEASON_VOTING_COOKIE_KEY);
     this.sub = this.route.params.subscribe((params) => {
@@ -60,7 +58,10 @@ export class PlayerOfTheSeasonComponent implements OnInit, OnDestroy {
     });
 
     this.titleService.setTitle('HV TDP Stainz: Spieler der Saison');
-    this.metaTagService.updateTag({ name: 'description', content: 'Wähle den Spieler der Saison vom HV TDP Stainz.' });
+    this.metaTagService.updateTag({
+      name: 'description',
+      content: 'Wähle den Spieler der Saison vom HV TDP Stainz.',
+    });
   }
 
   ngOnDestroy() {
@@ -74,15 +75,25 @@ export class PlayerOfTheSeasonComponent implements OnInit, OnDestroy {
   load() {
     this.loaded = false;
     this.failed = false;
-    forkJoin({ players: this.mysqlService.getPlayers(), options: this.mysqlService.getPlayerOfTheSeason() }).subscribe({
+    forkJoin({
+      players: this.mysqlService.getPlayers(),
+      options: this.mysqlService.getPlayerOfTheSeason(),
+    }).subscribe({
       next: ({ players, options }) => {
         const lastName = (name: string) => name.split(' ').slice(-1)[0] ?? name;
         this.candidates = options
           .filter((option) => option.season === this.season)
-          .sort((a, b) => lastName(a.player).localeCompare(lastName(b.player), 'de-DE') || a.player.localeCompare(b.player))
+          .sort(
+            (a, b) =>
+              lastName(a.player).localeCompare(lastName(b.player), 'de-DE') ||
+              a.player.localeCompare(b.player)
+          )
           .map((option) => ({
             option,
-            player: players.find((player) => `${player.firstName} ${player.lastName}` === option.player) ?? null,
+            player:
+              players.find(
+                (player) => `${player.firstName} ${player.lastName}` === option.player
+              ) ?? null,
           }));
         this.loaded = true;
       },
@@ -105,17 +116,19 @@ export class PlayerOfTheSeasonComponent implements OnInit, OnDestroy {
       return;
     }
     this.busy = true;
-    this.mysqlService.postPlayerOfTheSeasonVote(this.selected.season, this.selected.player).subscribe({
-      next: () => {
-        this.cookieService.set(PLAYER_OF_SEASON_VOTING_COOKIE_KEY, 'true', 1 / 24); // expires after 1 hour
-        this.canVote = false;
-        this.busy = false;
-        this.toastService.show('Deine Stimme wurde gezählt');
-      },
-      error: (error: unknown) => {
-        this.busy = false;
-        this.toastService.showError('Senden fehlgeschlagen', error, 'Erneut', () => this.vote());
-      },
-    });
+    this.mysqlService
+      .postPlayerOfTheSeasonVote(this.selected.season, this.selected.player)
+      .subscribe({
+        next: () => {
+          this.cookieService.set(PLAYER_OF_SEASON_VOTING_COOKIE_KEY, 'true', 1 / 24); // expires after 1 hour
+          this.canVote = false;
+          this.busy = false;
+          this.toastService.show('Deine Stimme wurde gezählt');
+        },
+        error: (error: unknown) => {
+          this.busy = false;
+          this.toastService.showError('Senden fehlgeschlagen', error, 'Erneut', () => this.vote());
+        },
+      });
   }
 }

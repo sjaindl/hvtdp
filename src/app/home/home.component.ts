@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { CmsService } from '../services/cms.service';
@@ -29,19 +29,17 @@ import { NewsRowComponent } from '../ui/news-row/news-row.component';
   ],
 })
 export class HomeComponent implements OnInit {
+  private mysqlService = inject(MysqlService);
+  private cmsService = inject(CmsService);
+  private titleService = inject(Title);
+  private metaTagService = inject(Meta);
+
   news: News[] = [];
   newsLoaded = false;
   newsErrorText = '';
   lastResult: MatchInfo | null = null;
   nextMatch: MatchInfo | null = null;
   matchesLoaded = false;
-
-  constructor(
-    private mysqlService: MysqlService,
-    private cmsService: CmsService,
-    private titleService: Title,
-    private metaTagService: Meta
-  ) {}
 
   ngOnInit() {
     this.loadNews();

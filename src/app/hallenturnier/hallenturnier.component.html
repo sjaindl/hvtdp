@@ -2,7 +2,8 @@
   <div class="page-container flex flex-col lg:flex-row lg:items-center lg:gap-12 lg:py-12">
     <img
       [src]="tournament.image"
-      alt=""
+      [alt]="tournament.title"
+      appZoomable
       class="-mx-4 aspect-[3/2] w-[calc(100%+2rem)] max-w-none object-cover lg:order-2 lg:mx-0 lg:w-[580px] lg:rounded-2xl"
     />
     <div class="flex flex-1 flex-col gap-3 py-6 lg:py-0">

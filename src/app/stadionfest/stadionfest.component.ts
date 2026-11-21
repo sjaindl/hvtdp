@@ -1,16 +1,17 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Title, Meta } from '@angular/platform-browser';
 
 @Component({
-    selector: 'app-stadionfest',
-    templateUrl: './stadionfest.component.html',
-    styleUrls: ['./stadionfest.component.css'],
-    standalone: true,
-    imports: [CommonModule]
+  selector: 'app-stadionfest',
+  templateUrl: './stadionfest.component.html',
+  styleUrls: ['./stadionfest.component.css'],
+  standalone: true,
+  imports: [CommonModule],
 })
 export class StadionFestComponent implements OnInit {
-  constructor(private titleService: Title, private metaTagService: Meta) {}
+  private titleService = inject(Title);
+  private metaTagService = inject(Meta);
 
   ngOnInit() {
     this.titleService.setTitle('HV TDP Stainz: Das legendäre Stadionfest');

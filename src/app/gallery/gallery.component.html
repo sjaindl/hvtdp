@@ -31,17 +31,31 @@
     </div>
   </section>
   <section class="page-container flex flex-col gap-6 py-4 lg:py-8">
-    <div class="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4 lg:gap-4">
+    <!--
+      Justified rows: each photo keeps its aspect ratio, photos in a row share one height (--row-h) and fill the width.
+      flex-grow is the ratio × 100: a row whose grow values sum to less than 1 would only fill part of its free space.
+    -->
+    <div class="flex flex-wrap gap-2 [--row-h:120px] sm:[--row-h:170px] lg:gap-3 lg:[--row-h:240px]">
       @for (photo of photos.slice(0, visiblePhotos); track photo.imagePath; let i = $index) {
         <button
           type="button"
-          class="group aspect-square overflow-hidden rounded-xl bg-gray-100"
+          class="group cursor-zoom-in overflow-hidden rounded-xl bg-gray-100"
+          [style.flex]="ratio(photo) * 100 + ' 1 calc(' + ratio(photo) + ' * var(--row-h))'"
           [attr.aria-label]="'Foto ' + (i + 1) + ' öffnen'"
-          (click)="openLightbox(i)"
+          (click)="openPhoto(i)"
         >
-          <img [src]="imageBaseUrl + photo.imagePath" [alt]="photo.description || selectedAlbum.name" class="card-media" loading="lazy" />
+          <img
+            [src]="imageBaseUrl + photo.imagePath"
+            [alt]="photo.description || selectedAlbum.name"
+            class="block h-auto w-full object-cover transition-transform duration-500 group-hover:scale-105"
+            [style.aspect-ratio]="ratio(photo)"
+            loading="lazy"
+            (load)="onPhotoLoad(photo, $event)"
+          />
         </button>
       }
+      <!-- Keeps the photos in the last row at row height instead of stretching them across the full width. -->
+      <span class="grow-[100000]" aria-hidden="true"></span>
     </div>
     @if (visiblePhotos < photos.length) {
       <div class="flex justify-center pb-6">
@@ -51,38 +65,6 @@
       </div>
     }
   </section>
-
-  @if (lightboxIndex !== null) {
-    <div
-      class="fixed inset-0 z-[70] flex flex-col justify-between bg-gray-900"
-      role="dialog"
-      aria-modal="true"
-      [attr.aria-label]="selectedAlbum.name"
-      (touchstart)="onTouchStart($event)"
-      (touchend)="onTouchEnd($event)"
-    >
-      <div class="flex items-center justify-between pl-4 pr-2 pt-3">
-        <span class="text-[15px] font-semibold text-white">{{ lightboxIndex + 1 }} / {{ photos.length }}</span>
-        <button type="button" class="flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-white" aria-label="Schließen" (click)="closeLightbox()">
-          <span class="material-icons text-[26px]">close</span>
-        </button>
-      </div>
-      <img
-        [src]="imageBaseUrl + photos[lightboxIndex].imagePath"
-        [alt]="photos[lightboxIndex].description || selectedAlbum.name"
-        class="mx-auto max-h-[75vh] w-full object-contain lg:max-w-5xl"
-      />
-      <div class="flex items-center justify-between px-4 pb-7">
-        <button type="button" class="flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-white" aria-label="Vorheriges Foto" (click)="step(-1)">
-          <span class="material-icons text-[26px]">chevron_left</span>
-        </button>
-        <span class="truncate px-3 text-sm font-medium text-gray-400">{{ photos[lightboxIndex].description || selectedAlbum.name }}</span>
-        <button type="button" class="flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-white" aria-label="Nächstes Foto" (click)="step(1)">
-          <span class="material-icons text-[26px]">chevron_right</span>
-        </button>
-      </div>
-    </div>
-  }
 } @else if (loaded) {
   <!-- Overview -->
   <section class="page-container flex flex-col gap-4 py-6 lg:gap-6 lg:py-10">
@@ -98,7 +80,7 @@
         <a [routerLink]="['/gallery', season, albumSlug(album)]" class="card-interactive group flex flex-col">
           <div class="h-[200px] overflow-hidden bg-gray-100 lg:h-60">
             @if (cover(album); as src) {
-              <img [src]="src" [alt]="album.name" class="card-media" loading="lazy" />
+              <app-fitted-image [src]="src" [alt]="album.name" [zoomable]="false"></app-fitted-image>
             } @else {
               <div class="flex h-full items-center justify-center text-sm text-gray-500">Kein Bild verfügbar</div>
             }

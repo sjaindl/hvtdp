@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { GoldenShot } from '../shared/goldenshot';
 import { Meta, Title } from '@angular/platform-browser';
@@ -13,21 +13,28 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-    selector: 'app-goldenshot',
-    templateUrl: './goldenshot.component.html',
-    styleUrls: ['./goldenshot.component.css'],
-    standalone: true,
-    imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatButtonModule,
-        MatSlideToggleModule,
-        MatIconModule
-    ]
+  selector: 'app-goldenshot',
+  templateUrl: './goldenshot.component.html',
+  styleUrls: ['./goldenshot.component.css'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatSlideToggleModule,
+    MatIconModule,
+  ],
 })
 export class GoldenshotComponent implements OnInit {
+  private formBuilder = inject(FormBuilder);
+  private titleService = inject(Title);
+  private metaTagService = inject(Meta);
+  private mysqlService = inject(MysqlService);
+  private fileUploadService = inject(FileUploadService);
+  private deviceService = inject(DeviceDetectorService);
+
   isMobile = null;
 
   feedbackForm: FormGroup;
@@ -66,14 +73,7 @@ export class GoldenshotComponent implements OnInit {
     },
   };
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private titleService: Title,
-    private metaTagService: Meta,
-    private mysqlService: MysqlService,
-    private fileUploadService: FileUploadService,
-    private deviceService: DeviceDetectorService
-  ) {
+  constructor() {
     this.createForm();
   }
 
@@ -113,10 +113,10 @@ export class GoldenshotComponent implements OnInit {
 
     this.onValueChanged(); // (re)set validation messages now
 
-    this.feedbackForm.valueChanges.subscribe((data) => this.onValueChanged(data));
+    this.feedbackForm.valueChanges.subscribe(() => this.onValueChanged());
   }
 
-  onValueChanged(data?: any) {
+  onValueChanged() {
     if (!this.feedbackForm) {
       return;
     }

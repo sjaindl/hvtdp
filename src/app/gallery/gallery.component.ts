@@ -1,6 +1,6 @@
-import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { MysqlService } from '../services/mysql.service';
 import { baseUrlImages } from '../shared/baseurls';
@@ -9,6 +9,8 @@ import { Seasons } from '../shared/seasons';
 import { DateUtil } from '../shared/utils/date.util';
 import { ErrorUtil } from '../shared/utils/error.util';
 import { EmptyStateComponent } from '../ui/empty-state/empty-state.component';
+import { FittedImageComponent } from '../ui/fitted-image/fitted-image.component';
+import { ImageViewerService, ViewerImage } from '../ui/image-viewer/image-viewer.service';
 import { PageIntroComponent } from '../ui/page-intro/page-intro.component';
 
 const PHOTO_PAGE_SIZE = 24;
@@ -17,9 +19,15 @@ const PHOTO_PAGE_SIZE = 24;
   selector: 'app-gallery',
   templateUrl: './gallery.component.html',
   standalone: true,
-  imports: [RouterModule, EmptyStateComponent, PageIntroComponent],
+  imports: [RouterModule, EmptyStateComponent, FittedImageComponent, PageIntroComponent],
 })
 export class GalleryComponent implements OnInit, OnDestroy {
+  private mysqlService = inject(MysqlService);
+  private route = inject(ActivatedRoute);
+  private titleService = inject(Title);
+  private metaTagService = inject(Meta);
+  private imageViewer = inject(ImageViewerService);
+
   readonly seasons = Seasons.gallery;
   readonly imageBaseUrl = baseUrlImages;
   readonly formatDate = DateUtil.formatDate;
@@ -32,27 +40,17 @@ export class GalleryComponent implements OnInit, OnDestroy {
   errorText = '';
 
   visiblePhotos = PHOTO_PAGE_SIZE;
-  lightboxIndex: number | null = null;
-  private touchStartX: number | null = null;
+  private photoRatios: Record<string, number> = {};
 
   private routeSub: Subscription;
   private photosSub: Subscription;
   selectedAlbumSlug: string | null = null;
-
-  constructor(
-    private mysqlService: MysqlService,
-    private route: ActivatedRoute,
-    private titleService: Title,
-    private metaTagService: Meta,
-    private router: Router
-  ) {}
 
   ngOnInit() {
     this.routeSub = this.route.params.subscribe((params) => {
       this.season = params['season'];
       this.selectedAlbumSlug = params['albumId'] ? decodeURIComponent(params['albumId']) : null;
       this.visiblePhotos = PHOTO_PAGE_SIZE;
-      this.closeLightbox();
       this.loadAlbums();
     });
 
@@ -66,7 +64,6 @@ export class GalleryComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.routeSub?.unsubscribe();
     this.photosSub?.unsubscribe();
-    document.body.classList.remove('overflow-hidden');
   }
 
   albumSlug(album: Album): string {
@@ -86,50 +83,31 @@ export class GalleryComponent implements OnInit, OnDestroy {
     return this.selectedAlbum?.photos ?? [];
   }
 
+  /** Width/height of a photo, known once it has loaded (square until then). */
+  ratio(photo: Photo): number {
+    return this.photoRatios[photo.imagePath] ?? 1;
+  }
+
+  onPhotoLoad(photo: Photo, event: Event) {
+    const image = event.target as HTMLImageElement;
+    if (image.naturalWidth && image.naturalHeight) {
+      this.photoRatios[photo.imagePath] =
+        Math.round((image.naturalWidth / image.naturalHeight) * 1000) / 1000;
+    }
+  }
+
   showMorePhotos() {
     this.visiblePhotos += PHOTO_PAGE_SIZE;
   }
 
-  openLightbox(index: number) {
-    this.lightboxIndex = index;
-    document.body.classList.add('overflow-hidden');
-  }
-
-  closeLightbox() {
-    this.lightboxIndex = null;
-    document.body.classList.remove('overflow-hidden');
-  }
-
-  step(delta: number) {
-    if (this.lightboxIndex === null || !this.photos.length) {
-      return;
-    }
-    this.lightboxIndex = (this.lightboxIndex + delta + this.photos.length) % this.photos.length;
-  }
-
-  onTouchStart(event: TouchEvent) {
-    this.touchStartX = event.changedTouches[0].clientX;
-  }
-
-  onTouchEnd(event: TouchEvent) {
-    if (this.touchStartX === null) {
-      return;
-    }
-    const delta = event.changedTouches[0].clientX - this.touchStartX;
-    if (Math.abs(delta) > 50) {
-      this.step(delta < 0 ? 1 : -1);
-    }
-    this.touchStartX = null;
-  }
-
-  @HostListener('document:keydown', ['$event'])
-  onKeydown(event: KeyboardEvent) {
-    if (this.lightboxIndex === null) {
-      return;
-    }
-    if (event.key === 'Escape') this.closeLightbox();
-    if (event.key === 'ArrowRight') this.step(1);
-    if (event.key === 'ArrowLeft') this.step(-1);
+  /** Opens the photo in the fullscreen viewer, browsable through the whole album. */
+  openPhoto(index: number) {
+    const album = this.selectedAlbum?.name ?? '';
+    const images: ViewerImage[] = this.photos.map((photo) => ({
+      src: this.imageBaseUrl + photo.imagePath,
+      alt: photo.description || album,
+    }));
+    this.imageViewer.open(images, index);
   }
 
   loadAlbums() {

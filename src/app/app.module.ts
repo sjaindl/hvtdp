@@ -72,8 +72,8 @@ import { ZehnjahresfeierComponent } from './zehnjahresfeier/zehnjahresfeier.comp
 import { VideoCardComponent } from './video-card/video-card.component';
 
 @NgModule({
-  declarations: [SafePipe],
   imports: [
+    SafePipe,
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,

@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { EMPTY, Observable, expand, map, reduce, shareReplay } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { News } from '../shared/news';
@@ -24,11 +24,11 @@ interface StrapiPage<T> {
 
 @Injectable({ providedIn: 'root' })
 export class CmsService {
+  private http = inject(HttpClient);
+
   // Strapi caps page size at 100, so all news are collected page by page.
   private readonly pageSize = 100;
   private news$: Observable<News[]>;
-
-  constructor(private http: HttpClient) {}
 
   public getNews(): Observable<News[]> {
     this.news$ ??= this.getNewsPage(1).pipe(

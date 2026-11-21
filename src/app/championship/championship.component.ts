@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Subscription, forkJoin } from 'rxjs';
@@ -27,6 +27,11 @@ interface SeasonContent {
   imports: [RouterModule, EmptyStateComponent, NextMatchComponent, PageIntroComponent],
 })
 export class ChampionshipComponent implements OnInit, OnDestroy {
+  private mysqlService = inject(MysqlService);
+  private route = inject(ActivatedRoute);
+  private titleService = inject(Title);
+  private metaTagService = inject(Meta);
+
   readonly seasons = Seasons.championship;
   readonly formatSeason = formatSeason;
 
@@ -42,13 +47,6 @@ export class ChampionshipComponent implements OnInit, OnDestroy {
 
   private sub: Subscription;
 
-  constructor(
-    private mysqlService: MysqlService,
-    private route: ActivatedRoute,
-    private titleService: Title,
-    private metaTagService: Meta
-  ) {}
-
   ngOnInit() {
     this.sub = this.route.params.subscribe((params) => {
       this.season = params['season'];
@@ -59,7 +57,8 @@ export class ChampionshipComponent implements OnInit, OnDestroy {
     this.titleService.setTitle('HV TDP Stainz: Meisterschaft');
     this.metaTagService.updateTag({
       name: 'description',
-      content: 'Informationen über die Situation in der Meisterschaft vom HV TDP Stainz in der STT Meisterschaft.',
+      content:
+        'Informationen über die Situation in der Meisterschaft vom HV TDP Stainz in der STT Meisterschaft.',
     });
   }
 
@@ -81,9 +80,13 @@ export class ChampionshipComponent implements OnInit, OnDestroy {
           .sort((a, b) => Number(a.place) - Number(b.place));
         this.scorers = scorers
           .filter((scorer) => Number(scorer.goals) > 0 && scorer.season == this.season)
-          .sort((a, b) => Number(b.goals) - Number(a.goals) || a.playerName.localeCompare(b.playerName));
+          .sort(
+            (a, b) => Number(b.goals) - Number(a.goals) || a.playerName.localeCompare(b.playerName)
+          );
         const seasonMatches = (matches ?? []).filter((match) => match.season == this.season);
-        this.results = MatchUtil.sortNewestFirst(seasonMatches.filter((match) => MatchUtil.hasScore(match)));
+        this.results = MatchUtil.sortNewestFirst(
+          seasonMatches.filter((match) => MatchUtil.hasScore(match))
+        );
         this.nextMatch = MatchUtil.nextMatch(seasonMatches);
         this.loaded = true;
       },
@@ -129,7 +132,9 @@ export class ChampionshipComponent implements OnInit, OnDestroy {
   private getSeasonContent(season: string): SeasonContent {
     const content: Record<string, Partial<SeasonContent>> = {
       '2022-2023': {
-        postResults: ['* Spiel wird offiziell nicht gewertet, da Gössnitz aus der Liga ausgestiegen ist.'],
+        postResults: [
+          '* Spiel wird offiziell nicht gewertet, da Gössnitz aus der Liga ausgestiegen ist.',
+        ],
       },
       '2021-2022': {
         preface: [

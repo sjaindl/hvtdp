@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { MysqlService } from '../services/mysql.service';
 import { Player } from '../shared/player';
@@ -28,6 +28,10 @@ const GROUP_TITLES: Record<string, string> = {
   imports: [EmptyStateComponent, PageIntroComponent, PlayerCardComponent],
 })
 export class TeamComponent implements OnInit {
+  private mysqlService = inject(MysqlService);
+  private titleService = inject(Title);
+  private metaTagService = inject(Meta);
+
   squadPlayers: Player[] = [];
   activePlayers: Player[] = [];
   positionGroups: PositionGroup[] = [];
@@ -38,12 +42,6 @@ export class TeamComponent implements OnInit {
 
   /** TODO(API): the date of the squad list is not part of the API. */
   readonly asOf = 'Stand 12/2025';
-
-  constructor(
-    private mysqlService: MysqlService,
-    private titleService: Title,
-    private metaTagService: Meta
-  ) {}
 
   ngOnInit() {
     this.load();
@@ -68,7 +66,9 @@ export class TeamComponent implements OnInit {
         this.errorText = ErrorUtil.message(error);
       },
     });
-    this.mysqlService.getActivePlayers().subscribe((players) => (this.activePlayers = this.sortPlayers(players)));
+    this.mysqlService
+      .getActivePlayers()
+      .subscribe((players) => (this.activePlayers = this.sortPlayers(players)));
   }
 
   get visibleGroups(): PositionGroup[] {
@@ -82,7 +82,9 @@ export class TeamComponent implements OnInit {
   }
 
   get topScorer(): Player | null {
-    return [...this.squadPlayers].sort((a, b) => Number(b.goals ?? 0) - Number(a.goals ?? 0))[0] ?? null;
+    return (
+      [...this.squadPlayers].sort((a, b) => Number(b.goals ?? 0) - Number(a.goals ?? 0))[0] ?? null
+    );
   }
 
   private sortPlayers(players: Player[]): Player[] {

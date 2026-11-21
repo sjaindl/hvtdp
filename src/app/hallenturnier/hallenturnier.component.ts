@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Meta, Title } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { MysqlService } from '../services/mysql.service';
 import { CLUB_EMAIL } from '../shared/seasons';
 import { EmptyStateComponent } from '../ui/empty-state/empty-state.component';
+import { ZoomableDirective } from '../ui/image-viewer/zoomable.directive';
 import { ToastService } from '../ui/toast/toast.service';
 
 /**
@@ -16,7 +17,12 @@ const TOURNAMENT = {
   image: 'assets/images/hallenturnier_2027.jpg',
   deadline: 'Di, 05.01.2027',
   facts: [
-    { icon: 'event', label: 'Wann', value: 'Sa, 09.01.2027', hint: 'Erweiterung auf Fr, 08.01. möglich' },
+    {
+      icon: 'event',
+      label: 'Wann',
+      value: 'Sa, 09.01.2027',
+      hint: 'Erweiterung auf Fr, 08.01. möglich',
+    },
     { icon: 'location_on', label: 'Wo', value: 'Mittelschule Stainz', hint: '' },
     { icon: 'groups', label: 'Spielform', value: '3 + 1', hint: '' },
     { icon: 'payments', label: 'Nenngeld', value: '70 € pro Team', hint: '' },
@@ -26,23 +32,46 @@ const TOURNAMENT = {
     'Pokal und Sachpreise für die besten 8 Mannschaften',
     'Offizielles Siegertrikot für jeden Spieler der Siegermannschaft',
   ],
-  bank: { recipient: 'HV TDP Stainz', iban: 'AT67 3843 9000 0481 3481', reference: 'Hallenturnier 2027 + Mannschaftsname' },
-  lastEdition: { album: '/gallery/2026/16-stainzer-hallenturnier', albumTitle: '16. Stainzer Hallenturnier' },
+  bank: {
+    recipient: 'HV TDP Stainz',
+    iban: 'AT67 3843 9000 0481 3481',
+    reference: 'Hallenturnier 2027 + Mannschaftsname',
+  },
+  lastEdition: {
+    album: '/gallery/2026/16-stainzer-hallenturnier',
+    albumTitle: '16. Stainzer Hallenturnier',
+  },
 };
 
 @Component({
   selector: 'app-hallenturnier',
   templateUrl: './hallenturnier.component.html',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterModule, EmptyStateComponent],
+  imports: [ReactiveFormsModule, RouterModule, EmptyStateComponent, ZoomableDirective],
 })
 export class HallenturnierComponent implements OnInit {
+  private formBuilder = inject(FormBuilder);
+  private titleService = inject(Title);
+  private metaTagService = inject(Meta);
+  private mysqlService = inject(MysqlService);
+  private toastService = inject(ToastService);
+
   readonly tournament = TOURNAMENT;
   readonly channels = [
     { icon: 'call', label: 'Telefon', value: '0664 4310021', href: 'tel:+436644310021' },
     { icon: 'mail', label: 'E-Mail', value: CLUB_EMAIL, href: `mailto:${CLUB_EMAIL}` },
-    { icon: 'facebook', label: 'Facebook', value: 'HV TDP Stainz', href: 'https://www.facebook.com/hvtdpstainz/' },
-    { icon: 'photo_camera', label: 'Instagram', value: '@hvtdpstainz_2014', href: 'https://www.instagram.com/hvtdpstainz_2014/' },
+    {
+      icon: 'facebook',
+      label: 'Facebook',
+      value: 'HV TDP Stainz',
+      href: 'https://www.facebook.com/hvtdpstainz/',
+    },
+    {
+      icon: 'photo_camera',
+      label: 'Instagram',
+      value: '@hvtdpstainz_2014',
+      href: 'https://www.instagram.com/hvtdpstainz_2014/',
+    },
   ];
 
   form: FormGroup;
@@ -65,13 +94,7 @@ export class HallenturnierComponent implements OnInit {
     },
   };
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private titleService: Title,
-    private metaTagService: Meta,
-    private mysqlService: MysqlService,
-    private toastService: ToastService
-  ) {
+  constructor() {
     this.form = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(25)]],
       email: ['', [Validators.required, Validators.email]],
@@ -82,7 +105,10 @@ export class HallenturnierComponent implements OnInit {
 
   ngOnInit() {
     this.titleService.setTitle('HV TDP Stainz: Hallenturnier 2027');
-    this.metaTagService.updateTag({ name: 'description', content: 'Melde dich an für das Hallenturnier des HV TDP Stainz.' });
+    this.metaTagService.updateTag({
+      name: 'description',
+      content: 'Melde dich an für das Hallenturnier des HV TDP Stainz.',
+    });
   }
 
   updateErrors(showAll = false) {
@@ -125,7 +151,9 @@ export class HallenturnierComponent implements OnInit {
       },
       error: (error: unknown) => {
         this.busy = false;
-        this.toastService.showError('Senden fehlgeschlagen', error, 'Erneut', () => this.onSubmit());
+        this.toastService.showError('Senden fehlgeschlagen', error, 'Erneut', () =>
+          this.onSubmit()
+        );
       },
     });
   }

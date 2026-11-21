@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Feedback } from '../shared/feedback';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Title, Meta } from '@angular/platform-browser';
@@ -9,13 +9,18 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-    selector: 'app-contact',
-    templateUrl: './duckrun.component.html',
-    styleUrls: ['./duckrun.component.css'],
-    standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule]
+  selector: 'app-contact',
+  templateUrl: './duckrun.component.html',
+  styleUrls: ['./duckrun.component.css'],
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule],
 })
 export class DuckrunComponent implements OnInit {
+  private formBuilder = inject(FormBuilder);
+  private titleService = inject(Title);
+  private metaTagService = inject(Meta);
+  private mysqlService = inject(MysqlService);
+
   feedbackForm: FormGroup;
   feedback: Feedback;
   submittedFeedback = null;
@@ -63,12 +68,7 @@ export class DuckrunComponent implements OnInit {
     },
   };
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private titleService: Title,
-    private metaTagService: Meta,
-    private mysqlService: MysqlService
-  ) {
+  constructor() {
     this.createForm();
   }
 
@@ -110,10 +110,10 @@ export class DuckrunComponent implements OnInit {
 
     this.onValueChanged(); // (re)set validation messages now
 
-    this.feedbackForm.valueChanges.subscribe((data) => this.onValueChanged(data));
+    this.feedbackForm.valueChanges.subscribe(() => this.onValueChanged());
   }
 
-  onValueChanged(data?: any) {
+  onValueChanged() {
     if (!this.feedbackForm) {
       return;
     }

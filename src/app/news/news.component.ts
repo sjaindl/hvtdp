@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Marked } from 'marked';
@@ -9,6 +9,8 @@ import { DateUtil } from '../shared/utils/date.util';
 import { ErrorUtil } from '../shared/utils/error.util';
 import { TextUtil } from '../shared/utils/text.util';
 import { EmptyStateComponent } from '../ui/empty-state/empty-state.component';
+import { ImageViewerService } from '../ui/image-viewer/image-viewer.service';
+import { ZoomableDirective } from '../ui/image-viewer/zoomable.directive';
 import { NewsCardComponent } from '../ui/news-card/news-card.component';
 import { NewsRowComponent } from '../ui/news-row/news-row.component';
 import { PageIntroComponent } from '../ui/page-intro/page-intro.component';
@@ -20,9 +22,23 @@ const PAGE_SIZE = 12;
   selector: 'app-news',
   templateUrl: './news.component.html',
   standalone: true,
-  imports: [RouterModule, EmptyStateComponent, NewsCardComponent, NewsRowComponent, PageIntroComponent],
+  imports: [
+    RouterModule,
+    EmptyStateComponent,
+    NewsCardComponent,
+    NewsRowComponent,
+    PageIntroComponent,
+    ZoomableDirective,
+  ],
 })
-export class NewsComponent implements OnInit, OnDestroy {
+export class NewsComponent implements OnInit, OnDestroy, AfterViewChecked {
+  private cmsService = inject(CmsService);
+  private route = inject(ActivatedRoute);
+  private titleService = inject(Title);
+  private metaTagService = inject(Meta);
+  private toastService = inject(ToastService);
+  private imageViewer = inject(ImageViewerService);
+
   news: News[] = [];
   loaded = false;
   failed = false;
@@ -36,6 +52,8 @@ export class NewsComponent implements OnInit, OnDestroy {
   newsId: number | null = null;
   selectedNews: News | null = null;
   selectedHtml = '';
+  @ViewChild('content') content?: ElementRef<HTMLElement>;
+  private enhancedHtml = '';
 
   private sub: Subscription;
 
@@ -65,19 +83,14 @@ export class NewsComponent implements OnInit, OnDestroy {
     },
   });
 
-  constructor(
-    private cmsService: CmsService,
-    private route: ActivatedRoute,
-    private titleService: Title,
-    private metaTagService: Meta,
-    private toastService: ToastService
-  ) {}
-
   formatDate = DateUtil.formatDate;
 
   ngOnInit() {
     this.load();
-    this.metaTagService.updateTag({ name: 'description', content: 'Die aktuellsten News über den HV TDP Stainz' });
+    this.metaTagService.updateTag({
+      name: 'description',
+      content: 'Die aktuellsten News über den HV TDP Stainz',
+    });
   }
 
   ngOnDestroy() {
@@ -146,8 +159,42 @@ export class NewsComponent implements OnInit, OnDestroy {
     }
   }
 
+  /** Makes the images inside the rendered Markdown reachable by keyboard once the HTML is in the DOM. */
+  ngAfterViewChecked() {
+    if (!this.content || this.enhancedHtml === this.selectedHtml) {
+      return;
+    }
+    this.enhancedHtml = this.selectedHtml;
+    for (const image of this.contentImages()) {
+      image.tabIndex = 0;
+      image.setAttribute('role', 'button');
+      image.setAttribute('aria-label', image.alt ? `${image.alt} vergrößern` : 'Bild vergrößern');
+    }
+  }
+
+  /** Images inside the Markdown content open in the fullscreen viewer (linked images keep their link). */
+  openContentImage(event: Event) {
+    const target = event.target;
+    if (!(target instanceof HTMLImageElement) || target.closest('a')) {
+      return;
+    }
+    event.preventDefault();
+    const images = this.contentImages();
+    this.imageViewer.open(
+      images.map((image) => ({ src: image.currentSrc || image.src, alt: image.alt })),
+      images.indexOf(target)
+    );
+  }
+
+  private contentImages(): HTMLImageElement[] {
+    const images = this.content?.nativeElement.querySelectorAll('img') ?? [];
+    return Array.from(images).filter((image) => !image.closest('a'));
+  }
+
   get whatsappUrl(): string {
-    return 'https://wa.me/?text=' + encodeURIComponent(`${this.selectedNews?.title} ${location.href}`);
+    return (
+      'https://wa.me/?text=' + encodeURIComponent(`${this.selectedNews?.title} ${location.href}`)
+    );
   }
 
   get facebookUrl(): string {
@@ -156,7 +203,9 @@ export class NewsComponent implements OnInit, OnDestroy {
 
   private selectNews(newsIdParam: string | undefined) {
     this.newsId = newsIdParam ? +newsIdParam : null;
-    this.selectedNews = this.newsId ? (this.news.find((item) => item.newsId === this.newsId) ?? null) : null;
+    this.selectedNews = this.newsId
+      ? (this.news.find((item) => item.newsId === this.newsId) ?? null)
+      : null;
 
     if (this.selectedNews) {
       // Rendered HTML is bound via [innerHTML], so Angular's sanitizer cleans it.

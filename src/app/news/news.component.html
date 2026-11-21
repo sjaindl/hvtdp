@@ -18,11 +18,18 @@
 
       @if (selectedNews.imageUrl) {
         <div class="w-full max-w-[60rem] overflow-hidden rounded-2xl bg-gray-100">
-          <img [src]="selectedNews.imageUrl" [alt]="selectedNews.title" class="h-auto w-full" />
+          <img [src]="selectedNews.imageUrl" [alt]="selectedNews.title" class="h-auto w-full" appZoomable />
         </div>
       }
 
-      <div class="prose-hv w-full max-w-prose" [innerHTML]="selectedHtml"></div>
+      <div
+        #content
+        class="prose-hv w-full max-w-prose outline-none"
+        tabindex="-1"
+        [innerHTML]="selectedHtml"
+        (click)="openContentImage($event)"
+        (keydown.enter)="openContentImage($event)"
+      ></div>
 
       <div class="flex w-full max-w-prose items-center gap-3 border-t border-gray-200 pt-6">
         <span class="text-[15px] font-semibold text-gray-900">Teilen</span>

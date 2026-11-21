@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 
@@ -9,12 +9,10 @@ import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
   imports: [ReactiveFormsModule, MatDialogModule],
 })
 export class PassworddialogComponent implements OnInit {
-  form: FormGroup;
+  private formBuilder = inject(FormBuilder);
+  private dialogRef = inject<MatDialogRef<PassworddialogComponent>>(MatDialogRef);
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private dialogRef: MatDialogRef<PassworddialogComponent>
-  ) {}
+  form: FormGroup;
 
   ngOnInit() {
     this.form = this.formBuilder.group({

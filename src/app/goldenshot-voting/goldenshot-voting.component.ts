@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 import { CookieService } from 'ngx-cookie-service';
@@ -17,18 +17,16 @@ const GOLDENSHOT_VOTING_COOKIE_KEY = 'goldenshot_voted';
   imports: [CommonModule, MatListModule, MatButtonModule],
 })
 export class GoldenshotVotingComponent implements OnInit {
+  private mysqlService = inject(MysqlService);
+  private cookieService = inject(CookieService);
+  private deviceService = inject(DeviceDetectorService);
+
   goldenShotOptions: GoldenShot[];
 
   canVote = false;
   votingEnded = true;
 
   isMobile = null;
-
-  constructor(
-    private mysqlService: MysqlService,
-    private cookieService: CookieService,
-    private deviceService: DeviceDetectorService
-  ) {}
 
   ngOnInit(): void {
     this.canVote = !this.cookieService.check(GOLDENSHOT_VOTING_COOKIE_KEY);

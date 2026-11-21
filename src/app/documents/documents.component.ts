@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { Meta, Title } from '@angular/platform-browser';
 import { PassworddialogComponent } from '../passworddialog/passworddialog.component';
@@ -30,20 +30,18 @@ interface DocumentGroup {
   imports: [MatDialogModule, EmptyStateComponent, PageIntroComponent],
 })
 export class DocumentsComponent implements OnInit {
+  private mysqlService = inject(MysqlService);
+  private titleService = inject(Title);
+  private metaTagService = inject(Meta);
+  private dialog = inject(MatDialog);
+  private toastService = inject(ToastService);
+
   readonly documentBaseUrl = baseUrlDocuments;
 
   groups: DocumentGroup[] = [];
   loaded = false;
   failed = false;
   errorText = '';
-
-  constructor(
-    private mysqlService: MysqlService,
-    private titleService: Title,
-    private metaTagService: Meta,
-    private dialog: MatDialog,
-    private toastService: ToastService
-  ) {}
 
   ngOnInit() {
     this.load();
@@ -89,7 +87,8 @@ export class DocumentsComponent implements OnInit {
               window.location.href = this.documentBaseUrl + item.document.link;
             }
           },
-          error: (error: unknown) => this.toastService.showError('Passwort konnte nicht geprüft werden', error),
+          error: (error: unknown) =>
+            this.toastService.showError('Passwort konnte nicht geprüft werden', error),
         });
       });
   }
@@ -107,9 +106,12 @@ export class DocumentsComponent implements OnInit {
 
   /** TODO(API): documents have no category; they are grouped by keywords in the title for now. */
   private group(items: DocumentItem[]): DocumentGroup[] {
-    const byDateDesc = (a: DocumentItem, b: DocumentItem) => b.document.description.localeCompare(a.document.description);
+    const byDateDesc = (a: DocumentItem, b: DocumentItem) =>
+      b.document.description.localeCompare(a.document.description);
     const results = items.filter((item) => /Endergebnis/i.test(item.title)).sort(byDateDesc);
-    const minutes = items.filter((item) => /Protokoll|Stellungnahme/i.test(item.title)).sort(byDateDesc);
+    const minutes = items
+      .filter((item) => /Protokoll|Stellungnahme/i.test(item.title))
+      .sort(byDateDesc);
     const general = items.filter((item) => !results.includes(item) && !minutes.includes(item));
     return [
       { title: 'Für Mitglieder & Fans', items: general },

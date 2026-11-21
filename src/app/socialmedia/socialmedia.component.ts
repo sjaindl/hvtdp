@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Subscription, forkJoin } from 'rxjs';
@@ -19,6 +19,11 @@ import { VideoCardComponent } from '../video-card/video-card.component';
   imports: [RouterModule, EmptyStateComponent, PageIntroComponent, VideoCardComponent],
 })
 export class SocialmediaComponent implements OnInit, OnDestroy {
+  private mysqlService = inject(MysqlService);
+  private route = inject(ActivatedRoute);
+  private titleService = inject(Title);
+  private metaTagService = inject(Meta);
+
   readonly seasons = Seasons.videos;
   readonly formatSeason = formatSeason;
 
@@ -30,13 +35,6 @@ export class SocialmediaComponent implements OnInit, OnDestroy {
   errorText = '';
 
   private sub: Subscription;
-
-  constructor(
-    private mysqlService: MysqlService,
-    private route: ActivatedRoute,
-    private titleService: Title,
-    private metaTagService: Meta
-  ) {}
 
   ngOnInit() {
     this.sub = this.route.params.subscribe((params) => {
@@ -58,12 +56,19 @@ export class SocialmediaComponent implements OnInit, OnDestroy {
   load() {
     this.loaded = false;
     this.failed = false;
-    forkJoin({ games: this.mysqlService.getGames(), players: this.mysqlService.getPlayers() }).subscribe({
+    forkJoin({
+      games: this.mysqlService.getGames(),
+      players: this.mysqlService.getPlayers(),
+    }).subscribe({
       next: ({ games, players }) => {
         this.players = players;
         this.games = games
           .filter((game) => game.season == this.season && game.links?.length)
-          .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime() || Number(b.round) - Number(a.round));
+          .sort(
+            (a, b) =>
+              new Date(b.date).getTime() - new Date(a.date).getTime() ||
+              Number(b.round) - Number(a.round)
+          );
         this.loaded = true;
       },
       error: (error: unknown) => {
@@ -85,7 +90,9 @@ export class SocialmediaComponent implements OnInit, OnDestroy {
 
   scoreLabel(game: Game): string {
     const hasScore = (value: unknown) => value !== null && value !== undefined && value !== '';
-    return hasScore(game.homeScore) && hasScore(game.awayScore) ? `${game.homeScore}:${game.awayScore}` : '';
+    return hasScore(game.homeScore) && hasScore(game.awayScore)
+      ? `${game.homeScore}:${game.awayScore}`
+      : '';
   }
 
   /** Links store either the last name ("Jaindl") or "Lastname Firstname". */

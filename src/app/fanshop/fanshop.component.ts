@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Meta, Title } from '@angular/platform-browser';
 import { MysqlService } from '../services/mysql.service';
@@ -7,6 +7,7 @@ import { Item } from '../shared/items';
 import { CLUB_EMAIL } from '../shared/seasons';
 import { ErrorUtil } from '../shared/utils/error.util';
 import { EmptyStateComponent } from '../ui/empty-state/empty-state.component';
+import { ZoomableDirective } from '../ui/image-viewer/zoomable.directive';
 import { PageIntroComponent } from '../ui/page-intro/page-intro.component';
 import { ToastService } from '../ui/toast/toast.service';
 
@@ -22,9 +23,14 @@ interface Order {
   selector: 'app-fanshop',
   templateUrl: './fanshop.component.html',
   standalone: true,
-  imports: [FormsModule, EmptyStateComponent, PageIntroComponent],
+  imports: [FormsModule, EmptyStateComponent, PageIntroComponent, ZoomableDirective],
 })
 export class FanshopComponent implements OnInit {
+  private mysqlService = inject(MysqlService);
+  private titleService = inject(Title);
+  private metaTagService = inject(Meta);
+  private toastService = inject(ToastService);
+
   readonly imageBaseUrl = baseUrlImages;
   readonly email = CLUB_EMAIL;
 
@@ -36,13 +42,8 @@ export class FanshopComponent implements OnInit {
   errorText = '';
 
   order: Order | null = null;
-
-  constructor(
-    private mysqlService: MysqlService,
-    private titleService: Title,
-    private metaTagService: Meta,
-    private toastService: ToastService
-  ) {}
+  @ViewChild('orderBackdrop') orderBackdrop?: ElementRef<HTMLElement>;
+  private orderTrigger: HTMLElement | null = null;
 
   ngOnInit(): void {
     this.load();
@@ -57,7 +58,10 @@ export class FanshopComponent implements OnInit {
     this.failed = false;
     this.mysqlService.getItems().subscribe({
       next: (items) => {
-        this.items = (items ?? []).map((item) => ({ ...item, category: item?.category || 'Sonstiges' }));
+        this.items = (items ?? []).map((item) => ({
+          ...item,
+          category: item?.category || 'Sonstiges',
+        }));
         this.categories = ['Alle', ...new Set(this.items.map((item) => item.category))];
         this.loaded = true;
       },
@@ -76,13 +80,27 @@ export class FanshopComponent implements OnInit {
   }
 
   openOrder(item: Item) {
+    this.orderTrigger = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     this.order = { item, variant: '', quantity: 1, note: '' };
     document.body.classList.add('overflow-hidden');
+    // Focus the sheet so Escape works right away.
+    setTimeout(() => this.orderBackdrop?.nativeElement.focus());
   }
 
   closeOrder() {
+    if (!this.order) {
+      return;
+    }
     this.order = null;
     document.body.classList.remove('overflow-hidden');
+    this.orderTrigger?.focus();
+    this.orderTrigger = null;
+  }
+
+  onBackdropClick(event: MouseEvent) {
+    if (event.target === event.currentTarget) {
+      this.closeOrder();
+    }
   }
 
   changeQuantity(delta: number) {
@@ -125,10 +143,5 @@ export class FanshopComponent implements OnInit {
     } catch {
       this.toastService.show('Kopieren nicht möglich', 'error');
     }
-  }
-
-  @HostListener('document:keydown.escape')
-  onEscape() {
-    this.closeOrder();
   }
 }

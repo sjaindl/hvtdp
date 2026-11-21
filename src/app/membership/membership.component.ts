@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { MysqlService } from '../services/mysql.service';
 import { baseUrlDocuments } from '../shared/baseurls';
@@ -20,20 +20,42 @@ interface MemberGroup {
   imports: [PageIntroComponent],
 })
 export class MembershipComponent implements OnInit {
+  private mysqlService = inject(MysqlService);
+  private titleService = inject(Title);
+  private metaTagService = inject(Meta);
+
   readonly formUrl = baseUrlDocuments + 'beitrittserklaerung.pdf';
   readonly mailUrl = `mailto:${CLUB_EMAIL}?subject=${encodeURIComponent('Mitgliedschaft HV TDP Stainz')}`;
   readonly email = CLUB_EMAIL;
 
   readonly steps = [
-    { title: 'Beitrittserklärung herunterladen', text: 'Das PDF-Formular findest du hier auf der Seite.' },
-    { title: 'Ausfüllen & unterschreiben', text: 'Ausgefüllt kannst du sie einscannen oder fotografieren.' },
+    {
+      title: 'Beitrittserklärung herunterladen',
+      text: 'Das PDF-Formular findest du hier auf der Seite.',
+    },
+    {
+      title: 'Ausfüllen & unterschreiben',
+      text: 'Ausgefüllt kannst du sie einscannen oder fotografieren.',
+    },
     { title: 'Per E-Mail senden', text: `An ${CLUB_EMAIL} – wir melden uns bei dir.` },
   ];
 
   readonly types = [
-    { icon: 'sports_soccer', title: 'Aktives Mitglied', text: 'Du kickst mit – bei Training, Meisterschaft und Turnieren.' },
-    { icon: 'favorite', title: 'Förderndes Mitglied', text: 'Du unterstützt den Verein, ohne selbst am Ball zu sein.' },
-    { icon: 'child_care', title: 'Kids Corner', text: 'Für unseren jüngsten Nachwuchs und die Fans von morgen.' },
+    {
+      icon: 'sports_soccer',
+      title: 'Aktives Mitglied',
+      text: 'Du kickst mit – bei Training, Meisterschaft und Turnieren.',
+    },
+    {
+      icon: 'favorite',
+      title: 'Förderndes Mitglied',
+      text: 'Du unterstützt den Verein, ohne selbst am Ball zu sein.',
+    },
+    {
+      icon: 'child_care',
+      title: 'Kids Corner',
+      text: 'Für unseren jüngsten Nachwuchs und die Fans von morgen.',
+    },
   ];
 
   groups: MemberGroup[] = [
@@ -41,12 +63,6 @@ export class MembershipComponent implements OnInit {
     { title: 'Fördernde Mitglieder', members: [], per: '' },
     { title: 'Kids Corner', members: [], per: '' },
   ];
-
-  constructor(
-    private mysqlService: MysqlService,
-    private titleService: Title,
-    private metaTagService: Meta
-  ) {}
 
   ngOnInit() {
     this.titleService.setTitle('HV TDP Stainz: Mitgliedschaft');
@@ -61,12 +77,16 @@ export class MembershipComponent implements OnInit {
   }
 
   get asOf(): string {
-    return [...new Set(this.groups.map((group) => group.per).filter(Boolean))].map((per) => `Stand ${per}`).join(' · ');
+    return [...new Set(this.groups.map((group) => group.per).filter(Boolean))]
+      .map((per) => `Stand ${per}`)
+      .join(' · ');
   }
 
   private setGroup(index: number, members: Member[]) {
     const sorted = [...(members ?? [])].sort(
-      (a, b) => a.lastName.localeCompare(b.lastName, 'de-DE') || a.firstName.localeCompare(b.firstName, 'de-DE')
+      (a, b) =>
+        a.lastName.localeCompare(b.lastName, 'de-DE') ||
+        a.firstName.localeCompare(b.firstName, 'de-DE')
     );
     this.groups[index] = {
       ...this.groups[index],

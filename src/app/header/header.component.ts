@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener } from '@angular/core';
+import { Component, ElementRef, HostListener, inject } from '@angular/core';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { filter } from 'rxjs';
 import { CLUB_NAV, HIGHLIGHTS_NAV, MAIN_NAV, NavItem, SOCIAL_LINKS } from '../shared/navigation';
@@ -11,6 +11,9 @@ import { STARTING_ELEVEN_URL } from '../shared/seasons';
   imports: [RouterModule],
 })
 export class HeaderComponent {
+  private router = inject(Router);
+  private elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+
   readonly mainNav = MAIN_NAV;
   readonly highlightsNav = HIGHLIGHTS_NAV;
   readonly clubNav = CLUB_NAV;
@@ -21,15 +24,14 @@ export class HeaderComponent {
   moreMenuOpen = false;
   currentUrl = '';
 
-  constructor(
-    private router: Router,
-    private elementRef: ElementRef<HTMLElement>
-  ) {
+  constructor() {
     this.currentUrl = this.router.url;
-    this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe((event) => {
-      this.currentUrl = (event as NavigationEnd).urlAfterRedirects;
-      this.closeMenus();
-    });
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe((event) => {
+        this.currentUrl = (event as NavigationEnd).urlAfterRedirects;
+        this.closeMenus();
+      });
   }
 
   isActive(item: NavItem): boolean {

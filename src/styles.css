@@ -193,7 +193,10 @@
   }
 
   .prose-hv img {
-    @apply h-auto max-w-full rounded-2xl;
+    @apply h-auto max-w-full cursor-zoom-in rounded-2xl;
+  }
+  .prose-hv a img {
+    @apply cursor-pointer;
   }
 
   .prose-hv table {
@@ -223,4 +226,9 @@
 /* Material dialog surface in the design-system shape (used by the password dialog). */
 .hv-dialog .mat-mdc-dialog-surface {
   border-radius: 1rem;
+}
+
+/* Hide the Flowise chat bubble while a fullscreen overlay (image viewer, order sheet) locks the page. */
+body.overflow-hidden flowise-chatbot {
+  display: none;
 }

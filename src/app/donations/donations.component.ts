@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { MysqlService } from '../services/mysql.service';
 import { baseUrlImages } from '../shared/baseurls';
@@ -7,6 +7,8 @@ import { CLUB_EMAIL } from '../shared/seasons';
 import { DateUtil } from '../shared/utils/date.util';
 import { ErrorUtil } from '../shared/utils/error.util';
 import { EmptyStateComponent } from '../ui/empty-state/empty-state.component';
+import { FittedImageComponent } from '../ui/fitted-image/fitted-image.component';
+import { ZoomableDirective } from '../ui/image-viewer/zoomable.directive';
 import { PageIntroComponent } from '../ui/page-intro/page-intro.component';
 
 interface DonationYear {
@@ -20,9 +22,13 @@ const INITIAL_YEARS = 2;
   selector: 'app-donations',
   templateUrl: './donations.component.html',
   standalone: true,
-  imports: [EmptyStateComponent, PageIntroComponent],
+  imports: [EmptyStateComponent, PageIntroComponent, FittedImageComponent, ZoomableDirective],
 })
 export class DonationsComponent implements OnInit {
+  private mysqlService = inject(MysqlService);
+  private titleService = inject(Title);
+  private metaTagService = inject(Meta);
+
   readonly imageBaseUrl = baseUrlImages;
   readonly formatDate = DateUtil.formatDate;
   readonly mailUrl = `mailto:${CLUB_EMAIL}?subject=${encodeURIComponent('Matchballspende')}`;
@@ -32,12 +38,6 @@ export class DonationsComponent implements OnInit {
   loaded = false;
   failed = false;
   errorText = '';
-
-  constructor(
-    private mysqlService: MysqlService,
-    private titleService: Title,
-    private metaTagService: Meta
-  ) {}
 
   ngOnInit() {
     this.load();

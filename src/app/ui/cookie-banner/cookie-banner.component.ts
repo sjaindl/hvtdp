@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
+import { ImageViewerService } from '../image-viewer/image-viewer.service';
 
 /** Same cookie as the previous cookieconsent library, so existing choices are kept. */
 const CONSENT_COOKIE = 'cookieconsent_status';
@@ -17,7 +18,8 @@ const ANALYTICS_IDS = ['UA-122732749-1', 'G-FNF110XEHW'];
   standalone: true,
   imports: [RouterModule],
   template: `
-    @if (visible) {
+    <!-- Hidden while the fullscreen image viewer is open, shown again afterwards. -->
+    @if (visible && !imageViewer.current()) {
       <div
         class="fixed inset-x-0 bottom-0 z-[2147483000] p-4 pb-[max(1rem,env(safe-area-inset-bottom))] md:px-8 md:pb-6"
         role="dialog"
@@ -30,20 +32,26 @@ const ANALYTICS_IDS = ['UA-122732749-1', 'G-FNF110XEHW'];
           <div class="flex-1">
             <div class="flex items-center gap-2.5">
               <span class="material-icons text-pink-600 md:hidden">cookie</span>
-              <h2 id="cookie-title" class="text-[17px] font-bold text-gray-900">Cookies &amp; Datenschutz</h2>
+              <h2 id="cookie-title" class="text-[17px] font-bold text-gray-900">
+                Cookies &amp; Datenschutz
+              </h2>
             </div>
             <p class="mt-1.5 text-sm leading-relaxed text-gray-600">
-              Wir verwenden Cookies, um dir die bestmögliche Nutzung unserer Website zu ermöglichen und
-              Zugriffe anonym auszuwerten.
+              Wir verwenden Cookies, um dir die bestmögliche Nutzung unserer Website zu ermöglichen
+              und Zugriffe anonym auszuwerten.
               <!-- TODO(content): link a dedicated privacy page once it exists. -->
-              <a routerLink="/contact" class="font-semibold text-pink-600 hover:text-pink-700">Mehr erfahren</a>
+              <a routerLink="/contact" class="font-semibold text-pink-600 hover:text-pink-700"
+                >Mehr erfahren</a
+              >
             </p>
           </div>
           <div class="flex flex-col gap-2.5 md:flex-row-reverse">
             <button type="button" class="btn-primary" (click)="choose('allow')">
               Alle akzeptieren <span class="material-icons text-xl">check</span>
             </button>
-            <button type="button" class="btn-secondary" (click)="choose('deny')">Nur notwendige</button>
+            <button type="button" class="btn-secondary" (click)="choose('deny')">
+              Nur notwendige
+            </button>
           </div>
         </div>
       </div>
@@ -51,9 +59,10 @@ const ANALYTICS_IDS = ['UA-122732749-1', 'G-FNF110XEHW'];
   `,
 })
 export class CookieBannerComponent implements OnInit {
-  visible = false;
+  private cookieService = inject(CookieService);
+  readonly imageViewer = inject(ImageViewerService);
 
-  constructor(private cookieService: CookieService) {}
+  visible = false;
 
   ngOnInit() {
     const status = this.cookieService.get(CONSENT_COOKIE);
@@ -65,7 +74,12 @@ export class CookieBannerComponent implements OnInit {
 
   choose(status: 'allow' | 'deny') {
     const domain = location.hostname.endsWith('hvtdpstainz.at') ? 'hvtdpstainz.at' : undefined;
-    this.cookieService.set(CONSENT_COOKIE, status, { expires: 365, path: '/', domain, sameSite: 'Lax' });
+    this.cookieService.set(CONSENT_COOKIE, status, {
+      expires: 365,
+      path: '/',
+      domain,
+      sameSite: 'Lax',
+    });
     if (status === 'deny') {
       this.disableAnalytics();
     }
@@ -73,6 +87,6 @@ export class CookieBannerComponent implements OnInit {
   }
 
   private disableAnalytics() {
-    ANALYTICS_IDS.forEach((id) => ((window as any)['ga-disable-' + id] = true));
+    ANALYTICS_IDS.forEach((id) => ((window as unknown as Record<string, boolean>)['ga-disable-' + id] = true));
   }
 }

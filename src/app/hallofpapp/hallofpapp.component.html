@@ -27,6 +27,7 @@
             [alt]="titleCase(fan.name)"
             class="card-media"
             loading="lazy"
+            appZoomable
             (error)="$any($event.target).src = 'hvtdp.png'; $any($event.target).classList.add('!object-contain', 'p-8')"
           />
         </div>

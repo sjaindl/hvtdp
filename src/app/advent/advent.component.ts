@@ -1,4 +1,4 @@
-import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -27,6 +27,10 @@ const SEASON_TEXT: Record<string, { title: string; lead: string; note: string }>
   imports: [RouterModule, PageIntroComponent, VideoCardComponent],
 })
 export class AdventComponent implements OnInit, OnDestroy {
+  private titleService = inject(Title);
+  private metaTagService = inject(Meta);
+  private route = inject(ActivatedRoute);
+
   readonly seasons = Seasons.advent;
   readonly days = Array.from({ length: 24 }, (_, index) => index + 1);
 
@@ -34,19 +38,16 @@ export class AdventComponent implements OnInit, OnDestroy {
   openDay: number | null = null;
   private sub: Subscription;
 
-  constructor(
-    private titleService: Title,
-    private metaTagService: Meta,
-    private route: ActivatedRoute
-  ) {}
-
   ngOnInit() {
     this.sub = this.route.params.subscribe((params) => {
       this.season = params['season'];
       this.close();
     });
     this.titleService.setTitle('HV TDP Stainz: Adventkalender');
-    this.metaTagService.updateTag({ name: 'description', content: 'Der Online-Adventkalender des HV TDP Stainz.' });
+    this.metaTagService.updateTag({
+      name: 'description',
+      content: 'Der Online-Adventkalender des HV TDP Stainz.',
+    });
   }
 
   ngOnDestroy() {

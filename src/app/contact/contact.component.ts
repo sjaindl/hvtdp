@@ -1,6 +1,6 @@
 import { AsyncPipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { Meta, Title } from '@angular/platform-browser';
@@ -18,9 +18,20 @@ const STADIUM = { lat: 46.899395, lng: 15.248251 };
   selector: 'app-contact',
   templateUrl: './contact.component.html',
   standalone: true,
-  imports: [AsyncPipe, ReactiveFormsModule, GoogleMapsModule, EmptyStateComponent, PageIntroComponent],
+  imports: [
+    AsyncPipe,
+    ReactiveFormsModule,
+    GoogleMapsModule,
+    EmptyStateComponent,
+    PageIntroComponent,
+  ],
 })
 export class ContactComponent implements OnInit {
+  private formBuilder = inject(FormBuilder);
+  private titleService = inject(Title);
+  private metaTagService = inject(Meta);
+  private httpClient = inject(HttpClient);
+
   readonly email = CLUB_EMAIL;
   readonly stadium = STADIUM;
   readonly routeUrl = `https://www.google.com/maps/dir/?api=1&destination=${STADIUM.lat},${STADIUM.lng}`;
@@ -57,12 +68,7 @@ export class ContactComponent implements OnInit {
     },
   };
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private titleService: Title,
-    private metaTagService: Meta,
-    private httpClient: HttpClient
-  ) {
+  constructor() {
     this.createForm();
   }
 
@@ -134,7 +140,14 @@ export class ContactComponent implements OnInit {
   }
 
   newMessage() {
-    this.feedbackForm.reset({ firstname: '', lastname: '', email: '', agreeContact: false, agreeGDPR: false, message: '' });
+    this.feedbackForm.reset({
+      firstname: '',
+      lastname: '',
+      email: '',
+      agreeContact: false,
+      agreeGDPR: false,
+      message: '',
+    });
     this.submitted = false;
   }
 }

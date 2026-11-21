@@ -3,19 +3,18 @@
     <div class="slider-main">
       <div
         class="slider-image-wrapper"
-        #imageWrapper
       [ngStyle]="{
         transform: 'translateX(' + currentTranslate + 'px)',
         transition: cardTransition
       }"
         (mousedown)="onMouseDown($event)"
-        (mouseup)="onMouseUp($event)"
+        (mouseup)="onMouseUp()"
         (mousemove)="onMouseMove($event)"
-        (mouseleave)="onMouseLeave($event)"
+        (mouseleave)="onMouseLeave()"
         (touchstart)="onTouchStart($event)"
         (touchmove)="onTouchMove($event)"
-        (touchend)="onTouchEnd($event)"
-        (touchcancel)="onTouchEnd($event)"
+        (touchend)="onTouchEnd()"
+        (touchcancel)="onTouchEnd()"
         >
         <img
           class="slider-image"
@@ -27,7 +26,8 @@
         <button
           type="button"
           class="slider-fullscreen-btn"
-          (click)="toggleFullscreen(imageWrapper, $event)"
+          aria-label="Vollbild"
+          (click)="openFullscreen($event)"
           >
           <i class="fas fa-expand"></i>
         </button>

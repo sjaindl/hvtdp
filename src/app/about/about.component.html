@@ -7,6 +7,7 @@
     aside
     src="assets/images/aboutus/2025_Mannschaft.jpg"
     alt="Mannschaftsfoto 2025"
+    appZoomable
     class="-mx-4 -mb-7 aspect-video w-[calc(100%+2rem)] max-w-none object-cover lg:m-0 lg:w-[620px] lg:rounded-2xl"
   />
 </app-page-intro>
@@ -62,7 +63,7 @@
       <h2 class="section-title">Unser Vorstand</h2>
       <p class="meta">Seit Dezember 2017 ist der HV TDP Stainz ein eingetragener Verein.</p>
     </div>
-    <img src="assets/images/aboutus/vorstand.JPG" alt="Vorstand des HV TDP Stainz" class="w-full rounded-2xl object-cover lg:max-h-[520px]" loading="lazy" />
+    <img src="assets/images/aboutus/vorstand.JPG" alt="Vorstand des HV TDP Stainz" class="h-auto w-full rounded-2xl" loading="lazy" appZoomable />
     <p class="text-sm font-medium text-gray-500">
       v. l. n. r.: Heritsch (Rechnungsprüfer), Oswald (Schriftführer-Stv.), Jaindl (Schriftführer), Fabian (Obmann),
       Seidl (Obmann-Stv.), Bohacek (Kassier), Ronegg (Kassier-Stv.)
@@ -71,7 +72,7 @@
       @for (chef of board; track chef.imagePath) {
         <article class="card-interactive group flex flex-col">
           <div class="aspect-[4/5] overflow-hidden bg-gray-100">
-            <img [src]="imageBaseUrl + chef.imagePath" [alt]="chef.firstName + ' ' + chef.lastName" class="card-media object-top" loading="lazy" />
+            <img [src]="imageBaseUrl + chef.imagePath" [alt]="chef.firstName + ' ' + chef.lastName" class="card-media object-top" loading="lazy" appZoomable />
           </div>
           <div class="px-3.5 pb-3.5 pt-3">
             <p class="text-[13px] font-semibold text-pink-600">{{ chef.function }}</p>
@@ -86,9 +87,11 @@
 <section class="page-container flex flex-col gap-4 py-8 lg:gap-6 lg:py-12">
   <h2 class="section-title">Mannschaftsfotos</h2>
   <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
-    @for (photo of teamPhotos; track photo.src) {
-      <figure class="flex flex-col gap-2">
-        <img [src]="photo.src" [alt]="'Mannschaftsfoto ' + photo.season" class="aspect-video w-full rounded-2xl object-cover" loading="lazy" />
+    @for (photo of teamPhotos; track photo.src; let i = $index) {
+      <figure class="group flex flex-col gap-2">
+        <div class="aspect-video overflow-hidden rounded-2xl">
+          <app-fitted-image [src]="photo.src" [alt]="photo.alt" [zoomGroup]="teamPhotos" [zoomIndex]="i"></app-fitted-image>
+        </div>
         <figcaption class="text-[15px] font-semibold text-gray-900">Mannschaftsfoto {{ photo.season }}</figcaption>
       </figure>
     }

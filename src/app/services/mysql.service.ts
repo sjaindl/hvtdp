@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Chef } from '../shared/chefs';
 import { HvtdpDocument } from '../shared/document';
@@ -22,9 +22,9 @@ import { Validation } from '../shared/validation';
 
 @Injectable()
 export class MysqlService {
-  private readonly baseUrl = 'https://www.hvtdpstainz.at/api/';
+  private http = inject(HttpClient);
 
-  constructor(private http: HttpClient) {}
+  private readonly baseUrl = 'https://www.hvtdpstainz.at/api/';
 
   public getPlayers(): Observable<Player[]> {
     return this.http.get<Player[]>(this.baseUrl + 'getPlayers.php');
@@ -111,7 +111,7 @@ export class MysqlService {
     phone: string,
     address: string,
     duckcount: number
-  ): Observable<any> {
+  ): Observable<unknown> {
     let url = this.baseUrl + 'postDuckrun.php?';
     url += 'firstname=' + firstname;
     url += '&lastname=' + lastname;
@@ -123,7 +123,7 @@ export class MysqlService {
     url += '&language=' + window.navigator.language;
     url += '&platform=' + window.navigator.platform;
 
-    return this.http.get<any>(url, {
+    return this.http.get<unknown>(url, {
       params: new HttpParams()
         .append('firstname', firstname)
         .append('lastname', lastname)
@@ -143,7 +143,7 @@ export class MysqlService {
     // phone: string,
     teamname: string
     // day: string
-  ): Observable<any> {
+  ): Observable<unknown> {
     let url = this.baseUrl + 'postHallenturnier.php?';
     url += '&name=' + name;
     url += '&mail=' + mail;
@@ -154,7 +154,7 @@ export class MysqlService {
     url += '&language=' + window.navigator.language;
     url += '&platform=' + window.navigator.platform;
 
-    return this.http.get<any>(url, {
+    return this.http.get<unknown>(url, {
       params: new HttpParams()
         .append('name', name)
         .append('mail', mail)
@@ -173,7 +173,7 @@ export class MysqlService {
     // phone: string,
     teamname: string
     // day: string
-  ): Observable<any> {
+  ): Observable<unknown> {
     let url = this.baseUrl + 'postBigDarts.php?';
     url += '&name=' + name;
     url += '&mail=' + mail;
@@ -184,7 +184,7 @@ export class MysqlService {
     url += '&language=' + window.navigator.language;
     url += '&platform=' + window.navigator.platform;
 
-    return this.http.get<any>(url, {
+    return this.http.get<unknown>(url, {
       params: new HttpParams()
         .append('name', name)
         .append('mail', mail)
@@ -197,7 +197,7 @@ export class MysqlService {
     });
   }
 
-  public postTurnier(name: string, mail: string, phone: string, teamname: string): Observable<any> {
+  public postTurnier(name: string, mail: string, phone: string, teamname: string): Observable<unknown> {
     let url = this.baseUrl + 'postKleinfeldturnier.php?';
     url += '&name=' + name;
     url += '&mail=' + mail;
@@ -207,7 +207,7 @@ export class MysqlService {
     url += '&language=' + window.navigator.language;
     url += '&platform=' + window.navigator.platform;
 
-    return this.http.get<any>(url, {
+    return this.http.get<unknown>(url, {
       params: new HttpParams()
         .append('name', name)
         .append('mail', mail)
@@ -229,7 +229,7 @@ export class MysqlService {
     mail: string,
     phone: string,
     photo: string
-  ): Observable<any> {
+  ): Observable<unknown> {
     let url = this.baseUrl + 'postGoldenShot.php?';
     url += '&firstName=' + firstName;
     url += '&lastName=' + lastName;
@@ -240,7 +240,7 @@ export class MysqlService {
     url += '&language=' + window.navigator.language;
     url += '&platform=' + window.navigator.platform;
 
-    return this.http.get<any>(url, {
+    return this.http.get<unknown>(url, {
       params: new HttpParams()
         .append('firstName', firstName)
         .append('lastName', lastName)
@@ -253,10 +253,10 @@ export class MysqlService {
     });
   }
 
-  public postGoldenShotVote(id: string): Observable<any> {
+  public postGoldenShotVote(id: string): Observable<unknown> {
     const url = this.baseUrl + 'postGoldenShotVote.php?';
 
-    return this.http.get<any>(url, {
+    return this.http.get<unknown>(url, {
       params: new HttpParams().append('id', id),
     });
   }
@@ -265,10 +265,10 @@ export class MysqlService {
     return this.http.get<GoalOfTheSeason[]>(this.baseUrl + 'getGoalOfTheSeason.php');
   }
 
-  public postGoalOfTheSeasonVote(season: string, player: string): Observable<any> {
+  public postGoalOfTheSeasonVote(season: string, player: string): Observable<unknown> {
     const url = this.baseUrl + 'postGoalOfTheSeasonVote.php?';
 
-    return this.http.get<any>(url, {
+    return this.http.get<unknown>(url, {
       params: new HttpParams().append('season', season).append('player', player),
     });
   }
@@ -277,10 +277,10 @@ export class MysqlService {
     return this.http.get<PlayerOfTheSeason[]>(this.baseUrl + 'getPlayerOfTheSeason.php');
   }
 
-  public postPlayerOfTheSeasonVote(season: string, player: string): Observable<any> {
+  public postPlayerOfTheSeasonVote(season: string, player: string): Observable<unknown> {
     const url = this.baseUrl + 'postPlayerOfTheSeasonVote.php?';
 
-    return this.http.get<any>(url, {
+    return this.http.get<unknown>(url, {
       params: new HttpParams().append('season', season).append('player', player),
     });
   }

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -6,11 +6,11 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class FileUploadService {
+  private http = inject(HttpClient);
+
   apiUrl = 'https://www.hvtdpstainz.at/api/uploadFile.php';
 
-  constructor(private http: HttpClient) {}
-
-  upload(file): Observable<any> {
+  upload(file: File): Observable<unknown> {
     // Create form data
     const formData = new FormData();
 
