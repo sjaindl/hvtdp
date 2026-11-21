@@ -1,60 +1,40 @@
-import { AsyncPipe, CommonModule } from '@angular/common';
-import { HttpClient, HttpClientJsonpModule, HttpClientModule } from '@angular/common/http';
+import { AsyncPipe } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { GoogleMapsModule } from '@angular/google-maps';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { Meta, Title } from '@angular/platform-browser';
-import { Observable } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError, map, shareReplay } from 'rxjs/operators';
 import { Feedback } from '../shared/feedback';
 import { GOOGLE_MAPS_API_KEY } from '../shared/keys';
+import { CLUB_EMAIL } from '../shared/seasons';
+import { EmptyStateComponent } from '../ui/empty-state/empty-state.component';
+import { PageIntroComponent } from '../ui/page-intro/page-intro.component';
+
+const STADIUM = { lat: 46.899395, lng: 15.248251 };
 
 @Component({
   selector: 'app-contact',
   templateUrl: './contact.component.html',
-  styleUrls: ['./contact.component.css'],
   standalone: true,
-  imports: [
-    CommonModule,
-    AsyncPipe,
-    ReactiveFormsModule,
-    HttpClientModule,
-    HttpClientJsonpModule,
-    GoogleMapsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatCheckboxModule,
-    MatButtonModule,
-    MatSlideToggleModule,
-  ],
+  imports: [AsyncPipe, ReactiveFormsModule, GoogleMapsModule, EmptyStateComponent, PageIntroComponent],
 })
 export class ContactComponent implements OnInit {
-  title: string = '1. HVTDP';
-  lat: number = 46.899395;
-  lng: number = 15.248251;
-  zoom: number = 15;
+  readonly email = CLUB_EMAIL;
+  readonly stadium = STADIUM;
+  readonly routeUrl = `https://www.google.com/maps/dir/?api=1&destination=${STADIUM.lat},${STADIUM.lng}`;
 
   feedbackForm: FormGroup;
-  feedback: Feedback;
-  submittedFeedback = null;
-
+  submitted = false;
   apiLoaded: Observable<boolean>;
-
-  options: google.maps.MapOptions = {
-    center: { lat: this.lat, lng: this.lng },
-    zoom: this.zoom,
-  };
+  mapOptions: google.maps.MapOptions;
 
   formErrors = {
     firstname: '',
     lastname: '',
     email: '',
-    gdpr: '',
+    agreeGDPR: '',
   };
 
   validationMessages = {
@@ -72,8 +52,8 @@ export class ContactComponent implements OnInit {
       required: 'Die E-Mail ist verpflichtend.',
       email: 'E-Mail hat kein gültiges Format.',
     },
-    gdpr: {
-      requiredTrue: 'Die DSGVO muss akzeptiert werden.',
+    agreeGDPR: {
+      required: 'Die DSGVO muss akzeptiert werden.',
     },
   };
 
@@ -93,28 +73,23 @@ export class ContactComponent implements OnInit {
       content: 'Kontaktiere den HV TDP Stainz: Adresse, Feedback und Stadion.',
     });
 
-    this.metaTagService.addTags([
-      {
-        name: 'keywords',
-        content: 'Fußballverein, Stainz, SC Stainz, Fußballverein Stainz, HVTDP, HVTDP Stainz',
-      },
-      { name: 'author', content: 'Stefan Jaindl' },
-      { charset: 'UTF-8' },
-    ]);
-
     this.apiLoaded = this.httpClient
       .jsonp('https://maps.googleapis.com/maps/api/js?key=' + GOOGLE_MAPS_API_KEY, 'callback')
       .pipe(
-        map(() => true),
-        catchError((err) => {
-          throw err;
-        })
+        map(() => {
+          this.mapOptions = {
+            center: STADIUM,
+            zoom: 15,
+            disableDefaultUI: true,
+            zoomControl: true,
+            // Neutral map so it fits the pink/gray palette.
+            styles: [{ stylers: [{ saturation: -100 }] }],
+          };
+          return true;
+        }),
+        catchError(() => of(false)),
+        shareReplay(1)
       );
-
-    this.apiLoaded.subscribe({
-      next: (x) => console.log('Maps initialized: ' + x),
-      error: (err) => console.log(err),
-    });
   }
 
   createForm() {
@@ -126,62 +101,40 @@ export class ContactComponent implements OnInit {
       agreeGDPR: [false, [Validators.requiredTrue]],
       message: '',
     });
-
-    this.onValueChanged(); // (re)set validation messages now
-
-    this.feedbackForm.valueChanges.subscribe((data) => this.onValueChanged(data));
+    this.feedbackForm.valueChanges.subscribe(() => this.updateErrors());
   }
 
-  onValueChanged(data?: any) {
-    if (!this.feedbackForm) {
-      return;
-    }
-
-    for (const field in this.formErrors) {
-      this.formErrors[field] = ''; // clear previous error message (if any)
+  updateErrors(showAll = false) {
+    for (const field of Object.keys(this.formErrors)) {
+      this.formErrors[field] = '';
       const control = this.feedbackForm.get(field);
-      if (control && control.dirty && !control.valid) {
+      if (control && (control.dirty || showAll) && !control.valid) {
         const messages = this.validationMessages[field];
-        for (const key in control.errors) {
-          this.formErrors[field] += messages[key] + ' ';
-        }
+        this.formErrors[field] = Object.keys(control.errors ?? {})
+          .map((key) => messages[key] ?? messages['required'])
+          .join(' ');
       }
     }
   }
 
   onSubmit() {
-    this.feedback = this.feedbackForm.value;
-
-    // this.feedbackService.submitFeedback(this.feedback)
-    //   .subscribe(feedback => {
-    this.submittedFeedback = this.feedback;
-    // })
-
-    let mailSubject = 'Feedback ';
-    mailSubject +=
-      this.submittedFeedback.firstname +
-      ' ' +
-      this.submittedFeedback.lastname +
-      ', ' +
-      this.submittedFeedback.email;
-
-    if (this.submittedFeedback.agreeContact) {
-      mailSubject += ', Kontaktaufnahme erlaubt';
+    if (this.feedbackForm.invalid) {
+      this.feedbackForm.markAllAsTouched();
+      this.updateErrors(true);
+      return;
     }
+    const feedback: Feedback = this.feedbackForm.value;
+    let subject = `Feedback ${feedback.firstname} ${feedback.lastname}, ${feedback.email}`;
+    if (feedback.agreeContact) {
+      subject += ', Kontaktaufnahme erlaubt';
+    }
+    // Opens the visitor's mail app – there is no feedback endpoint in the API.
+    window.location.href = `mailto:${CLUB_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(feedback.message ?? '')}`;
+    this.submitted = true;
+  }
 
-    window.location.href =
-      'mailto:hvtdpstainz@gmx.at?subject=' +
-      mailSubject +
-      '&body=' +
-      this.submittedFeedback.message;
-
-    this.feedbackForm.reset({
-      firstname: '',
-      lastname: '',
-      email: '',
-      agreeContact: false,
-      agreeGDPR: false,
-      message: '',
-    });
+  newMessage() {
+    this.feedbackForm.reset({ firstname: '', lastname: '', email: '', agreeContact: false, agreeGDPR: false, message: '' });
+    this.submitted = false;
   }
 }

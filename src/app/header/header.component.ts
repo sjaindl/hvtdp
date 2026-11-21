@@ -1,22 +1,65 @@
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
+import { Component, ElementRef, HostListener } from '@angular/core';
+import { NavigationEnd, Router, RouterModule } from '@angular/router';
+import { filter } from 'rxjs';
+import { CLUB_NAV, HIGHLIGHTS_NAV, MAIN_NAV, NavItem, SOCIAL_LINKS } from '../shared/navigation';
+import { STARTING_ELEVEN_URL } from '../shared/seasons';
 
 @Component({
-    selector: 'app-header',
-    templateUrl: './header.component.html',
-    styleUrls: ['./header.component.css'],
-    standalone: true,
-    imports: [CommonModule, RouterModule, MatToolbarModule, MatMenuModule, MatIconModule, MatButtonModule]
+  selector: 'app-header',
+  templateUrl: './header.component.html',
+  standalone: true,
+  imports: [RouterModule],
 })
 export class HeaderComponent {
-  width = '0px';
+  readonly mainNav = MAIN_NAV;
+  readonly highlightsNav = HIGHLIGHTS_NAV;
+  readonly clubNav = CLUB_NAV;
+  readonly socialLinks = SOCIAL_LINKS;
+  readonly startingElevenUrl = STARTING_ELEVEN_URL;
 
-  navChanged(opened: boolean) {
-    this.width = opened ? '100%' : '0px';
+  mobileMenuOpen = false;
+  moreMenuOpen = false;
+  currentUrl = '';
+
+  constructor(
+    private router: Router,
+    private elementRef: ElementRef<HTMLElement>
+  ) {
+    this.currentUrl = this.router.url;
+    this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe((event) => {
+      this.currentUrl = (event as NavigationEnd).urlAfterRedirects;
+      this.closeMenus();
+    });
+  }
+
+  isActive(item: NavItem): boolean {
+    return this.currentUrl === item.match || this.currentUrl.startsWith(item.match + '/');
+  }
+
+  get moreActive(): boolean {
+    return [...this.highlightsNav, ...this.clubNav].some((item) => this.isActive(item));
+  }
+
+  toggleMobileMenu() {
+    this.mobileMenuOpen = !this.mobileMenuOpen;
+    document.body.classList.toggle('overflow-hidden', this.mobileMenuOpen);
+  }
+
+  closeMenus() {
+    this.mobileMenuOpen = false;
+    this.moreMenuOpen = false;
+    document.body.classList.remove('overflow-hidden');
+  }
+
+  @HostListener('document:keydown.escape')
+  onEscape() {
+    this.closeMenus();
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    if (this.moreMenuOpen && !this.elementRef.nativeElement.contains(event.target as Node)) {
+      this.moreMenuOpen = false;
+    }
   }
 }

@@ -1,55 +1,48 @@
-<h1 class="large header">Videos</h1>
+<app-page-intro title="Videos" lead="Für unsere Fans haben wir alle Tore und Events archiviert. Viel Spaß beim Stöbern durch unser Videoarchiv!">
+  <div class="scrollbar-none -mx-4 flex gap-2 overflow-x-auto px-4 lg:mx-0 lg:flex-wrap lg:px-0" aria-label="Saison wählen">
+    @for (item of seasons; track item) {
+      <a [routerLink]="['/social', item]" [class]="item === season ? 'chip-active' : 'chip'">{{ formatSeason(item) }}</a>
+    }
+  </div>
+</app-page-intro>
 
-<p class="normalCentered">
-  Für unsere Fans haben wir alle Tore und Events archiviert. Viel Spaß beim Stöbern durch unser
-  Videoarchiv!
-</p>
-
-<p>
-  @if (!isMobile) {
-  <img class="centerWithoutWidth" src="/assets/images/video.gif" width="20%" />
-  } @else {
-  <img class="centerWithoutWidth" src="/assets/images/video.gif" width="80%" />
+<div class="page-container flex flex-col gap-8 py-6 lg:gap-12 lg:py-10">
+  @if (failed) {
+    <app-empty-state icon="wifi_off" tone="error" title="Videos konnten nicht geladen werden"
+      text="Bitte prüfe deine Internetverbindung und versuche es erneut.">
+      <button type="button" class="btn-primary" (click)="load()">Erneut versuchen <span class="material-icons text-xl">refresh</span></button>
+    </app-empty-state>
+  } @else if (loaded && !games.length) {
+    <app-empty-state icon="smart_display" title="Noch keine Videos" text="Für diese Saison gibt es noch keine Videos. Schau später wieder vorbei."></app-empty-state>
   }
-</p>
 
-@for (game of games; track game) {
-<section class="game-block">
-  <div class="game-header">
-    <div class="game-meta">
-      <span class="chip">Saison {{ game.season }}</span>
-      @if (game.round !== 0 && game.round < 90) {
-      <span class="chip muted">Runde {{ game.round }}</span>
-      }
-    </div>
-    <div class="game-title">
-      <div class="title-line">
-        <span class="game-date">{{ game.date }}</span>
-        @if (game.customText) {
-        <span class="chip accent">{{ game.customText }}</span>
+  @for (game of games; track game.date + game.description) {
+    <section class="flex flex-col gap-3 lg:gap-4">
+      <div class="flex items-end justify-between gap-3">
+        <div class="min-w-0">
+          <p class="text-[13px] font-semibold text-pink-600">{{ gameMeta(game) }}</p>
+          <h2 class="text-[19px] font-bold leading-snug text-gray-900 lg:text-[22px]">
+            {{ gameTitle(game) }}
+            @if (scoreLabel(game)) {
+              <span class="ml-1 whitespace-nowrap">{{ scoreLabel(game) }}</span>
+            }
+          </h2>
+          @if (game.customText && !gameMeta(game).includes(game.customText)) {
+            <p class="text-sm text-gray-600">{{ game.customText }}</p>
+          }
+        </div>
+        <span class="badge-neutral shrink-0">{{ game.links.length }} {{ game.links.length === 1 ? 'Video' : 'Videos' }}</span>
+      </div>
+      <div class="grid gap-3.5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+        @for (link of game.links; track link.link) {
+          <app-video-card
+            [videoUrl]="link.link"
+            [title]="scorerName(link.scorer)"
+            [meta]="link.scorer ? 'Spielstand nach dem Tor' : link.description"
+            [badge]="link.scorer ? link.description : ''"
+          ></app-video-card>
         }
       </div>
-      <p class="game-desc">
-        {{ game.description || 'Spiel-Highlights' }}
-        @if (scoreLabel(game)) {
-        <span>· {{ scoreLabel(game) }}</span>
-        }
-      </p>
-    </div>
-  </div>
-
-  <div class="game-slider">
-    <div class="card-row">
-      @for (link of game.links; track link) {
-      <app-video-card
-        class="snap-start"
-        [videoUrl]="link.link"
-        [scorerImage]="scorerImage(link.scorer)"
-        [scorerName]="scorerName(link.scorer)"
-        [description]="link.description || 'Video-Highlight'"
-      />
-      }
-    </div>
-  </div>
-</section>
-}
+    </section>
+  }
+</div>

@@ -1,134 +1,118 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnInit, ChangeDetectorRef, HostListener, AfterViewInit, OnDestroy } from '@angular/core';
-import { Player } from '../shared/player';
-import { baseUrlImages } from '../shared/baseurls';
-import { MysqlService } from '../services/mysql.service';
-import { DeviceDetectorService } from 'ngx-device-detector';
-import { Title, Meta } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Meta, Title } from '@angular/platform-browser';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
+import { Subscription, forkJoin } from 'rxjs';
+import { MysqlService } from '../services/mysql.service';
+import { baseUrlImages } from '../shared/baseurls';
+import { Player } from '../shared/player';
 import { PlayerOfTheSeason } from '../shared/playeroftheseason';
-import { MatListModule } from '@angular/material/list';
-import { MatButtonModule } from '@angular/material/button';
+import { CurrentSeason, Seasons } from '../shared/seasons';
+import { EmptyStateComponent } from '../ui/empty-state/empty-state.component';
+import { PageIntroComponent } from '../ui/page-intro/page-intro.component';
+import { ToastService } from '../ui/toast/toast.service';
+import { VoteBarComponent } from '../ui/vote-bar/vote-bar.component';
 
 const PLAYER_OF_SEASON_VOTING_COOKIE_KEY = 'player_of_season_voted';
 
-@Component({
-    selector: 'app-playeroftheseason',
-    templateUrl: './playeroftheseason.component.html',
-    styleUrls: ['./playeroftheseason.component.css'],
-    standalone: true,
-    imports: [CommonModule, MatListModule, MatButtonModule]
-})
-export class PlayerOfTheSeasonComponent implements OnInit, AfterViewInit, OnDestroy {
-  season: string;
-  players: Player[];
-  imageBaseUrl: string;
-  isMobile = null;
-  canVote = false;
-  playerOfSeasonOptions: PlayerOfTheSeason[];
+interface Candidate {
+  option: PlayerOfTheSeason;
+  player: Player | null;
+}
 
-  private sub: any;
+@Component({
+  selector: 'app-player-of-the-season',
+  templateUrl: './playeroftheseason.component.html',
+  standalone: true,
+  imports: [RouterModule, EmptyStateComponent, PageIntroComponent, VoteBarComponent],
+})
+export class PlayerOfTheSeasonComponent implements OnInit, OnDestroy {
+  readonly seasons = Seasons.playerOfTheSeason;
+  readonly imageBaseUrl = baseUrlImages;
+
+  season: string;
+  candidates: Candidate[] = [];
+  selected: PlayerOfTheSeason | null = null;
+  canVote = false;
+  busy = false;
+  loaded = false;
+  failed = false;
+
+  private sub: Subscription;
 
   constructor(
     private cookieService: CookieService,
     private mysqlService: MysqlService,
     private route: ActivatedRoute,
-    private cdr: ChangeDetectorRef,
-    private deviceService: DeviceDetectorService,
     private titleService: Title,
-    private metaTagService: Meta
+    private metaTagService: Meta,
+    private toastService: ToastService
   ) {}
 
   ngOnInit() {
     this.canVote = !this.cookieService.check(PLAYER_OF_SEASON_VOTING_COOKIE_KEY);
-    this.imageBaseUrl = baseUrlImages;
-
-    this.checkDevice();
-
     this.sub = this.route.params.subscribe((params) => {
       this.season = params['season'];
-
-      this.mysqlService.getPlayers().subscribe((players) => {
-        this.players = players;
-      });
-
-      this.mysqlService.getPlayerOfTheSeason().subscribe((options) => {
-        this.playerOfSeasonOptions = options
-          .filter((a) => {
-            return a.season === this.season;
-          })
-          .sort((first, second) => {
-            const firstPlayerLastName = first.player.split(' ')[1];
-            const secondPlayerLastName = second.player.split(' ')[1];
-
-            if (firstPlayerLastName > secondPlayerLastName) {
-              return 1;
-            } else if (firstPlayerLastName < secondPlayerLastName) {
-              return -1;
-            } else {
-              if (first.player > second.player) {
-                return 1;
-              } else if (first.player < second.player) {
-                return -1;
-              } else {
-                return 0;
-              }
-            }
-          });
-      });
+      this.selected = null;
+      this.load();
     });
 
     this.titleService.setTitle('HV TDP Stainz: Spieler der Saison');
-    this.metaTagService.updateTag({
-      name: 'description',
-      content: 'Wähle den Spieler der Saison vom HV TDP Stainz.',
-    });
-
-    this.metaTagService.addTags([
-      {
-        name: 'keywords',
-        content: 'Fußballverein, Stainz, SC Stainz, Fußballverein Stainz, HVTDP, HVTDP Stainz',
-      },
-      { name: 'author', content: 'Stefan Jaindl' },
-      { charset: 'UTF-8' },
-    ]);
-  }
-
-  ngAfterViewInit() {
-    this.cdr.detectChanges();
+    this.metaTagService.updateTag({ name: 'description', content: 'Wähle den Spieler der Saison vom HV TDP Stainz.' });
   }
 
   ngOnDestroy() {
-    this.sub.unsubscribe();
+    this.sub?.unsubscribe();
   }
 
-  @HostListener('window:resize', ['$event'])
-  onResize(event) {
-    this.checkDevice();
+  get votingOpen(): boolean {
+    return this.season === CurrentSeason.playerOfTheSeason;
   }
 
-  checkDevice() {
-    this.isMobile = this.deviceService.isMobile();
+  load() {
+    this.loaded = false;
+    this.failed = false;
+    forkJoin({ players: this.mysqlService.getPlayers(), options: this.mysqlService.getPlayerOfTheSeason() }).subscribe({
+      next: ({ players, options }) => {
+        const lastName = (name: string) => name.split(' ').slice(-1)[0] ?? name;
+        this.candidates = options
+          .filter((option) => option.season === this.season)
+          .sort((a, b) => lastName(a.player).localeCompare(lastName(b.player), 'de-DE') || a.player.localeCompare(b.player))
+          .map((option) => ({
+            option,
+            player: players.find((player) => `${player.firstName} ${player.lastName}` === option.player) ?? null,
+          }));
+        this.loaded = true;
+      },
+      error: () => {
+        this.loaded = true;
+        this.failed = true;
+      },
+    });
   }
 
-  matches(name: string, player: Player) {
-    if (player === undefined) return false;
-
-    const toMatch = player.firstName + ' ' + player.lastName;
-    return toMatch === name;
+  choose(option: PlayerOfTheSeason) {
+    if (this.votingOpen && this.canVote) {
+      this.selected = option;
+    }
   }
 
-  reload() {
-    window.location.reload();
-  }
-
-  saveVote(vote: PlayerOfTheSeason) {
-    this.mysqlService.postPlayerOfTheSeasonVote(vote.season, vote.player).subscribe((result) => {
-      console.log('posted vote', JSON.stringify(vote), vote.player, vote.season);
-      this.cookieService.set(PLAYER_OF_SEASON_VOTING_COOKIE_KEY, 'true', 1 / 24); // (peristent) cookie expires after 1 hour
-      console.log(`response from server: ${JSON.stringify(result)}`);
-      this.canVote = false;
+  vote() {
+    if (!this.selected) {
+      return;
+    }
+    this.busy = true;
+    this.mysqlService.postPlayerOfTheSeasonVote(this.selected.season, this.selected.player).subscribe({
+      next: () => {
+        this.cookieService.set(PLAYER_OF_SEASON_VOTING_COOKIE_KEY, 'true', 1 / 24); // expires after 1 hour
+        this.canVote = false;
+        this.busy = false;
+        this.toastService.show('Deine Stimme wurde gezählt');
+      },
+      error: () => {
+        this.busy = false;
+        this.toastService.show('Senden fehlgeschlagen', 'error', 'Erneut', () => this.vote());
+      },
     });
   }
 }

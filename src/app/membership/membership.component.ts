@@ -1,25 +1,46 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { Title, Meta } from '@angular/platform-browser';
-import { baseUrlDocuments } from '../shared/baseurls';
+import { Meta, Title } from '@angular/platform-browser';
 import { MysqlService } from '../services/mysql.service';
+import { baseUrlDocuments } from '../shared/baseurls';
 import { Member } from '../shared/member';
+import { CLUB_EMAIL } from '../shared/seasons';
+import { TextUtil } from '../shared/utils/text.util';
+import { PageIntroComponent } from '../ui/page-intro/page-intro.component';
+
+interface MemberGroup {
+  title: string;
+  members: string[];
+  per: string;
+}
 
 @Component({
-    selector: 'app-membership',
-    templateUrl: './membership.component.html',
-    styleUrls: ['./membership.component.css'],
-    standalone: true,
-    imports: [CommonModule]
+  selector: 'app-membership',
+  templateUrl: './membership.component.html',
+  standalone: true,
+  imports: [PageIntroComponent],
 })
 export class MembershipComponent implements OnInit {
-  documentBaseUrl: string;
-  activeMembers: Member[];
-  supportMembers: Member[];
-  activePer: string;
-  supportPer: string;
-  kidsMembers: Member[];
-  kidsPer: string;
+  readonly formUrl = baseUrlDocuments + 'beitrittserklaerung.pdf';
+  readonly mailUrl = `mailto:${CLUB_EMAIL}?subject=${encodeURIComponent('Mitgliedschaft HV TDP Stainz')}`;
+  readonly email = CLUB_EMAIL;
+
+  readonly steps = [
+    { title: 'Beitrittserklärung herunterladen', text: 'Das PDF-Formular findest du hier auf der Seite.' },
+    { title: 'Ausfüllen & unterschreiben', text: 'Ausgefüllt kannst du sie einscannen oder fotografieren.' },
+    { title: 'Per E-Mail senden', text: `An ${CLUB_EMAIL} – wir melden uns bei dir.` },
+  ];
+
+  readonly types = [
+    { icon: 'sports_soccer', title: 'Aktives Mitglied', text: 'Du kickst mit – bei Training, Meisterschaft und Turnieren.' },
+    { icon: 'favorite', title: 'Förderndes Mitglied', text: 'Du unterstützt den Verein, ohne selbst am Ball zu sein.' },
+    { icon: 'child_care', title: 'Kids Corner', text: 'Für unseren jüngsten Nachwuchs und die Fans von morgen.' },
+  ];
+
+  groups: MemberGroup[] = [
+    { title: 'Aktive Mitglieder', members: [], per: '' },
+    { title: 'Fördernde Mitglieder', members: [], per: '' },
+    { title: 'Kids Corner', members: [], per: '' },
+  ];
 
   constructor(
     private mysqlService: MysqlService,
@@ -34,46 +55,23 @@ export class MembershipComponent implements OnInit {
       content: 'Werde aktives oder förderndes Mitglied vom HV TDP Stainz.',
     });
 
-    this.metaTagService.addTags([
-      {
-        name: 'keywords',
-        content: 'Fußballverein, Stainz, SC Stainz, Fußballverein Stainz, HVTDP, HVTDP Stainz',
-      },
-      { name: 'author', content: 'Stefan Jaindl' },
-      { charset: 'UTF-8' },
-    ]);
-
-    this.documentBaseUrl = baseUrlDocuments;
-
-    this.mysqlService.getActiveMembers().subscribe((members) => {
-      this.activeMembers = this.sortMembers(members);
-      this.activePer = this.activeMembers[0]?.per;
-    });
-
-    this.mysqlService.getSupportMembers().subscribe((members) => {
-      this.supportMembers = this.sortMembers(members);
-      this.supportPer = this.supportMembers[0]?.per;
-    });
-
-    this.mysqlService.getKidsMembers().subscribe((members) => {
-      this.kidsMembers = this.sortMembers(members);
-      this.kidsPer = this.kidsMembers[0]?.per;
-    });
+    this.mysqlService.getActiveMembers().subscribe((members) => this.setGroup(0, members));
+    this.mysqlService.getSupportMembers().subscribe((members) => this.setGroup(1, members));
+    this.mysqlService.getKidsMembers().subscribe((members) => this.setGroup(2, members));
   }
 
-  private sortMembers(members: Member[]): Member[] {
-    return members.sort((a, b) => {
-      if (a.lastName < b.lastName) {
-        return -1;
-      } else if (a.lastName > b.lastName) {
-        return 1;
-      } else if (a.firstName < b.firstName) {
-        return -1;
-      } else if (a.firstName > b.firstName) {
-        return 1;
-      } else {
-        return 0;
-      }
-    });
+  get asOf(): string {
+    return [...new Set(this.groups.map((group) => group.per).filter(Boolean))].map((per) => `Stand ${per}`).join(' · ');
+  }
+
+  private setGroup(index: number, members: Member[]) {
+    const sorted = [...(members ?? [])].sort(
+      (a, b) => a.lastName.localeCompare(b.lastName, 'de-DE') || a.firstName.localeCompare(b.firstName, 'de-DE')
+    );
+    this.groups[index] = {
+      ...this.groups[index],
+      members: sorted.map((member) => TextUtil.titleCase(`${member.firstName} ${member.lastName}`)),
+      per: sorted[0]?.per ?? '',
+    };
   }
 }

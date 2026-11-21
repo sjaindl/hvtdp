@@ -1,33 +1,55 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { Feedback } from '../shared/feedback';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Title, Meta } from '@angular/platform-browser';
+import { Meta, Title } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import { MysqlService } from '../services/mysql.service';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
+import { CLUB_EMAIL } from '../shared/seasons';
+import { EmptyStateComponent } from '../ui/empty-state/empty-state.component';
+import { ToastService } from '../ui/toast/toast.service';
+
+/**
+ * TODO(API): tournament details are maintained here per edition – move them to the CMS/API so they
+ * can be updated without a deployment.
+ */
+const TOURNAMENT = {
+  title: '17. Stainzer Hallenturnier 2027',
+  image: 'assets/images/hallenturnier_2027.jpg',
+  deadline: 'Di, 05.01.2027',
+  facts: [
+    { icon: 'event', label: 'Wann', value: 'Sa, 09.01.2027', hint: 'Erweiterung auf Fr, 08.01. möglich' },
+    { icon: 'location_on', label: 'Wo', value: 'Mittelschule Stainz', hint: '' },
+    { icon: 'groups', label: 'Spielform', value: '3 + 1', hint: '' },
+    { icon: 'payments', label: 'Nenngeld', value: '70 € pro Team', hint: '' },
+  ],
+  prizes: [
+    'Urkunde für jede teilnehmende Mannschaft',
+    'Pokal und Sachpreise für die besten 8 Mannschaften',
+    'Offizielles Siegertrikot für jeden Spieler der Siegermannschaft',
+  ],
+  bank: { recipient: 'HV TDP Stainz', iban: 'AT67 3843 9000 0481 3481', reference: 'Hallenturnier 2027 + Mannschaftsname' },
+  lastEdition: { album: '/gallery/2026/16-stainzer-hallenturnier', albumTitle: '16. Stainzer Hallenturnier' },
+};
 
 @Component({
-    selector: 'app-hallenturnier',
-    templateUrl: './hallenturnier.component.html',
-    styleUrls: ['./hallenturnier.component.css'],
-    standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule]
+  selector: 'app-hallenturnier',
+  templateUrl: './hallenturnier.component.html',
+  standalone: true,
+  imports: [ReactiveFormsModule, RouterModule, EmptyStateComponent],
 })
 export class HallenturnierComponent implements OnInit {
-  feedbackForm: FormGroup;
-  feedback: Feedback;
-  submittedFeedback = null;
+  readonly tournament = TOURNAMENT;
+  readonly channels = [
+    { icon: 'call', label: 'Telefon', value: '0664 4310021', href: 'tel:+436644310021' },
+    { icon: 'mail', label: 'E-Mail', value: CLUB_EMAIL, href: `mailto:${CLUB_EMAIL}` },
+    { icon: 'facebook', label: 'Facebook', value: 'HV TDP Stainz', href: 'https://www.facebook.com/hvtdpstainz/' },
+    { icon: 'photo_camera', label: 'Instagram', value: '@hvtdpstainz_2014', href: 'https://www.instagram.com/hvtdpstainz_2014/' },
+  ];
 
-  formErrors = {
-    name: '',
-    email: '',
-    // 'phone': '',
-    teamname: '',
-    // 'day': ''
-  };
+  form: FormGroup;
+  submitted = false;
+  busy = false;
 
+  formErrors = { name: '', email: '', teamname: '' };
   validationMessages = {
     name: {
       required: 'Der Name ist verpflichtend.',
@@ -39,104 +61,72 @@ export class HallenturnierComponent implements OnInit {
       email: 'E-Mail hat kein gültiges Format.',
     },
     teamname: {
-      pattern: 'Der Teamname ist ungültig.',
       required: 'Der Teamname ist verpflichtend.',
     },
-    // 'phone': {
-    //   'required':      'Die Telefonnummer ist verpflichtend.',
-    //   'minlength':     'Die Telefonnummer muss mindestens 10 Zeichen lang sein.',
-    //   'maxlength':     'Die Telefonnummer darf maximal 30 Zeichen lang sein.',
-    //   'pattern':       'Telefonnummer hat kein gültiges Format.'
-    // },
-    // 'day': {
-    //   'pattern':       'Der Vorrundentag ist ungültig.',
-    //   'required':      'Der Vorrundentag ist verpflichtend.'
-    // }
   };
 
   constructor(
     private formBuilder: FormBuilder,
     private titleService: Title,
     private metaTagService: Meta,
-    private mysqlService: MysqlService
+    private mysqlService: MysqlService,
+    private toastService: ToastService
   ) {
-    this.createForm();
+    this.form = this.formBuilder.group({
+      name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(25)]],
+      email: ['', [Validators.required, Validators.email]],
+      teamname: ['', [Validators.required]],
+    });
+    this.form.valueChanges.subscribe(() => this.updateErrors());
   }
 
   ngOnInit() {
     this.titleService.setTitle('HV TDP Stainz: Hallenturnier 2027');
-    this.metaTagService.updateTag({
-      name: 'description',
-      content: 'Melde dich an für das Hallenturnier des HV TDP Stainz.',
-    });
-
-    this.metaTagService.addTags([
-      {
-        name: 'keywords',
-        content: 'Fußballverein, Stainz, SC Stainz, Fußballverein Stainz, HVTDP, HVTDP Stainz',
-      },
-      { name: 'author', content: 'Stefan Jaindl' },
-      { charset: 'UTF-8' },
-    ]);
+    this.metaTagService.updateTag({ name: 'description', content: 'Melde dich an für das Hallenturnier des HV TDP Stainz.' });
   }
 
-  createForm() {
-    this.feedbackForm = this.formBuilder.group({
-      name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(25)]],
-      email: ['', [Validators.required, Validators.email]],
-      teamname: ['', [Validators.minLength(1)]],
-      // phone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(30), Validators.pattern("^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$")] ],
-      // day: ['', [Validators.required] ]
-    });
-
-    this.onValueChanged(); // (re)set validation messages now
-
-    this.feedbackForm.valueChanges.subscribe((data) => this.onValueChanged(data));
-  }
-
-  onValueChanged(data?: any) {
-    if (!this.feedbackForm) {
-      return;
+  updateErrors(showAll = false) {
+    for (const field of Object.keys(this.formErrors)) {
+      const control = this.form.get(field);
+      this.formErrors[field] =
+        control && (control.dirty || showAll) && control.invalid
+          ? Object.keys(control.errors ?? {})
+              .map((key) => this.validationMessages[field][key])
+              .join(' ')
+          : '';
     }
+  }
 
-    for (const field in this.formErrors) {
-      this.formErrors[field] = ''; // clear previous error message (if any)
-      const control = this.feedbackForm.get(field);
-      if (control && control.dirty && !control.valid) {
-        const messages = this.validationMessages[field];
-        for (const key in control.errors) {
-          this.formErrors[field] += messages[key] + ' ';
-        }
-      }
+  scrollToForm() {
+    document.getElementById('anmeldung')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  async copy(value: string) {
+    try {
+      await navigator.clipboard.writeText(value);
+      this.toastService.show('Kopiert');
+    } catch {
+      this.toastService.show('Kopieren nicht möglich', 'error');
     }
   }
 
   onSubmit() {
-    this.feedback = this.feedbackForm.value;
-    this.submittedFeedback = this.feedback;
-
-    console.log(`send to server: ${this.submittedFeedback.name},
-     ${this.submittedFeedback.email},
-     ${this.submittedFeedback.teamname}`);
-
-    this.mysqlService
-      .postHallenturnier(
-        this.submittedFeedback.name,
-        this.submittedFeedback.email,
-        // this.submittedFeedback.phone,
-        this.submittedFeedback.teamname
-        // this.submittedFeedback.day
-      )
-      .subscribe((result) => {
-        console.log(`response from server: ${result}`);
-      });
-
-    this.feedbackForm.reset({
-      name: '',
-      email: '',
-      // phone: '',
-      teamname: '',
-      // day: ''
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      this.updateErrors(true);
+      return;
+    }
+    const { name, email, teamname } = this.form.value;
+    this.busy = true;
+    this.mysqlService.postHallenturnier(name, email, teamname).subscribe({
+      next: () => {
+        this.busy = false;
+        this.submitted = true;
+      },
+      error: () => {
+        this.busy = false;
+        this.toastService.show('Senden fehlgeschlagen', 'error', 'Erneut', () => this.onSubmit());
+      },
     });
   }
 }

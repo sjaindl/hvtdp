@@ -1,18 +1,21 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
 import { StatisticsService } from '../services/statistics.service';
+import { CLUB_NAV, PARTNERS, SOCIAL_LINKS } from '../shared/navigation';
 
 @Component({
-    selector: 'app-footer',
-    templateUrl: './footer.component.html',
-    styleUrls: ['./footer.component.css'],
-    standalone: true,
-    imports: [CommonModule, RouterModule, MatButtonModule, MatIconModule]
+  selector: 'app-footer',
+  templateUrl: './footer.component.html',
+  standalone: true,
+  imports: [RouterModule],
 })
 export class FooterComponent implements OnInit {
+  readonly socialLinks = SOCIAL_LINKS;
+  readonly partners = PARTNERS;
+  readonly clubLinks = CLUB_NAV.filter((item) =>
+    ['/about', '/membership', '/fanshop', '/contact'].includes(item.path)
+  );
+
   sessions: string = null;
   currentYear = new Date().getFullYear();
 

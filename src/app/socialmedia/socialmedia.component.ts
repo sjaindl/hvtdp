@@ -1,57 +1,45 @@
-import { ChangeDetectorRef, Component, HostListener, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
-import { DeviceDetectorService } from 'ngx-device-detector';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import { Subscription, forkJoin } from 'rxjs';
 import { MysqlService } from '../services/mysql.service';
-import { baseUrlImages } from '../shared/baseurls';
 import { Game } from '../shared/games';
 import { Player } from '../shared/player';
+import { Seasons, formatSeason } from '../shared/seasons';
+import { DateUtil } from '../shared/utils/date.util';
+import { EmptyStateComponent } from '../ui/empty-state/empty-state.component';
+import { PageIntroComponent } from '../ui/page-intro/page-intro.component';
 import { VideoCardComponent } from '../video-card/video-card.component';
 
 @Component({
   selector: 'app-socialmedia',
   templateUrl: './socialmedia.component.html',
-  styleUrls: ['./socialmedia.component.css'],
   standalone: true,
-  imports: [VideoCardComponent],
+  imports: [RouterModule, EmptyStateComponent, PageIntroComponent, VideoCardComponent],
 })
-export class SocialmediaComponent implements OnInit, AfterViewInit, OnDestroy {
-  games: Game[];
-  season: string;
-  players: Player[];
-  imageBaseUrl: string;
-  isMobile = null;
+export class SocialmediaComponent implements OnInit, OnDestroy {
+  readonly seasons = Seasons.videos;
+  readonly formatSeason = formatSeason;
 
-  private sub: any;
+  games: Game[] = [];
+  season: string;
+  players: Player[] = [];
+  loaded = false;
+  failed = false;
+
+  private sub: Subscription;
 
   constructor(
     private mysqlService: MysqlService,
     private route: ActivatedRoute,
-    private cdr: ChangeDetectorRef,
-    private deviceService: DeviceDetectorService,
     private titleService: Title,
     private metaTagService: Meta
   ) {}
 
   ngOnInit() {
-    this.imageBaseUrl = baseUrlImages;
-
     this.sub = this.route.params.subscribe((params) => {
       this.season = params['season'];
-
-      this.mysqlService.getGames().subscribe((games) => {
-        this.games = games
-          .filter((game) => {
-            return game.season == this.season;
-          })
-          .sort((a, b) => {
-            return b.round - a.round;
-          });
-      });
-
-      this.mysqlService.getPlayers().subscribe((players) => {
-        this.players = players;
-      });
+      this.load();
     });
 
     this.titleService.setTitle('HV TDP Stainz: Videos');
@@ -59,77 +47,55 @@ export class SocialmediaComponent implements OnInit, AfterViewInit, OnDestroy {
       name: 'description',
       content: 'Videos von Veranstaltungen und Toren vom HV TDP Stainz.',
     });
-
-    this.metaTagService.addTags([
-      {
-        name: 'keywords',
-        content: 'Fußballverein, Stainz, SC Stainz, Fußballverein Stainz, HVTDP, HVTDP Stainz',
-      },
-      { name: 'author', content: 'Stefan Jaindl' },
-      { charset: 'UTF-8' },
-    ]);
-  }
-
-  ngAfterViewInit() {
-    this.cdr.detectChanges();
   }
 
   ngOnDestroy() {
-    this.sub.unsubscribe();
+    this.sub?.unsubscribe();
   }
 
-  @HostListener('window:resize', ['$event'])
-  onResize(event) {
-    this.checkDevice();
+  load() {
+    this.loaded = false;
+    this.failed = false;
+    forkJoin({ games: this.mysqlService.getGames(), players: this.mysqlService.getPlayers() }).subscribe({
+      next: ({ games, players }) => {
+        this.players = players;
+        this.games = games
+          .filter((game) => game.season == this.season && game.links?.length)
+          .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime() || Number(b.round) - Number(a.round));
+        this.loaded = true;
+      },
+      error: () => {
+        this.loaded = true;
+        this.failed = true;
+      },
+    });
   }
 
-  checkDevice() {
-    this.isMobile = this.deviceService.isMobile();
+  gameTitle(game: Game): string {
+    return (game.description ?? '').replace(/\s*:\s*/, ' – ');
   }
 
-  matches(name: string, player: Player) {
-    if (name.includes(' ')) {
-      return player.lastName + ' ' + player.firstName == name;
-    }
-
-    return player.lastName == name;
-  }
-
-  getPlayerByName(name: string): Player | undefined {
-    if (!name || !this.players) return undefined;
-    return this.players.find((player) => this.matches(name, player));
-  }
-
-  scorerImage(name: string): string {
-    const player = this.getPlayerByName(name);
-    if (player?.imagePath) {
-      return this.imageBaseUrl + player.imagePath;
-    }
-
-    return this.imageBaseUrl + 'team/no_photo.jpg';
-  }
-
-  scorerName(name: string): string {
-    if (name && name.trim().length > 0) {
-      return name;
-    }
-
-    return 'Highlight';
+  gameMeta(game: Game): string {
+    const round = game.customText || (Number(game.round) < 99 ? `${game.round}. Runde` : '');
+    return [round, DateUtil.formatDate(game.date)].filter(Boolean).join(' · ');
   }
 
   scoreLabel(game: Game): string {
-    if (!game) return '';
-    const homeScore = game.homeScore;
-    const awayScore = game.awayScore;
-    if (
-      homeScore === null ||
-      homeScore === undefined ||
-      awayScore === null ||
-      awayScore === undefined
-    ) {
-      return '';
-    }
+    const hasScore = (value: unknown) => value !== null && value !== undefined && value !== '';
+    return hasScore(game.homeScore) && hasScore(game.awayScore) ? `${game.homeScore}:${game.awayScore}` : '';
+  }
 
-    return `${homeScore}:${awayScore}`;
+  /** Links store either the last name ("Jaindl") or "Lastname Firstname". */
+  scorerName(scorer: string): string {
+    const name = (scorer ?? '').trim();
+    if (!name) {
+      return 'Highlight';
+    }
+    const player = this.players.find((candidate) =>
+      name.includes(' ')
+        ? `${candidate.lastName} ${candidate.firstName}` === name
+        : candidate.lastName === name
+    );
+    return player ? `${player.firstName} ${player.lastName}` : name;
   }
 }

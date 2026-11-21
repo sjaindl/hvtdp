@@ -1,3 +1,64 @@
-<app-ticker [text]="tickerItems[0].tickerItem"></app-ticker>
+<!-- Priority 1–3: last result, next match, latest news -->
+<section class="bg-gray-50">
+  <div class="page-container flex flex-col gap-4 pb-8 pt-6 lg:gap-6 lg:pb-14 lg:pt-12">
+    <div>
+      <p class="eyebrow">Servus, Fans!</p>
+      <h1 class="page-title">Spieltag</h1>
+    </div>
 
-<app-imageslider [carouselItems]="carouselItems$ | async" [showDots]="false"></app-imageslider>
+    <div class="grid gap-4 lg:grid-cols-3 lg:gap-6">
+      @if (lastResult) {
+        <app-last-result [match]="lastResult"></app-last-result>
+      }
+      @if (nextMatch) {
+        <app-next-match [match]="nextMatch"></app-next-match>
+      } @else if (matchesLoaded) {
+        <article class="card flex h-full flex-col gap-3 p-5">
+          <h2 class="text-base font-bold text-gray-900">Nächstes Spiel</h2>
+          <p class="text-[15px] leading-relaxed text-gray-600">
+            Der nächste Termin steht noch nicht fest. Alle Spiele findest du in der Liga-Übersicht.
+          </p>
+          <a routerLink="/championship" class="link-arrow mt-auto"
+            >Zur Liga <span class="material-icons text-lg">arrow_forward</span></a
+          >
+        </article>
+      }
+      @if (latestNews) {
+        <app-news-card class="hidden lg:block" [news]="latestNews"></app-news-card>
+      }
+    </div>
+  </div>
+</section>
+
+<section class="page-container flex flex-col gap-4 py-8 lg:gap-6 lg:py-12">
+  <div class="flex items-center justify-between">
+    <h2 class="section-title">
+      <span class="lg:hidden">Neueste Nachrichten</span><span class="hidden lg:inline">Weitere Nachrichten</span>
+    </h2>
+    <a routerLink="/news" class="link-arrow"
+      >Alle <span class="hidden lg:inline">&nbsp;Nachrichten</span>
+      <span class="material-icons text-lg">arrow_forward</span></a
+    >
+  </div>
+
+  @if (newsLoaded && !latestNews) {
+    <app-empty-state icon="wifi_off" tone="error" title="Nachrichten konnten nicht geladen werden"
+      text="Bitte prüfe deine Internetverbindung und versuche es erneut.">
+      <button type="button" class="btn-primary" (click)="loadNews()">
+        Erneut versuchen <span class="material-icons text-xl">refresh</span>
+      </button>
+    </app-empty-state>
+  }
+
+  <div class="grid gap-6 lg:grid-cols-[1fr_389px]">
+    <div class="flex flex-col gap-3">
+      @if (latestNews) {
+        <app-news-card class="mb-1 lg:hidden" [news]="latestNews"></app-news-card>
+      }
+      @for (item of moreNews; track item.newsId) {
+        <app-news-row [news]="item"></app-news-row>
+      }
+    </div>
+    <app-starting-eleven-cta class="mt-3 self-start lg:mt-0"></app-starting-eleven-cta>
+  </div>
+</section>

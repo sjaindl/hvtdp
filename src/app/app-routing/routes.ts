@@ -2,7 +2,6 @@ import { Routes } from '@angular/router';
 
 import { AboutComponent } from '../about/about.component';
 import { AdventComponent } from '../advent/advent.component';
-import { BocciaComponent } from '../boccia/boccia.component';
 import { ChampionshipComponent } from '../championship/championship.component';
 import { ContactComponent } from '../contact/contact.component';
 import { DocumentsComponent } from '../documents/documents.component';
@@ -16,11 +15,13 @@ import { HallofpappComponent } from '../hallofpapp/hallofpapp.component';
 import { HomeComponent } from '../home/home.component';
 import { MembershipComponent } from '../membership/membership.component';
 import { NewsComponent } from '../news/news.component';
+import { NotFoundComponent } from '../not-found/not-found.component';
 import { PlayerOfTheSeasonComponent } from '../playeroftheseason/playeroftheseason.component';
+import { CurrentSeason } from '../shared/seasons';
 import { SocialmediaComponent } from '../socialmedia/socialmedia.component';
+import { StartingelevenComponent } from '../startingeleven/startingeleven.component';
 import { SurveysComponent } from '../surveys/surveys.component';
 import { TeamComponent } from '../team/team.component';
-import { RedirectGuard } from './redirect-guard';
 
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -29,9 +30,12 @@ export const routes: Routes = [
   { path: 'news', component: NewsComponent },
   { path: 'news/:newsId', component: NewsComponent },
   { path: 'team', component: TeamComponent },
+  { path: 'championship', redirectTo: `/championship/${CurrentSeason.championship}`, pathMatch: 'full' },
   { path: 'championship/:season', component: ChampionshipComponent },
+  { path: 'gallery', redirectTo: `/gallery/${CurrentSeason.gallery}`, pathMatch: 'full' },
   { path: 'gallery/:season/:albumId', component: GalleryComponent },
   { path: 'gallery/:season', component: GalleryComponent },
+  { path: 'social', redirectTo: `/social/${CurrentSeason.videos}`, pathMatch: 'full' },
   { path: 'social/:season', component: SocialmediaComponent },
   { path: 'donation', component: DonationsComponent },
   { path: 'about', component: AboutComponent },
@@ -41,18 +45,21 @@ export const routes: Routes = [
   { path: 'halloffame', component: HalloffameComponent },
   { path: 'documents', component: DocumentsComponent },
   { path: 'surveys', component: SurveysComponent },
-  { path: 'goaloftheseason/:season', component: GoalOfTheSeasonComponent },
-  { path: 'playeroftheseason/:season', component: PlayerOfTheSeasonComponent },
-  //{path: "startingeleven", component: StartingelevenComponent},
   {
-    path: 'startingeleven',
-    canActivate: [RedirectGuard],
-    component: RedirectGuard,
-    data: {
-      externalUrl: 'https://starting-eleven-2019.firebaseapp.com/home',
-    },
+    path: 'goaloftheseason',
+    redirectTo: `/goaloftheseason/${CurrentSeason.goalOfTheSeason}`,
+    pathMatch: 'full',
   },
+  { path: 'goaloftheseason/:season', component: GoalOfTheSeasonComponent },
+  {
+    path: 'playeroftheseason',
+    redirectTo: `/playeroftheseason/${CurrentSeason.playerOfTheSeason}`,
+    pathMatch: 'full',
+  },
+  { path: 'playeroftheseason/:season', component: PlayerOfTheSeasonComponent },
+  { path: 'startingeleven', component: StartingelevenComponent },
   { path: 'hallofpapp', component: HallofpappComponent },
+  { path: 'advent', redirectTo: `/advent/${CurrentSeason.advent}`, pathMatch: 'full' },
   { path: 'advent/:season', component: AdventComponent },
   { path: 'hallenturnier', component: HallenturnierComponent },
   // { path: 'kleinfeldturnier', component: KleinfeldTurnierComponent },
@@ -63,4 +70,5 @@ export const routes: Routes = [
   // { path: 'comedyhirten', component: ComedyhirtenComponent },
   // { path: 'bigdarts', component: BigdartsComponent },
   // { path: 'torschusschallenge-voting', component: GoldenshotVotingComponent },
+  { path: '**', component: NotFoundComponent },
 ];

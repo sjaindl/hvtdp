@@ -1,74 +1,77 @@
-<div
-  class="container footer flex flex-col gap-6 md:flex-row md:flex-row-wrap md:space-between md:items-center"
->
-  <!-- Social icons -->
-  <div class="footer-social w-full md:w-1/3">
-    <h3 class="footer-heading">Folge uns</h3>
-    <div class="footer-social-icons">
-      <a
-        class="social-btn facebook"
-        href="https://www.facebook.com/hvtdpstainz/"
-        target="_blank"
-        aria-label="Facebook"
-      >
-        <i class="fab fa-facebook fa-lg"></i>
-      </a>
-      <a
-        class="social-btn twitter"
-        href="https://twitter.com/HvStainz/"
-        target="_blank"
-        aria-label="Twitter"
-      >
-        <i class="fab fa-twitter fa-lg"></i>
-      </a>
-      <a
-        class="social-btn instagram"
-        href="https://www.instagram.com/hvtdpstainz_2014/"
-        target="_blank"
-        aria-label="Instagram"
-      >
-        <i class="fab fa-instagram fa-lg"></i>
-      </a>
-      <a class="social-btn mail" href="mailto:hvtdpstainz@gmx.at" aria-label="E-Mail">
-        <i class="fas fa-envelope fa-lg"></i>
-      </a>
-    </div>
-  </div>
+<footer class="bg-gray-800 text-white">
+  <div class="mx-auto flex max-w-page flex-col gap-8 px-4 pb-8 pt-10 lg:gap-10 lg:px-8 lg:pt-14">
+    <div class="flex flex-col gap-8 lg:flex-row lg:justify-between">
+      <div class="flex flex-col gap-4">
+        <div class="flex items-center gap-3">
+          <img src="hvtdp.png" alt="" class="h-[50px] w-10 object-contain" />
+          <div>
+            <p class="text-lg font-extrabold leading-tight lg:text-xl">HV TDP Stainz</p>
+            <p class="text-[13px] text-gray-400 lg:hidden">Hobbyfußball seit 2014</p>
+          </div>
+        </div>
+        <p class="hidden max-w-xs text-sm leading-relaxed text-gray-400 lg:block">
+          Der Hobbyfußballverein aus Stainz. Gemeinschaft, Sport und jede Menge Spaß seit 2014.
+        </p>
+      </div>
 
-  <!-- Stats, sponsors, copyright -->
-  <div class="footer-main flex flex-col gap-4 w-full md:w-2/3">
-    @if (sessions) {
-    <div class="footer-sessions">
-      Der HV TDP bedankt sich für <strong>{{ sessions }}</strong> Website-Aufrufe seit dem
-      23.07.2018!
-    </div>
-    }
+      <nav class="hidden flex-col gap-3 lg:flex" aria-label="Verein">
+        <p class="font-bold">Verein</p>
+        @for (link of clubLinks; track link.path) {
+          <a [routerLink]="link.path" class="text-sm text-gray-400 hover:text-white">{{ link.label }}</a>
+        }
+      </nav>
 
-    <div class="footer-sponsors">
-      <h4 class="footer-heading">Unsere Partner</h4>
-      <div class="sponsor-grid">
-        <a href="https://www.udemy.com/user/stefan-jaindl/" target="_blank" class="sponsor-card">
-          <img
-            class="sponsor-image"
-            src="assets/images/udemy.jpg"
-            alt="Udemy Profil Stefan Jaindl"
-          />
-        </a>
+      <div class="flex flex-col gap-3">
+        <p class="font-bold">Folge uns</p>
+        <div class="flex gap-3">
+          @for (link of socialLinks; track link.href) {
+            <a
+              [href]="link.href"
+              target="_blank"
+              rel="noopener"
+              class="flex h-12 w-12 items-center justify-center rounded-full bg-white/10 transition-colors duration-200 hover:bg-white/20"
+              [attr.aria-label]="link.label"
+            >
+              <span class="material-icons text-[22px]">{{ link.icon }}</span>
+            </a>
+          }
+        </div>
+      </div>
 
-        <a href="http://www.textildruckprofi.com/" target="_blank" class="sponsor-card">
-          <img class="sponsor-image" src="assets/images/tdp.jpg" alt="Textildruckprofi" />
-        </a>
-
-        <a href="https://dangraz.at/" target="_blank" class="sponsor-card">
-          <img class="sponsor-image" src="assets/images/dan_logo.jpeg" alt="DAN Graz" />
-        </a>
+      <div class="flex flex-col gap-3">
+        <p class="font-bold">Unsere Partner</p>
+        <div class="flex flex-wrap gap-3">
+          @for (partner of partners; track partner.href) {
+            <a
+              [href]="partner.href"
+              target="_blank"
+              rel="noopener"
+              class="flex h-16 items-center justify-center rounded-xl bg-white p-2"
+              [attr.aria-label]="partner.name"
+            >
+              <img [src]="partner.image" [alt]="partner.name" class="h-12 w-auto max-w-[124px] object-contain" />
+            </a>
+          }
+        </div>
       </div>
     </div>
 
-    <div class="footer-bottom">
+    <div
+      class="flex flex-col gap-1 border-t border-white/10 pt-6 text-sm text-gray-400 lg:flex-row lg:justify-between"
+    >
       <p>
-        <a href="https://github.com/sjaindl" target="_blank">© 2018-{{ currentYear }} Stefan Jaindl</a>
+        © 2014–{{ currentYear }} HV TDP Stainz
+        @if (sessions) {
+          <span class="hidden sm:inline"> · {{ sessions }} Website-Aufrufe seit 23.07.2018</span>
+        }
+      </p>
+      <!-- TODO(content): Impressum and Datenschutz pages don't exist yet; link them here once available. -->
+      <p>
+        <a routerLink="/contact" class="hover:text-white">Impressum &amp; Kontakt</a> ·
+        <a href="https://github.com/sjaindl" target="_blank" rel="noopener" class="hover:text-white"
+          >Website: Stefan Jaindl</a
+        >
       </p>
     </div>
   </div>
-</div>
+</footer>

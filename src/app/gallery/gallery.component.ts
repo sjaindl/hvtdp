@@ -1,30 +1,41 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { ImagesliderComponent } from '../imageslider/imageslider.component';
 import { MysqlService } from '../services/mysql.service';
 import { baseUrlImages } from '../shared/baseurls';
-import { Album } from '../shared/photos';
+import { Album, Photo } from '../shared/photos';
+import { Seasons } from '../shared/seasons';
+import { DateUtil } from '../shared/utils/date.util';
+import { EmptyStateComponent } from '../ui/empty-state/empty-state.component';
+import { PageIntroComponent } from '../ui/page-intro/page-intro.component';
+
+const PHOTO_PAGE_SIZE = 24;
 
 @Component({
   selector: 'app-gallery',
   templateUrl: './gallery.component.html',
-  styleUrls: ['./gallery.component.css'],
   standalone: true,
-  imports: [CommonModule, ImagesliderComponent],
+  imports: [RouterModule, EmptyStateComponent, PageIntroComponent],
 })
 export class GalleryComponent implements OnInit, OnDestroy {
+  readonly seasons = Seasons.gallery;
+  readonly imageBaseUrl = baseUrlImages;
+  readonly formatDate = DateUtil.formatDate;
+
   albums: Album[] = [];
   season: string;
-  imageBaseUrl: string;
-  isMobile = null;
   selectedAlbum: Album | null = null;
+  loaded = false;
+  failed = false;
+
+  visiblePhotos = PHOTO_PAGE_SIZE;
+  lightboxIndex: number | null = null;
+  private touchStartX: number | null = null;
 
   private routeSub: Subscription;
   private photosSub: Subscription;
-  private selectedAlbumSlug: string | null = null;
+  selectedAlbumSlug: string | null = null;
 
   constructor(
     private mysqlService: MysqlService,
@@ -35,11 +46,11 @@ export class GalleryComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.imageBaseUrl = baseUrlImages;
-
     this.routeSub = this.route.params.subscribe((params) => {
       this.season = params['season'];
       this.selectedAlbumSlug = params['albumId'] ? decodeURIComponent(params['albumId']) : null;
+      this.visiblePhotos = PHOTO_PAGE_SIZE;
+      this.closeLightbox();
       this.loadAlbums();
     });
 
@@ -48,20 +59,12 @@ export class GalleryComponent implements OnInit, OnDestroy {
       name: 'description',
       content: 'Die wichtigsten Events des HV TDP Stainz in der Galerie.',
     });
-
-    this.metaTagService.addTags([
-      {
-        name: 'keywords',
-        content: 'Fußballverein, Stainz, SC Stainz, Fußballverein Stainz, HVTDP, HVTDP Stainz',
-      },
-      { name: 'author', content: 'Stefan Jaindl' },
-      { charset: 'UTF-8' },
-    ]);
   }
 
   ngOnDestroy() {
     this.routeSub?.unsubscribe();
     this.photosSub?.unsubscribe();
+    document.body.classList.remove('overflow-hidden');
   }
 
   albumSlug(album: Album): string {
@@ -73,36 +76,78 @@ export class GalleryComponent implements OnInit, OnDestroy {
     return slug || 'album';
   }
 
-  openAlbum(album: Album) {
-    this.router.navigate(['/gallery', this.season, this.albumSlug(album)]);
+  cover(album: Album): string | null {
+    return album.photos?.length ? this.imageBaseUrl + album.photos[0].imagePath : null;
   }
 
-  backToOverview() {
-    this.router.navigate(['/gallery', this.season]);
+  get photos(): Photo[] {
+    return this.selectedAlbum?.photos ?? [];
   }
 
-  items(album: Album) {
-    if (!album?.photos) {
-      return [];
+  showMorePhotos() {
+    this.visiblePhotos += PHOTO_PAGE_SIZE;
+  }
+
+  openLightbox(index: number) {
+    this.lightboxIndex = index;
+    document.body.classList.add('overflow-hidden');
+  }
+
+  closeLightbox() {
+    this.lightboxIndex = null;
+    document.body.classList.remove('overflow-hidden');
+  }
+
+  step(delta: number) {
+    if (this.lightboxIndex === null || !this.photos.length) {
+      return;
     }
-    return album.photos.map((photo) => {
-      return {
-        imagePath: photo.imagePath,
-        navPath: '',
-        title: photo.description,
-        date: undefined,
-      };
-    });
+    this.lightboxIndex = (this.lightboxIndex + delta + this.photos.length) % this.photos.length;
   }
 
-  private loadAlbums() {
+  onTouchStart(event: TouchEvent) {
+    this.touchStartX = event.changedTouches[0].clientX;
+  }
+
+  onTouchEnd(event: TouchEvent) {
+    if (this.touchStartX === null) {
+      return;
+    }
+    const delta = event.changedTouches[0].clientX - this.touchStartX;
+    if (Math.abs(delta) > 50) {
+      this.step(delta < 0 ? 1 : -1);
+    }
+    this.touchStartX = null;
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  onKeydown(event: KeyboardEvent) {
+    if (this.lightboxIndex === null) {
+      return;
+    }
+    if (event.key === 'Escape') this.closeLightbox();
+    if (event.key === 'ArrowRight') this.step(1);
+    if (event.key === 'ArrowLeft') this.step(-1);
+  }
+
+  loadAlbums() {
+    this.failed = false;
     this.photosSub?.unsubscribe();
-    this.photosSub = this.mysqlService.getPhotos().subscribe((albums) => {
-      this.albums = albums.filter((album) => album.season == this.season);
-      this.selectedAlbum =
-        this.selectedAlbumSlug && this.albums.length
-          ? this.albums.find((album) => this.albumSlug(album) === this.selectedAlbumSlug) || null
+    this.photosSub = this.mysqlService.getPhotos().subscribe({
+      next: (albums) => {
+        this.albums = albums.filter((album) => album.season == this.season);
+        this.selectedAlbum = this.selectedAlbumSlug
+          ? (this.albums.find((album) => this.albumSlug(album) === this.selectedAlbumSlug) ?? null)
           : null;
+        if (this.selectedAlbum) {
+          this.titleService.setTitle(`HV TDP Stainz: ${this.selectedAlbum.name}`);
+        }
+        this.loaded = true;
+      },
+      error: () => {
+        this.loaded = true;
+        this.failed = true;
+      },
     });
   }
 }

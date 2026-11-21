@@ -23,7 +23,7 @@ import { AppRoutingModule } from './app-routing/app-routing.module';
 
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { provideHttpClient, withInterceptorsFromDi, withJsonpSupport } from '@angular/common/http';
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { ApplicationRef, CUSTOM_ELEMENTS_SCHEMA, DoBootstrap, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { CookieService } from 'ngx-cookie-service';
@@ -137,7 +137,6 @@ import { VideoCardComponent } from './video-card/video-card.component';
     SurveysComponent,
     ZehnjahresfeierComponent,
   ],
-  bootstrap: [AppComponent],
   providers: [
     MysqlService,
     StatisticsService,
@@ -149,4 +148,9 @@ import { VideoCardComponent } from './video-card/video-card.component';
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class AppModule {}
+export class AppModule implements DoBootstrap {
+  // AppComponent is standalone, which Angular no longer allows in `bootstrap: []`.
+  ngDoBootstrap(appRef: ApplicationRef) {
+    appRef.bootstrap(AppComponent);
+  }
+}

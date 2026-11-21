@@ -1,77 +1,121 @@
-<div class="fanshop-shell container flex flex-col gap-4">
-  <div class="fanshop-heading">
-    <div>
-      <h3 class="large header">Fanshop</h3>
-      <hr />
+<app-page-intro
+  title="Fanshop"
+  lead="Was darf bei einem richtigen Fan des HV TDP Stainz nicht fehlen? Natürlich die passenden Souvenirs und Outfits!"
+>
+  <section aside class="card flex flex-col gap-3 p-5 lg:w-[520px]">
+    <div class="flex items-center gap-3">
+      <span class="icon-tile"><span class="material-icons">shopping_bag</span></span>
+      <h2 class="text-lg font-bold text-gray-900">So bestellst du</h2>
     </div>
-    <p class="normal">Was darf bei einem richtigen Fan des HV TDP Stainz nicht fehlen?</p>
+    @for (step of ['Bei deinem Artikel auf „Bestellen“ tippen', 'Größe, Variante und Anzahl wählen', 'Vorbereitete E-Mail absenden – wir melden uns!']; track step; let i = $index) {
+      <p class="flex items-center gap-2.5 text-[15px] font-medium text-gray-800">
+        <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-pink-600 text-[13px] font-bold text-white">{{ i + 1 }}</span>{{ step }}
+      </p>
+    }
+    <p class="text-[13px] font-medium text-gray-500">Mit jedem Kauf unterstützt du den Spielbetrieb des Vereins.</p>
+  </section>
+</app-page-intro>
 
-    <p class="small">
-      Natürlich die passenden Souvenirs und Outfits. Deshalb bieten wir ein paar nette Geschenke und
-      Andenken in unserem offiziellen Fanshop an! Mit einem Kauf wird nicht nur das heimische Wohnen
-      und sein eigener Dresscode aufgepeppt, sondern man fördert mit einem Kauf auch das
-      Vereinsleben und den sportlichen Betrieb unseres Vereines.
-    </p>
-
-    <p class="small">
-      Folgende Artikel stehen zur Auswahl:
-      <br />
-      (bestellen ganz einfach mit einer Nachricht an unsere Facebookseite oder E-Mail Adresse)
-    </p>
-  </div>
-
-  @if (categories.length) {
-  <div class="filter-bar">
-    <span class="filter-label">Kategorie</span>
-    <div class="filter-chips">
+<section class="page-container flex flex-col gap-4 py-6 lg:gap-6 lg:py-8">
+  <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+    <div class="flex flex-wrap gap-2" aria-label="Kategorie wählen">
       @for (category of categories; track category) {
-      <button
-        type="button"
-        class="filter-chip"
-        [class.active]="category === selectedCategory"
-        (click)="applyFilter(category)"
-      >
-        {{ category }}
-      </button>
+        <button type="button" [class]="category === selectedCategory ? 'chip-active' : 'chip'" (click)="selectedCategory = category">{{ category }}</button>
       }
     </div>
-  </div>
-  } @if (itemsLoaded && !filteredItems.length) {
-  <p class="small muted">Aktuell sind keine Artikel in dieser Kategorie verfügbar.</p>
-  }
-
-  <div class="fanshop-grid">
-    @for (item of filteredItems; track item.name) {
-    <article class="fanshop-card" appHighlight>
-      <div class="card-media">
-        <app-hvtdp-image
-          [imagePath]="imageBaseUrl + item.imagePath"
-          [altText]="item.name"
-          loading="lazy"
-        />
-
-        <span class="category-tag">{{ item.category || 'Sonstiges' }}</span>
-      </div>
-      <div class="card-content">
-        <div class="card-header">
-          <h2>{{ item.name }}</h2>
-          <span class="price">{{ item.price }}</span>
-        </div>
-        <p class="description">{{ item.description }}</p>
-        <a
-          class="btn-mail order-link"
-          [href]="
-            'mailto:hvtdpstainz@gmx.at?subject=Bestellung ' +
-            item.name +
-            '&body=' +
-            item.description +
-            ' Bitte um Angabe von Anzahl und Größe.'
-          "
-        >
-          <i class="fa fa-envelope"></i> jetzt bestellen!
-        </a>
-      </div>
-    </article>
+    @if (loaded && !failed) {
+      <p class="meta">{{ filteredItems.length }} Artikel</p>
     }
   </div>
-</div>
+
+  @if (failed) {
+    <app-empty-state icon="wifi_off" tone="error" title="Artikel konnten nicht geladen werden"
+      text="Bitte prüfe deine Internetverbindung und versuche es erneut.">
+      <button type="button" class="btn-primary" (click)="load()">Erneut versuchen <span class="material-icons text-xl">refresh</span></button>
+    </app-empty-state>
+  }
+
+  <div class="grid grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-6">
+    @for (item of filteredItems; track item.name) {
+      <article class="card-interactive group flex flex-col">
+        <div class="aspect-square overflow-hidden bg-gray-50 p-3">
+          <img [src]="imageBaseUrl + item.imagePath" [alt]="item.name" class="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105" loading="lazy" />
+        </div>
+        <div class="flex flex-1 flex-col gap-1 px-3.5 pb-3.5 pt-3 lg:px-4 lg:pb-4">
+          <p class="text-xs font-semibold text-pink-600">{{ item.category }}</p>
+          <h2 class="line-clamp-3 min-h-[3.9rem] text-base font-bold leading-snug text-gray-900 lg:line-clamp-2 lg:min-h-[2.6rem]">{{ item.name }}</h2>
+          <p class="text-[15px] font-bold text-gray-900">{{ item.price || 'Preis auf Anfrage' }}</p>
+          <p class="line-clamp-3 whitespace-pre-line text-[13px] leading-normal text-gray-600">{{ item.description }}</p>
+          <button type="button" class="btn-secondary mt-auto w-full !px-3" (click)="openOrder(item)">Bestellen</button>
+        </div>
+      </article>
+    }
+  </div>
+</section>
+
+@if (order) {
+  <div class="fixed inset-0 z-[70] flex items-end justify-center bg-gray-900/60 lg:items-center lg:p-6" (click)="closeOrder()">
+    <div
+      class="flex max-h-[92vh] w-full flex-col overflow-y-auto rounded-t-3xl bg-white lg:max-w-[860px] lg:flex-row lg:overflow-hidden lg:rounded-2xl"
+      role="dialog"
+      aria-modal="true"
+      [attr.aria-label]="'Bestellung ' + order.item.name"
+      (click)="$event.stopPropagation()"
+    >
+      <div class="hidden w-[300px] shrink-0 items-center justify-center bg-gray-50 p-8 lg:flex">
+        <img [src]="imageBaseUrl + order.item.imagePath" [alt]="order.item.name" class="max-h-[300px] w-full object-contain" />
+      </div>
+      <div class="flex flex-1 flex-col gap-5 px-4 pb-7 pt-2.5 lg:overflow-y-auto lg:p-7">
+        <span class="mx-auto h-1 w-10 rounded-full bg-gray-200 lg:hidden"></span>
+        <div class="flex items-center gap-3.5">
+          <img [src]="imageBaseUrl + order.item.imagePath" alt="" class="h-16 w-16 rounded-xl bg-gray-50 object-contain p-1.5 lg:hidden" />
+          <div class="min-w-0 flex-1">
+            <p class="text-xs font-semibold text-pink-600">{{ order.item.category }}</p>
+            <h2 class="text-xl font-extrabold leading-tight text-gray-900">{{ order.item.name }}</h2>
+            <p class="text-sm font-semibold text-gray-600">{{ order.item.price }}</p>
+          </div>
+          <button type="button" class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-gray-100" aria-label="Schließen" (click)="closeOrder()">
+            <span class="material-icons text-gray-800">close</span>
+          </button>
+        </div>
+
+        <div>
+          <label class="form-label" for="order-variant">Größe / Variante</label>
+          <input id="order-variant" class="form-input" [(ngModel)]="order.variant" placeholder="z. B. L/XL, mit Logo" />
+        </div>
+        <div class="flex flex-col gap-4 sm:flex-row sm:items-end">
+          <div>
+            <span class="form-label">Anzahl</span>
+            <div class="flex h-12 items-center rounded-xl border border-gray-200">
+              <button type="button" class="flex h-12 w-12 items-center justify-center" aria-label="Weniger" (click)="changeQuantity(-1)"><span class="material-icons">remove</span></button>
+              <span class="w-10 text-center text-[17px] font-bold" aria-live="polite">{{ order.quantity }}</span>
+              <button type="button" class="flex h-12 w-12 items-center justify-center" aria-label="Mehr" (click)="changeQuantity(1)"><span class="material-icons">add</span></button>
+            </div>
+          </div>
+          <div class="flex-1">
+            <label class="form-label" for="order-note">Anmerkung (optional)</label>
+            <input id="order-note" class="form-input" [(ngModel)]="order.note" placeholder="z. B. Wunschfarbe" />
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-2.5 rounded-xl border border-gray-200 bg-gray-50 p-4">
+          <p class="flex items-center gap-2 text-sm font-bold text-gray-900"><span class="material-icons text-lg text-pink-600">mail</span>Vorschau deiner E-Mail</p>
+          <div class="border-b border-gray-200 pb-2 text-[13px]">
+            <p class="text-gray-600">An: {{ email }}</p>
+            <p class="font-semibold text-gray-900">Betreff: {{ subject }}</p>
+          </div>
+          <p class="whitespace-pre-line text-[13px] leading-relaxed text-gray-800">{{ body }}</p>
+        </div>
+
+        <div class="flex flex-col gap-2.5 sm:flex-row">
+          <a [href]="mailUrl" class="btn-primary flex-1">E-Mail öffnen <span class="material-icons text-xl">mail</span></a>
+          <button type="button" class="btn-secondary flex-1" (click)="copyOrder()">Text kopieren</button>
+        </div>
+        <p class="text-[13px] leading-normal text-gray-500">
+          Öffnet dein E-Mail-Programm mit vorausgefülltem Text. Kein E-Mail-Programm? Text kopieren und per Mail oder
+          Facebook-Nachricht schicken.
+        </p>
+      </div>
+    </div>
+  </div>
+}

@@ -1,38 +1,22 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { Component } from '@angular/core';
+import { NavigationEnd, Router, RouterModule } from '@angular/router';
+import { filter } from 'rxjs';
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
-import { cookieConsentConfig } from './shared/cookieconsent.config';
+import { CookieBannerComponent } from './ui/cookie-banner/cookie-banner.component';
+import { ToastHostComponent } from './ui/toast/toast-host.component';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
   standalone: true,
-  imports: [CommonModule, RouterModule, HeaderComponent, FooterComponent],
+  imports: [RouterModule, HeaderComponent, FooterComponent, CookieBannerComponent, ToastHostComponent],
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   constructor(public router: Router) {
-    this.router.events.subscribe((event) => {
-      // if (event instanceof NavigationEnd) {
-      //   ga('set', 'page', event.urlAfterRedirects);
-      //   ga('send', 'pageview');
-      // }
+    // Start every page at the top (hash routing keeps the scroll position otherwise).
+    this.router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe(() => {
+      window.scrollTo({ top: 0 });
     });
   }
-
-  ngOnInit(): void {
-    this.initCookieConsent();
-  }
-
-  private initCookieConsent(): void {
-    const cc: any = (window as any).cookieconsent;
-    if (!cc || typeof cc.initialise !== 'function') {
-      return;
-    }
-    cc.initialise(cookieConsentConfig);
-  }
 }
-
-// https://unyscape.com/how-to-implement-google-analytics-in-an-angular2-app/

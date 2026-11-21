@@ -1,21 +1,21 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { PappFan } from '../shared/papp';
-import { baseUrlImages } from '../shared/baseurls';
+import { Meta, Title } from '@angular/platform-browser';
 import { MysqlService } from '../services/mysql.service';
-import { Title, Meta } from '@angular/platform-browser';
-import { HvtdpImageComponent } from '../hvtdp-image/hvtdp-image.component';
+import { baseUrlImages } from '../shared/baseurls';
+import { PappFan } from '../shared/papp';
+import { TextUtil } from '../shared/utils/text.util';
+import { PageIntroComponent } from '../ui/page-intro/page-intro.component';
 
 @Component({
-    selector: 'app-hallofpapp',
-    templateUrl: './hallofpapp.component.html',
-    styleUrls: ['./hallofpapp.component.css'],
-    standalone: true,
-    imports: [CommonModule, HvtdpImageComponent]
+  selector: 'app-hallofpapp',
+  templateUrl: './hallofpapp.component.html',
+  standalone: true,
+  imports: [PageIntroComponent],
 })
 export class HallofpappComponent implements OnInit {
-  pappfans: PappFan[];
-  imageBaseUrl: string;
+  readonly imageBaseUrl = baseUrlImages;
+  readonly titleCase = TextUtil.titleCase;
+  pappfans: PappFan[] = [];
 
   constructor(
     private mysqlService: MysqlService,
@@ -24,25 +24,8 @@ export class HallofpappComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.imageBaseUrl = baseUrlImages;
-
-    this.mysqlService.getPappfans().subscribe((fans) => {
-      this.pappfans = fans;
-    });
-
+    this.mysqlService.getPappfans().subscribe((fans) => (this.pappfans = fans));
     this.titleService.setTitle('HV TDP Stainz: Papp-Fans');
-    this.metaTagService.updateTag({
-      name: 'description',
-      content: 'Papp-Fans des HV TDP Stainz.',
-    });
-
-    this.metaTagService.addTags([
-      {
-        name: 'keywords',
-        content: 'Fußballverein, Stainz, SC Stainz, Fußballverein Stainz, HVTDP, HVTDP Stainz',
-      },
-      { name: 'author', content: 'Stefan Jaindl' },
-      { charset: 'UTF-8' },
-    ]);
+    this.metaTagService.updateTag({ name: 'description', content: 'Papp-Fans des HV TDP Stainz.' });
   }
 }

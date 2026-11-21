@@ -1,0 +1,83 @@
+import { NgTemplateOutlet } from '@angular/common';
+import { Component, Input } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { MatchInfo } from '../../shared/match-info';
+import { MatchUtil } from '../../shared/utils/match.util';
+
+/** Design: "Widget/LastResult" – homepage priority 1. */
+@Component({
+  selector: 'app-last-result',
+  standalone: true,
+  imports: [RouterModule, NgTemplateOutlet],
+  host: { class: 'block' },
+  template: `
+    <ng-template #team let-name="name">
+      <div class="flex w-[104px] flex-col items-center gap-2 text-center">
+        @if (isOwn(name)) {
+          <span class="flex h-14 w-14 items-center justify-center rounded-full bg-pink-50">
+            <img src="hvtdp.png" alt="" class="h-[42px] w-[34px] object-contain" />
+          </span>
+        } @else {
+          <span class="flex h-14 w-14 items-center justify-center rounded-full bg-gray-100 text-base font-bold text-gray-600">{{
+            initials(name)
+          }}</span>
+        }
+        <span class="text-sm font-semibold leading-tight text-gray-900">{{ name }}</span>
+      </div>
+    </ng-template>
+
+    <article class="card flex h-full flex-col gap-5 p-5">
+      <div class="flex items-center justify-between">
+        <h2 class="text-base font-bold text-gray-900">Letztes Spiel</h2>
+        @if (outcome) {
+          <span [class]="outcome === 'Sieg' ? 'badge-dark' : 'badge-neutral'">{{ outcome }}</span>
+        }
+      </div>
+      <p class="-mt-2 text-[13px] font-medium text-gray-500">{{ meta }}</p>
+
+      <div class="flex items-center justify-between">
+        <ng-container *ngTemplateOutlet="team; context: { name: match.homeTeam }"></ng-container>
+        <div class="flex items-center gap-1.5" aria-label="Ergebnis">
+          <span class="text-5xl font-extrabold leading-none" [class]="isOwn(match.homeTeam) ? 'text-pink-600' : 'text-gray-900'">{{
+            match.homeScore
+          }}</span>
+          <span class="text-4xl font-bold leading-none text-gray-400">:</span>
+          <span class="text-5xl font-extrabold leading-none" [class]="isOwn(match.awayTeam) ? 'text-pink-600' : 'text-gray-900'">{{
+            match.awayScore
+          }}</span>
+        </div>
+        <ng-container *ngTemplateOutlet="team; context: { name: match.awayTeam }"></ng-container>
+      </div>
+
+      @if (match.goalScorer) {
+        <div class="flex items-center gap-2 rounded-xl bg-gray-50 px-3.5 py-3">
+          <span class="material-icons text-lg text-gray-600">sports_soccer</span>
+          <span class="text-sm font-medium text-gray-800">{{ match.goalScorer }}</span>
+        </div>
+      }
+
+      <!-- TODO(API): link the matching match report once news items reference their match. -->
+      <a [routerLink]="['/championship', match.season]" class="btn-secondary mt-auto w-full">Alle Ergebnisse</a>
+    </article>
+  `,
+})
+export class LastResultComponent {
+  @Input({ required: true }) match: MatchInfo;
+
+  get outcome() {
+    return MatchUtil.outcome(this.match);
+  }
+
+  get meta(): string {
+    const date = MatchUtil.formatDateTime(this.match.dateTime).split(' · ')[0];
+    return [this.match.matchInfo, date, this.match.venue].filter(Boolean).join(' · ');
+  }
+
+  isOwn(team: string): boolean {
+    return MatchUtil.isOwnTeam(team);
+  }
+
+  initials(team: string): string {
+    return MatchUtil.initials(team);
+  }
+}

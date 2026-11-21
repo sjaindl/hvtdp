@@ -1,37 +1,116 @@
-<h1 class="large header">Fotos</h1>
+@if (selectedAlbumSlug === null || !loaded || failed) {
+  <app-page-intro title="Fotos" lead="Für unsere Fans haben wir alle HV TDP-Veranstaltungen archiviert. Viel Spaß beim Durchstöbern!">
+    <div class="scrollbar-none -mx-4 flex gap-2 overflow-x-auto px-4 lg:mx-0 lg:flex-wrap lg:px-0" aria-label="Saison wählen">
+      @for (item of seasons; track item) {
+        <a [routerLink]="['/gallery', item]" [class]="item === season ? 'chip-active' : 'chip'">{{ item }}</a>
+      }
+    </div>
+  </app-page-intro>
+}
 
-<p class="normalCentered">
-  Für unsere Fans haben wir alle HV TDP-Veranstaltungen archiviert. Viel Spaß beim Durchstöbern der
-  offiziellen HV TDP-Galerie.
-</p>
-
-@if (selectedAlbum) {
-<div class="album-detail">
-  <button class="gallery-back-btn" type="button" (click)="backToOverview()">
-    Zurück zur Übersicht
-  </button>
-  <p class="normalCentered" style="color: hotpink">
-    {{ selectedAlbum.date }} / {{ selectedAlbum.name }}
-  </p>
-  <app-imageslider [carouselItems]="items(selectedAlbum)" [showDots]="false"></app-imageslider>
-</div>
-} @else {
-<div class="album-grid">
-  @for (album of albums; track album) {
-  <div class="album-preview" (click)="openAlbum(album)">
-    <p class="normalCentered" style="color: hotpink; font-size: 120%">
-      {{ album.date }} / {{ album.name }}
-    </p>
-    @if (album.photos?.length > 0) {
-    <img
-      class="album-cover"
-      [src]="imageBaseUrl + album.photos[0].imagePath"
-      [alt]="album.photos[0].description || album.name"
-    />
-    } @else {
-    <div class="album-cover album-cover-empty">Kein Bild verfügbar</div>
-    }
+@if (failed) {
+  <div class="page-container py-10">
+    <app-empty-state icon="wifi_off" tone="error" title="Alben konnten nicht geladen werden"
+      text="Bitte prüfe deine Internetverbindung und versuche es erneut.">
+      <button type="button" class="btn-primary" (click)="loadAlbums()">Erneut versuchen <span class="material-icons text-xl">refresh</span></button>
+    </app-empty-state>
   </div>
+} @else if (selectedAlbum) {
+  <!-- Album -->
+  <section class="bg-gray-50">
+    <div class="page-container flex flex-col gap-2 pb-6 pt-2 lg:py-8">
+      <a [routerLink]="['/gallery', season]" class="link-arrow self-start"
+        ><span class="material-icons text-lg">arrow_back</span> Alle Alben</a
+      >
+      <h1 class="text-[28px] font-extrabold leading-tight text-gray-900 lg:text-4xl">{{ selectedAlbum.name }}</h1>
+      <p class="flex items-center gap-1.5 text-sm font-medium text-gray-600">
+        <span class="material-icons text-base text-gray-500">event</span>{{ formatDate(selectedAlbum.date) }}
+        <span class="text-gray-400">·</span>
+        <span class="material-icons text-base text-gray-500">photo_library</span>{{ photos.length }} Fotos
+      </p>
+    </div>
+  </section>
+  <section class="page-container flex flex-col gap-6 py-4 lg:py-8">
+    <div class="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4 lg:gap-4">
+      @for (photo of photos.slice(0, visiblePhotos); track photo.imagePath; let i = $index) {
+        <button
+          type="button"
+          class="group aspect-square overflow-hidden rounded-xl bg-gray-100"
+          [attr.aria-label]="'Foto ' + (i + 1) + ' öffnen'"
+          (click)="openLightbox(i)"
+        >
+          <img [src]="imageBaseUrl + photo.imagePath" [alt]="photo.description || selectedAlbum.name" class="card-media" loading="lazy" />
+        </button>
+      }
+    </div>
+    @if (visiblePhotos < photos.length) {
+      <div class="flex justify-center pb-6">
+        <button type="button" class="btn-secondary w-full lg:w-auto" (click)="showMorePhotos()">
+          Weitere Fotos laden ({{ photos.length - visiblePhotos }})
+        </button>
+      </div>
+    }
+  </section>
+
+  @if (lightboxIndex !== null) {
+    <div
+      class="fixed inset-0 z-[70] flex flex-col justify-between bg-gray-900"
+      role="dialog"
+      aria-modal="true"
+      [attr.aria-label]="selectedAlbum.name"
+      (touchstart)="onTouchStart($event)"
+      (touchend)="onTouchEnd($event)"
+    >
+      <div class="flex items-center justify-between pl-4 pr-2 pt-3">
+        <span class="text-[15px] font-semibold text-white">{{ lightboxIndex + 1 }} / {{ photos.length }}</span>
+        <button type="button" class="flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-white" aria-label="Schließen" (click)="closeLightbox()">
+          <span class="material-icons text-[26px]">close</span>
+        </button>
+      </div>
+      <img
+        [src]="imageBaseUrl + photos[lightboxIndex].imagePath"
+        [alt]="photos[lightboxIndex].description || selectedAlbum.name"
+        class="mx-auto max-h-[75vh] w-full object-contain lg:max-w-5xl"
+      />
+      <div class="flex items-center justify-between px-4 pb-7">
+        <button type="button" class="flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-white" aria-label="Vorheriges Foto" (click)="step(-1)">
+          <span class="material-icons text-[26px]">chevron_left</span>
+        </button>
+        <span class="truncate px-3 text-sm font-medium text-gray-400">{{ photos[lightboxIndex].description || selectedAlbum.name }}</span>
+        <button type="button" class="flex h-12 w-12 items-center justify-center rounded-full bg-white/10 text-white" aria-label="Nächstes Foto" (click)="step(1)">
+          <span class="material-icons text-[26px]">chevron_right</span>
+        </button>
+      </div>
+    </div>
   }
-</div>
+} @else if (loaded) {
+  <!-- Overview -->
+  <section class="page-container flex flex-col gap-4 py-6 lg:gap-6 lg:py-10">
+    @if (selectedAlbumSlug) {
+      <app-empty-state icon="photo_library" title="Album nicht gefunden" text="Dieses Album gibt es in der gewählten Saison nicht."></app-empty-state>
+    } @else if (!albums.length) {
+      <app-empty-state icon="photo_library" title="Noch keine Alben" text="Für diese Saison gibt es noch keine Fotos. Schau später wieder vorbei."></app-empty-state>
+    } @else {
+      <p class="meta hidden lg:block">Saison {{ season }} · {{ albums.length }} Alben</p>
+    }
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+      @for (album of albums; track album.name) {
+        <a [routerLink]="['/gallery', season, albumSlug(album)]" class="card-interactive group flex flex-col">
+          <div class="h-[200px] overflow-hidden bg-gray-100 lg:h-60">
+            @if (cover(album); as src) {
+              <img [src]="src" [alt]="album.name" class="card-media" loading="lazy" />
+            } @else {
+              <div class="flex h-full items-center justify-center text-sm text-gray-500">Kein Bild verfügbar</div>
+            }
+          </div>
+          <div class="flex flex-col gap-1 px-4 pb-4 pt-3.5">
+            <h2 class="text-lg font-bold leading-snug text-gray-900">{{ album.name }}</h2>
+            <p class="flex items-center gap-1.5 text-sm font-medium text-gray-500">
+              <span class="material-icons text-base">photo_library</span>{{ formatDate(album.date) }} · {{ album.photos?.length ?? 0 }} Fotos
+            </p>
+          </div>
+        </a>
+      }
+    </div>
+  </section>
 }

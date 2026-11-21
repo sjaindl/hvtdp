@@ -59,8 +59,16 @@ src/assets/images/team/
 src/assets/images/vorstand/
 src/assets/images/pappfan/
 src/assets/documents
+src/assets/videos
+src/_assets
+
+# pen.dev
+design/images
+design/embedded-image-1.jpg
+design/embedded-image.jpg
 
 #secrets
 hvtdp-2014-f07f6fad2063.json
 
 .claude/worktrees
+src/assets/images/goldenshot/442464839_463063992915784_875079496746057510_n.jpg

@@ -1,43 +1,65 @@
-<div class="donations-shell container flex flex-col gap-4">
-  <div>
-    <h1 class="large header">Matchballspenden</h1>
-    <p class="normal">
-      Wir sagen herzlichen Dank für die Unterstützung des Hobbyverein TDP Stainz durch
-      Matchballspenden. Durch Förderung bzw. Unterstützung ist es dem Verein möglich, einen
-      reibungslosen Spielbetrieb aufrecht zu erhalten.
-    </p>
-  </div>
+<app-page-intro
+  eyebrow="Spenden"
+  title="Matchballspenden"
+  lead="Wir sagen herzlichen Dank für die Unterstützung durch Matchballspenden. Durch diese Förderung ist es dem Verein möglich, einen reibungslosen Spielbetrieb aufrechtzuerhalten."
+>
+  <section aside class="flex flex-col gap-3.5 rounded-2xl bg-gray-900 p-6 lg:w-[420px]">
+    <h2 class="text-[22px] font-extrabold text-white">Matchball spenden</h2>
+    <p class="text-[15px] leading-relaxed text-gray-200">Präsentiere dein Unternehmen bei einem Heimspiel des HV TDP Stainz.</p>
+    <ul class="flex flex-col gap-2 text-[15px] font-medium text-white">
+      <li class="flex items-center gap-2.5"><span class="material-icons text-xl text-pink-600">sports_soccer</span>Dein Logo am Matchball</li>
+      <li class="flex items-center gap-2.5"><span class="material-icons text-xl text-pink-600">photo_camera</span>Foto der Ballübergabe</li>
+      <li class="flex items-center gap-2.5"><span class="material-icons text-xl text-pink-600">public</span>Danke-Eintrag auf unserer Website</li>
+    </ul>
+    <a [href]="mailUrl" class="btn-primary w-full">Anfrage senden <span class="material-icons text-xl">mail</span></a>
+  </section>
+</app-page-intro>
 
-  <div class="donation-grid">
-    @for (donation of donations; track donation) {
-    <article class="donation-card">
-      <div class="donation-header">
-        <div>
-          <p class="donation-date">{{ donation.date }}</p>
-          <p class="donation-game">{{ donation.game }}</p>
-        </div>
-        <span class="donation-chip">Sponsor: {{ donation.donator }}</span>
-      </div>
+<div class="page-container flex flex-col gap-8 py-8 lg:gap-10 lg:py-12">
+  @if (failed) {
+    <app-empty-state icon="wifi_off" tone="error" title="Spenden konnten nicht geladen werden"
+      text="Bitte prüfe deine Internetverbindung und versuche es erneut.">
+      <button type="button" class="btn-primary" (click)="load()">Erneut versuchen <span class="material-icons text-xl">refresh</span></button>
+    </app-empty-state>
+  }
 
-      <div class="donation-media">
-        <figure class="media-block">
-          <div class="label">Matchball</div>
-          <app-hvtdp-image
-            class="matchball-preview"
-            [imagePath]="imageBaseUrl + donation.matchBallImagePath"
-            [altText]="donation.game"
-          />
-        </figure>
-        <figure class="media-block">
-          <div class="label">Übergabe</div>
-          <app-hvtdp-image
-            class="donation-preview"
-            [imagePath]="imageBaseUrl + donation.imagePath"
-            [altText]="donation.donator"
-          />
-        </figure>
+  @for (group of visibleYears; track group.year) {
+    <section class="flex flex-col gap-3.5">
+      <h2 class="section-title">{{ group.year }}</h2>
+      <div class="grid gap-3.5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+        @for (donation of group.donations; track donation.imagePath + donation.date) {
+          <article class="card-interactive group flex flex-col">
+            <div class="flex items-center gap-3.5 p-4">
+              <img
+                [src]="imageBaseUrl + donation.matchBallImagePath"
+                [alt]="'Matchball ' + donation.donator"
+                class="h-[72px] w-[72px] shrink-0 rounded-xl object-contain"
+                loading="lazy"
+                (error)="$any($event.target).style.visibility = 'hidden'"
+              />
+              <div class="min-w-0">
+                <p class="text-[13px] font-semibold text-pink-600">{{ formatDate(donation.date) }}</p>
+                <h3 class="text-[17px] font-bold leading-snug text-gray-900">{{ donation.donator }}</h3>
+                <p class="text-sm font-medium text-gray-600">{{ donation.game }}</p>
+              </div>
+            </div>
+            @if (donation.imagePath) {
+              <div class="aspect-[4/3] overflow-hidden bg-gray-100">
+                <img [src]="imageBaseUrl + donation.imagePath" [alt]="'Ballübergabe ' + donation.donator" class="card-media" loading="lazy" />
+              </div>
+            }
+            @if (donation.description) {
+              <p class="px-4 py-3 text-sm text-gray-600">{{ donation.description }}</p>
+            }
+          </article>
+        }
       </div>
-    </article>
-    }
-  </div>
+    </section>
+  }
+
+  @if (!showAll && years.length > visibleYears.length) {
+    <div class="flex justify-center">
+      <button type="button" class="btn-secondary w-full lg:w-auto" (click)="showAll = true">Ältere Matchballspenden anzeigen</button>
+    </div>
+  }
 </div>

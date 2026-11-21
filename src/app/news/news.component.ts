@@ -1,40 +1,41 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Marked } from 'marked';
-import { DeviceDetectorService } from '../../../node_modules/ngx-device-detector';
-import { HvtdpImageComponent } from '../hvtdp-image/hvtdp-image.component';
+import { Subscription } from 'rxjs';
 import { CmsService } from '../services/cms.service';
 import { News } from '../shared/news';
 import { DateUtil } from '../shared/utils/date.util';
+import { TextUtil } from '../shared/utils/text.util';
+import { EmptyStateComponent } from '../ui/empty-state/empty-state.component';
+import { NewsCardComponent } from '../ui/news-card/news-card.component';
+import { NewsRowComponent } from '../ui/news-row/news-row.component';
+import { PageIntroComponent } from '../ui/page-intro/page-intro.component';
+import { ToastService } from '../ui/toast/toast.service';
+
+const PAGE_SIZE = 12;
 
 @Component({
   selector: 'app-news',
   templateUrl: './news.component.html',
-  styleUrls: ['./news.component.css'],
   standalone: true,
-  imports: [CommonModule, MatExpansionModule, MatPaginatorModule, HvtdpImageComponent],
+  imports: [RouterModule, EmptyStateComponent, NewsCardComponent, NewsRowComponent, PageIntroComponent],
 })
 export class NewsComponent implements OnInit, OnDestroy {
-  news: News[];
-  htmlNews = new Map<number, string>();
-  selectedNews: News;
+  news: News[] = [];
+  loaded = false;
+  failed = false;
 
-  length: number;
-  pageSize: number;
+  /** Year filter. TODO(API): replace with news categories (Spielbericht, Vereinsleben, …) once the CMS has them. */
+  years: string[] = [];
+  selectedYear: string | null = null;
+  visibleCount = PAGE_SIZE;
 
-  pageSizeOptions: number[] = [1, 5, 10, 25, 100];
+  newsId: number | null = null;
+  selectedNews: News | null = null;
+  selectedHtml = '';
 
-  // MatPaginator Output
-  pageEvent: PageEvent;
-
-  newsId: number;
-  private sub: any;
-  initialOpen = true;
-  isMobile = null;
+  private sub: Subscription;
 
   private readonly markdown = new Marked({
     breaks: true,
@@ -67,88 +68,106 @@ export class NewsComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private titleService: Title,
     private metaTagService: Meta,
-    private deviceService: DeviceDetectorService
+    private toastService: ToastService
   ) {}
 
   formatDate = DateUtil.formatDate;
 
   ngOnInit() {
-    this.cmsService.getNews().subscribe((news) => {
-      this.news = news;
-      this.htmlNews.clear();
-      // Rendered HTML is bound via [innerHTML], so Angular's sanitizer cleans it.
-      news.forEach((newsItem) =>
-        this.htmlNews.set(newsItem.newsId, this.markdown.parse(newsItem.content, { async: false }))
-      );
-
-      this.initPageEvent(5, 0);
-      this.readRouteParams();
-    });
-
-    this.titleService.setTitle('HV TDP Stainz: News');
-    this.metaTagService.updateTag({
-      name: 'description',
-      content: 'Die aktuellsten News über den HV TDP Stainz',
-    });
-
-    this.metaTagService.addTags([
-      {
-        name: 'keywords',
-        content: 'Fußballverein, Stainz, SC Stainz, Fußballverein Stainz, HVTDP, HVTDP Stainz',
-      },
-      { name: 'author', content: 'Stefan Jaindl' },
-      { charset: 'UTF-8' },
-    ]);
-
-    this.checkDevice();
-  }
-
-  checkDevice() {
-    this.isMobile = this.deviceService.isMobile();
+    this.load();
+    this.metaTagService.updateTag({ name: 'description', content: 'Die aktuellsten News über den HV TDP Stainz' });
   }
 
   ngOnDestroy() {
     this.sub?.unsubscribe();
   }
 
-  readRouteParams() {
-    if (this.route.params == null || this.news == null || this.news.length == 0) {
-      return;
-    }
-
-    this.sub = this.route.params.subscribe((params) => {
-      this.newsId = +params['newsId']; // (+) converts string 'newsId' to a number
-      console.log(' news id: ' + this.newsId);
-
-      //Load news details:
-      let pageIndexToSelect = 0;
-      this.news.forEach((element) => {
-        if (element.newsId == this.newsId) {
-          this.selectedNews = element;
-
-          console.log('selected news: ' + this.selectedNews.newsId);
-          this.initPageEvent(1, pageIndexToSelect);
-        }
-        pageIndexToSelect++;
-      });
+  load() {
+    this.failed = false;
+    this.cmsService.getNews().subscribe({
+      next: (news) => {
+        this.news = news;
+        this.years = [...new Set(news.map((item) => String(item.newsDate.getFullYear())))];
+        this.loaded = true;
+        this.sub?.unsubscribe();
+        this.sub = this.route.params.subscribe((params) => this.selectNews(params['newsId']));
+      },
+      error: () => {
+        this.loaded = true;
+        this.failed = true;
+      },
     });
   }
 
-  initPageEvent(pageSize, pageIndex) {
-    this.length = this.news.length;
-    this.pageSize = pageSize;
-    this.pageEvent = new PageEvent();
-
-    this.pageEvent.length = this.length;
-    this.pageEvent.pageIndex = pageIndex;
-    this.pageEvent.pageSize = this.pageSize;
+  get filteredNews(): News[] {
+    return this.selectedYear
+      ? this.news.filter((item) => String(item.newsDate.getFullYear()) === this.selectedYear)
+      : this.news;
   }
 
-  opened() {
-    if (!this.initialOpen) {
-      this.selectedNews = null;
-    }
+  get visibleNews(): News[] {
+    return this.filteredNews.slice(0, this.visibleCount);
+  }
 
-    this.initialOpen = false;
+  get relatedNews(): News[] {
+    return this.news.filter((item) => item.newsId !== this.selectedNews?.newsId).slice(0, 3);
+  }
+
+  selectYear(year: string | null) {
+    this.selectedYear = year;
+    this.visibleCount = PAGE_SIZE;
+  }
+
+  showMore() {
+    this.visibleCount += PAGE_SIZE;
+  }
+
+  get readingMinutes(): number {
+    return TextUtil.readingMinutes(this.selectedNews?.content ?? '');
+  }
+
+  get weekdayDate(): string {
+    const date = this.selectedNews?.newsDate;
+    if (!date) {
+      return '';
+    }
+    return `${date.toLocaleDateString('de-DE', { weekday: 'short' }).replace('.', '')}, ${DateUtil.formatDate(date)}`;
+  }
+
+  async copyLink() {
+    try {
+      await navigator.clipboard.writeText(location.href);
+      this.toastService.show('Link kopiert');
+    } catch {
+      this.toastService.show('Link konnte nicht kopiert werden', 'error');
+    }
+  }
+
+  get whatsappUrl(): string {
+    return 'https://wa.me/?text=' + encodeURIComponent(`${this.selectedNews?.title} ${location.href}`);
+  }
+
+  get facebookUrl(): string {
+    return 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(location.href);
+  }
+
+  private selectNews(newsIdParam: string | undefined) {
+    this.newsId = newsIdParam ? +newsIdParam : null;
+    this.selectedNews = this.newsId ? (this.news.find((item) => item.newsId === this.newsId) ?? null) : null;
+
+    if (this.selectedNews) {
+      // Rendered HTML is bound via [innerHTML], so Angular's sanitizer cleans it.
+      this.selectedHtml = this.markdown.parse(this.stripLeadingHeading(this.selectedNews.content), {
+        async: false,
+      });
+      this.titleService.setTitle(`HV TDP Stainz: ${this.selectedNews.title}`);
+    } else {
+      this.titleService.setTitle('HV TDP Stainz: News');
+    }
+  }
+
+  /** The page shows the CMS title already, so a leading "# Title" in the body would duplicate it. */
+  private stripLeadingHeading(markdown: string): string {
+    return (markdown ?? '').replace(/^\s*#\s[^\n]*\n+/, '');
   }
 }

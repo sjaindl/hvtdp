@@ -23,11 +23,9 @@
               "src/hvtdp.png"
             ],
             "styles": [
-              "src/styles.css",
-              "cookieconsent/build/cookieconsent.min.css"
+              "src/styles.css"
             ],
             "scripts": [
-              "cookieconsent/build/cookieconsent.min.js",
               "src/assets/js/survey/main.js",
               "src/assets/js/survey/embed.wcuxrs9g.js"
             ]
