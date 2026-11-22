@@ -1,8 +1,8 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
+import { ChampionshipService } from '../services/championship.service';
 import { CmsService } from '../services/cms.service';
-import { MysqlService } from '../services/mysql.service';
 import { Announcement } from '../shared/announcement';
 import { MatchInfo } from '../shared/match-info';
 import { News } from '../shared/news';
@@ -32,7 +32,7 @@ import { NewsRowComponent } from '../ui/news-row/news-row.component';
   ],
 })
 export class HomeComponent implements OnInit {
-  private mysqlService = inject(MysqlService);
+  private championshipService = inject(ChampionshipService);
   private cmsService = inject(CmsService);
   private titleService = inject(Title);
   private metaTagService = inject(Meta);
@@ -55,7 +55,7 @@ export class HomeComponent implements OnInit {
       error: () => (this.announcement = ''),
     });
 
-    this.mysqlService.getMatchInfo().subscribe({
+    this.championshipService.getMatches().subscribe({
       next: (matches) => {
         this.lastResult = MatchUtil.lastResult(matches ?? []);
         this.nextMatch = MatchUtil.nextMatch(matches ?? []);

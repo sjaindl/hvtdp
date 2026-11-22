@@ -4,11 +4,8 @@ import { Observable } from 'rxjs';
 import { Game } from '../shared/games';
 import { GoalOfTheSeason } from '../shared/goaloftheseason';
 import { GoldenShot } from '../shared/goldenshot';
-import { MatchInfo } from '../shared/match-info';
 import { Album } from '../shared/photos';
 import { PlayerOfTheSeason } from '../shared/playeroftheseason';
-import { Scorer } from '../shared/scorer';
-import { Standing } from '../shared/standing';
 import { Survey } from '../shared/survey';
 
 @Injectable()
@@ -27,18 +24,6 @@ export class MysqlService {
 
   public getSurveyLink(): Observable<Survey[]> {
     return this.http.get<Survey[]>(this.baseUrl + 'getSurvey.php');
-  }
-
-  public getStandings(): Observable<Standing[]> {
-    return this.http.get<Standing[]>(this.baseUrl + 'getStandings.php');
-  }
-
-  public getScorers(): Observable<Scorer[]> {
-    return this.http.get<Scorer[]>(this.baseUrl + 'getScorers.php');
-  }
-
-  public getMatchInfo(): Observable<MatchInfo[]> {
-    return this.http.get<MatchInfo[]>(this.baseUrl + 'getMatchInfo.php');
   }
 
   public postDuckrun(

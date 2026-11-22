@@ -48,7 +48,7 @@ USE_PM2="auto"
 # `migrate`. Add new areas here and to AREAS (in migration order).
 # ---------------------------------------------------------------------------------------------
 
-AREAS=(announcement club fanshop documents)
+AREAS=(announcement club fanshop documents championship)
 PHASE=download
 
 # Announcement bar on the home page (replaces the ticker).
@@ -71,6 +71,14 @@ area_club() {
 area_fanshop() {
   fetch getItems
   migrate fanshop --exports "$EXPORTS_DIR" "${MEDIA_ARGS[@]}"
+}
+
+# Seasons, standings, season scorers and matches with their goal scorers (needs the club area for players).
+area_championship() {
+  fetch getStandings
+  fetch getScorers
+  fetch getMatchInfo
+  migrate championship --exports "$EXPORTS_DIR"
 }
 
 # Documents (PDFs) with category and protected flag.

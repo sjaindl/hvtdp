@@ -5,7 +5,7 @@ export interface Standing {
   wins: number;
   draws: number;
   losses: number;
-  goalDifference: string;
+  goalsFor: number;
+  goalsAgainst: number;
   points: number;
-  season: string;
 }

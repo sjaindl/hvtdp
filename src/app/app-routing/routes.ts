@@ -29,7 +29,8 @@ export const routes: Routes = [
   { path: 'news', component: NewsComponent },
   { path: 'news/:newsId', component: NewsComponent },
   { path: 'team', component: TeamComponent },
-  { path: 'championship', redirectTo: `/championship/${CurrentSeason.championship}`, pathMatch: 'full' },
+  // Without a season the newest season from Strapi is shown.
+  { path: 'championship', component: ChampionshipComponent },
   { path: 'championship/:season', component: ChampionshipComponent },
   { path: 'gallery', redirectTo: `/gallery/${CurrentSeason.gallery}`, pathMatch: 'full' },
   { path: 'gallery/:season/:albumId', component: GalleryComponent },

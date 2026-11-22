@@ -41,10 +41,10 @@
     <ng-container *ngTemplateOutlet="team; context: { name: match.awayTeam }"></ng-container>
   </div>
 
-  @if (match.goalScorer) {
+  @if (match.goals.length) {
     <div class="flex items-center gap-2 rounded-xl bg-gray-50 px-3.5 py-3">
       <span class="material-icons text-lg text-gray-600">sports_soccer</span>
-      <span class="text-sm font-medium text-gray-800">{{ match.goalScorer }}</span>
+      <span class="text-sm font-medium text-gray-800">{{ goalsLabel(match.goals) }}</span>
     </div>
   }
 

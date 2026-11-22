@@ -1,11 +1,12 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { Subscription, forkJoin } from 'rxjs';
-import { MysqlService } from '../services/mysql.service';
-import { MatchInfo } from '../shared/match-info';
+import { Subscription, combineLatest, forkJoin } from 'rxjs';
+import { ChampionshipService } from '../services/championship.service';
+import { MatchGoal, MatchInfo } from '../shared/match-info';
 import { Scorer } from '../shared/scorer';
-import { Seasons, formatSeason } from '../shared/seasons';
+import { Season } from '../shared/season';
+import { formatSeason } from '../shared/seasons';
 import { Standing } from '../shared/standing';
 import { ErrorUtil } from '../shared/utils/error.util';
 import { MatchOutcome, MatchUtil } from '../shared/utils/match.util';
@@ -14,13 +15,6 @@ import { EmptyStateComponent } from '../ui/empty-state/empty-state.component';
 import { NextMatchComponent } from '../ui/match-widgets/next-match.component';
 import { PageIntroComponent } from '../ui/page-intro/page-intro.component';
 import { SlidingIndicatorDirective } from '../ui/sliding-indicator/sliding-indicator.directive';
-
-interface SeasonContent {
-  /** TODO(API): the league name is not part of the API yet. */
-  league: string;
-  preface?: string[];
-  postResults?: string[];
-}
 
 @Component({
   selector: 'app-championship',
@@ -36,16 +30,19 @@ interface SeasonContent {
   ],
 })
 export class ChampionshipComponent implements OnInit, OnDestroy {
-  private mysqlService = inject(MysqlService);
+  private championshipService = inject(ChampionshipService);
   private route = inject(ActivatedRoute);
   private titleService = inject(Title);
   private metaTagService = inject(Meta);
 
-  readonly seasons = Seasons.championship;
   readonly formatSeason = formatSeason;
+  readonly goalsLabel = (goals: MatchGoal[]) => MatchUtil.goalsLabel(goals);
 
+  /** Seasons from Strapi, newest first (season chips). */
+  seasons: Season[] = [];
   season = '';
-  seasonContent = this.getSeasonContent('');
+  /** League and notes of the season shown. */
+  seasonInfo: Season | null = null;
   standings: Standing[] = [];
   scorers: Scorer[] = [];
   results: MatchInfo[] = [];
@@ -60,10 +57,15 @@ export class ChampionshipComponent implements OnInit, OnDestroy {
   private sub?: Subscription;
 
   ngOnInit() {
-    this.sub = this.route.params.subscribe((params) => {
-      this.season = params['season'];
-      this.seasonContent = this.getSeasonContent(this.season);
-      this.load();
+    // Without a season in the URL (/championship) the newest season is shown.
+    this.sub = combineLatest([this.route.params, this.championshipService.getSeasons()]).subscribe({
+      next: ([params, seasons]) => {
+        this.seasons = seasons;
+        this.season = params['season'] ?? seasons[0]?.key ?? '';
+        this.seasonInfo = seasons.find((season) => season.key === this.season) ?? null;
+        this.load();
+      },
+      error: (error: unknown) => this.showError(error),
     });
 
     this.titleService.setTitle('HV TDP Stainz: Meisterschaft');
@@ -79,38 +81,44 @@ export class ChampionshipComponent implements OnInit, OnDestroy {
   }
 
   load() {
+    if (!this.season) {
+      return;
+    }
     this.loading = true;
     this.failed = false;
     forkJoin({
-      standings: this.mysqlService.getStandings(),
-      scorers: this.mysqlService.getScorers(),
-      matches: this.mysqlService.getMatchInfo(),
+      standings: this.championshipService.getStandings(this.season),
+      scorers: this.championshipService.getScorers(this.season),
+      matches: this.championshipService.getMatches(this.season),
     }).subscribe({
       next: ({ standings, scorers, matches }) => {
-        this.standings = standings
-          .filter((standing) => standing.season == this.season)
-          .sort((a, b) => Number(a.place) - Number(b.place));
-        this.scorers = scorers
-          .filter((scorer) => Number(scorer.goals) > 0 && scorer.season == this.season)
-          .sort(
-            (a, b) => Number(b.goals) - Number(a.goals) || a.playerName.localeCompare(b.playerName)
-          );
-        const seasonMatches = (matches ?? []).filter((match) => match.season == this.season);
+        this.standings = standings;
+        this.scorers = scorers;
         this.results = MatchUtil.sortNewestFirst(
-          seasonMatches.filter((match) => MatchUtil.hasScore(match))
+          matches.filter((match) => MatchUtil.hasScore(match))
         );
-        this.nextMatch = MatchUtil.nextMatch(seasonMatches);
+        this.nextMatch = MatchUtil.nextMatch(matches);
         this.loaded = true;
         this.loading = false;
         this.contentKey = this.season;
       },
-      error: (error: unknown) => {
-        this.loaded = true;
-        this.loading = false;
-        this.failed = true;
-        this.errorText = ErrorUtil.message(error);
-      },
+      error: (error: unknown) => this.showError(error),
     });
+  }
+
+  /** Season notes may contain several paragraphs (blank lines). */
+  paragraphs(text: string | null | undefined): string[] {
+    return (text ?? '')
+      .split(/\n\s*\n/)
+      .map((paragraph) => paragraph.trim())
+      .filter(Boolean);
+  }
+
+  private showError(error: unknown) {
+    this.loaded = true;
+    this.loading = false;
+    this.failed = true;
+    this.errorText = ErrorUtil.message(error);
   }
 
   isOwn(team: string): boolean {
@@ -122,8 +130,8 @@ export class ChampionshipComponent implements OnInit, OnDestroy {
   }
 
   matchMeta(match: MatchInfo): string {
-    const date = MatchUtil.formatDateTime(match.dateTime).split(' · ')[0];
-    return [match.matchInfo, date].filter(Boolean).join(' · ');
+    const date = MatchUtil.formatDateTime(match).split(' · ')[0];
+    return [match.label, date].filter(Boolean).join(' · ');
   }
 
   additionalInfo(match: MatchInfo): string {
@@ -142,21 +150,5 @@ export class ChampionshipComponent implements OnInit, OnDestroy {
 
   get standingsNote(): string {
     return this.standings.length ? 'Aktueller Tabellenstand' : '';
-  }
-
-  private getSeasonContent(season: string): SeasonContent {
-    const content: Record<string, Partial<SeasonContent>> = {
-      '2022-2023': {
-        postResults: [
-          '* Spiel wird offiziell nicht gewertet, da Gössnitz aus der Liga ausgestiegen ist.',
-        ],
-      },
-      '2021-2022': {
-        preface: [
-          'Die Plätze 1 bis 3 spielen am Ende der Saison in einem Play-off gegen die Plätze 5 bis 8 aus Liga A um den Aufstieg.',
-        ],
-      },
-    };
-    return { league: 'Liga B', ...content[season] };
   }
 }

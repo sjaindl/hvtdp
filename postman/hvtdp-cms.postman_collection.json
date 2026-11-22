@@ -860,6 +860,304 @@
           "response": []
         }
       ]
+    },
+    {
+      "name": "Championship",
+      "description": "Seasons, standings, season scorer table and matches with their goal scorers (`migrate-to-strapi.sh championship`). Set `season` in the environment (e.g. 2026-2027).",
+      "item": [
+        {
+          "name": "List seasons",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/seasons?sort[0]=key:desc",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "seasons"
+              ],
+              "query": [
+                {
+                  "key": "sort[0]",
+                  "value": "key:desc"
+                }
+              ]
+            },
+            "description": "All seasons, newest first, with league and notes."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('Non-empty list', () => pm.expect(body.data).to.be.an('array').that.is.not.empty);",
+                  "pm.test('Seasons have a key like 2026-2027', () => body.data.forEach((s) => pm.expect(s.key).to.match(/^\\d{4}-\\d{4}$/)));",
+                  "pm.test('Newest first', () => pm.expect(body.data.map((s) => s.key)).to.eql([...body.data.map((s) => s.key)].sort().reverse()));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Standings of a season",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/standings?filters[season][key][$eq]={{season}}&sort[0]=place:asc&pagination[pageSize]=100",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "standings"
+              ],
+              "query": [
+                {
+                  "key": "filters[season][key][$eq]",
+                  "value": "{{season}}"
+                },
+                {
+                  "key": "sort[0]",
+                  "value": "place:asc"
+                },
+                {
+                  "key": "pagination[pageSize]",
+                  "value": "100"
+                }
+              ]
+            },
+            "description": "Table of `{{season}}` by place; goal difference as goalsFor/goalsAgainst numbers."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('Non-empty list', () => pm.expect(body.data).to.be.an('array').that.is.not.empty);",
+                  "pm.test('Numbers, ordered by place', () => {",
+                  "  body.data.forEach((row, i) => {",
+                  "    ['place', 'games', 'wins', 'draws', 'losses', 'goalsFor', 'goalsAgainst', 'points'].forEach((key) => pm.expect(row[key], key).to.be.a('number'));",
+                  "    pm.expect(row.place).to.eql(i + 1);",
+                  "  });",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Scorers of a season",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/scorers?filters[season][key][$eq]={{season}}&filters[goals][$gt]=0&sort[0]=goals:desc&populate[player][fields][0]=firstName&populate[player][fields][1]=lastName&populate[player][populate][image]=true&pagination[pageSize]=100",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "scorers"
+              ],
+              "query": [
+                {
+                  "key": "filters[season][key][$eq]",
+                  "value": "{{season}}"
+                },
+                {
+                  "key": "filters[goals][$gt]",
+                  "value": "0"
+                },
+                {
+                  "key": "sort[0]",
+                  "value": "goals:desc"
+                },
+                {
+                  "key": "populate[player][fields][0]",
+                  "value": "firstName"
+                },
+                {
+                  "key": "populate[player][fields][1]",
+                  "value": "lastName"
+                },
+                {
+                  "key": "populate[player][populate][image]",
+                  "value": "true"
+                },
+                {
+                  "key": "pagination[pageSize]",
+                  "value": "100"
+                }
+              ]
+            },
+            "description": "Season scorer table of `{{season}}` with linked player and portrait (maintained separately from the match scorers)."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('Non-empty list', () => pm.expect(body.data).to.be.an('array').that.is.not.empty);",
+                  "pm.test('Goals as numbers; player or name', () => body.data.forEach((s) => {",
+                  "  pm.expect(s.goals).to.be.a('number');",
+                  "  pm.expect(!!s.player || !!s.name).to.be.true;",
+                  "}));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Matches of a season",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/matches?filters[season][key][$eq]={{season}}&populate[season][fields][0]=key&populate[goals][populate][player][fields][0]=firstName&populate[goals][populate][player][fields][1]=lastName&pagination[pageSize]=100",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "matches"
+              ],
+              "query": [
+                {
+                  "key": "filters[season][key][$eq]",
+                  "value": "{{season}}"
+                },
+                {
+                  "key": "populate[season][fields][0]",
+                  "value": "key"
+                },
+                {
+                  "key": "populate[goals][populate][player][fields][0]",
+                  "value": "firstName"
+                },
+                {
+                  "key": "populate[goals][populate][player][fields][1]",
+                  "value": "lastName"
+                },
+                {
+                  "key": "pagination[pageSize]",
+                  "value": "100"
+                }
+              ]
+            },
+            "description": "Matches of `{{season}}` with competition/round/stage, date and time, scores (null = not played) and goal scorers."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('Non-empty list', () => pm.expect(body.data).to.be.an('array').that.is.not.empty);",
+                  "pm.test('Typed match fields', () => body.data.forEach((m) => {",
+                  "  pm.expect(['Meisterschaft', 'Cup', 'Testspiel']).to.include(m.competition);",
+                  "  if (m.date !== null) pm.expect(m.date).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);",
+                  "  if (m.time !== null) pm.expect(m.time).to.match(/^\\d{2}:\\d{2}:\\d{2}/);",
+                  "  ['homeScore', 'awayScore'].forEach((key) => pm.expect(m[key] === null || typeof m[key] === 'number', key).to.be.true);",
+                  "  pm.expect(m.goals).to.be.an('array');",
+                  "  m.goals.forEach((g) => pm.expect(g.count).to.be.a('number'));",
+                  "}));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "All matches",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/matches?populate[season][fields][0]=key&populate[goals][populate][player][fields][0]=lastName&pagination[pageSize]=100",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "matches"
+              ],
+              "query": [
+                {
+                  "key": "populate[season][fields][0]",
+                  "value": "key"
+                },
+                {
+                  "key": "populate[goals][populate][player][fields][0]",
+                  "value": "lastName"
+                },
+                {
+                  "key": "pagination[pageSize]",
+                  "value": "100"
+                }
+              ]
+            },
+            "description": "All matches of all seasons (home page: last result and next match)."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('Non-empty list', () => pm.expect(body.data).to.be.an('array').that.is.not.empty);",
+                  "pm.test('Every match belongs to a season', () => body.data.forEach((m) => pm.expect(m.season && m.season.key).to.be.a('string')));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        }
+      ]
     }
   ]
 }

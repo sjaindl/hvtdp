@@ -1,34 +1,13 @@
-import { MatchInfo } from '../match-info';
+import { MatchGoal, MatchInfo } from '../match-info';
 
 export const OWN_TEAM = 'HV TDP Stainz';
 
 export type MatchOutcome = 'Sieg' | 'Remis' | 'Niederlage';
 
-/**
- * Helpers for MatchInfo rows from getMatchInfo.php. The API delivers numbers as strings
- * ("3", "" for not played yet) and dates like "SA, 19.09.2026, 15:30".
- */
+/** Helpers for matches (results, next match, display texts). */
 export class MatchUtil {
   static hasScore(match: MatchInfo): boolean {
-    return MatchUtil.toNumber(match.homeScore) !== null && MatchUtil.toNumber(match.awayScore) !== null;
-  }
-
-  static toNumber(value: unknown): number | null {
-    if (value === null || value === undefined || value === '') {
-      return null;
-    }
-    const parsed = Number(value);
-    return Number.isNaN(parsed) ? null : parsed;
-  }
-
-  /** Parses "SA, 19.09.2026, 15:30" (time optional). Returns null for missing or unknown formats. */
-  static parseDate(dateTime: string | null): Date | null {
-    const match = (dateTime ?? '').match(/(\d{1,2})\.(\d{1,2})\.(\d{4})(?:\D+(\d{1,2}):(\d{2}))?/);
-    if (!match) {
-      return null;
-    }
-    const [, day, month, year, hours, minutes] = match;
-    return new Date(+year, +month - 1, +day, hours ? +hours : 0, minutes ? +minutes : 0);
+    return match.homeScore !== null && match.awayScore !== null;
   }
 
   static isOwnTeam(team: string | null | undefined): boolean {
@@ -40,8 +19,7 @@ export class MatchUtil {
   }
 
   static outcome(match: MatchInfo): MatchOutcome | null {
-    const home = MatchUtil.toNumber(match.homeScore);
-    const away = MatchUtil.toNumber(match.awayScore);
+    const { homeScore: home, awayScore: away } = match;
     if (home === null || away === null) {
       return null;
     }
@@ -49,42 +27,66 @@ export class MatchUtil {
     return own > 0 ? 'Sieg' : own < 0 ? 'Niederlage' : 'Remis';
   }
 
-  /** Newest first, using the parsed date and falling back to the row id. */
+  /** Newest first by kickoff; matches without date (older seasons) by creation order. */
   static sortNewestFirst(matches: MatchInfo[]): MatchInfo[] {
-    return [...matches].sort((a, b) => {
-      const dateA = MatchUtil.parseDate(a.dateTime)?.getTime() ?? 0;
-      const dateB = MatchUtil.parseDate(b.dateTime)?.getTime() ?? 0;
-      return dateB - dateA || Number(b.id ?? 0) - Number(a.id ?? 0);
-    });
+    return [...matches].sort(
+      (a, b) => (b.kickoff?.getTime() ?? 0) - (a.kickoff?.getTime() ?? 0) || b.id - a.id
+    );
   }
 
   static lastResult(matches: MatchInfo[]): MatchInfo | null {
     return MatchUtil.sortNewestFirst(matches).find((match) => MatchUtil.hasScore(match)) ?? null;
   }
 
+  /** The earliest match that has not been played and has not started yet. */
   static nextMatch(matches: MatchInfo[], now = new Date()): MatchInfo | null {
     return (
-      [...matches]
-        .filter((match) => !MatchUtil.hasScore(match))
-        .map((match) => ({ match, date: MatchUtil.parseDate(match.dateTime) }))
-        .filter((entry): entry is { match: MatchInfo; date: Date } => entry.date !== null && entry.date.getTime() >= now.getTime())
-        .sort((a, b) => a.date.getTime() - b.date.getTime())[0]?.match ?? null
+      matches
+        .filter(
+          (match): match is MatchInfo & { kickoff: Date } =>
+            !MatchUtil.hasScore(match) &&
+            match.kickoff !== null &&
+            match.kickoff.getTime() >= now.getTime()
+        )
+        .sort((a, b) => a.kickoff.getTime() - b.kickoff.getTime())[0] ?? null
     );
   }
 
-  /** "SA, 19.09.2026, 15:30" -> "Sa, 19.09.2026 · 15:30 Uhr" */
-  static formatDateTime(dateTime: string | null): string {
-    const date = MatchUtil.parseDate(dateTime);
+  /** "Sa, 19.09.2026 · 15:30 Uhr" (without the time part when only the date is known). */
+  static formatDateTime(match: Pick<MatchInfo, 'kickoff' | 'hasTime'>): string {
+    const date = match.kickoff;
     if (!date) {
-      return dateTime ?? '';
+      return '';
     }
     const weekday = date.toLocaleDateString('de-DE', { weekday: 'short' }).replace('.', '');
-    const day = date.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' });
-    const hasTime = /\d{1,2}:\d{2}/.test(dateTime ?? '');
-    const time = hasTime
+    const day = date.toLocaleDateString('de-DE', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    });
+    const time = match.hasTime
       ? ` · ${date.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })} Uhr`
       : '';
     return `${weekday}, ${day}${time}`;
+  }
+
+  /** "Paschek (2), Jaindl" */
+  static goalsLabel(goals: MatchGoal[]): string {
+    return goals
+      .map((goal) => (goal.count > 1 ? `${goal.name} (${goal.count})` : goal.name))
+      .join(', ');
+  }
+
+  /** "5. Runde", "Nachtragsspiel, 5. Runde", "Cup 1. Runde", "Cup Achtelfinale", "Testspiel". */
+  static label(match: Pick<MatchInfo, 'competition' | 'round' | 'stage'>): string {
+    const round = match.round ? `${match.round}. Runde` : '';
+    if (match.competition === 'Cup') {
+      return ['Cup', round, match.stage].filter(Boolean).join(' ');
+    }
+    if (match.competition === 'Testspiel') {
+      return match.stage ? `Testspiel ${match.stage}` : 'Testspiel';
+    }
+    return [match.stage, round].filter(Boolean).join(', ') || 'Meisterschaft';
   }
 
   static initials(team: string): string {

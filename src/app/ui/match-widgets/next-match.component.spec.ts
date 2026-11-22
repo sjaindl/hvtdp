@@ -7,19 +7,24 @@ import { NextMatchComponent } from './next-match.component';
 describe('NextMatchComponent', () => {
   let fixture: ComponentFixture<NextMatchComponent>;
 
-  const create = (dateTime: string | null) => {
+  const create = (kickoff: Date | null) => {
     fixture = TestBed.createComponent(NextMatchComponent);
     fixture.componentRef.setInput('match', {
       id: 1,
       season: '2026-2027',
-      matchInfo: '',
-      dateTime,
+      competition: 'Meisterschaft',
+      round: 6,
+      stage: null,
+      label: '6. Runde',
+      kickoff,
+      hasTime: true,
       venue: null,
       homeTeam: OWN_TEAM,
       awayTeam: 'SV Gegner',
       homeScore: null,
       awayScore: null,
       additionalInfo: null,
+      goals: [],
     } satisfies MatchInfo);
     fixture.detectChanges();
     return fixture.componentInstance;
@@ -40,7 +45,7 @@ describe('NextMatchComponent', () => {
   });
 
   it('counts down days, hours, minutes and seconds to kickoff', () => {
-    const component = create('SA, 19.09.2026, 15:30');
+    const component = create(new Date(2026, 8, 19, 15, 30));
     expect(component.countdown?.map((part) => `${part.value} ${part.label}`)).toEqual([
       '01 Tage',
       '03 Std',
@@ -50,19 +55,19 @@ describe('NextMatchComponent', () => {
   });
 
   it('updates the countdown every second', () => {
-    const component = create('SA, 19.09.2026, 15:30');
+    const component = create(new Date(2026, 8, 19, 15, 30));
     jasmine.clock().tick(1000);
     expect(component.countdown?.[3].value).toBe('59');
   });
 
   it('shows no countdown once the match has started or without a date', () => {
-    expect(create('FR, 18.09.2026, 11:00').countdown).toBeNull();
+    expect(create(new Date(2026, 8, 18, 11, 0)).countdown).toBeNull();
     fixture.destroy();
     expect(create(null).countdown).toBeNull();
   });
 
   it('knows whether the own team plays at home', () => {
-    const component = create('SA, 19.09.2026, 15:30');
+    const component = create(new Date(2026, 8, 19, 15, 30));
     expect(component.isHome).toBeTrue();
     expect(component.dateLabel).toBe('Sa, 19.09.2026 · 15:30 Uhr');
   });

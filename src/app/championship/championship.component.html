@@ -1,5 +1,5 @@
 <app-page-intro
-  [eyebrow]="'STT-Meisterschaft · ' + seasonContent.league"
+  [eyebrow]="'STT-Meisterschaft' + (seasonInfo?.league ? ' · ' + seasonInfo?.league : '')"
   [title]="'Meisterschaft ' + formatSeason(season)"
   [alignEnd]="true"
 >
@@ -8,11 +8,11 @@
     appSlidingIndicator
     aria-label="Saison wählen"
   >
-    @for (item of seasons; track item) {
+    @for (item of seasons; track item.key) {
       <a
-        [routerLink]="['/championship', item]"
-        [class]="item === season ? 'chip-active' : 'chip'"
-        >{{ formatSeason(item) }}</a
+        [routerLink]="['/championship', item.key]"
+        [class]="item.key === season ? 'chip-active' : 'chip'"
+        >{{ formatSeason(item.key) }}</a
       >
     }
   </div>
@@ -42,7 +42,7 @@
             <p class="meta">{{ standingsNote }}</p>
           }
         </div>
-        @for (text of seasonContent.preface ?? []; track text) {
+        @for (text of paragraphs(seasonInfo?.preface); track text) {
           <p class="rounded-xl bg-gray-50 p-4 text-sm text-gray-600">{{ text }}</p>
         }
 
@@ -74,7 +74,7 @@
                 <p class="text-base font-bold leading-snug text-gray-900">{{ row.team }}</p>
                 <p class="text-[13px] font-medium text-gray-500">
                   {{ row.games }} Sp · {{ row.wins }} S · {{ row.draws }} U · {{ row.losses }} N ·
-                  {{ row.goalDifference }}
+                  {{ row.goalsFor }}:{{ row.goalsAgainst }}
                 </p>
               </div>
               <div class="flex flex-col items-end">
@@ -134,7 +134,7 @@
                     <td class="text-center">{{ row.wins }}</td>
                     <td class="text-center">{{ row.draws }}</td>
                     <td class="text-center">{{ row.losses }}</td>
-                    <td class="text-center">{{ row.goalDifference }}</td>
+                    <td class="text-center">{{ row.goalsFor }}:{{ row.goalsAgainst }}</td>
                     <td
                       class="pr-4 text-center font-extrabold"
                       [class]="isOwn(row.team) ? 'text-pink-600' : 'text-gray-900'"
@@ -160,18 +160,25 @@
           <section class="card px-4 pb-2 pt-4">
             <h2 class="text-base font-bold text-gray-900">Torschützen</h2>
             <ol>
-              @for (scorer of scorers; track scorer.playerName; let i = $index) {
+              @for (scorer of scorers; track scorer.name; let i = $index) {
                 <li
                   class="flex items-center gap-3 border-b border-gray-100 px-1 py-2.5 last:border-0"
                 >
                   <span class="w-5 text-sm font-semibold text-gray-400">{{ i + 1 }}</span>
-                  <span
-                    class="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 text-sm font-bold text-gray-600"
-                    >{{ scorerInitials(scorer.playerName) }}</span
-                  >
-                  <span class="flex-1 text-base font-semibold text-gray-900">{{
-                    scorer.playerName
-                  }}</span>
+                  @if (scorer.imageUrl) {
+                    <img
+                      [src]="scorer.imageUrl"
+                      alt=""
+                      class="h-10 w-10 shrink-0 rounded-full bg-gray-100 object-cover object-top"
+                      loading="lazy"
+                    />
+                  } @else {
+                    <span
+                      class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gray-100 text-sm font-bold text-gray-600"
+                      >{{ scorerInitials(scorer.name) }}</span
+                    >
+                  }
+                  <span class="flex-1 text-base font-semibold text-gray-900">{{ scorer.name }}</span>
                   <span class="flex items-center gap-1 text-lg font-extrabold text-gray-900"
                     >{{ scorer.goals
                     }}<span class="material-icons text-base text-pink-600"
@@ -223,13 +230,13 @@
                   >
                 </div>
               }
-              @if (match.goalScorer || additionalInfo(match)) {
+              @if (match.goals.length || additionalInfo(match)) {
                 <div
                   class="flex items-center gap-1.5 border-t border-gray-100 pt-2 text-[13px] font-medium text-gray-600"
                 >
-                  @if (match.goalScorer) {
+                  @if (match.goals.length) {
                     <span class="material-icons text-base text-gray-400">sports_soccer</span
-                    >{{ match.goalScorer }}
+                    >{{ goalsLabel(match.goals) }}
                   }
                   @if (additionalInfo(match); as info) {
                     <span class="text-gray-500">{{ info }}</span>
@@ -239,7 +246,7 @@
             </article>
           }
         </div>
-        @for (text of seasonContent.postResults ?? []; track text) {
+        @for (text of paragraphs(seasonInfo?.postResults); track text) {
           <p class="text-sm text-gray-500">{{ text }}</p>
         }
       </section>

@@ -16,7 +16,7 @@ export const MAIN_NAV: NavItem[] = [
   { label: 'Team', path: '/team', match: '/team', icon: 'groups' },
   {
     label: 'Liga',
-    path: `/championship/${CurrentSeason.championship}`,
+    path: '/championship',
     match: '/championship',
     icon: 'leaderboard',
   },

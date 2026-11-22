@@ -13,6 +13,8 @@ import { MatchUtil } from '../../shared/utils/match.util';
   templateUrl: './last-result.component.html',
 })
 export class LastResultComponent {
+  readonly goalsLabel = MatchUtil.goalsLabel;
+
   @Input({ required: true }) match!: MatchInfo;
 
   get outcome() {
@@ -20,8 +22,8 @@ export class LastResultComponent {
   }
 
   get meta(): string {
-    const date = MatchUtil.formatDateTime(this.match.dateTime).split(' · ')[0];
-    return [this.match.matchInfo, date, this.match.venue].filter(Boolean).join(' · ');
+    const date = MatchUtil.formatDateTime(this.match).split(' · ')[0];
+    return [this.match.label, date, this.match.venue].filter(Boolean).join(' · ');
   }
 
   isOwn(team: string): boolean {

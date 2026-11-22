@@ -20,7 +20,7 @@ export class NextMatchComponent implements OnInit, OnDestroy {
   }
 
   get dateLabel(): string {
-    return MatchUtil.formatDateTime(this.match.dateTime);
+    return MatchUtil.formatDateTime(this.match);
   }
 
   ngOnInit() {
@@ -33,7 +33,7 @@ export class NextMatchComponent implements OnInit, OnDestroy {
   }
 
   private updateCountdown() {
-    const kickoff = MatchUtil.parseDate(this.match.dateTime);
+    const kickoff = this.match.kickoff;
     const diff = kickoff ? kickoff.getTime() - Date.now() : -1;
     if (diff <= 0) {
       this.countdown = null;
