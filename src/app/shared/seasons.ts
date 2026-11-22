@@ -1,15 +1,3 @@
-/**
- * Season lists used for season chips and navigation, newest first (championship, video, voting and gallery seasons come from Strapi).
- * TODO(API): derive the advent seasons from the API instead of maintaining them here.
- */
-export const Seasons = {
-  advent: ['2023', '2021'],
-};
-
-export const CurrentSeason = {
-  advent: Seasons.advent[0],
-};
-
 /** "2026-2027" -> "2026/27" */
 export function formatSeason(season: string): string {
   const match = (season ?? '').match(/^(\d{4})-\d{2}(\d{2})$/);

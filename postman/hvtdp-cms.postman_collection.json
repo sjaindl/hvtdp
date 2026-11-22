@@ -1693,6 +1693,309 @@
           "response": []
         }
       ]
+    },
+    {
+      "name": "Pages",
+      "description": "Hallenturnier page with its registration and the Advent calendars (`migrate-to-strapi.sh pages`). The registration request stores an entry and sends two mails (to the club and the registrant): use it locally only.",
+      "item": [
+        {
+          "name": "Hallenturnier",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/hallenturnier?populate[image]=true&populate[prizes]=true&populate[lastEditionAlbum][fields][0]=name&populate[lastEditionAlbum][fields][1]=year&populate[lastEditionAlbum][fields][2]=slug",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "hallenturnier"
+              ],
+              "query": [
+                {
+                  "key": "populate[image]",
+                  "value": "true"
+                },
+                {
+                  "key": "populate[prizes]",
+                  "value": "true"
+                },
+                {
+                  "key": "populate[lastEditionAlbum][fields][0]",
+                  "value": "name"
+                },
+                {
+                  "key": "populate[lastEditionAlbum][fields][1]",
+                  "value": "year"
+                },
+                {
+                  "key": "populate[lastEditionAlbum][fields][2]",
+                  "value": "slug"
+                }
+              ]
+            },
+            "description": "The current tournament with image, prizes and the link to last year's album."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "const t = body.data;",
+                  "pm.test('Date and fee are typed', () => {",
+                  "  pm.expect(t.date).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);",
+                  "  pm.expect(t.entryFee).to.be.a('number');",
+                  "});",
+                  "pm.test('Prizes and album link', () => {",
+                  "  pm.expect(t.prizes).to.be.an('array').that.is.not.empty;",
+                  "  pm.expect(t.lastEditionAlbum.slug).to.match(/^[a-z0-9-]+$/);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Hallenturnier registration (local only)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/hallenturnier-registrations/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "hallenturnier-registrations",
+                "register"
+              ]
+            },
+            "description": "Registers a team: 200, or 400 (invalid input), 409 (registration closed), 429 (more than 5 per hour from one IP). Stores the registration and sends the club mail and the confirmation mail (without SMTP_HOST they are only logged).",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Postman Test\",\n  \"email\": \"postman@example.com\",\n  \"teamName\": \"FC Postman\",\n  \"website\": \"\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Registered, closed or limited', () => pm.expect(pm.response.code).to.be.oneOf([200, 409, 429]));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Hallenturnier registration with invalid email → 400",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/hallenturnier-registrations/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "hallenturnier-registrations",
+                "register"
+              ]
+            },
+            "description": "The server validates like the form does.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Postman Test\",\n  \"email\": \"no-email\",\n  \"teamName\": \"FC Postman\",\n  \"website\": \"\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 400', () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Hallenturnier registrations are not public",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/hallenturnier-registrations",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "hallenturnier-registrations"
+              ]
+            },
+            "description": "Registrations contain personal data: only visible in the admin."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 403', () => pm.response.to.have.status(403));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Advent years",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/advent-calendars?fields[0]=year&sort[0]=year:desc",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "advent-calendars"
+              ],
+              "query": [
+                {
+                  "key": "fields[0]",
+                  "value": "year"
+                },
+                {
+                  "key": "sort[0]",
+                  "value": "year:desc"
+                }
+              ]
+            },
+            "description": "Years with a calendar, newest first; stores the newest year."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('Non-empty list', () => pm.expect(body.data).to.be.an('array').that.is.not.empty);",
+                  "pm.environment.set('adventYear', body.data[0].year);"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Advent calendar of a year",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/advent-calendars?filters[year][$eq]={{adventYear}}&populate[doors][populate][poster]=true&populate[doors][populate][video]=true",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "advent-calendars"
+              ],
+              "query": [
+                {
+                  "key": "filters[year][$eq]",
+                  "value": "{{adventYear}}"
+                },
+                {
+                  "key": "populate[doors][populate][poster]",
+                  "value": "true"
+                },
+                {
+                  "key": "populate[doors][populate][video]",
+                  "value": "true"
+                }
+              ]
+            },
+            "description": "Calendar of `{{adventYear}}` with 24 doors (poster + video)."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('Admin titles are private', () => pm.expect(pm.response.text()).to.not.include('adminTitle'));",
+                  "const doors = body.data[0].doors;",
+                  "pm.test('24 doors with poster and video', () => {",
+                  "  pm.expect(doors).to.have.lengthOf(24);",
+                  "  doors.forEach((door) => {",
+                  "    pm.expect(door.poster.url).to.match(/^\\/uploads\\//);",
+                  "    pm.expect(door.video.mime).to.eql('video/mp4');",
+                  "  });",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "response": []
+        }
+      ]
     }
   ]
 }

@@ -47,36 +47,6 @@ export class MysqlService {
     });
   }
 
-  public postHallenturnier(
-    name: string,
-    mail: string,
-    // phone: string,
-    teamname: string
-    // day: string
-  ): Observable<unknown> {
-    let url = this.baseUrl + 'postHallenturnier.php?';
-    url += '&name=' + name;
-    url += '&mail=' + mail;
-    // url += '&phone=' + phone
-    url += '&teamname=' + teamname;
-    // url += '&day=' + day
-    url += '&useragent=' + window.navigator.userAgent;
-    url += '&language=' + window.navigator.language;
-    url += '&platform=' + window.navigator.platform;
-
-    return this.http.get<unknown>(url, {
-      params: new HttpParams()
-        .append('name', name)
-        .append('mail', mail)
-        // .append('phone', phone)
-        .append('teamname', teamname)
-        // .append('day', day)
-        .append('useragent', window.navigator.userAgent)
-        .append('language', window.navigator.language)
-        .append('platform', window.navigator.platform),
-    });
-  }
-
   public postBigdarts(
     name: string,
     mail: string,
@@ -107,7 +77,12 @@ export class MysqlService {
     });
   }
 
-  public postTurnier(name: string, mail: string, phone: string, teamname: string): Observable<unknown> {
+  public postTurnier(
+    name: string,
+    mail: string,
+    phone: string,
+    teamname: string
+  ): Observable<unknown> {
     let url = this.baseUrl + 'postKleinfeldturnier.php?';
     url += '&name=' + name;
     url += '&mail=' + mail;

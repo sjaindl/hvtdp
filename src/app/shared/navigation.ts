@@ -1,5 +1,3 @@
-import { CurrentSeason } from './seasons';
-
 export interface NavItem {
   label: string;
   /** Router path. Parametrised pages link to the current season. */
@@ -48,7 +46,7 @@ export const HIGHLIGHTS_NAV: NavItem[] = [
   },
   {
     label: 'Adventkalender',
-    path: `/advent/${CurrentSeason.advent}`,
+    path: '/advent',
     match: '/advent',
     icon: 'celebration',
     description: '24 Türchen voller Überraschungen',
@@ -56,7 +54,13 @@ export const HIGHLIGHTS_NAV: NavItem[] = [
 ];
 
 export const CLUB_NAV: NavItem[] = [
-  { label: 'Über uns', path: '/about', match: '/about', icon: 'info', description: 'Geschichte und Vorstand' },
+  {
+    label: 'Über uns',
+    path: '/about',
+    match: '/about',
+    icon: 'info',
+    description: 'Geschichte und Vorstand',
+  },
   {
     label: 'Mitgliedschaft',
     path: '/membership',
@@ -85,7 +89,13 @@ export const CLUB_NAV: NavItem[] = [
     icon: 'description',
     description: 'Statuten und Formulare',
   },
-  { label: 'Kontakt', path: '/contact', match: '/contact', icon: 'mail', description: 'Schreib uns eine Nachricht' },
+  {
+    label: 'Kontakt',
+    path: '/contact',
+    match: '/contact',
+    icon: 'mail',
+    description: 'Schreib uns eine Nachricht',
+  },
   {
     label: 'Hall of Papp-Fans',
     path: '/hallofpapp',
@@ -104,7 +114,15 @@ export const SOCIAL_LINKS = [
 ];
 
 export const PARTNERS = [
-  { name: 'Udemy', href: 'https://www.udemy.com/user/stefan-jaindl/', image: 'assets/images/udemy.jpg' },
-  { name: 'Textildruckprofi', href: 'http://www.textildruckprofi.com/', image: 'assets/images/tdp.jpg' },
+  {
+    name: 'Udemy',
+    href: 'https://www.udemy.com/user/stefan-jaindl/',
+    image: 'assets/images/udemy.jpg',
+  },
+  {
+    name: 'Textildruckprofi',
+    href: 'http://www.textildruckprofi.com/',
+    image: 'assets/images/tdp.jpg',
+  },
   { name: 'DAN Graz', href: 'https://dangraz.at/', image: 'assets/images/dan_logo.jpeg' },
 ];

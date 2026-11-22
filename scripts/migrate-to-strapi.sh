@@ -18,6 +18,7 @@
 #   --images-url URL   fallback for images missing locally
 #                                             (default: https://www.hvtdpstainz.at/assets/images)
 #   --documents DIR    legacy PDFs           (default: <this repo>/src/assets/documents, env DOCUMENTS_DIR)
+#   --videos DIR       legacy videos         (default: <this repo>/src/assets/videos, env VIDEOS_DIR)
 #   --api-url URL      legacy PHP API         (default: https://www.hvtdpstainz.at/api)
 #   --exports DIR      keep the downloaded JSON in DIR (default: temporary directory, deleted afterwards)
 #   --pm2 NAME         pm2 process to stop/start (default: strapi-hvtdp if pm2 is installed, else none)
@@ -37,6 +38,8 @@ STRAPI_DIR="${STRAPI_DIR:-$REPO_DIR/../strapi-cloud-template-blog-49970f95ac}"
 IMAGES_DIR="${IMAGES_DIR:-$REPO_DIR/src/assets/images}"
 DOCUMENTS_DIR="${DOCUMENTS_DIR:-$REPO_DIR/src/assets/documents}"
 DOCUMENTS_URL="https://www.hvtdpstainz.at/assets/documents"
+VIDEOS_DIR="${VIDEOS_DIR:-$REPO_DIR/src/assets/videos}"
+VIDEOS_URL="https://www.hvtdpstainz.at/assets/videos"
 IMAGES_URL="https://www.hvtdpstainz.at/assets/images"
 API_URL="https://www.hvtdpstainz.at/api"
 EXPORTS_DIR=""
@@ -48,7 +51,7 @@ USE_PM2="auto"
 # `migrate`. Add new areas here and to AREAS (in migration order).
 # ---------------------------------------------------------------------------------------------
 
-AREAS=(announcement club fanshop documents championship videos gallery)
+AREAS=(announcement club fanshop documents championship videos gallery pages)
 PHASE=download
 
 # Announcement bar on the home page (replaces the ticker).
@@ -93,6 +96,12 @@ area_videos() {
 area_gallery() {
   fetch getPhotos
   migrate gallery --exports "$EXPORTS_DIR" "${MEDIA_ARGS[@]}"
+}
+
+# Hallenturnier page and Advent calendars (posters + videos; after gallery for the album link).
+area_pages() {
+  [[ -d "$VIDEOS_DIR" ]] || fail "videos directory not found at $VIDEOS_DIR (use --videos)"
+  migrate pages --images "$IMAGES_DIR" --images-url "$IMAGES_URL" --videos "$VIDEOS_DIR" --videos-url "$VIDEOS_URL"
 }
 
 # Documents (PDFs) with category and protected flag.
@@ -177,6 +186,7 @@ while [[ $# -gt 0 ]]; do
     --images) IMAGES_DIR="$2"; shift 2 ;;
     --images-url) IMAGES_URL="$2"; shift 2 ;;
     --documents) DOCUMENTS_DIR="$2"; shift 2 ;;
+    --videos) VIDEOS_DIR="$2"; shift 2 ;;
     --api-url) API_URL="${2%/}"; shift 2 ;;
     --exports) EXPORTS_DIR="$2"; shift 2 ;;
     --pm2) PM2_NAME="$2"; USE_PM2="yes"; shift 2 ;;

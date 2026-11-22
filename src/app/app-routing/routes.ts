@@ -16,7 +16,6 @@ import { MembershipComponent } from '../membership/membership.component';
 import { NewsComponent } from '../news/news.component';
 import { NotFoundComponent } from '../not-found/not-found.component';
 import { PlayerOfTheSeasonComponent } from '../playeroftheseason/playeroftheseason.component';
-import { CurrentSeason } from '../shared/seasons';
 import { SocialmediaComponent } from '../socialmedia/socialmedia.component';
 import { StartingelevenComponent } from '../startingeleven/startingeleven.component';
 import { SurveysComponent } from '../surveys/surveys.component';
@@ -50,7 +49,7 @@ export const routes: Routes = [
   { path: 'playeroftheseason/:season', component: PlayerOfTheSeasonComponent },
   { path: 'startingeleven', component: StartingelevenComponent },
   { path: 'hallofpapp', component: HallofpappComponent },
-  { path: 'advent', redirectTo: `/advent/${CurrentSeason.advent}`, pathMatch: 'full' },
+  { path: 'advent', component: AdventComponent },
   { path: 'advent/:season', component: AdventComponent },
   { path: 'hallenturnier', component: HallenturnierComponent },
   // { path: 'kleinfeldturnier', component: KleinfeldTurnierComponent },
