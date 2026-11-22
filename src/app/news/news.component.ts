@@ -55,7 +55,7 @@ export class NewsComponent implements OnInit, OnDestroy, AfterViewChecked {
   @ViewChild('content') content?: ElementRef<HTMLElement>;
   private enhancedHtml = '';
 
-  private sub: Subscription;
+  private sub?: Subscription;
 
   private readonly markdown = new Marked({
     breaks: true,

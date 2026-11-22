@@ -14,15 +14,18 @@ export class ErrorUtil {
       const body = error.error;
       const apiMessage =
         ErrorUtil.text(body) ??
+        // Response that is not valid JSON (e.g. a PHP/MySQL error); checked before `error.message`,
+        // which then holds the JSON parser's error.
+        ErrorUtil.text(body?.text) ??
         ErrorUtil.text(body?.jsonError) ?? // PHP API: {"jsonError": "..."}
         ErrorUtil.text(body?.error?.message) ?? // Strapi: {"error": {"message": "..."}}
-        ErrorUtil.text(body?.message) ??
-        ErrorUtil.text(body?.text); // response that is not valid JSON (e.g. a PHP/MySQL error)
+        ErrorUtil.text(body?.message);
       if (apiMessage) {
         return apiMessage;
       }
       if (error.status > 0) {
-        return `Serverfehler ${error.status}${error.statusText ? ` (${error.statusText})` : ''}`;
+        // No status text: HTTP/2 has none, and Angular then fills in a misleading "OK" / "Unknown Error".
+        return `Serverfehler ${error.status}`;
       }
       return GENERIC_ERROR_MESSAGE;
     }

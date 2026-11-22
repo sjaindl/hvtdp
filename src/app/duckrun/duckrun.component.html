@@ -75,7 +75,7 @@
       class="form-panel form-stacked"
     >
       <p>
-        <mat-form-field class="full-width" color="{{ formErrors.firstname ? 'warn' : 'primary' }}">
+        <mat-form-field class="full-width" [color]="formErrors.firstname ? 'warn' : 'primary'">
           <input
             class="formElement"
             matInput
@@ -88,7 +88,7 @@
             <span [hidden]="!formErrors.firstname"> {{ formErrors.firstname }}</span>
           </mat-hint>
         </mat-form-field>
-        <mat-form-field class="full-width" color="{{ formErrors.lastname ? 'warn' : 'primary' }}">
+        <mat-form-field class="full-width" [color]="formErrors.lastname ? 'warn' : 'primary'">
           <input
             class="formElement"
             matInput
@@ -113,7 +113,7 @@
           </mat-hint>
           -->
         </mat-form-field>
-        <mat-form-field class="full-width" color="{{ formErrors.phone ? 'warn' : 'primary' }}">
+        <mat-form-field class="full-width" [color]="formErrors.phone ? 'warn' : 'primary'">
           <input
             class="formElement"
             matInput
@@ -129,7 +129,7 @@
       </p>
 
       <p>
-        <mat-form-field class="full-width" color="{{ formErrors.address ? 'warn' : 'primary' }}">
+        <mat-form-field class="full-width" [color]="formErrors.address ? 'warn' : 'primary'">
           <input
             class="formElement"
             matInput
@@ -145,7 +145,7 @@
       </p>
 
       <p>
-        <mat-form-field class="full-width" color="{{ formErrors.duckcount ? 'warn' : 'primary' }}">
+        <mat-form-field class="full-width" [color]="formErrors.duckcount ? 'warn' : 'primary'">
           <input
             class="formElement"
             matInput

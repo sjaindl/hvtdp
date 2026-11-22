@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
-import { Feedback } from '../shared/feedback';
+import { DuckrunRegistration } from '../shared/feedback';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Title, Meta } from '@angular/platform-browser';
 import { MysqlService } from '../services/mysql.service';
@@ -21,11 +21,10 @@ export class DuckrunComponent implements OnInit {
   private metaTagService = inject(Meta);
   private mysqlService = inject(MysqlService);
 
-  feedbackForm: FormGroup;
-  feedback: Feedback;
-  submittedFeedback = null;
+  feedbackForm!: FormGroup; // built by createForm() in the constructor
+  submittedFeedback: DuckrunRegistration | null = null;
 
-  formErrors = {
+  formErrors: Record<string, string> = {
     firstname: '',
     lastname: '',
     //'email': '',
@@ -34,7 +33,7 @@ export class DuckrunComponent implements OnInit {
     duckcount: '',
   };
 
-  validationMessages = {
+  validationMessages: Record<string, Record<string, string>> = {
     firstname: {
       required: 'Der Vorname ist verpflichtend.',
       minlength: 'Der Vorname muss mindestens 2 Zeichen lang sein.',
@@ -131,20 +130,20 @@ export class DuckrunComponent implements OnInit {
   }
 
   onSubmit() {
-    this.feedback = this.feedbackForm.value;
-    this.submittedFeedback = this.feedback;
+    const feedback: DuckrunRegistration = this.feedbackForm.value;
+    this.submittedFeedback = feedback;
 
-    console.log(`send to server: ${this.submittedFeedback.firstname}, ${this.submittedFeedback.lastname},
-    ${this.submittedFeedback.phone}, ${this.submittedFeedback.email}, ${this.submittedFeedback.address}, ${this.submittedFeedback.duckcount}`);
+    console.log(`send to server: ${feedback.firstname}, ${feedback.lastname},
+    ${feedback.phone}, ${feedback.email}, ${feedback.address}, ${feedback.duckcount}`);
 
     this.mysqlService
       .postDuckrun(
-        this.submittedFeedback.firstname,
-        this.submittedFeedback.lastname,
-        this.submittedFeedback.email,
-        this.submittedFeedback.phone,
-        this.submittedFeedback.address,
-        this.submittedFeedback.duckcount
+        feedback.firstname,
+        feedback.lastname,
+        feedback.email,
+        feedback.phone,
+        feedback.address,
+        feedback.duckcount
       )
       .subscribe((result) => {
         console.log(`response from server: ${result}`);

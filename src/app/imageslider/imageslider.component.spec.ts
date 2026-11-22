@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { provideTestDependencies } from '../../testing/test-providers';
 import { ImagesliderComponent } from './imageslider.component';
 
 describe('ImagesliderComponent', () => {
@@ -8,7 +8,8 @@ describe('ImagesliderComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ImagesliderComponent],
+      imports: [ImagesliderComponent],
+      providers: provideTestDependencies(),
     }).compileComponents();
 
     fixture = TestBed.createComponent(ImagesliderComponent);

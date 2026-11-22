@@ -89,7 +89,7 @@
     style="margin-left: 10px; margin-right: 10px"
   >
     <p style="margin-top: 20px">
-      <mat-form-field class="full-width" color="{{ formErrors.firstName ? 'warn' : 'primary' }}">
+      <mat-form-field class="full-width" [color]="formErrors.firstName ? 'warn' : 'primary'">
         <input
           class="formElement"
           matInput
@@ -105,7 +105,7 @@
     </p>
 
     <p>
-      <mat-form-field class="full-width" color="{{ formErrors.lastName ? 'warn' : 'primary' }}">
+      <mat-form-field class="full-width" [color]="formErrors.lastName ? 'warn' : 'primary'">
         <input
           class="formElement"
           matInput
@@ -121,7 +121,7 @@
     </p>
 
     <p>
-      <mat-form-field class="full-width" color="{{ formErrors.email ? 'warn' : 'primary' }}">
+      <mat-form-field class="full-width" [color]="formErrors.email ? 'warn' : 'primary'">
         <input matInput formControlName="email" placeholder="E-Mail" type="email" email required />
         <mat-hint>
           <span [hidden]="!formErrors.email"> {{ formErrors.email }}</span>
@@ -130,7 +130,7 @@
     </p>
 
     <p>
-      <mat-form-field class="full-width" color="{{ formErrors.phone ? 'warn' : 'primary' }}">
+      <mat-form-field class="full-width" [color]="formErrors.phone ? 'warn' : 'primary'">
         <input
           class="formElement"
           matInput

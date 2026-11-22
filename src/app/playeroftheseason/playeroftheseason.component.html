@@ -47,8 +47,8 @@
         (click)="choose(candidate.option)"
       >
         <span class="h-[88px] w-[88px] overflow-hidden rounded-full bg-gray-100">
-          @if (candidate.player?.imagePath) {
-            <img [src]="imageBaseUrl + candidate.player.imagePath" alt="" class="h-full w-full object-cover object-top" loading="lazy" />
+          @if (candidate.player?.imagePath; as imagePath) {
+            <img [src]="imageBaseUrl + imagePath" alt="" class="h-full w-full object-cover object-top" loading="lazy" />
           } @else {
             <span class="flex h-full items-center justify-center text-2xl font-bold text-gray-500">{{ candidate.option.player.charAt(0) }}</span>
           }
@@ -56,8 +56,8 @@
         <span class="text-[15px] font-bold leading-snug" [class]="candidate.option === selected ? 'text-pink-700' : 'text-gray-900'">{{
           candidate.option.player
         }}</span>
-        @if (candidate.player?.position) {
-          <span class="text-[13px] font-medium text-gray-500">{{ candidate.player.position }}</span>
+        @if (candidate.player?.position; as position) {
+          <span class="text-[13px] font-medium text-gray-500">{{ position }}</span>
         }
         @if (votingOpen && canVote) {
           <span

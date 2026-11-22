@@ -1,4 +1,4 @@
-export class MatchInfo {
+export interface MatchInfo {
   id: number;
   season: string;
   matchInfo: string;

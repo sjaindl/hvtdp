@@ -18,7 +18,7 @@ export class FooterComponent implements OnInit {
     ['/about', '/membership', '/fanshop', '/contact'].includes(item.path)
   );
 
-  sessions: string = null;
+  sessions: string | null = null;
   currentYear = new Date().getFullYear();
 
   ngOnInit() {

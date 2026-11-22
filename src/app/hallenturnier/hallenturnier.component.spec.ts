@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { provideTestDependencies } from '../../testing/test-providers';
 import { HallenturnierComponent } from './hallenturnier.component';
 
 describe('HallenturnierComponent', () => {
@@ -8,7 +8,8 @@ describe('HallenturnierComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [HallenturnierComponent],
+      imports: [HallenturnierComponent],
+      providers: provideTestDependencies(),
     }).compileComponents();
 
     fixture = TestBed.createComponent(HallenturnierComponent);

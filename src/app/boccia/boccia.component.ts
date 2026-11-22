@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
-import { Feedback } from '../shared/feedback';
+import { TeamRegistration } from '../shared/feedback';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Title, Meta } from '@angular/platform-browser';
 import { MysqlService } from '../services/mysql.service';
@@ -21,17 +21,16 @@ export class BocciaComponent implements OnInit {
   private metaTagService = inject(Meta);
   private mysqlService = inject(MysqlService);
 
-  feedbackForm: FormGroup;
-  feedback: Feedback;
-  submittedFeedback = null;
+  feedbackForm!: FormGroup; // built by createForm() in the constructor
+  submittedFeedback: TeamRegistration | null = null;
 
-  formErrors = {
+  formErrors: Record<string, string> = {
     name: '',
     email: '',
     teamname: '',
   };
 
-  validationMessages = {
+  validationMessages: Record<string, Record<string, string>> = {
     name: {
       required: 'Die Ansprechperson ist verpflichtend.',
       minlength: 'Die Ansprechperson muss mindestens 2 Zeichen lang sein.',
@@ -98,18 +97,18 @@ export class BocciaComponent implements OnInit {
   }
 
   onSubmit() {
-    this.feedback = this.feedbackForm.value;
-    this.submittedFeedback = this.feedback;
+    const feedback: TeamRegistration = this.feedbackForm.value;
+    this.submittedFeedback = feedback;
 
-    console.log(`send to server: ${this.submittedFeedback.name},
-    ${this.submittedFeedback.phone}, ${this.submittedFeedback.email}, ${this.submittedFeedback.teamname}`);
+    console.log(`send to server: ${feedback.name},
+    ${feedback.phone}, ${feedback.email}, ${feedback.teamname}`);
 
     this.mysqlService
       .postTurnier(
-        this.submittedFeedback.name,
-        this.submittedFeedback.email,
+        feedback.name,
+        feedback.email,
         '', // no phone nr.
-        this.submittedFeedback.teamname
+        feedback.teamname
       )
       .subscribe((result) => {
         console.log(`response from server: ${result}`);

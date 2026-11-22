@@ -33,7 +33,7 @@ import { FittedImageComponent } from '../fitted-image/fitted-image.component';
   `,
 })
 export class NewsRowComponent {
-  @Input({ required: true }) news: News;
+  @Input({ required: true }) news!: News;
 
   get date(): string {
     return DateUtil.formatDate(this.news.newsDate);

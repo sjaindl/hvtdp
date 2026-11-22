@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { provideTestDependencies } from '../../testing/test-providers';
 import { BigdartsComponent } from './bigdarts.component';
 
 describe('BigdartsComponent', () => {
@@ -8,7 +8,8 @@ describe('BigdartsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [BigdartsComponent],
+      imports: [BigdartsComponent],
+      providers: provideTestDependencies(),
     }).compileComponents();
 
     fixture = TestBed.createComponent(BigdartsComponent);

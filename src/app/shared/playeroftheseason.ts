@@ -1,4 +1,4 @@
-export class PlayerOfTheSeason {
+export interface PlayerOfTheSeason {
   season: string;
   player: string;
   votes: number;

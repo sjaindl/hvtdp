@@ -9,6 +9,6 @@ import { ZoomableDirective } from '../ui/image-viewer/zoomable.directive';
   imports: [ZoomableDirective],
 })
 export class HvtdpImageComponent {
-  @Input() imagePath: string;
+  @Input({ required: true }) imagePath = '';
   @Input() altText = '';
 }

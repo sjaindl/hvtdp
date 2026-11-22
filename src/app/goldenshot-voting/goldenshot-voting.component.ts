@@ -21,12 +21,12 @@ export class GoldenshotVotingComponent implements OnInit {
   private cookieService = inject(CookieService);
   private deviceService = inject(DeviceDetectorService);
 
-  goldenShotOptions: GoldenShot[];
+  goldenShotOptions: GoldenShot[] = [];
 
   canVote = false;
   votingEnded = true;
 
-  isMobile = null;
+  isMobile = false;
 
   ngOnInit(): void {
     this.canVote = !this.cookieService.check(GOLDENSHOT_VOTING_COOKIE_KEY);

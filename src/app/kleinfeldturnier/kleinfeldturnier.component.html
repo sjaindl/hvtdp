@@ -61,7 +61,7 @@
       class="form-panel form-stacked"
     >
       <p>
-        <mat-form-field class="full-width" color="{{ formErrors.name ? 'warn' : 'primary' }}">
+        <mat-form-field class="full-width" [color]="formErrors.name ? 'warn' : 'primary'">
           <input
             class="formElement"
             matInput
@@ -77,7 +77,7 @@
       </p>
 
       <p>
-        <mat-form-field class="full-width" color="{{ formErrors.email ? 'warn' : 'primary' }}">
+        <mat-form-field class="full-width" [color]="formErrors.email ? 'warn' : 'primary'">
           <input
             matInput
             formControlName="email"
@@ -93,7 +93,7 @@
       </p>
 
       <p>
-        <mat-form-field class="full-width" color="{{ formErrors.phone ? 'warn' : 'primary' }}">
+        <mat-form-field class="full-width" [color]="formErrors.phone ? 'warn' : 'primary'">
           <input
             class="formElement"
             matInput
@@ -109,7 +109,7 @@
       </p>
 
       <p>
-        <mat-form-field class="full-width" color="{{ formErrors.teamname ? 'warn' : 'primary' }}">
+        <mat-form-field class="full-width" [color]="formErrors.teamname ? 'warn' : 'primary'">
           <input
             class="formElement"
             matInput

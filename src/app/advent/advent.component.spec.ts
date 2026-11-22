@@ -1,18 +1,17 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideTestDependencies } from '../../testing/test-providers';
 import { AdventComponent } from './advent.component';
 
 describe('AdventComponent', () => {
   let component: AdventComponent;
   let fixture: ComponentFixture<AdventComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [AdventComponent],
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [AdventComponent],
+      providers: provideTestDependencies(),
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(AdventComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

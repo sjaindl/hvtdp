@@ -1,4 +1,4 @@
-export class Image {
+export interface Image {
   imagePath: string;
   navPath: string;
   title: string;

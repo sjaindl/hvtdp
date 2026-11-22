@@ -1,17 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideTestDependencies } from '../../testing/test-providers';
+import { KleinfeldTurnierComponent } from './kleinfeldturnier.component';
 
-import { HallenturnierComponent } from './hallenturnier.component';
-
-describe('HallenturnierComponent', () => {
-  let component: HallenturnierComponent;
-  let fixture: ComponentFixture<HallenturnierComponent>;
+describe('KleinfeldTurnierComponent', () => {
+  let component: KleinfeldTurnierComponent;
+  let fixture: ComponentFixture<KleinfeldTurnierComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [HallenturnierComponent],
+      imports: [KleinfeldTurnierComponent],
+      providers: provideTestDependencies(),
     }).compileComponents();
 
-    fixture = TestBed.createComponent(HallenturnierComponent);
+    fixture = TestBed.createComponent(KleinfeldTurnierComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

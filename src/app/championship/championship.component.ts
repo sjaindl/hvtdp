@@ -35,8 +35,8 @@ export class ChampionshipComponent implements OnInit, OnDestroy {
   readonly seasons = Seasons.championship;
   readonly formatSeason = formatSeason;
 
-  season: string;
-  seasonContent: SeasonContent;
+  season = '';
+  seasonContent = this.getSeasonContent('');
   standings: Standing[] = [];
   scorers: Scorer[] = [];
   results: MatchInfo[] = [];
@@ -45,7 +45,7 @@ export class ChampionshipComponent implements OnInit, OnDestroy {
   failed = false;
   errorText = '';
 
-  private sub: Subscription;
+  private sub?: Subscription;
 
   ngOnInit() {
     this.sub = this.route.params.subscribe((params) => {

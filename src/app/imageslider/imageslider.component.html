@@ -35,9 +35,9 @@
         <button class="slider-arrow right" type="button" (click)="next()">›</button>
       </div>
       <div class="slider-bottom">
-        @if (carouselItems?.length > 1 && showDots) {
+        @if (carouselItems.length > 1 && showDots) {
           <div class="slider-dots">
-            @for (item of carouselItems; track trackByIndex(i, item); let i = $index) {
+            @for (item of carouselItems; track $index; let i = $index) {
               <button
                 type="button"
                 class="dot"
@@ -65,9 +65,9 @@
         }
       </div>
     </div>
-    @if (carouselItems?.length > 1) {
+    @if (carouselItems.length > 1) {
       <div class="slider-thumbs">
-        @for (item of carouselItems; track trackByIndex(i, item); let i = $index) {
+        @for (item of carouselItems; track $index; let i = $index) {
           <button
             #thumbBtn
             type="button"
@@ -83,7 +83,7 @@
   </div>
 }
 
-@if (carouselItems?.length === 0) {
+@if (carouselItems.length === 0) {
   <div class="slider slider-empty">
     <p>Noch keine Einträge vorhanden.</p>
   </div>

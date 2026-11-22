@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { provideTestDependencies } from '../../testing/test-providers';
 import { BocciaComponent } from './boccia.component';
 
 describe('BocciaComponent', () => {
@@ -8,7 +8,8 @@ describe('BocciaComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [BocciaComponent],
+      imports: [BocciaComponent],
+      providers: provideTestDependencies(),
     }).compileComponents();
 
     fixture = TestBed.createComponent(BocciaComponent);

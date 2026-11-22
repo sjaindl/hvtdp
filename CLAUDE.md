@@ -20,6 +20,9 @@ npm run build
 # Run unit tests (Karma/Jasmine)
 npm test
 
+# Run unit tests once in headless Chrome (no watch)
+npm run test:ci
+
 # Lint
 npm run lint
 

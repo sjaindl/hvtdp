@@ -1,9 +1,9 @@
-export class Photo {
+export interface Photo {
   description: string;
   imagePath: string;
 }
 
-export class Album {
+export interface Album {
   season: string;
   name: string;
   date: Date;

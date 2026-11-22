@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { provideTestDependencies } from '../../testing/test-providers';
 import { GoldenshotVotingComponent } from './goldenshot-voting.component';
 
 describe('GoldenshotVotingComponent', () => {
@@ -8,7 +8,8 @@ describe('GoldenshotVotingComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [GoldenshotVotingComponent],
+      imports: [GoldenshotVotingComponent],
+      providers: provideTestDependencies(),
     }).compileComponents();
 
     fixture = TestBed.createComponent(GoldenshotVotingComponent);

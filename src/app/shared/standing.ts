@@ -1,4 +1,4 @@
-export class Standing {
+export interface Standing {
   place: number;
   team: string;
   games: number;

@@ -21,7 +21,7 @@ export class StartingelevenComponent implements OnInit, OnDestroy {
   readonly url = STARTING_ELEVEN_URL;
   readonly host = new URL(STARTING_ELEVEN_URL).host;
   readonly delaySeconds = REDIRECT_DELAY_MS / 1000;
-  private timer: ReturnType<typeof setTimeout>;
+  private timer?: ReturnType<typeof setTimeout>;
 
   ngOnInit() {
     this.titleService.setTitle('HV TDP Stainz: Starting 11');

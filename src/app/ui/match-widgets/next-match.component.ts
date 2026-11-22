@@ -38,10 +38,10 @@ import { MatchUtil } from '../../shared/utils/match.util';
   `,
 })
 export class NextMatchComponent implements OnInit, OnDestroy {
-  @Input({ required: true }) match: MatchInfo;
+  @Input({ required: true }) match!: MatchInfo;
 
   countdown: { value: string; label: string }[] | null = null;
-  private timer: ReturnType<typeof setInterval>;
+  private timer?: ReturnType<typeof setInterval>;
 
   get isHome(): boolean {
     return MatchUtil.ownTeamPlaysHome(this.match);

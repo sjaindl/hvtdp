@@ -78,8 +78,8 @@ export class HallenturnierComponent implements OnInit {
   submitted = false;
   busy = false;
 
-  formErrors = { name: '', email: '', teamname: '' };
-  validationMessages = {
+  formErrors: Record<string, string> = { name: '', email: '', teamname: '' };
+  validationMessages: Record<string, Record<string, string>> = {
     name: {
       required: 'Der Name ist verpflichtend.',
       minlength: 'Der Name muss mindestens 2 Zeichen lang sein.',

@@ -35,23 +35,22 @@ export class GoldenshotComponent implements OnInit {
   private fileUploadService = inject(FileUploadService);
   private deviceService = inject(DeviceDetectorService);
 
-  isMobile = null;
+  isMobile = false;
 
-  feedbackForm: FormGroup;
-  goldenShotFormData: GoldenShot;
-  submittedFormData = null;
+  feedbackForm!: FormGroup; // built by createForm() in the constructor
+  submittedFormData: GoldenShot | null = null;
 
   fileName = '';
-  file: File = null;
+  file: File | null = null;
 
-  formErrors = {
+  formErrors: Record<string, string> = {
     firstName: '',
     lastName: '',
     email: '',
     phone: '',
   };
 
-  validationMessages = {
+  validationMessages: Record<string, Record<string, string>> = {
     firstName: {
       required: 'Der Vorname ist verpflichtend.',
       minlength: 'Der Vorname muss mindestens 2 Zeichen lang sein.',
@@ -134,11 +133,11 @@ export class GoldenshotComponent implements OnInit {
   }
 
   onSubmit() {
-    this.goldenShotFormData = this.feedbackForm.value;
-    this.submittedFormData = this.goldenShotFormData;
+    const formData: GoldenShot = this.feedbackForm.value;
+    this.submittedFormData = formData;
 
-    console.log(`send to server: ${this.submittedFormData.firstName}, ${this.submittedFormData.lastName},
-    ${this.submittedFormData.phone}, ${this.submittedFormData.email}, ${this.fileName}`);
+    console.log(`send to server: ${formData.firstName}, ${formData.lastName},
+    ${formData.phone}, ${formData.email}, ${this.fileName}`);
 
     if (this.file) {
       this.fileUploadService.upload(this.file).subscribe((result) => {
@@ -148,10 +147,10 @@ export class GoldenshotComponent implements OnInit {
 
     this.mysqlService
       .postGoldenShotRegistration(
-        this.submittedFormData.firstName,
-        this.submittedFormData.lastName,
-        this.submittedFormData.email,
-        this.submittedFormData.phone,
+        formData.firstName,
+        formData.lastName,
+        formData.email,
+        formData.phone,
         this.fileName
       )
       .subscribe((result) => {
@@ -166,8 +165,8 @@ export class GoldenshotComponent implements OnInit {
     });
   }
 
-  onFileSelected(event) {
-    const file: File = event.target.files[0];
+  onFileSelected(event: Event) {
+    const file = (event.target as HTMLInputElement).files?.[0];
 
     if (file) {
       this.file = file;

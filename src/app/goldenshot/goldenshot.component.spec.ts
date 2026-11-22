@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { provideTestDependencies } from '../../testing/test-providers';
 import { GoldenshotComponent } from './goldenshot.component';
 
 describe('GoldenshotComponent', () => {
@@ -8,7 +8,8 @@ describe('GoldenshotComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [GoldenshotComponent],
+      imports: [GoldenshotComponent],
+      providers: provideTestDependencies(),
     }).compileComponents();
 
     fixture = TestBed.createComponent(GoldenshotComponent);

@@ -1,18 +1,17 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideTestDependencies } from '../../testing/test-providers';
 import { PlayerOfTheSeasonComponent } from './playeroftheseason.component';
 
 describe('PlayerOfTheSeasonComponent', () => {
   let component: PlayerOfTheSeasonComponent;
   let fixture: ComponentFixture<PlayerOfTheSeasonComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [PlayerOfTheSeasonComponent],
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [PlayerOfTheSeasonComponent],
+      providers: provideTestDependencies(),
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(PlayerOfTheSeasonComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

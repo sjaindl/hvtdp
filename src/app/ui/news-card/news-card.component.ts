@@ -40,7 +40,7 @@ import { FittedImageComponent } from '../fitted-image/fitted-image.component';
   `,
 })
 export class NewsCardComponent {
-  @Input({ required: true }) news: News;
+  @Input({ required: true }) news!: News;
   @Input() showExcerpt = true;
 
   get date(): string {

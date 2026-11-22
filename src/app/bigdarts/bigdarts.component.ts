@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Feedback } from '../shared/feedback';
+import { TeamRegistration } from '../shared/feedback';
 import { Title, Meta } from '@angular/platform-browser';
 import { MysqlService } from '../services/mysql.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -21,11 +21,10 @@ export class BigdartsComponent implements OnInit {
   private metaTagService = inject(Meta);
   private mysqlService = inject(MysqlService);
 
-  feedbackForm: FormGroup;
-  feedback: Feedback;
-  submittedFeedback = null;
+  feedbackForm!: FormGroup; // built by createForm() in the constructor
+  submittedFeedback: TeamRegistration | null = null;
 
-  formErrors = {
+  formErrors: Record<string, string> = {
     name: '',
     email: '',
     // 'phone': '',
@@ -33,7 +32,7 @@ export class BigdartsComponent implements OnInit {
     // 'day': ''
   };
 
-  validationMessages = {
+  validationMessages: Record<string, Record<string, string>> = {
     name: {
       required: 'Der Name ist verpflichtend.',
       minlength: 'Der Name muss mindestens 2 Zeichen lang sein.',
@@ -112,20 +111,20 @@ export class BigdartsComponent implements OnInit {
   }
 
   onSubmit() {
-    this.feedback = this.feedbackForm.value;
-    this.submittedFeedback = this.feedback;
+    const feedback: TeamRegistration = this.feedbackForm.value;
+    this.submittedFeedback = feedback;
 
-    console.log(`send to server: ${this.submittedFeedback.name},
-       ${this.submittedFeedback.email},
-       ${this.submittedFeedback.teamname}`);
+    console.log(`send to server: ${feedback.name},
+       ${feedback.email},
+       ${feedback.teamname}`);
 
     this.mysqlService
       .postBigdarts(
-        this.submittedFeedback.name,
-        this.submittedFeedback.email,
-        // this.submittedFeedback.phone,
-        this.submittedFeedback.teamname
-        // this.submittedFeedback.day
+        feedback.name,
+        feedback.email,
+        // feedback.phone,
+        feedback.teamname
+        // feedback.day
       )
       .subscribe((result) => {
         console.log(`response from server: ${result}`);

@@ -3,7 +3,6 @@ import {
   Component,
   ElementRef,
   Input,
-  OnInit,
   QueryList,
   ViewChildren,
   inject,
@@ -35,14 +34,14 @@ import { trigger, transition, style, animate } from '@angular/animations';
     ]),
   ],
 })
-export class ImagesliderComponent implements OnInit {
+export class ImagesliderComponent {
   router = inject(Router);
   private imageViewer = inject(ImageViewerService);
 
   @ViewChildren('thumbBtn', { read: ElementRef })
   thumbButtons!: QueryList<ElementRef<HTMLButtonElement>>;
 
-  imageBaseUrl: string;
+  readonly imageBaseUrl = baseUrlImages;
   currentIndex = 0;
 
   // Swipe state
@@ -53,10 +52,6 @@ export class ImagesliderComponent implements OnInit {
 
   @Input() carouselItems: Image[] = [];
   @Input() showDots: boolean = false;
-
-  ngOnInit(): void {
-    this.imageBaseUrl = baseUrlImages;
-  }
 
   showImageDetails(item: Image) {
     console.log('navigate to ' + item.navPath);
@@ -92,10 +87,6 @@ export class ImagesliderComponent implements OnInit {
     if (index < 0 || index >= this.carouselItems.length) return;
     this.currentIndex = index;
     this.scrollActiveThumbIntoView();
-  }
-
-  trackByIndex(index: number) {
-    return index;
   }
 
   /** Opens the slides in the shared fullscreen viewer, starting at the current one. */

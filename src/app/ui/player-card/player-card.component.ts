@@ -40,7 +40,7 @@ import { ZoomableDirective } from '../image-viewer/zoomable.directive';
   `,
 })
 export class PlayerCardComponent {
-  @Input({ required: true }) player: Player;
+  @Input({ required: true }) player!: Player;
   /** Position label shown above the name (e.g. "Tormann"); omit for members without a position. */
   @Input() position = '';
 

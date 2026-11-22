@@ -1,4 +1,4 @@
-export class Donation {
+export interface Donation {
   donator: string;
   date: Date;
   game: string;

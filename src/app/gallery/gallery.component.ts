@@ -33,7 +33,7 @@ export class GalleryComponent implements OnInit, OnDestroy {
   readonly formatDate = DateUtil.formatDate;
 
   albums: Album[] = [];
-  season: string;
+  season = '';
   selectedAlbum: Album | null = null;
   loaded = false;
   failed = false;
@@ -42,8 +42,8 @@ export class GalleryComponent implements OnInit, OnDestroy {
   visiblePhotos = PHOTO_PAGE_SIZE;
   private photoRatios: Record<string, number> = {};
 
-  private routeSub: Subscription;
-  private photosSub: Subscription;
+  private routeSub?: Subscription;
+  private photosSub?: Subscription;
   selectedAlbumSlug: string | null = null;
 
   ngOnInit() {

@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { provideTestDependencies } from '../../testing/test-providers';
 import { TickerComponent } from './ticker.component';
 
 describe('TickerComponent', () => {
@@ -8,7 +8,8 @@ describe('TickerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [TickerComponent],
+      imports: [TickerComponent],
+      providers: provideTestDependencies(),
     }).compileComponents();
 
     fixture = TestBed.createComponent(TickerComponent);

@@ -1,18 +1,17 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideTestDependencies } from '../../testing/test-providers';
 import { SocialmediaComponent } from './socialmedia.component';
 
 describe('SocialmediaComponent', () => {
   let component: SocialmediaComponent;
   let fixture: ComponentFixture<SocialmediaComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [SocialmediaComponent],
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [SocialmediaComponent],
+      providers: provideTestDependencies(),
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(SocialmediaComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

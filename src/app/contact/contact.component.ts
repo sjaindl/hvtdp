@@ -36,19 +36,26 @@ export class ContactComponent implements OnInit {
   readonly stadium = STADIUM;
   readonly routeUrl = `https://www.google.com/maps/dir/?api=1&destination=${STADIUM.lat},${STADIUM.lng}`;
 
-  feedbackForm: FormGroup;
+  feedbackForm: FormGroup = this.formBuilder.group({
+    firstname: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(25)]],
+    lastname: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(25)]],
+    email: ['', [Validators.required, Validators.email]],
+    agreeContact: false,
+    agreeGDPR: [false, [Validators.requiredTrue]],
+    message: '',
+  });
   submitted = false;
-  apiLoaded: Observable<boolean>;
-  mapOptions: google.maps.MapOptions;
+  apiLoaded?: Observable<boolean>;
+  mapOptions: google.maps.MapOptions = {};
 
-  formErrors = {
+  formErrors: Record<string, string> = {
     firstname: '',
     lastname: '',
     email: '',
     agreeGDPR: '',
   };
 
-  validationMessages = {
+  validationMessages: Record<string, Record<string, string>> = {
     firstname: {
       required: 'Vorname ist verpflichtend.',
       minlength: 'Der Vorname muss mindestens 2 Zeichen lang sein.',
@@ -69,7 +76,7 @@ export class ContactComponent implements OnInit {
   };
 
   constructor() {
-    this.createForm();
+    this.feedbackForm.valueChanges.subscribe(() => this.updateErrors());
   }
 
   ngOnInit() {
@@ -96,18 +103,6 @@ export class ContactComponent implements OnInit {
         catchError(() => of(false)),
         shareReplay(1)
       );
-  }
-
-  createForm() {
-    this.feedbackForm = this.formBuilder.group({
-      firstname: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(25)]],
-      lastname: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(25)]],
-      email: ['', [Validators.required, Validators.email]],
-      agreeContact: false,
-      agreeGDPR: [false, [Validators.requiredTrue]],
-      message: '',
-    });
-    this.feedbackForm.valueChanges.subscribe(() => this.updateErrors());
   }
 
   updateErrors(showAll = false) {

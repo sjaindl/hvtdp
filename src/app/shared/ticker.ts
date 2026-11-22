@@ -1,3 +1,3 @@
-export class Ticker {
+export interface Ticker {
   tickerItem: string;
 }

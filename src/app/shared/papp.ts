@@ -1,4 +1,4 @@
-export class PappFan {
+export interface PappFan {
   id: number;
   name: string;
   // date: Date

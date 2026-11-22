@@ -62,7 +62,7 @@ import { MatchUtil } from '../../shared/utils/match.util';
   `,
 })
 export class LastResultComponent {
-  @Input({ required: true }) match: MatchInfo;
+  @Input({ required: true }) match!: MatchInfo;
 
   get outcome() {
     return MatchUtil.outcome(this.match);

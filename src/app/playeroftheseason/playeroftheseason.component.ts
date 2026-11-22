@@ -38,7 +38,7 @@ export class PlayerOfTheSeasonComponent implements OnInit, OnDestroy {
   readonly seasons = Seasons.playerOfTheSeason;
   readonly imageBaseUrl = baseUrlImages;
 
-  season: string;
+  season = '';
   candidates: Candidate[] = [];
   selected: PlayerOfTheSeason | null = null;
   canVote = false;
@@ -47,7 +47,7 @@ export class PlayerOfTheSeasonComponent implements OnInit, OnDestroy {
   failed = false;
   errorText = '';
 
-  private sub: Subscription;
+  private sub?: Subscription;
 
   ngOnInit() {
     this.canVote = !this.cookieService.check(PLAYER_OF_SEASON_VOTING_COOKIE_KEY);

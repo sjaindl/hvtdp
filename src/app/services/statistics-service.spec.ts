@@ -1,12 +1,15 @@
 import { TestBed } from '@angular/core/testing';
-
+import { provideTestDependencies } from '../../testing/test-providers';
 import { StatisticsService } from './statistics.service';
 
-describe('GoogleAnalyticsService', () => {
-  beforeEach(() => TestBed.configureTestingModule({}));
+describe('StatisticsService', () => {
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [...provideTestDependencies(), StatisticsService],
+    });
+  });
 
   it('should be created', () => {
-    const service: StatisticsService = TestBed.inject(StatisticsService);
-    expect(service).toBeTruthy();
+    expect(TestBed.inject(StatisticsService)).toBeTruthy();
   });
 });

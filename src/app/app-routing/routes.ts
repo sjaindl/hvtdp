@@ -10,7 +10,6 @@ import { FanshopComponent } from '../fanshop/fanshop.component';
 import { GalleryComponent } from '../gallery/gallery.component';
 import { GoalOfTheSeasonComponent } from '../goaloftheseason/goaloftheseason.component';
 import { HallenturnierComponent } from '../hallenturnier/hallenturnier.component';
-import { HalloffameComponent } from '../halloffame/halloffame.component';
 import { HallofpappComponent } from '../hallofpapp/hallofpapp.component';
 import { HomeComponent } from '../home/home.component';
 import { MembershipComponent } from '../membership/membership.component';
@@ -42,7 +41,6 @@ export const routes: Routes = [
   { path: 'contact', component: ContactComponent },
   { path: 'fanshop', component: FanshopComponent },
   { path: 'membership', component: MembershipComponent },
-  { path: 'halloffame', component: HalloffameComponent },
   { path: 'documents', component: DocumentsComponent },
   { path: 'surveys', component: SurveysComponent },
   {

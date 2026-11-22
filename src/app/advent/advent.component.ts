@@ -34,9 +34,9 @@ export class AdventComponent implements OnInit, OnDestroy {
   readonly seasons = Seasons.advent;
   readonly days = Array.from({ length: 24 }, (_, index) => index + 1);
 
-  season: string;
+  season = '';
   openDay: number | null = null;
-  private sub: Subscription;
+  private sub?: Subscription;
 
   ngOnInit() {
     this.sub = this.route.params.subscribe((params) => {

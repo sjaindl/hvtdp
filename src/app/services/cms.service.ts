@@ -28,7 +28,7 @@ export class CmsService {
 
   // Strapi caps page size at 100, so all news are collected page by page.
   private readonly pageSize = 100;
-  private news$: Observable<News[]>;
+  private news$?: Observable<News[]>;
 
   public getNews(): Observable<News[]> {
     this.news$ ??= this.getNewsPage(1).pipe(

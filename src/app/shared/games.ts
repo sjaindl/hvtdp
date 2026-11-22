@@ -1,11 +1,11 @@
-export class Link {
+export interface Link {
   link: string;
   description: string;
   scorer: string;
   goalOfSeasonCandidate: number;
 }
 
-export class Game {
+export interface Game {
   season: string;
   round: number;
   description: string;

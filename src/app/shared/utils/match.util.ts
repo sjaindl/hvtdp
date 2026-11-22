@@ -40,11 +40,11 @@ export class MatchUtil {
   }
 
   static outcome(match: MatchInfo): MatchOutcome | null {
-    if (!MatchUtil.hasScore(match)) {
-      return null;
-    }
     const home = MatchUtil.toNumber(match.homeScore);
     const away = MatchUtil.toNumber(match.awayScore);
+    if (home === null || away === null) {
+      return null;
+    }
     const own = MatchUtil.ownTeamPlaysHome(match) ? home - away : away - home;
     return own > 0 ? 'Sieg' : own < 0 ? 'Niederlage' : 'Remis';
   }
@@ -67,7 +67,7 @@ export class MatchUtil {
       [...matches]
         .filter((match) => !MatchUtil.hasScore(match))
         .map((match) => ({ match, date: MatchUtil.parseDate(match.dateTime) }))
-        .filter(({ date }) => date !== null && date.getTime() >= now.getTime())
+        .filter((entry): entry is { match: MatchInfo; date: Date } => entry.date !== null && entry.date.getTime() >= now.getTime())
         .sort((a, b) => a.date.getTime() - b.date.getTime())[0]?.match ?? null
     );
   }

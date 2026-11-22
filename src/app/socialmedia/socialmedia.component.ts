@@ -28,13 +28,13 @@ export class SocialmediaComponent implements OnInit, OnDestroy {
   readonly formatSeason = formatSeason;
 
   games: Game[] = [];
-  season: string;
+  season = '';
   players: Player[] = [];
   loaded = false;
   failed = false;
   errorText = '';
 
-  private sub: Subscription;
+  private sub?: Subscription;
 
   ngOnInit() {
     this.sub = this.route.params.subscribe((params) => {

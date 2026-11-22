@@ -1,4 +1,4 @@
-export class Player {
+export interface Player {
   firstName: string;
   lastName: string;
   position: string;

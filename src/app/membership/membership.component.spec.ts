@@ -1,18 +1,17 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideTestDependencies } from '../../testing/test-providers';
 import { MembershipComponent } from './membership.component';
 
 describe('MembershipComponent', () => {
   let component: MembershipComponent;
   let fixture: ComponentFixture<MembershipComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [MembershipComponent],
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [MembershipComponent],
+      providers: provideTestDependencies(),
     }).compileComponents();
-  }));
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(MembershipComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

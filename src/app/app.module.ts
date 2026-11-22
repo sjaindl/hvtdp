@@ -50,7 +50,6 @@ import { GoalOfTheSeasonComponent } from './goaloftheseason/goaloftheseason.comp
 import { GoldenshotVotingComponent } from './goldenshot-voting/goldenshot-voting.component';
 import { GoldenshotComponent } from './goldenshot/goldenshot.component';
 import { HallenturnierComponent } from './hallenturnier/hallenturnier.component';
-import { HalloffameComponent } from './halloffame/halloffame.component';
 import { HallofpappComponent } from './hallofpapp/hallofpapp.component';
 import { HeaderComponent } from './header/header.component';
 import { HomeComponent } from './home/home.component';
@@ -129,7 +128,6 @@ import { VideoCardComponent } from './video-card/video-card.component';
     GalleryComponent,
     GoalOfTheSeasonComponent,
     GoldenshotVotingComponent,
-    HalloffameComponent,
     MembershipComponent,
     PlayerOfTheSeasonComponent,
     StadionFestComponent,

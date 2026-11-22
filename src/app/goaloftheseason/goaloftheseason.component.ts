@@ -53,7 +53,7 @@ export class GoalOfTheSeasonComponent implements OnInit, OnDestroy {
 
   readonly seasons = Seasons.goalOfTheSeason;
 
-  season: string;
+  season = '';
   candidates: Candidate[] = [];
   /** Options without a nominated video (TODO(API): goal candidates and voting options are maintained separately). */
   optionsWithoutVideo: GoalOfTheSeason[] = [];
@@ -65,7 +65,7 @@ export class GoalOfTheSeasonComponent implements OnInit, OnDestroy {
   errorText = '';
 
   private players: Player[] = [];
-  private sub: Subscription;
+  private sub?: Subscription;
 
   ngOnInit() {
     this.canVote = !this.cookieService.check(GOAL_OF_SEASON_VOTING_COOKIE_KEY);
