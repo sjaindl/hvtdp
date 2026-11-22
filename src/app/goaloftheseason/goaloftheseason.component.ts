@@ -9,8 +9,10 @@ import { GoalOfTheSeason } from '../shared/goaloftheseason';
 import { Player } from '../shared/player';
 import { CurrentSeason, Seasons } from '../shared/seasons';
 import { ErrorUtil } from '../shared/utils/error.util';
+import { ContentSwapDirective } from '../ui/content-swap/content-swap.directive';
 import { EmptyStateComponent } from '../ui/empty-state/empty-state.component';
 import { PageIntroComponent } from '../ui/page-intro/page-intro.component';
+import { SlidingIndicatorDirective } from '../ui/sliding-indicator/sliding-indicator.directive';
 import { ToastService } from '../ui/toast/toast.service';
 import { VoteBarComponent } from '../ui/vote-bar/vote-bar.component';
 import { VideoCardComponent } from '../video-card/video-card.component';
@@ -41,6 +43,8 @@ interface Candidate {
     PageIntroComponent,
     VideoCardComponent,
     VoteBarComponent,
+    SlidingIndicatorDirective,
+    ContentSwapDirective,
   ],
 })
 export class GoalOfTheSeasonComponent implements OnInit, OnDestroy {
@@ -62,6 +66,9 @@ export class GoalOfTheSeasonComponent implements OnInit, OnDestroy {
   busy = false;
   loaded = false;
   failed = false;
+  loading = false;
+  /** Season of the content on screen; changing it plays the content entrance animation. */
+  contentKey = '';
   errorText = '';
 
   private players: Player[] = [];
@@ -95,7 +102,7 @@ export class GoalOfTheSeasonComponent implements OnInit, OnDestroy {
   }
 
   load() {
-    this.loaded = false;
+    this.loading = true;
     this.failed = false;
     forkJoin({
       games: this.mysqlService.getGames(),
@@ -128,9 +135,12 @@ export class GoalOfTheSeasonComponent implements OnInit, OnDestroy {
           (option) => !this.candidates.some((candidate) => candidate.option === option)
         );
         this.loaded = true;
+        this.loading = false;
+        this.contentKey = this.season;
       },
       error: (error: unknown) => {
         this.loaded = true;
+        this.loading = false;
         this.failed = true;
         this.errorText = ErrorUtil.message(error);
       },

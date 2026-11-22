@@ -3,9 +3,11 @@ import { Meta, Title } from '@angular/platform-browser';
 import { MysqlService } from '../services/mysql.service';
 import { Player } from '../shared/player';
 import { ErrorUtil } from '../shared/utils/error.util';
+import { ContentSwapDirective } from '../ui/content-swap/content-swap.directive';
 import { EmptyStateComponent } from '../ui/empty-state/empty-state.component';
 import { PageIntroComponent } from '../ui/page-intro/page-intro.component';
 import { PlayerCardComponent } from '../ui/player-card/player-card.component';
+import { SlidingIndicatorDirective } from '../ui/sliding-indicator/sliding-indicator.directive';
 
 interface PositionGroup {
   position: string;
@@ -25,7 +27,7 @@ const GROUP_TITLES: Record<string, string> = {
   selector: 'app-team',
   templateUrl: './team.component.html',
   standalone: true,
-  imports: [EmptyStateComponent, PageIntroComponent, PlayerCardComponent],
+  imports: [EmptyStateComponent, PageIntroComponent, PlayerCardComponent, SlidingIndicatorDirective, ContentSwapDirective],
 })
 export class TeamComponent implements OnInit {
   private mysqlService = inject(MysqlService);

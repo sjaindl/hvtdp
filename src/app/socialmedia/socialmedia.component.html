@@ -1,19 +1,42 @@
-<app-page-intro title="Videos" lead="Für unsere Fans haben wir alle Tore und Events archiviert. Viel Spaß beim Stöbern durch unser Videoarchiv!">
-  <div class="scrollbar-none -mx-4 flex gap-2 overflow-x-auto px-4 lg:mx-0 lg:flex-wrap lg:px-0" aria-label="Saison wählen">
+<app-page-intro
+  title="Videos"
+  lead="Für unsere Fans haben wir alle Tore und Events archiviert. Viel Spaß beim Stöbern durch unser Videoarchiv!"
+>
+  <div
+    class="scrollbar-none -mx-4 flex gap-2 overflow-x-auto px-4 lg:mx-0 lg:flex-wrap lg:px-0"
+    appSlidingIndicator
+    aria-label="Saison wählen"
+  >
     @for (item of seasons; track item) {
-      <a [routerLink]="['/social', item]" [class]="item === season ? 'chip-active' : 'chip'">{{ formatSeason(item) }}</a>
+      <a [routerLink]="['/social', item]" [class]="item === season ? 'chip-active' : 'chip'">{{
+        formatSeason(item)
+      }}</a>
     }
   </div>
 </app-page-intro>
 
-<div class="page-container flex flex-col gap-8 py-6 lg:gap-12 lg:py-10">
+<div
+  class="page-container flex flex-col gap-8 py-6 lg:gap-12 lg:py-10"
+  [appContentSwap]="contentKey"
+  [busy]="loading"
+>
   @if (failed) {
-    <app-empty-state icon="error_outline" tone="error" title="Videos konnten nicht geladen werden"
-      [text]="errorText">
-      <button type="button" class="btn-primary" (click)="load()">Erneut versuchen <span class="material-icons text-xl">refresh</span></button>
+    <app-empty-state
+      icon="error_outline"
+      tone="error"
+      title="Videos konnten nicht geladen werden"
+      [text]="errorText"
+    >
+      <button type="button" class="btn-primary" (click)="load()">
+        Erneut versuchen <span class="material-icons text-xl">refresh</span>
+      </button>
     </app-empty-state>
   } @else if (loaded && !games.length) {
-    <app-empty-state icon="smart_display" title="Noch keine Videos" text="Für diese Saison gibt es noch keine Videos. Schau später wieder vorbei."></app-empty-state>
+    <app-empty-state
+      icon="smart_display"
+      title="Noch keine Videos"
+      text="Für diese Saison gibt es noch keine Videos. Schau später wieder vorbei."
+    ></app-empty-state>
   }
 
   @for (game of games; track game.date + game.description) {
@@ -31,7 +54,9 @@
             <p class="text-sm text-gray-600">{{ game.customText }}</p>
           }
         </div>
-        <span class="badge-neutral shrink-0">{{ game.links.length }} {{ game.links.length === 1 ? 'Video' : 'Videos' }}</span>
+        <span class="badge-neutral shrink-0"
+          >{{ game.links.length }} {{ game.links.length === 1 ? 'Video' : 'Videos' }}</span
+        >
       </div>
       <div class="grid gap-3.5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
         @for (link of game.links; track link.link) {

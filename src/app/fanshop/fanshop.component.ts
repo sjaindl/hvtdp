@@ -6,9 +6,11 @@ import { baseUrlImages } from '../shared/baseurls';
 import { Item } from '../shared/items';
 import { CLUB_EMAIL } from '../shared/seasons';
 import { ErrorUtil } from '../shared/utils/error.util';
+import { ContentSwapDirective } from '../ui/content-swap/content-swap.directive';
 import { EmptyStateComponent } from '../ui/empty-state/empty-state.component';
 import { ZoomableDirective } from '../ui/image-viewer/zoomable.directive';
 import { PageIntroComponent } from '../ui/page-intro/page-intro.component';
+import { SlidingIndicatorDirective } from '../ui/sliding-indicator/sliding-indicator.directive';
 import { ToastService } from '../ui/toast/toast.service';
 
 interface Order {
@@ -23,7 +25,7 @@ interface Order {
   selector: 'app-fanshop',
   templateUrl: './fanshop.component.html',
   standalone: true,
-  imports: [FormsModule, EmptyStateComponent, PageIntroComponent, ZoomableDirective],
+  imports: [FormsModule, EmptyStateComponent, PageIntroComponent, ZoomableDirective, SlidingIndicatorDirective, ContentSwapDirective],
 })
 export class FanshopComponent implements OnInit {
   private mysqlService = inject(MysqlService);
@@ -80,7 +82,8 @@ export class FanshopComponent implements OnInit {
   }
 
   openOrder(item: Item) {
-    this.orderTrigger = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    this.orderTrigger =
+      document.activeElement instanceof HTMLElement ? document.activeElement : null;
     this.order = { item, variant: '', quantity: 1, note: '' };
     document.body.classList.add('overflow-hidden');
     // Focus the sheet so Escape works right away.

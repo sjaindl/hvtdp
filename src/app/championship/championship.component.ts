@@ -9,9 +9,11 @@ import { Seasons, formatSeason } from '../shared/seasons';
 import { Standing } from '../shared/standing';
 import { ErrorUtil } from '../shared/utils/error.util';
 import { MatchOutcome, MatchUtil } from '../shared/utils/match.util';
+import { ContentSwapDirective } from '../ui/content-swap/content-swap.directive';
 import { EmptyStateComponent } from '../ui/empty-state/empty-state.component';
 import { NextMatchComponent } from '../ui/match-widgets/next-match.component';
 import { PageIntroComponent } from '../ui/page-intro/page-intro.component';
+import { SlidingIndicatorDirective } from '../ui/sliding-indicator/sliding-indicator.directive';
 
 interface SeasonContent {
   /** TODO(API): the league name is not part of the API yet. */
@@ -24,7 +26,14 @@ interface SeasonContent {
   selector: 'app-championship',
   templateUrl: './championship.component.html',
   standalone: true,
-  imports: [RouterModule, EmptyStateComponent, NextMatchComponent, PageIntroComponent],
+  imports: [
+    RouterModule,
+    EmptyStateComponent,
+    NextMatchComponent,
+    PageIntroComponent,
+    SlidingIndicatorDirective,
+    ContentSwapDirective,
+  ],
 })
 export class ChampionshipComponent implements OnInit, OnDestroy {
   private mysqlService = inject(MysqlService);
@@ -43,6 +52,9 @@ export class ChampionshipComponent implements OnInit, OnDestroy {
   nextMatch: MatchInfo | null = null;
   loaded = false;
   failed = false;
+  loading = false;
+  /** Season of the content on screen; changing it plays the content entrance animation. */
+  contentKey = '';
   errorText = '';
 
   private sub?: Subscription;
@@ -67,7 +79,7 @@ export class ChampionshipComponent implements OnInit, OnDestroy {
   }
 
   load() {
-    this.loaded = false;
+    this.loading = true;
     this.failed = false;
     forkJoin({
       standings: this.mysqlService.getStandings(),
@@ -89,9 +101,12 @@ export class ChampionshipComponent implements OnInit, OnDestroy {
         );
         this.nextMatch = MatchUtil.nextMatch(seasonMatches);
         this.loaded = true;
+        this.loading = false;
+        this.contentKey = this.season;
       },
       error: (error: unknown) => {
         this.loaded = true;
+        this.loading = false;
         this.failed = true;
         this.errorText = ErrorUtil.message(error);
       },

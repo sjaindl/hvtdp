@@ -3,7 +3,9 @@ import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Seasons } from '../shared/seasons';
+import { ContentSwapDirective } from '../ui/content-swap/content-swap.directive';
 import { PageIntroComponent } from '../ui/page-intro/page-intro.component';
+import { SlidingIndicatorDirective } from '../ui/sliding-indicator/sliding-indicator.directive';
 import { VideoCardComponent } from '../video-card/video-card.component';
 
 /** TODO(API): advent calendar texts and door metadata are maintained here per season. */
@@ -24,7 +26,13 @@ const SEASON_TEXT: Record<string, { title: string; lead: string; note: string }>
   selector: 'app-advent',
   templateUrl: './advent.component.html',
   standalone: true,
-  imports: [RouterModule, PageIntroComponent, VideoCardComponent],
+  imports: [
+    RouterModule,
+    PageIntroComponent,
+    VideoCardComponent,
+    SlidingIndicatorDirective,
+    ContentSwapDirective,
+  ],
 })
 export class AdventComponent implements OnInit, OnDestroy {
   private titleService = inject(Title);

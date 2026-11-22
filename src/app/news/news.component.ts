@@ -1,4 +1,12 @@
-import { AfterViewChecked, Component, ElementRef, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
+import {
+  AfterViewChecked,
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  inject,
+} from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Marked } from 'marked';
@@ -8,12 +16,14 @@ import { News } from '../shared/news';
 import { DateUtil } from '../shared/utils/date.util';
 import { ErrorUtil } from '../shared/utils/error.util';
 import { TextUtil } from '../shared/utils/text.util';
+import { ContentSwapDirective } from '../ui/content-swap/content-swap.directive';
 import { EmptyStateComponent } from '../ui/empty-state/empty-state.component';
 import { ImageViewerService } from '../ui/image-viewer/image-viewer.service';
 import { ZoomableDirective } from '../ui/image-viewer/zoomable.directive';
 import { NewsCardComponent } from '../ui/news-card/news-card.component';
 import { NewsRowComponent } from '../ui/news-row/news-row.component';
 import { PageIntroComponent } from '../ui/page-intro/page-intro.component';
+import { SlidingIndicatorDirective } from '../ui/sliding-indicator/sliding-indicator.directive';
 import { ToastService } from '../ui/toast/toast.service';
 
 const PAGE_SIZE = 12;
@@ -22,14 +32,7 @@ const PAGE_SIZE = 12;
   selector: 'app-news',
   templateUrl: './news.component.html',
   standalone: true,
-  imports: [
-    RouterModule,
-    EmptyStateComponent,
-    NewsCardComponent,
-    NewsRowComponent,
-    PageIntroComponent,
-    ZoomableDirective,
-  ],
+  imports: [RouterModule, EmptyStateComponent, NewsCardComponent, NewsRowComponent, PageIntroComponent, ZoomableDirective, SlidingIndicatorDirective, ContentSwapDirective],
 })
 export class NewsComponent implements OnInit, OnDestroy, AfterViewChecked {
   private cmsService = inject(CmsService);
@@ -47,6 +50,7 @@ export class NewsComponent implements OnInit, OnDestroy, AfterViewChecked {
   /** Year filter. TODO(API): replace with news categories (Spielbericht, Vereinsleben, …) once the CMS has them. */
   years: string[] = [];
   selectedYear: string | null = null;
+  readonly pageSize = PAGE_SIZE;
   visibleCount = PAGE_SIZE;
 
   newsId: number | null = null;

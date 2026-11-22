@@ -8,10 +8,12 @@ import { Album, Photo } from '../shared/photos';
 import { Seasons } from '../shared/seasons';
 import { DateUtil } from '../shared/utils/date.util';
 import { ErrorUtil } from '../shared/utils/error.util';
+import { ContentSwapDirective } from '../ui/content-swap/content-swap.directive';
 import { EmptyStateComponent } from '../ui/empty-state/empty-state.component';
 import { FittedImageComponent } from '../ui/fitted-image/fitted-image.component';
 import { ImageViewerService, ViewerImage } from '../ui/image-viewer/image-viewer.service';
 import { PageIntroComponent } from '../ui/page-intro/page-intro.component';
+import { SlidingIndicatorDirective } from '../ui/sliding-indicator/sliding-indicator.directive';
 
 const PHOTO_PAGE_SIZE = 24;
 
@@ -19,7 +21,14 @@ const PHOTO_PAGE_SIZE = 24;
   selector: 'app-gallery',
   templateUrl: './gallery.component.html',
   standalone: true,
-  imports: [RouterModule, EmptyStateComponent, FittedImageComponent, PageIntroComponent],
+  imports: [
+    RouterModule,
+    EmptyStateComponent,
+    FittedImageComponent,
+    PageIntroComponent,
+    SlidingIndicatorDirective,
+    ContentSwapDirective,
+  ],
 })
 export class GalleryComponent implements OnInit, OnDestroy {
   private mysqlService = inject(MysqlService);
@@ -37,6 +46,9 @@ export class GalleryComponent implements OnInit, OnDestroy {
   selectedAlbum: Album | null = null;
   loaded = false;
   failed = false;
+  loading = false;
+  /** Season of the content on screen; changing it plays the content entrance animation. */
+  contentKey = '';
   errorText = '';
 
   visiblePhotos = PHOTO_PAGE_SIZE;
@@ -111,6 +123,7 @@ export class GalleryComponent implements OnInit, OnDestroy {
   }
 
   loadAlbums() {
+    this.loading = true;
     this.failed = false;
     this.photosSub?.unsubscribe();
     this.photosSub = this.mysqlService.getPhotos().subscribe({
@@ -123,9 +136,12 @@ export class GalleryComponent implements OnInit, OnDestroy {
           this.titleService.setTitle(`HV TDP Stainz: ${this.selectedAlbum.name}`);
         }
         this.loaded = true;
+        this.loading = false;
+        this.contentKey = this.season;
       },
       error: (error: unknown) => {
         this.loaded = true;
+        this.loading = false;
         this.failed = true;
         this.errorText = ErrorUtil.message(error);
       },

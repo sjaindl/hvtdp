@@ -18,7 +18,7 @@
 
 <section class="page-container flex flex-col gap-4 py-6 lg:gap-6 lg:py-8">
   <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
-    <div class="flex flex-wrap gap-2" aria-label="Kategorie wählen">
+    <div class="flex flex-wrap gap-2" appSlidingIndicator aria-label="Kategorie wählen">
       @for (category of categories; track category) {
         <button type="button" [class]="category === selectedCategory ? 'chip-active' : 'chip'" (click)="selectedCategory = category">{{ category }}</button>
       }
@@ -35,9 +35,9 @@
     </app-empty-state>
   }
 
-  <div class="grid grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-6">
-    @for (item of filteredItems; track item.name) {
-      <article class="card-interactive group flex flex-col">
+  <div class="grid grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-6" [appContentSwap]="selectedCategory">
+    @for (item of filteredItems; track item.name; let i = $index) {
+      <article class="card-interactive animate-stagger-in group flex flex-col" [style.--i]="i">
         <div class="aspect-square overflow-hidden bg-gray-50 p-3">
           <img [src]="imageBaseUrl + item.imagePath" [alt]="item.name" class="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105" loading="lazy" appZoomable />
         </div>
@@ -57,12 +57,14 @@
   <div
     #orderBackdrop
     class="fixed inset-0 z-[70] flex items-end justify-center bg-gray-900/60 outline-none lg:items-center lg:p-6"
+    animate.enter="animate-fade-in"
+    animate.leave="animate-fade-out"
     tabindex="-1"
     (click)="onBackdropClick($event)"
     (keydown.escape)="closeOrder()"
   >
     <div
-      class="flex max-h-[92vh] w-full flex-col overflow-y-auto rounded-t-3xl bg-white lg:max-w-[860px] lg:flex-row lg:overflow-hidden lg:rounded-2xl"
+      class="animate-rise-in flex max-h-[92vh] w-full flex-col overflow-y-auto rounded-t-3xl bg-white lg:max-w-[860px] lg:flex-row lg:overflow-hidden lg:rounded-2xl"
       role="dialog"
       aria-modal="true"
       [attr.aria-label]="'Bestellung ' + order.item.name"

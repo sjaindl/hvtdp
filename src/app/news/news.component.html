@@ -72,7 +72,7 @@
   <!-- List -->
   <app-page-intro title="Nachrichten" lead="Spielberichte, Vereinsleben und alles rund um den HV TDP.">
     @if (years.length) {
-      <div class="scrollbar-none -mx-4 flex gap-2 overflow-x-auto px-4 lg:mx-0 lg:flex-wrap lg:px-0" aria-label="Nach Jahr filtern">
+      <div class="scrollbar-none -mx-4 flex gap-2 overflow-x-auto px-4 lg:mx-0 lg:flex-wrap lg:px-0" appSlidingIndicator aria-label="Nach Jahr filtern">
         <button type="button" [class]="selectedYear === null ? 'chip-active' : 'chip'" (click)="selectYear(null)">Alle</button>
         @for (year of years; track year) {
           <button type="button" [class]="selectedYear === year ? 'chip-active' : 'chip'" (click)="selectYear(year)">{{ year }}</button>
@@ -81,7 +81,7 @@
     }
   </app-page-intro>
 
-  <section class="page-container flex flex-col gap-3 py-6 lg:gap-6 lg:py-10">
+  <section class="page-container flex flex-col gap-3 py-6 lg:gap-6 lg:py-10" [appContentSwap]="selectedYear">
     @if (failed) {
       <app-empty-state icon="error_outline" tone="error" title="Nachrichten konnten nicht geladen werden"
         [text]="errorText">
@@ -98,19 +98,19 @@
 
     <!-- Mobile: featured card + compact rows -->
     <div class="flex flex-col gap-3 lg:hidden">
-      @for (item of visibleNews; track item.newsId; let first = $first) {
+      @for (item of visibleNews; track item.newsId; let first = $first; let i = $index) {
         @if (first) {
-          <app-news-card [news]="item"></app-news-card>
+          <app-news-card class="animate-stagger-in" [style.--i]="0" [news]="item"></app-news-card>
         } @else {
-          <app-news-row [news]="item"></app-news-row>
+          <app-news-row class="animate-stagger-in" [style.--i]="i % pageSize" [news]="item"></app-news-row>
         }
       }
     </div>
 
     <!-- Desktop: card grid -->
     <div class="hidden gap-6 lg:grid lg:grid-cols-3">
-      @for (item of visibleNews; track item.newsId) {
-        <app-news-card [news]="item"></app-news-card>
+      @for (item of visibleNews; track item.newsId; let i = $index) {
+        <app-news-card class="animate-stagger-in" [style.--i]="i % pageSize" [news]="item"></app-news-card>
       }
     </div>
 

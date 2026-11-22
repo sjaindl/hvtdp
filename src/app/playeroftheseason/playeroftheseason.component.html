@@ -15,32 +15,64 @@
   </div>
   @if (votingOpen) {
     <p class="flex items-center gap-2 text-sm font-medium text-gray-600">
-      <span class="material-icons text-lg text-gray-500">schedule</span>Du kannst einmal pro Stunde abstimmen.
+      <span class="material-icons text-lg text-gray-500">schedule</span>Du kannst einmal pro Stunde
+      abstimmen.
     </p>
   }
-  <div class="scrollbar-none -mx-4 flex gap-2 overflow-x-auto px-4 lg:mx-0 lg:flex-wrap lg:px-0" aria-label="Saison wählen">
+  <div
+    class="scrollbar-none -mx-4 flex gap-2 overflow-x-auto px-4 lg:mx-0 lg:flex-wrap lg:px-0"
+    appSlidingIndicator
+    aria-label="Saison wählen"
+  >
     @for (item of seasons; track item) {
-      <a [routerLink]="['/playeroftheseason', item]" [class]="item === season ? 'chip-active' : 'chip'">{{ item }}</a>
+      <a
+        [routerLink]="['/playeroftheseason', item]"
+        [class]="item === season ? 'chip-active' : 'chip'"
+        >{{ item }}</a
+      >
     }
   </div>
 </app-page-intro>
 
-<div class="page-container flex flex-col gap-6 py-6 lg:gap-8 lg:py-10" [class.pb-32]="votingOpen && canVote">
+<div
+  class="page-container flex flex-col gap-6 py-6 lg:gap-8 lg:py-10"
+  [appContentSwap]="contentKey"
+  [busy]="loading"
+  [class.pb-32]="votingOpen && canVote"
+>
   @if (failed) {
-    <app-empty-state icon="error_outline" tone="error" title="Daten konnten nicht geladen werden"
-      [text]="errorText">
-      <button type="button" class="btn-primary" (click)="load()">Erneut versuchen <span class="material-icons text-xl">refresh</span></button>
+    <app-empty-state
+      icon="error_outline"
+      tone="error"
+      title="Daten konnten nicht geladen werden"
+      [text]="errorText"
+    >
+      <button type="button" class="btn-primary" (click)="load()">
+        Erneut versuchen <span class="material-icons text-xl">refresh</span>
+      </button>
     </app-empty-state>
   } @else if (loaded && !candidates.length) {
-    <app-empty-state icon="star" title="Noch keine Kandidaten" text="Für diese Saison gibt es noch keine Wahl."></app-empty-state>
+    <app-empty-state
+      icon="star"
+      title="Noch keine Kandidaten"
+      text="Für diese Saison gibt es noch keine Wahl."
+    ></app-empty-state>
   }
 
-  <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6 lg:gap-4" role="radiogroup" aria-label="Spieler auswählen">
+  <div
+    class="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6 lg:gap-4"
+    role="radiogroup"
+    aria-label="Spieler auswählen"
+  >
     @for (candidate of candidates; track candidate.option.player) {
       <button
         type="button"
         class="flex flex-col items-center gap-2.5 rounded-2xl px-3 pb-3.5 pt-4 text-center shadow-sm transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-md disabled:pointer-events-none"
-        [class]="candidate.option === selected ? 'border-2 border-pink-600 bg-pink-50' : 'border border-gray-100 bg-white'"
+        [class]="
+          candidate.option === selected
+            ? 'border-2 border-pink-600 bg-pink-50'
+            : 'border border-gray-100 bg-white'
+        "
         role="radio"
         [attr.aria-checked]="candidate.option === selected"
         [disabled]="!votingOpen || !canVote"
@@ -48,24 +80,38 @@
       >
         <span class="h-[88px] w-[88px] overflow-hidden rounded-full bg-gray-100">
           @if (candidate.player?.imagePath; as imagePath) {
-            <img [src]="imageBaseUrl + imagePath" alt="" class="h-full w-full object-cover object-top" loading="lazy" />
+            <img
+              [src]="imageBaseUrl + imagePath"
+              alt=""
+              class="h-full w-full object-cover object-top"
+              loading="lazy"
+            />
           } @else {
-            <span class="flex h-full items-center justify-center text-2xl font-bold text-gray-500">{{ candidate.option.player.charAt(0) }}</span>
+            <span
+              class="flex h-full items-center justify-center text-2xl font-bold text-gray-500"
+              >{{ candidate.option.player.charAt(0) }}</span
+            >
           }
         </span>
-        <span class="text-[15px] font-bold leading-snug" [class]="candidate.option === selected ? 'text-pink-700' : 'text-gray-900'">{{
-          candidate.option.player
-        }}</span>
+        <span
+          class="text-[15px] font-bold leading-snug"
+          [class]="candidate.option === selected ? 'text-pink-700' : 'text-gray-900'"
+          >{{ candidate.option.player }}</span
+        >
         @if (candidate.player?.position; as position) {
           <span class="text-[13px] font-medium text-gray-500">{{ position }}</span>
         }
         @if (votingOpen && canVote) {
           <span
             class="mt-auto flex h-7 w-7 items-center justify-center rounded-full border-2"
-            [class]="candidate.option === selected ? 'border-pink-600 bg-pink-600 text-white' : 'border-gray-400 bg-white'"
+            [class]="
+              candidate.option === selected
+                ? 'border-pink-600 bg-pink-600 text-white'
+                : 'border-gray-400 bg-white'
+            "
           >
             @if (candidate.option === selected) {
-              <span class="material-icons text-lg">check</span>
+              <span class="material-icons text-lg" animate.enter="animate-pop-in">check</span>
             }
           </span>
         }

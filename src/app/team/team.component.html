@@ -5,7 +5,7 @@
   [alignEnd]="true"
 >
   @if (positionGroups.length) {
-    <div class="scrollbar-none -mx-4 flex gap-2 overflow-x-auto px-4 lg:mx-0 lg:flex-wrap lg:px-0" aria-label="Nach Position filtern">
+    <div class="scrollbar-none -mx-4 flex gap-2 overflow-x-auto px-4 lg:mx-0 lg:flex-wrap lg:px-0" appSlidingIndicator aria-label="Nach Position filtern">
       <button type="button" [class]="selectedPosition === null ? 'chip-active' : 'chip'" (click)="selectedPosition = null">Alle</button>
       @for (group of positionGroups; track group.position) {
         <button type="button" [class]="selectedPosition === group.position ? 'chip-active' : 'chip'" (click)="selectedPosition = group.position">
@@ -30,7 +30,7 @@
   }
 </app-page-intro>
 
-<div class="page-container flex flex-col gap-10 py-7 lg:gap-14 lg:py-10">
+<div class="page-container flex flex-col gap-10 py-7 lg:gap-14 lg:py-10" [appContentSwap]="selectedPosition">
   @if (failed) {
     <app-empty-state icon="error_outline" tone="error" title="Kader konnte nicht geladen werden"
       [text]="errorText">
@@ -45,8 +45,8 @@
         <span class="badge-neutral">{{ group.players.length }} Spieler</span>
       </div>
       <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 lg:gap-6">
-        @for (player of group.players; track player.imagePath) {
-          <app-player-card [player]="player" [position]="group.position"></app-player-card>
+        @for (player of group.players; track player.imagePath; let i = $index) {
+          <app-player-card class="animate-stagger-in" [style.--i]="i" [player]="player" [position]="group.position"></app-player-card>
         }
       </div>
     </section>
@@ -59,8 +59,8 @@
         <span class="badge-neutral">{{ activePlayers.length }}</span>
       </div>
       <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 lg:gap-6">
-        @for (player of activePlayers; track player.imagePath) {
-          <app-player-card [player]="player"></app-player-card>
+        @for (player of activePlayers; track player.imagePath; let i = $index) {
+          <app-player-card class="animate-stagger-in" [style.--i]="i" [player]="player"></app-player-card>
         }
       </div>
     </section>

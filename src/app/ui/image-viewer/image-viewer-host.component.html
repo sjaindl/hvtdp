@@ -1,6 +1,8 @@
 @if (viewer.current(); as image) {
   <div
     class="fixed inset-0 z-[80] flex flex-col bg-gray-900 outline-none"
+    animate.enter="animate-fade-in"
+    animate.leave="animate-fade-out"
     role="dialog"
     aria-modal="true"
     [attr.aria-label]="image.alt || 'Bild'"

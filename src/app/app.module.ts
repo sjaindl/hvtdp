@@ -19,16 +19,17 @@ import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AppRoutingModule } from './app-routing/app-routing.module';
 
-import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { provideHttpClient, withInterceptorsFromDi, withJsonpSupport } from '@angular/common/http';
 import { ApplicationRef, CUSTOM_ELEMENTS_SCHEMA, DoBootstrap, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { provideRouter, withHashLocation, withViewTransitions } from '@angular/router';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { CookieService } from 'ngx-cookie-service';
 
 import { RedirectGuard } from './app-routing/redirect-guard';
+import { onRouteViewTransition } from './app-routing/route-transitions';
+import { routes } from './app-routing/routes';
 import { AppComponent } from './app.component';
 import { MysqlService } from './services/mysql.service';
 import { StatisticsService } from './services/statistics.service';
@@ -74,7 +75,6 @@ import { VideoCardComponent } from './video-card/video-card.component';
     SafePipe,
     BrowserModule,
     BrowserAnimationsModule,
-    AppRoutingModule,
     AppComponent,
     FormsModule,
     ReactiveFormsModule,
@@ -138,7 +138,11 @@ import { VideoCardComponent } from './video-card/video-card.component';
     StatisticsService,
     RedirectGuard,
     CookieService,
-    { provide: LocationStrategy, useClass: HashLocationStrategy },
+    provideRouter(
+      routes,
+      withHashLocation(),
+      withViewTransitions({ skipInitialTransition: true, onViewTransitionCreated: onRouteViewTransition })
+    ),
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 2500 } },
     provideHttpClient(withInterceptorsFromDi(), withJsonpSupport()),
   ],

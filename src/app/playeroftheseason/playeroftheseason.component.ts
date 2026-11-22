@@ -9,8 +9,10 @@ import { Player } from '../shared/player';
 import { PlayerOfTheSeason } from '../shared/playeroftheseason';
 import { CurrentSeason, Seasons } from '../shared/seasons';
 import { ErrorUtil } from '../shared/utils/error.util';
+import { ContentSwapDirective } from '../ui/content-swap/content-swap.directive';
 import { EmptyStateComponent } from '../ui/empty-state/empty-state.component';
 import { PageIntroComponent } from '../ui/page-intro/page-intro.component';
+import { SlidingIndicatorDirective } from '../ui/sliding-indicator/sliding-indicator.directive';
 import { ToastService } from '../ui/toast/toast.service';
 import { VoteBarComponent } from '../ui/vote-bar/vote-bar.component';
 
@@ -25,7 +27,14 @@ interface Candidate {
   selector: 'app-player-of-the-season',
   templateUrl: './playeroftheseason.component.html',
   standalone: true,
-  imports: [RouterModule, EmptyStateComponent, PageIntroComponent, VoteBarComponent],
+  imports: [
+    RouterModule,
+    EmptyStateComponent,
+    PageIntroComponent,
+    VoteBarComponent,
+    SlidingIndicatorDirective,
+    ContentSwapDirective,
+  ],
 })
 export class PlayerOfTheSeasonComponent implements OnInit, OnDestroy {
   private cookieService = inject(CookieService);
@@ -45,6 +54,9 @@ export class PlayerOfTheSeasonComponent implements OnInit, OnDestroy {
   busy = false;
   loaded = false;
   failed = false;
+  loading = false;
+  /** Season of the content on screen; changing it plays the content entrance animation. */
+  contentKey = '';
   errorText = '';
 
   private sub?: Subscription;
@@ -73,7 +85,7 @@ export class PlayerOfTheSeasonComponent implements OnInit, OnDestroy {
   }
 
   load() {
-    this.loaded = false;
+    this.loading = true;
     this.failed = false;
     forkJoin({
       players: this.mysqlService.getPlayers(),
@@ -96,9 +108,12 @@ export class PlayerOfTheSeasonComponent implements OnInit, OnDestroy {
               ) ?? null,
           }));
         this.loaded = true;
+        this.loading = false;
+        this.contentKey = this.season;
       },
       error: (error: unknown) => {
         this.loaded = true;
+        this.loading = false;
         this.failed = true;
         this.errorText = ErrorUtil.message(error);
       },

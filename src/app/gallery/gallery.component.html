@@ -1,98 +1,140 @@
 @if (selectedAlbumSlug === null || !loaded || failed) {
-  <app-page-intro title="Fotos" lead="Für unsere Fans haben wir alle HV TDP-Veranstaltungen archiviert. Viel Spaß beim Durchstöbern!">
-    <div class="scrollbar-none -mx-4 flex gap-2 overflow-x-auto px-4 lg:mx-0 lg:flex-wrap lg:px-0" aria-label="Saison wählen">
+  <app-page-intro
+    title="Fotos"
+    lead="Für unsere Fans haben wir alle HV TDP-Veranstaltungen archiviert. Viel Spaß beim Durchstöbern!"
+  >
+    <div
+      class="scrollbar-none -mx-4 flex gap-2 overflow-x-auto px-4 lg:mx-0 lg:flex-wrap lg:px-0"
+      appSlidingIndicator
+      aria-label="Saison wählen"
+    >
       @for (item of seasons; track item) {
-        <a [routerLink]="['/gallery', item]" [class]="item === season ? 'chip-active' : 'chip'">{{ item }}</a>
+        <a [routerLink]="['/gallery', item]" [class]="item === season ? 'chip-active' : 'chip'">{{
+          item
+        }}</a>
       }
     </div>
   </app-page-intro>
 }
 
-@if (failed) {
-  <div class="page-container py-10">
-    <app-empty-state icon="error_outline" tone="error" title="Alben konnten nicht geladen werden"
-      [text]="errorText">
-      <button type="button" class="btn-primary" (click)="loadAlbums()">Erneut versuchen <span class="material-icons text-xl">refresh</span></button>
-    </app-empty-state>
-  </div>
-} @else if (selectedAlbum) {
-  <!-- Album -->
-  <section class="bg-gray-50">
-    <div class="page-container flex flex-col gap-2 pb-6 pt-2 lg:py-8">
-      <a [routerLink]="['/gallery', season]" class="link-arrow self-start"
-        ><span class="material-icons text-lg">arrow_back</span> Alle Alben</a
+<div [appContentSwap]="contentKey" [busy]="loading">
+  @if (failed) {
+    <div class="page-container py-10">
+      <app-empty-state
+        icon="error_outline"
+        tone="error"
+        title="Alben konnten nicht geladen werden"
+        [text]="errorText"
       >
-      <h1 class="text-[28px] font-extrabold leading-tight text-gray-900 lg:text-4xl">{{ selectedAlbum.name }}</h1>
-      <p class="flex items-center gap-1.5 text-sm font-medium text-gray-600">
-        <span class="material-icons text-base text-gray-500">event</span>{{ formatDate(selectedAlbum.date) }}
-        <span class="text-gray-400">·</span>
-        <span class="material-icons text-base text-gray-500">photo_library</span>{{ photos.length }} Fotos
-      </p>
+        <button type="button" class="btn-primary" (click)="loadAlbums()">
+          Erneut versuchen <span class="material-icons text-xl">refresh</span>
+        </button>
+      </app-empty-state>
     </div>
-  </section>
-  <section class="page-container flex flex-col gap-6 py-4 lg:py-8">
-    <!--
-      Justified rows: each photo keeps its aspect ratio, photos in a row share one height (--row-h) and fill the width.
-      flex-grow is the ratio × 100: a row whose grow values sum to less than 1 would only fill part of its free space.
-    -->
-    <div class="flex flex-wrap gap-2 [--row-h:120px] sm:[--row-h:170px] lg:gap-3 lg:[--row-h:240px]">
-      @for (photo of photos.slice(0, visiblePhotos); track photo.imagePath; let i = $index) {
-        <button
-          type="button"
-          class="group cursor-zoom-in overflow-hidden rounded-xl bg-gray-100"
-          [style.flex]="ratio(photo) * 100 + ' 1 calc(' + ratio(photo) + ' * var(--row-h))'"
-          [attr.aria-label]="'Foto ' + (i + 1) + ' öffnen'"
-          (click)="openPhoto(i)"
+  } @else if (selectedAlbum) {
+    <!-- Album -->
+    <section class="bg-gray-50">
+      <div class="page-container flex flex-col gap-2 pb-6 pt-2 lg:py-8">
+        <a [routerLink]="['/gallery', season]" class="link-arrow self-start"
+          ><span class="material-icons text-lg">arrow_back</span> Alle Alben</a
         >
-          <img
-            [src]="imageBaseUrl + photo.imagePath"
-            [alt]="photo.description || selectedAlbum.name"
-            class="block h-auto w-full object-cover transition-transform duration-500 group-hover:scale-105"
-            [style.aspect-ratio]="ratio(photo)"
-            loading="lazy"
-            (load)="onPhotoLoad(photo, $event)"
-          />
-        </button>
-      }
-      <!-- Keeps the photos in the last row at row height instead of stretching them across the full width. -->
-      <span class="grow-[100000]" aria-hidden="true"></span>
-    </div>
-    @if (visiblePhotos < photos.length) {
-      <div class="flex justify-center pb-6">
-        <button type="button" class="btn-secondary w-full lg:w-auto" (click)="showMorePhotos()">
-          Weitere Fotos laden ({{ photos.length - visiblePhotos }})
-        </button>
+        <h1 class="text-[28px] font-extrabold leading-tight text-gray-900 lg:text-4xl">
+          {{ selectedAlbum.name }}
+        </h1>
+        <p class="flex items-center gap-1.5 text-sm font-medium text-gray-600">
+          <span class="material-icons text-base text-gray-500">event</span
+          >{{ formatDate(selectedAlbum.date) }}
+          <span class="text-gray-400">·</span>
+          <span class="material-icons text-base text-gray-500">photo_library</span
+          >{{ photos.length }} Fotos
+        </p>
       </div>
-    }
-  </section>
-} @else if (loaded) {
-  <!-- Overview -->
-  <section class="page-container flex flex-col gap-4 py-6 lg:gap-6 lg:py-10">
-    @if (selectedAlbumSlug) {
-      <app-empty-state icon="photo_library" title="Album nicht gefunden" text="Dieses Album gibt es in der gewählten Saison nicht."></app-empty-state>
-    } @else if (!albums.length) {
-      <app-empty-state icon="photo_library" title="Noch keine Alben" text="Für diese Saison gibt es noch keine Fotos. Schau später wieder vorbei."></app-empty-state>
-    } @else {
-      <p class="meta hidden lg:block">Saison {{ season }} · {{ albums.length }} Alben</p>
-    }
-    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
-      @for (album of albums; track album.name) {
-        <a [routerLink]="['/gallery', season, albumSlug(album)]" class="card-interactive group flex flex-col">
-          <div class="h-[200px] overflow-hidden bg-gray-100 lg:h-60">
-            @if (cover(album); as src) {
-              <app-fitted-image [src]="src" [alt]="album.name" [zoomable]="false"></app-fitted-image>
-            } @else {
-              <div class="flex h-full items-center justify-center text-sm text-gray-500">Kein Bild verfügbar</div>
-            }
-          </div>
-          <div class="flex flex-col gap-1 px-4 pb-4 pt-3.5">
-            <h2 class="text-lg font-bold leading-snug text-gray-900">{{ album.name }}</h2>
-            <p class="flex items-center gap-1.5 text-sm font-medium text-gray-500">
-              <span class="material-icons text-base">photo_library</span>{{ formatDate(album.date) }} · {{ album.photos.length }} Fotos
-            </p>
-          </div>
-        </a>
+    </section>
+    <section class="page-container flex flex-col gap-6 py-4 lg:py-8">
+      <!--
+        Justified rows: each photo keeps its aspect ratio, photos in a row share one height (--row-h) and fill the width.
+        flex-grow is the ratio × 100: a row whose grow values sum to less than 1 would only fill part of its free space.
+      -->
+      <div
+        class="flex flex-wrap gap-2 [--row-h:120px] sm:[--row-h:170px] lg:gap-3 lg:[--row-h:240px]"
+      >
+        @for (photo of photos.slice(0, visiblePhotos); track photo.imagePath; let i = $index) {
+          <button
+            type="button"
+            class="group cursor-zoom-in overflow-hidden rounded-xl bg-gray-100"
+            [style.flex]="ratio(photo) * 100 + ' 1 calc(' + ratio(photo) + ' * var(--row-h))'"
+            [attr.aria-label]="'Foto ' + (i + 1) + ' öffnen'"
+            (click)="openPhoto(i)"
+          >
+            <img
+              [src]="imageBaseUrl + photo.imagePath"
+              [alt]="photo.description || selectedAlbum.name"
+              class="block h-auto w-full object-cover transition-transform duration-500 group-hover:scale-105"
+              [style.aspect-ratio]="ratio(photo)"
+              loading="lazy"
+              (load)="onPhotoLoad(photo, $event)"
+            />
+          </button>
+        }
+        <!-- Keeps the photos in the last row at row height instead of stretching them across the full width. -->
+        <span class="grow-[100000]" aria-hidden="true"></span>
+      </div>
+      @if (visiblePhotos < photos.length) {
+        <div class="flex justify-center pb-6">
+          <button type="button" class="btn-secondary w-full lg:w-auto" (click)="showMorePhotos()">
+            Weitere Fotos laden ({{ photos.length - visiblePhotos }})
+          </button>
+        </div>
       }
-    </div>
-  </section>
-}
+    </section>
+  } @else if (loaded) {
+    <!-- Overview -->
+    <section class="page-container flex flex-col gap-4 py-6 lg:gap-6 lg:py-10">
+      @if (selectedAlbumSlug) {
+        <app-empty-state
+          icon="photo_library"
+          title="Album nicht gefunden"
+          text="Dieses Album gibt es in der gewählten Saison nicht."
+        ></app-empty-state>
+      } @else if (!albums.length) {
+        <app-empty-state
+          icon="photo_library"
+          title="Noch keine Alben"
+          text="Für diese Saison gibt es noch keine Fotos. Schau später wieder vorbei."
+        ></app-empty-state>
+      } @else {
+        <p class="meta hidden lg:block">Saison {{ season }} · {{ albums.length }} Alben</p>
+      }
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+        @for (album of albums; track album.name; let i = $index) {
+          <a
+            [routerLink]="['/gallery', season, albumSlug(album)]"
+            class="card-interactive group flex flex-col animate-stagger-in"
+            [style.--i]="i"
+          >
+            <div class="h-[200px] overflow-hidden bg-gray-100 lg:h-60">
+              @if (cover(album); as src) {
+                <app-fitted-image
+                  [src]="src"
+                  [alt]="album.name"
+                  [zoomable]="false"
+                ></app-fitted-image>
+              } @else {
+                <div class="flex h-full items-center justify-center text-sm text-gray-500">
+                  Kein Bild verfügbar
+                </div>
+              }
+            </div>
+            <div class="flex flex-col gap-1 px-4 pb-4 pt-3.5">
+              <h2 class="text-lg font-bold leading-snug text-gray-900">{{ album.name }}</h2>
+              <p class="flex items-center gap-1.5 text-sm font-medium text-gray-500">
+                <span class="material-icons text-base">photo_library</span
+                >{{ formatDate(album.date) }} · {{ album.photos.length }} Fotos
+              </p>
+            </div>
+          </a>
+        }
+      </div>
+    </section>
+  }
+</div>

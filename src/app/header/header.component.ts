@@ -1,14 +1,15 @@
-import { Component, ElementRef, HostListener, inject } from '@angular/core';
+import { AnimationCallbackEvent, Component, ElementRef, HostListener, inject } from '@angular/core';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { filter } from 'rxjs';
 import { CLUB_NAV, HIGHLIGHTS_NAV, MAIN_NAV, NavItem, SOCIAL_LINKS } from '../shared/navigation';
 import { STARTING_ELEVEN_URL } from '../shared/seasons';
+import { SlidingIndicatorDirective } from '../ui/sliding-indicator/sliding-indicator.directive';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule, SlidingIndicatorDirective],
 })
 export class HeaderComponent {
   private router = inject(Router);
@@ -23,6 +24,8 @@ export class HeaderComponent {
   mobileMenuOpen = false;
   moreMenuOpen = false;
   currentUrl = '';
+  /** Set when a navigation closes a menu: the route transition animates it out instead (see styles.css). */
+  private closeWithoutAnimation = false;
 
   constructor() {
     this.currentUrl = this.router.url;
@@ -30,7 +33,7 @@ export class HeaderComponent {
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe((event) => {
         this.currentUrl = (event as NavigationEnd).urlAfterRedirects;
-        this.closeMenus();
+        this.closeMenus(true);
       });
   }
 
@@ -47,10 +50,22 @@ export class HeaderComponent {
     document.body.classList.toggle('overflow-hidden', this.mobileMenuOpen);
   }
 
-  closeMenus() {
+  closeMenus(forNavigation = false) {
+    this.closeWithoutAnimation = forNavigation && (this.mobileMenuOpen || this.moreMenuOpen);
     this.mobileMenuOpen = false;
     this.moreMenuOpen = false;
     document.body.classList.remove('overflow-hidden');
+  }
+
+  /** Leave animation of the menus; skipped when a navigation closes them, so the new page has no menu. */
+  onMenuLeave(event: AnimationCallbackEvent, leaveClass: string) {
+    if (this.closeWithoutAnimation) {
+      this.closeWithoutAnimation = false;
+      event.animationComplete();
+      return;
+    }
+    event.target.addEventListener('animationend', () => event.animationComplete(), { once: true });
+    event.target.classList.add(leaveClass);
   }
 
   @HostListener('document:keydown.escape')

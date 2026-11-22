@@ -8,15 +8,24 @@ import { Player } from '../shared/player';
 import { Seasons, formatSeason } from '../shared/seasons';
 import { DateUtil } from '../shared/utils/date.util';
 import { ErrorUtil } from '../shared/utils/error.util';
+import { ContentSwapDirective } from '../ui/content-swap/content-swap.directive';
 import { EmptyStateComponent } from '../ui/empty-state/empty-state.component';
 import { PageIntroComponent } from '../ui/page-intro/page-intro.component';
+import { SlidingIndicatorDirective } from '../ui/sliding-indicator/sliding-indicator.directive';
 import { VideoCardComponent } from '../video-card/video-card.component';
 
 @Component({
   selector: 'app-socialmedia',
   templateUrl: './socialmedia.component.html',
   standalone: true,
-  imports: [RouterModule, EmptyStateComponent, PageIntroComponent, VideoCardComponent],
+  imports: [
+    RouterModule,
+    EmptyStateComponent,
+    PageIntroComponent,
+    VideoCardComponent,
+    SlidingIndicatorDirective,
+    ContentSwapDirective,
+  ],
 })
 export class SocialmediaComponent implements OnInit, OnDestroy {
   private mysqlService = inject(MysqlService);
@@ -32,6 +41,9 @@ export class SocialmediaComponent implements OnInit, OnDestroy {
   players: Player[] = [];
   loaded = false;
   failed = false;
+  loading = false;
+  /** Season of the content on screen; changing it plays the content entrance animation. */
+  contentKey = '';
   errorText = '';
 
   private sub?: Subscription;
@@ -54,7 +66,7 @@ export class SocialmediaComponent implements OnInit, OnDestroy {
   }
 
   load() {
-    this.loaded = false;
+    this.loading = true;
     this.failed = false;
     forkJoin({
       games: this.mysqlService.getGames(),
@@ -70,9 +82,12 @@ export class SocialmediaComponent implements OnInit, OnDestroy {
               Number(b.round) - Number(a.round)
           );
         this.loaded = true;
+        this.loading = false;
+        this.contentKey = this.season;
       },
       error: (error: unknown) => {
         this.loaded = true;
+        this.loading = false;
         this.failed = true;
         this.errorText = ErrorUtil.message(error);
       },
