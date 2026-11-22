@@ -1,0 +1,13 @@
+/* Progress bar that fills up until the redirect; the duration is bound in the template. */
+.redirect-progress {
+  animation: redirect-progress linear forwards;
+}
+
+@keyframes redirect-progress {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}

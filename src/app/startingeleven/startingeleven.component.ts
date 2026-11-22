@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { STARTING_ELEVEN_URL } from '../shared/seasons';
@@ -9,8 +9,7 @@ const REDIRECT_DELAY_MS = 3000;
 @Component({
   selector: 'app-startingeleven',
   templateUrl: './startingeleven.component.html',
-  styles: ['@keyframes redirect-progress { from { width: 0; } to { width: 100%; } }'],
-  encapsulation: ViewEncapsulation.None,
+  styleUrls: ['./startingeleven.component.css'],
   standalone: true,
   imports: [RouterModule],
 })

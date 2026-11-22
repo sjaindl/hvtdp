@@ -66,7 +66,6 @@ import { StadionFestComponent } from './stadionfest/stadionfest.component';
 import { StartingelevenComponent } from './startingeleven/startingeleven.component';
 import { SurveysComponent } from './surveys/surveys.component';
 import { TeamComponent } from './team/team.component';
-import { TickerComponent } from './ticker/ticker.component';
 import { ZehnjahresfeierComponent } from './zehnjahresfeier/zehnjahresfeier.component';
 import { VideoCardComponent } from './video-card/video-card.component';
 
@@ -108,7 +107,6 @@ import { VideoCardComponent } from './video-card/video-card.component';
     DuckrunComponent,
     GoldenshotComponent,
     PassworddialogComponent,
-    TickerComponent,
     ImagesliderComponent,
     HvtdpImageComponent,
     VideoCardComponent,

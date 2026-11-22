@@ -7,6 +7,7 @@ import { MatchInfo } from '../shared/match-info';
 import { News } from '../shared/news';
 import { ErrorUtil } from '../shared/utils/error.util';
 import { MatchUtil } from '../shared/utils/match.util';
+import { AnnouncementBarComponent } from '../ui/announcement-bar/announcement-bar.component';
 import { EmptyStateComponent } from '../ui/empty-state/empty-state.component';
 import { LastResultComponent } from '../ui/match-widgets/last-result.component';
 import { NextMatchComponent } from '../ui/match-widgets/next-match.component';
@@ -20,6 +21,7 @@ import { NewsRowComponent } from '../ui/news-row/news-row.component';
   standalone: true,
   imports: [
     RouterModule,
+    AnnouncementBarComponent,
     EmptyStateComponent,
     LastResultComponent,
     NextMatchComponent,
@@ -40,9 +42,17 @@ export class HomeComponent implements OnInit {
   lastResult: MatchInfo | null = null;
   nextMatch: MatchInfo | null = null;
   matchesLoaded = false;
+  announcement = '';
 
   ngOnInit() {
     this.loadNews();
+
+    // TODO(API): switch to a single-announcement endpoint; there is never more than one ticker item.
+    // A failed request just leaves the announcement bar hidden.
+    this.mysqlService.getTickerItems().subscribe({
+      next: (items) => (this.announcement = items?.find((item) => item.tickerItem?.trim())?.tickerItem.trim() ?? ''),
+      error: () => (this.announcement = ''),
+    });
 
     this.mysqlService.getMatchInfo().subscribe({
       next: (matches) => {
