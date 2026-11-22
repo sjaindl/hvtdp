@@ -2,7 +2,6 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { GoldenShot } from '../shared/goldenshot';
-import { Album } from '../shared/photos';
 import { Survey } from '../shared/survey';
 
 @Injectable()
@@ -10,10 +9,6 @@ export class MysqlService {
   private http = inject(HttpClient);
 
   private readonly baseUrl = 'https://www.hvtdpstainz.at/api/';
-
-  public getPhotos(): Observable<Album[]> {
-    return this.http.get<Album[]>(this.baseUrl + 'getPhotos.php');
-  }
 
   public getSurveyLink(): Observable<Survey[]> {
     return this.http.get<Survey[]>(this.baseUrl + 'getSurvey.php');

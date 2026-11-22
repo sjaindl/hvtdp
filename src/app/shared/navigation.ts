@@ -20,7 +20,7 @@ export const MAIN_NAV: NavItem[] = [
     match: '/championship',
     icon: 'leaderboard',
   },
-  { label: 'Fotos', path: `/gallery/${CurrentSeason.gallery}`, match: '/gallery', icon: 'photo_library' },
+  { label: 'Fotos', path: '/gallery', match: '/gallery', icon: 'photo_library' },
   { label: 'Videos', path: '/social', match: '/social', icon: 'smart_display' },
 ];
 

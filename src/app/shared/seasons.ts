@@ -1,14 +1,12 @@
 /**
- * Season lists used for season chips and navigation, newest first (championship, video and voting seasons come from Strapi).
- * TODO(API): derive available seasons from the API (photos, advent) instead of maintaining them here.
+ * Season lists used for season chips and navigation, newest first (championship, video, voting and gallery seasons come from Strapi).
+ * TODO(API): derive the advent seasons from the API instead of maintaining them here.
  */
 export const Seasons = {
-  gallery: ['2026', '2025', '2024', '2023', '2022', '2021', '2019', '2018', '2015'],
   advent: ['2023', '2021'],
 };
 
 export const CurrentSeason = {
-  gallery: Seasons.gallery[0],
   advent: Seasons.advent[0],
 };
 

@@ -239,7 +239,8 @@
                   "});",
                   "pm.test('Status is Kader, Aktiv or Ehemalig', () => {",
                   "  body.data.forEach((player) => pm.expect(['Kader', 'Aktiv', 'Ehemalig']).to.include(player.status));",
-                  "});"
+                  "});",
+                  "pm.test('Admin titles are private', () => pm.expect(pm.response.text()).to.not.include('adminTitle'));"
                 ]
               }
             }
@@ -298,7 +299,8 @@
                   "  pm.expect(body.data).to.be.an('array').that.is.not.empty;",
                   "  body.data.forEach((entry) => pm.expect(entry).to.include.keys('firstName', 'lastName', 'status'));",
                   "});",
-                  "pm.test('Only squad players', () => body.data.forEach((player) => pm.expect(player.status).to.eql('Kader')));"
+                  "pm.test('Only squad players', () => body.data.forEach((player) => pm.expect(player.status).to.eql('Kader')));",
+                  "pm.test('Admin titles are private', () => pm.expect(pm.response.text()).to.not.include('adminTitle'));"
                 ]
               }
             }
@@ -960,7 +962,8 @@
                   "    ['place', 'games', 'wins', 'draws', 'losses', 'goalsFor', 'goalsAgainst', 'points'].forEach((key) => pm.expect(row[key], key).to.be.a('number'));",
                   "    pm.expect(row.place).to.eql(i + 1);",
                   "  });",
-                  "});"
+                  "});",
+                  "pm.test('Admin titles are private', () => pm.expect(pm.response.text()).to.not.include('adminTitle'));"
                 ]
               }
             }
@@ -1031,7 +1034,8 @@
                   "pm.test('Goals as numbers; player or name', () => body.data.forEach((s) => {",
                   "  pm.expect(s.goals).to.be.a('number');",
                   "  pm.expect(!!s.player || !!s.name).to.be.true;",
-                  "}));"
+                  "}));",
+                  "pm.test('Admin titles are private', () => pm.expect(pm.response.text()).to.not.include('adminTitle'));"
                 ]
               }
             }
@@ -1098,7 +1102,8 @@
                   "  ['homeScore', 'awayScore'].forEach((key) => pm.expect(m[key] === null || typeof m[key] === 'number', key).to.be.true);",
                   "  pm.expect(m.goals).to.be.an('array');",
                   "  m.goals.forEach((g) => pm.expect(g.count).to.be.a('number'));",
-                  "}));"
+                  "}));",
+                  "pm.test('Admin titles are private', () => pm.expect(pm.response.text()).to.not.include('adminTitle'));"
                 ]
               }
             }
@@ -1150,7 +1155,8 @@
                   "pm.test('Status 200', () => pm.response.to.have.status(200));",
                   "const body = pm.response.json();",
                   "pm.test('Non-empty list', () => pm.expect(body.data).to.be.an('array').that.is.not.empty);",
-                  "pm.test('Every match belongs to a season', () => body.data.forEach((m) => pm.expect(m.season && m.season.key).to.be.a('string')));"
+                  "pm.test('Every match belongs to a season', () => body.data.forEach((m) => pm.expect(m.season && m.season.key).to.be.a('string')));",
+                  "pm.test('Admin titles are private', () => pm.expect(pm.response.text()).to.not.include('adminTitle'));"
                 ]
               }
             }
@@ -1228,7 +1234,8 @@
                   "  pm.expect(match.videos).to.be.an('array').that.is.not.empty;",
                   "  match.videos.forEach((video) => pm.expect(video.url).to.match(/^https:\\/\\/www\\.youtube\\.com\\//));",
                   "}));",
-                  "pm.test('Events have a title instead of teams', () => body.data.filter((match) => match.competition === 'Event').forEach((match) => pm.expect(match.title).to.be.a('string')));"
+                  "pm.test('Events have a title instead of teams', () => body.data.filter((match) => match.competition === 'Event').forEach((match) => pm.expect(match.title).to.be.a('string')));",
+                  "pm.test('Admin titles are private', () => pm.expect(pm.response.text()).to.not.include('adminTitle'));"
                 ]
               }
             }
@@ -1280,7 +1287,8 @@
                   "const closed = body.data.find((poll) => !poll.open);",
                   "pm.test('Exactly one open voting', () => pm.expect(body.data.filter((poll) => poll.open)).to.have.lengthOf(1));",
                   "if (open) pm.environment.set('openPollYear', open.year);",
-                  "if (closed) pm.environment.set('closedPollYear', closed.year);"
+                  "if (closed) pm.environment.set('closedPollYear', closed.year);",
+                  "pm.test('Admin titles are private', () => pm.expect(pm.response.text()).to.not.include('adminTitle'));"
                 ]
               }
             }
@@ -1341,7 +1349,8 @@
                   "const body = pm.response.json();",
                   "pm.test('Non-empty list', () => pm.expect(body.data).to.be.an('array').that.is.not.empty);",
                   "pm.test('Vote counts are private', () => body.data.forEach((option) => pm.expect(option).to.not.have.property('votes')));",
-                  "pm.environment.set('pollOptionId', body.data[0].documentId);"
+                  "pm.environment.set('pollOptionId', body.data[0].documentId);",
+                  "pm.test('Admin titles are private', () => pm.expect(pm.response.text()).to.not.include('adminTitle'));"
                 ]
               }
             }
@@ -1402,7 +1411,8 @@
                   "const body = pm.response.json();",
                   "pm.test('Non-empty list', () => pm.expect(body.data).to.be.an('array').that.is.not.empty);",
                   "pm.test('Vote counts are private', () => body.data.forEach((option) => pm.expect(option).to.not.have.property('votes')));",
-                  "pm.environment.set('closedPollOptionId', body.data[0].documentId);"
+                  "pm.environment.set('closedPollOptionId', body.data[0].documentId);",
+                  "pm.test('Admin titles are private', () => pm.expect(pm.response.text()).to.not.include('adminTitle'));"
                 ]
               }
             }
@@ -1493,6 +1503,189 @@
                 "type": "text/javascript",
                 "exec": [
                   "pm.test('Status 409', () => pm.response.to.have.status(409));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Gallery",
+      "description": "Photo albums with their photos in the media library (`migrate-to-strapi.sh gallery`). Set `galleryYear` in the environment (e.g. 2026).",
+      "item": [
+        {
+          "name": "Album years",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/albums?fields[0]=year&pagination[pageSize]=100",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "albums"
+              ],
+              "query": [
+                {
+                  "key": "fields[0]",
+                  "value": "year"
+                },
+                {
+                  "key": "pagination[pageSize]",
+                  "value": "100"
+                }
+              ]
+            },
+            "description": "Only the year of every album (season chips on the website)."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('Non-empty list', () => pm.expect(body.data).to.be.an('array').that.is.not.empty);",
+                  "pm.test('Admin titles are private', () => pm.expect(pm.response.text()).to.not.include('adminTitle'));",
+                  "pm.test('Years like 2026', () => body.data.forEach((album) => pm.expect(album.year).to.match(/^\\d{4}$/)));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Albums of a year",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/albums?filters[year][$eq]={{galleryYear}}&sort[0]=date:desc&populate[cover]=true&populate[photos][fields][0]=id&pagination[pageSize]=100",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "albums"
+              ],
+              "query": [
+                {
+                  "key": "filters[year][$eq]",
+                  "value": "{{galleryYear}}"
+                },
+                {
+                  "key": "sort[0]",
+                  "value": "date:desc"
+                },
+                {
+                  "key": "populate[cover]",
+                  "value": "true"
+                },
+                {
+                  "key": "populate[photos][fields][0]",
+                  "value": "id"
+                },
+                {
+                  "key": "pagination[pageSize]",
+                  "value": "100"
+                }
+              ]
+            },
+            "description": "Albums of `{{galleryYear}}`, newest first, with cover and only the photo ids (count); stores a slug for the next request."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('Non-empty list', () => pm.expect(body.data).to.be.an('array').that.is.not.empty);",
+                  "pm.test('Admin titles are private', () => pm.expect(pm.response.text()).to.not.include('adminTitle'));",
+                  "pm.test('Cover with formats, photos only as ids', () => body.data.forEach((album) => {",
+                  "  pm.expect(album.slug).to.match(/^[a-z0-9-]+$/);",
+                  "  pm.expect(album.cover && album.cover.formats).to.be.an('object');",
+                  "  album.photos.forEach((photo) => pm.expect(photo).to.not.have.property('url'));",
+                  "}));",
+                  "pm.environment.set('albumSlug', body.data[0].slug);"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Album by slug",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/albums?filters[year][$eq]={{galleryYear}}&filters[slug][$eq]={{albumSlug}}&populate[cover]=true&populate[photos]=true",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "albums"
+              ],
+              "query": [
+                {
+                  "key": "filters[year][$eq]",
+                  "value": "{{galleryYear}}"
+                },
+                {
+                  "key": "filters[slug][$eq]",
+                  "value": "{{albumSlug}}"
+                },
+                {
+                  "key": "populate[cover]",
+                  "value": "true"
+                },
+                {
+                  "key": "populate[photos]",
+                  "value": "true"
+                }
+              ]
+            },
+            "description": "One album of `{{galleryYear}}` with all photos (formats, width/height)."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('Non-empty list', () => pm.expect(body.data).to.be.an('array').that.is.not.empty);",
+                  "pm.test('Admin titles are private', () => pm.expect(pm.response.text()).to.not.include('adminTitle'));",
+                  "pm.test('Exactly one album', () => pm.expect(body.data).to.have.lengthOf(1));",
+                  "pm.test('Photos with size and formats', () => body.data[0].photos.forEach((photo) => {",
+                  "  pm.expect(photo.width).to.be.a('number');",
+                  "  pm.expect(photo.height).to.be.a('number');",
+                  "  pm.expect(photo.url).to.match(/^\\/uploads\\//);",
+                  "}));"
                 ]
               }
             }

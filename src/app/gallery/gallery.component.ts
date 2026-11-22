@@ -1,11 +1,9 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { MysqlService } from '../services/mysql.service';
-import { baseUrlImages } from '../shared/baseurls';
-import { Album, Photo } from '../shared/photos';
-import { Seasons } from '../shared/seasons';
+import { Observable, Subscription, combineLatest, switchMap } from 'rxjs';
+import { GalleryService } from '../services/gallery.service';
+import { Album, AlbumWithPhotos, Photo } from '../shared/photos';
 import { DateUtil } from '../shared/utils/date.util';
 import { ErrorUtil } from '../shared/utils/error.util';
 import { ContentSwapDirective } from '../ui/content-swap/content-swap.directive';
@@ -31,19 +29,20 @@ const PHOTO_PAGE_SIZE = 24;
   ],
 })
 export class GalleryComponent implements OnInit, OnDestroy {
-  private mysqlService = inject(MysqlService);
+  private galleryService = inject(GalleryService);
   private route = inject(ActivatedRoute);
   private titleService = inject(Title);
   private metaTagService = inject(Meta);
   private imageViewer = inject(ImageViewerService);
 
-  readonly seasons = Seasons.gallery;
-  readonly imageBaseUrl = baseUrlImages;
   readonly formatDate = DateUtil.formatDate;
 
+  /** Years with albums, newest first (season chips). */
+  seasons: string[] = [];
   albums: Album[] = [];
   season = '';
-  selectedAlbum: Album | null = null;
+  selectedAlbum: AlbumWithPhotos | null = null;
+  selectedAlbumSlug: string | null = null;
   loaded = false;
   failed = false;
   loading = false;
@@ -52,19 +51,11 @@ export class GalleryComponent implements OnInit, OnDestroy {
   errorText = '';
 
   visiblePhotos = PHOTO_PAGE_SIZE;
-  private photoRatios: Record<string, number> = {};
 
-  private routeSub?: Subscription;
-  private photosSub?: Subscription;
-  selectedAlbumSlug: string | null = null;
+  private sub?: Subscription;
 
   ngOnInit() {
-    this.routeSub = this.route.params.subscribe((params) => {
-      this.season = params['season'];
-      this.selectedAlbumSlug = params['albumId'] ? decodeURIComponent(params['albumId']) : null;
-      this.visiblePhotos = PHOTO_PAGE_SIZE;
-      this.loadAlbums();
-    });
+    this.loadAlbums();
 
     this.titleService.setTitle('HV TDP Stainz: Galerie');
     this.metaTagService.updateTag({
@@ -74,38 +65,11 @@ export class GalleryComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.routeSub?.unsubscribe();
-    this.photosSub?.unsubscribe();
-  }
-
-  albumSlug(album: Album): string {
-    const slug = (album.name || '')
-      .toLowerCase()
-      .trim()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/^-+|-+$/g, '');
-    return slug || 'album';
-  }
-
-  cover(album: Album): string | null {
-    return album.photos?.length ? this.imageBaseUrl + album.photos[0].imagePath : null;
+    this.sub?.unsubscribe();
   }
 
   get photos(): Photo[] {
     return this.selectedAlbum?.photos ?? [];
-  }
-
-  /** Width/height of a photo, known once it has loaded (square until then). */
-  ratio(photo: Photo): number {
-    return this.photoRatios[photo.imagePath] ?? 1;
-  }
-
-  onPhotoLoad(photo: Photo, event: Event) {
-    const image = event.target as HTMLImageElement;
-    if (image.naturalWidth && image.naturalHeight) {
-      this.photoRatios[photo.imagePath] =
-        Math.round((image.naturalWidth / image.naturalHeight) * 1000) / 1000;
-    }
   }
 
   showMorePhotos() {
@@ -116,35 +80,52 @@ export class GalleryComponent implements OnInit, OnDestroy {
   openPhoto(index: number) {
     const album = this.selectedAlbum?.name ?? '';
     const images: ViewerImage[] = this.photos.map((photo) => ({
-      src: this.imageBaseUrl + photo.imagePath,
-      alt: photo.description || album,
+      src: photo.fullUrl,
+      alt: photo.caption || album,
+      caption: photo.caption ?? undefined,
     }));
     this.imageViewer.open(images, index);
   }
 
   loadAlbums() {
+    this.sub?.unsubscribe();
     this.loading = true;
     this.failed = false;
-    this.photosSub?.unsubscribe();
-    this.photosSub = this.mysqlService.getPhotos().subscribe({
-      next: (albums) => {
-        this.albums = albums.filter((album) => album.season == this.season);
-        this.selectedAlbum = this.selectedAlbumSlug
-          ? (this.albums.find((album) => this.albumSlug(album) === this.selectedAlbumSlug) ?? null)
-          : null;
-        if (this.selectedAlbum) {
-          this.titleService.setTitle(`HV TDP Stainz: ${this.selectedAlbum.name}`);
-        }
-        this.loaded = true;
-        this.loading = false;
-        this.contentKey = this.season;
-      },
-      error: (error: unknown) => {
-        this.loaded = true;
-        this.loading = false;
-        this.failed = true;
-        this.errorText = ErrorUtil.message(error);
-      },
-    });
+    // Without a year in the URL (/gallery) the newest year is shown.
+    this.sub = combineLatest([this.route.params, this.galleryService.getYears()])
+      .pipe(
+        switchMap(([params, years]): Observable<Album[] | AlbumWithPhotos | null> => {
+          this.seasons = years;
+          this.season = params['season'] ?? years[0] ?? '';
+          this.selectedAlbumSlug = params['albumId'] ? decodeURIComponent(params['albumId']) : null;
+          this.visiblePhotos = PHOTO_PAGE_SIZE;
+          this.loading = true;
+          return this.selectedAlbumSlug
+            ? this.galleryService.getAlbum(this.season, this.selectedAlbumSlug)
+            : this.galleryService.getAlbums(this.season);
+        })
+      )
+      .subscribe({
+        next: (result) => {
+          if (Array.isArray(result)) {
+            this.albums = result;
+            this.selectedAlbum = null;
+          } else {
+            this.selectedAlbum = result;
+            if (result) {
+              this.titleService.setTitle(`HV TDP Stainz: ${result.name}`);
+            }
+          }
+          this.loaded = true;
+          this.loading = false;
+          this.contentKey = this.selectedAlbumSlug ?? this.season;
+        },
+        error: (error: unknown) => {
+          this.loaded = true;
+          this.loading = false;
+          this.failed = true;
+          this.errorText = ErrorUtil.message(error);
+        },
+      });
   }
 }

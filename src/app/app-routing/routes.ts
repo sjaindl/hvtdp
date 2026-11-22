@@ -32,7 +32,7 @@ export const routes: Routes = [
   // Without a season the newest season from Strapi is shown.
   { path: 'championship', component: ChampionshipComponent },
   { path: 'championship/:season', component: ChampionshipComponent },
-  { path: 'gallery', redirectTo: `/gallery/${CurrentSeason.gallery}`, pathMatch: 'full' },
+  { path: 'gallery', component: GalleryComponent },
   { path: 'gallery/:season/:albumId', component: GalleryComponent },
   { path: 'gallery/:season', component: GalleryComponent },
   { path: 'social', component: SocialmediaComponent },

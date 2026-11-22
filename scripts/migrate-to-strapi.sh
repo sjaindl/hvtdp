@@ -48,7 +48,7 @@ USE_PM2="auto"
 # `migrate`. Add new areas here and to AREAS (in migration order).
 # ---------------------------------------------------------------------------------------------
 
-AREAS=(announcement club fanshop documents championship videos)
+AREAS=(announcement club fanshop documents championship videos gallery)
 PHASE=download
 
 # Announcement bar on the home page (replaces the ticker).
@@ -87,6 +87,12 @@ area_videos() {
   fetch getGoalOfTheSeason
   fetch getPlayerOfTheSeason
   migrate videos --exports "$EXPORTS_DIR"
+}
+
+# Photo albums with their photos (~2,900 images; the first run takes a while).
+area_gallery() {
+  fetch getPhotos
+  migrate gallery --exports "$EXPORTS_DIR" "${MEDIA_ARGS[@]}"
 }
 
 # Documents (PDFs) with category and protected flag.

@@ -43,7 +43,7 @@
         </h1>
         <p class="flex items-center gap-1.5 text-sm font-medium text-gray-600">
           <span class="material-icons text-base text-gray-500">event</span
-          >{{ formatDate(selectedAlbum.date) }}
+          >{{ selectedAlbum.date ? formatDate(selectedAlbum.date) : '' }}
           <span class="text-gray-400">·</span>
           <span class="material-icons text-base text-gray-500">photo_library</span
           >{{ photos.length }} Fotos
@@ -58,21 +58,20 @@
       <div
         class="flex flex-wrap gap-2 [--row-h:120px] sm:[--row-h:170px] lg:gap-3 lg:[--row-h:240px]"
       >
-        @for (photo of photos.slice(0, visiblePhotos); track photo.imagePath; let i = $index) {
+        @for (photo of photos.slice(0, visiblePhotos); track photo.url; let i = $index) {
           <button
             type="button"
             class="group cursor-zoom-in overflow-hidden rounded-xl bg-gray-100"
-            [style.flex]="ratio(photo) * 100 + ' 1 calc(' + ratio(photo) + ' * var(--row-h))'"
+            [style.flex]="photo.ratio * 100 + ' 1 calc(' + photo.ratio + ' * var(--row-h))'"
             [attr.aria-label]="'Foto ' + (i + 1) + ' öffnen'"
             (click)="openPhoto(i)"
           >
             <img
-              [src]="imageBaseUrl + photo.imagePath"
-              [alt]="photo.description || selectedAlbum.name"
+              [src]="photo.url"
+              [alt]="photo.caption || selectedAlbum.name"
               class="block h-auto w-full object-cover transition-transform duration-500 group-hover:scale-105"
-              [style.aspect-ratio]="ratio(photo)"
+              [style.aspect-ratio]="photo.ratio"
               loading="lazy"
-              (load)="onPhotoLoad(photo, $event)"
             />
           </button>
         }
@@ -106,14 +105,14 @@
         <p class="meta hidden lg:block">Saison {{ season }} · {{ albums.length }} Alben</p>
       }
       <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
-        @for (album of albums; track album.name; let i = $index) {
+        @for (album of albums; track album.slug; let i = $index) {
           <a
-            [routerLink]="['/gallery', season, albumSlug(album)]"
+            [routerLink]="['/gallery', season, album.slug]"
             class="card-interactive group flex flex-col animate-stagger-in"
             [style.--i]="i"
           >
             <div class="h-[200px] overflow-hidden bg-gray-100 lg:h-60">
-              @if (cover(album); as src) {
+              @if (album.coverUrl; as src) {
                 <app-fitted-image
                   [src]="src"
                   [alt]="album.name"
@@ -129,7 +128,7 @@
               <h2 class="text-lg font-bold leading-snug text-gray-900">{{ album.name }}</h2>
               <p class="flex items-center gap-1.5 text-sm font-medium text-gray-500">
                 <span class="material-icons text-base">photo_library</span
-                >{{ formatDate(album.date) }} · {{ album.photos.length }} Fotos
+                >{{ album.date ? formatDate(album.date) + ' · ' : '' }}{{ album.photoCount }} Fotos
               </p>
             </div>
           </a>
