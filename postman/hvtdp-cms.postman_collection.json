@@ -1,0 +1,185 @@
+{
+  "info": {
+    "_postman_id": "6c0f4cbb-ce5f-4732-af26-463d75ee599a",
+    "name": "HV TDP Stainz CMS",
+    "description": "Public read API of the HV TDP Stainz website (Strapi 5). Pick the environment `HV TDP CMS – local` or `HV TDP CMS – production`.\n\nCollections are paged (max. 100 per page); the website loads all pages. Images come with `populate` and contain `url` plus `formats` (thumbnail, small, medium, large).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Announcement",
+      "description": "Single type `announcement`: the bar below the header on the home page (replaces the ticker). The part before the first \" – \" is shown bold.",
+      "item": [
+        {
+          "name": "Get announcement",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/announcement",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "announcement"
+              ],
+              "query": []
+            },
+            "description": "The current announcement. `active: false` or empty `text` hides the bar."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('Has text and active flag', () => {",
+                  "  pm.expect(body.data).to.be.an('object');",
+                  "  pm.expect(body.data).to.have.property('active').that.is.a('boolean');",
+                  "  pm.expect(body.data).to.have.property('text');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "News",
+      "description": "Collection type `news-item`.",
+      "item": [
+        {
+          "name": "List news",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/news-items?sort[0]=date:desc&sort[1]=newsId:desc&populate[0]=image&populate[1]=homeImage&pagination[page]=1&pagination[pageSize]=100",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "news-items"
+              ],
+              "query": [
+                {
+                  "key": "sort[0]",
+                  "value": "date:desc"
+                },
+                {
+                  "key": "sort[1]",
+                  "value": "newsId:desc"
+                },
+                {
+                  "key": "populate[0]",
+                  "value": "image"
+                },
+                {
+                  "key": "populate[1]",
+                  "value": "homeImage"
+                },
+                {
+                  "key": "pagination[page]",
+                  "value": "1"
+                },
+                {
+                  "key": "pagination[pageSize]",
+                  "value": "100"
+                }
+              ]
+            },
+            "description": "Newest first, with images, first page of 100 (the website follows `meta.pagination.pageCount`)."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('Paged list of news', () => {",
+                  "  pm.expect(body.data).to.be.an('array');",
+                  "  pm.expect(body.meta.pagination).to.include.keys('page', 'pageSize', 'pageCount', 'total');",
+                  "});",
+                  "pm.test('News have title, date and newsId', () => {",
+                  "  body.data.forEach((news) => pm.expect(news).to.include.keys('newsId', 'title', 'date', 'content'));",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Get news by newsId",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/news-items?filters[newsId][$eq]={{newsId}}&populate[0]=image&populate[1]=homeImage",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "news-items"
+              ],
+              "query": [
+                {
+                  "key": "filters[newsId][$eq]",
+                  "value": "{{newsId}}",
+                  "description": "Numeric newsId, set in the environment"
+                },
+                {
+                  "key": "populate[0]",
+                  "value": "image"
+                },
+                {
+                  "key": "populate[1]",
+                  "value": "homeImage"
+                }
+              ]
+            },
+            "description": "A single news item by its numeric `newsId` (used for deep links `/news/:newsId`)."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('Exactly one news item', () => pm.expect(body.data).to.have.lengthOf(1));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        }
+      ]
+    }
+  ]
+}

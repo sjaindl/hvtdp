@@ -17,7 +17,6 @@ import { PlayerOfTheSeason } from '../shared/playeroftheseason';
 import { Scorer } from '../shared/scorer';
 import { Standing } from '../shared/standing';
 import { Survey } from '../shared/survey';
-import { Ticker } from '../shared/ticker';
 import { Validation } from '../shared/validation';
 
 @Injectable()
@@ -60,10 +59,6 @@ export class MysqlService {
 
   public getDocuments(): Observable<HvtdpDocument[]> {
     return this.http.get<HvtdpDocument[]>(this.baseUrl + 'getDocuments.php');
-  }
-
-  public getTickerItems(): Observable<Ticker[]> {
-    return this.http.get<Ticker[]>(this.baseUrl + 'getTicker.php');
   }
 
   public getSurveyLink(): Observable<Survey[]> {

@@ -3,6 +3,7 @@ import { Meta, Title } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { CmsService } from '../services/cms.service';
 import { MysqlService } from '../services/mysql.service';
+import { Announcement } from '../shared/announcement';
 import { MatchInfo } from '../shared/match-info';
 import { News } from '../shared/news';
 import { ErrorUtil } from '../shared/utils/error.util';
@@ -47,10 +48,10 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.loadNews();
 
-    // TODO(API): switch to a single-announcement endpoint; there is never more than one ticker item.
-    // A failed request just leaves the announcement bar hidden.
-    this.mysqlService.getTickerItems().subscribe({
-      next: (items) => (this.announcement = items?.find((item) => item.tickerItem?.trim())?.tickerItem.trim() ?? ''),
+    // A failed request or an inactive announcement just leaves the announcement bar hidden.
+    this.cmsService.getSingle<Announcement>('announcement').subscribe({
+      next: (announcement) =>
+        (this.announcement = announcement?.active ? (announcement.text ?? '').trim() : ''),
       error: () => (this.announcement = ''),
     });
 

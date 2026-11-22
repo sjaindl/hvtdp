@@ -29,6 +29,9 @@ npm run lint
 # SSR server (port 4000)
 npm run serve:ssr:hvtdp
 
+# Move PHP API data into Strapi (downloads the PHP JSON, runs the Strapi migration scripts; safe to re-run)
+scripts/migrate-to-strapi.sh [area ...]      # --list shows the areas, --help the options
+
 # Angular component/service generation
 ng generate component src/app/<name>
 ng generate service src/app/services/<name>
@@ -47,6 +50,8 @@ ng generate service src/app/services/<name>
 **News content**: `News.content` is Markdown, rendered in `NewsComponent` with `marked` (`breaks: true`, `gfm: true`) and bound via `[innerHTML]` so Angular's sanitizer applies — don't bypass it. Image URLs are absolute CMS URLs; relative `/uploads/...` paths are resolved with `CmsService.resolveUrl()`. Deep links `/news/:newsId` use the numeric `newsId` field, which Strapi assigns automatically for new items.
 
 **Strapi project**: lives in the sibling repo `../strapi-cloud-template-blog-49970f95ac` (content type `news-item`, migration script `scripts/migrate-news.js`, VPS runbook `DEPLOY-VPS.md`).
+
+**Postman**: `postman/` holds a collection of all public CMS requests (with tests) plus `local` and `production` environments — add a request for every new CMS endpoint.
 
 **Data models**: Shared TypeScript interfaces live in `src/app/shared/` (Player, Game, Standing, News, Album, Member, etc.).
 

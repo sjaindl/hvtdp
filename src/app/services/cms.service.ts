@@ -3,10 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { EMPTY, Observable, expand, map, reduce, shareReplay } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { News } from '../shared/news';
-
-interface StrapiMedia {
-  url: string;
-}
+import { StrapiMedia, mediaUrl, resolveCmsUrl } from '../shared/utils/media.util';
 
 interface StrapiNewsItem {
   newsId: number;
@@ -22,45 +19,72 @@ interface StrapiPage<T> {
   meta: { pagination: { page: number; pageCount: number } };
 }
 
+/** Query parameters in Strapi's bracket syntax, e.g. `{ 'sort[0]': 'date:desc', 'populate[0]': 'image' }`. */
+export type StrapiParams = Record<string, string | number | boolean>;
+
 @Injectable({ providedIn: 'root' })
 export class CmsService {
   private http = inject(HttpClient);
 
-  // Strapi caps page size at 100, so all news are collected page by page.
+  // Strapi caps page size at 100, so collections are collected page by page.
   private readonly pageSize = 100;
-  private news$?: Observable<News[]>;
+  private readonly cache = new Map<string, Observable<unknown>>();
+
+  /** All entries of a collection type (e.g. `news-items`), loaded once and shared. */
+  public getCollection<T>(pluralName: string, params: StrapiParams = {}): Observable<T[]> {
+    const key = `${pluralName}?${new HttpParams({ fromObject: params }).toString()}`;
+    if (!this.cache.has(key)) {
+      this.cache.set(
+        key,
+        this.getPage<T>(pluralName, params, 1).pipe(
+          expand((page) =>
+            page.meta.pagination.page < page.meta.pagination.pageCount
+              ? this.getPage<T>(pluralName, params, page.meta.pagination.page + 1)
+              : EMPTY
+          ),
+          map((page) => page.data),
+          reduce((all, data) => all.concat(data), [] as T[]),
+          shareReplay(1)
+        )
+      );
+    }
+    return this.cache.get(key) as Observable<T[]>;
+  }
+
+  /** A single type (e.g. `announcement`), or null when it has not been created yet. */
+  public getSingle<T>(singularName: string, params: StrapiParams = {}): Observable<T | null> {
+    const key = `${singularName}?${new HttpParams({ fromObject: params }).toString()}`;
+    if (!this.cache.has(key)) {
+      this.cache.set(
+        key,
+        this.http
+          .get<{ data: T | null }>(`${environment.cmsUrl}/api/${singularName}`, { params })
+          .pipe(
+            map((response) => response.data),
+            shareReplay(1)
+          )
+      );
+    }
+    return this.cache.get(key) as Observable<T | null>;
+  }
 
   public getNews(): Observable<News[]> {
-    this.news$ ??= this.getNewsPage(1).pipe(
-      expand((page) =>
-        page.meta.pagination.page < page.meta.pagination.pageCount
-          ? this.getNewsPage(page.meta.pagination.page + 1)
-          : EMPTY
-      ),
-      map((page) => page.data.map((item) => this.toNews(item))),
-      reduce((all, news) => all.concat(news), [] as News[]),
-      shareReplay(1)
-    );
-
-    return this.news$;
+    return this.getCollection<StrapiNewsItem>('news-items', {
+      'sort[0]': 'date:desc',
+      'sort[1]': 'newsId:desc',
+      'populate[0]': 'image',
+      'populate[1]': 'homeImage',
+    }).pipe(map((items) => items.map((item) => this.toNews(item))));
   }
 
   /** Resolves CMS-relative paths (e.g. /uploads/x.jpg) against the CMS host. */
   public resolveUrl(url: string): string {
-    return url.startsWith('/') ? environment.cmsUrl + url : url;
+    return resolveCmsUrl(url);
   }
 
-  private getNewsPage(page: number): Observable<StrapiPage<StrapiNewsItem>> {
-    const params = new HttpParams()
-      .set('sort[0]', 'date:desc')
-      .set('sort[1]', 'newsId:desc')
-      .set('populate[0]', 'image')
-      .set('populate[1]', 'homeImage')
-      .set('pagination[page]', page)
-      .set('pagination[pageSize]', this.pageSize);
-
-    return this.http.get<StrapiPage<StrapiNewsItem>>(environment.cmsUrl + '/api/news-items', {
-      params,
+  private getPage<T>(pluralName: string, params: StrapiParams, page: number): Observable<StrapiPage<T>> {
+    return this.http.get<StrapiPage<T>>(`${environment.cmsUrl}/api/${pluralName}`, {
+      params: { ...params, 'pagination[page]': page, 'pagination[pageSize]': this.pageSize },
     });
   }
 
@@ -70,8 +94,8 @@ export class CmsService {
       newsDate: new Date(item.date),
       title: item.title,
       content: item.content ?? '',
-      imageUrl: item.image ? this.resolveUrl(item.image.url) : null,
-      homeImageUrl: item.homeImage ? this.resolveUrl(item.homeImage.url) : null,
+      imageUrl: mediaUrl(item.image),
+      homeImageUrl: mediaUrl(item.homeImage),
     };
   }
 }
