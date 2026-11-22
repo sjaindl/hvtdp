@@ -9,27 +9,38 @@
         <span class="material-icons">favorite</span>
       </span>
       <div>
-        <p class="text-2xl font-extrabold leading-tight text-gray-900 lg:text-[28px]">{{ pappfans.length }}</p>
+        <p class="text-2xl font-extrabold leading-tight text-gray-900 lg:text-[28px]">
+          {{ pappfans.length }}
+        </p>
         <p class="text-sm font-medium text-gray-600">unglaubliche Unterstützer</p>
       </div>
     </div>
-    <a href="https://www.ligaportal.at/fan/" target="_blank" rel="noopener" class="btn-secondary w-full">Pappfigur im Ligaportal</a>
+    <a
+      href="https://www.ligaportal.at/fan/"
+      target="_blank"
+      rel="noopener"
+      class="btn-secondary w-full"
+      >Pappfigur im Ligaportal</a
+    >
   </div>
 </app-page-intro>
 
 <section class="page-container flex flex-col gap-4 py-6 lg:py-10">
   <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6 lg:gap-4">
-    @for (fan of pappfans; track fan.id) {
+    @for (fan of pappfans; track fan.name) {
       <article class="card-interactive group flex flex-col">
         <div class="aspect-[4/5] overflow-hidden bg-gray-100">
-          <img
-            [src]="imageBaseUrl + fan.imagePath"
-            [alt]="titleCase(fan.name)"
-            class="card-media"
-            loading="lazy"
-            appZoomable
-            (error)="$any($event.target).src = 'hvtdp.png'; $any($event.target).classList.add('!object-contain', 'p-8')"
-          />
+          @if (fan.imageUrl) {
+            <img
+              [src]="fan.imageUrl"
+              [alt]="titleCase(fan.name)"
+              class="card-media"
+              loading="lazy"
+              appZoomable
+            />
+          } @else {
+            <img src="hvtdp.png" alt="" class="h-full w-full object-contain p-8" />
+          }
         </div>
         <div class="px-3.5 pb-3.5 pt-3">
           <p class="text-[13px] font-semibold text-pink-600">Papp-Fan</p>

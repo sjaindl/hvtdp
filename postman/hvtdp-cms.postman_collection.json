@@ -180,6 +180,388 @@
           "response": []
         }
       ]
+    },
+    {
+      "name": "Club",
+      "description": "Team, board, members, Papp-Fans and match ball donations (migrated from the PHP API with `migrate-to-strapi.sh club`).",
+      "item": [
+        {
+          "name": "List players",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/players?sort[0]=lastName:asc&sort[1]=firstName:asc&populate[0]=image&pagination[pageSize]=100",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "players"
+              ],
+              "query": [
+                {
+                  "key": "sort[0]",
+                  "value": "lastName:asc"
+                },
+                {
+                  "key": "sort[1]",
+                  "value": "firstName:asc"
+                },
+                {
+                  "key": "populate[0]",
+                  "value": "image"
+                },
+                {
+                  "key": "pagination[pageSize]",
+                  "value": "100"
+                }
+              ]
+            },
+            "description": "All players with portrait. `status`: Kader (team page), Aktiv (further active members), Ehemalig (only used for scorer names/voting)."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('List with the expected fields', () => {",
+                  "  pm.expect(body.data).to.be.an('array').that.is.not.empty;",
+                  "  body.data.forEach((entry) => pm.expect(entry).to.include.keys('firstName', 'lastName', 'position', 'status', 'games', 'goals', 'image'));",
+                  "});",
+                  "pm.test('Status is Kader, Aktiv or Ehemalig', () => {",
+                  "  body.data.forEach((player) => pm.expect(['Kader', 'Aktiv', 'Ehemalig']).to.include(player.status));",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "List squad players",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/players?filters[status][$eq]=Kader&sort[0]=lastName:asc&populate[0]=image&pagination[pageSize]=100",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "players"
+              ],
+              "query": [
+                {
+                  "key": "filters[status][$eq]",
+                  "value": "Kader"
+                },
+                {
+                  "key": "sort[0]",
+                  "value": "lastName:asc"
+                },
+                {
+                  "key": "populate[0]",
+                  "value": "image"
+                },
+                {
+                  "key": "pagination[pageSize]",
+                  "value": "100"
+                }
+              ]
+            },
+            "description": "Only the squad (team page)."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('List with the expected fields', () => {",
+                  "  pm.expect(body.data).to.be.an('array').that.is.not.empty;",
+                  "  body.data.forEach((entry) => pm.expect(entry).to.include.keys('firstName', 'lastName', 'status'));",
+                  "});",
+                  "pm.test('Only squad players', () => body.data.forEach((player) => pm.expect(player.status).to.eql('Kader')));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Get team page",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/team-page",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "team-page"
+              ],
+              "query": []
+            },
+            "description": "Single type with the date of the squad list (shown as \"Stand MM/YYYY\")."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('Has squadAsOf', () => pm.expect(body.data).to.have.property('squadAsOf'));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "List board members",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/board-members?sort[0]=order:asc&populate[0]=image",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "board-members"
+              ],
+              "query": [
+                {
+                  "key": "sort[0]",
+                  "value": "order:asc"
+                },
+                {
+                  "key": "populate[0]",
+                  "value": "image"
+                }
+              ]
+            },
+            "description": "Board (Über uns) in display order."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('List with the expected fields', () => {",
+                  "  pm.expect(body.data).to.be.an('array').that.is.not.empty;",
+                  "  body.data.forEach((entry) => pm.expect(entry).to.include.keys('function', 'firstName', 'lastName', 'order', 'image'));",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "List members by type",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/members?filters[type][$eq]={{memberType}}&sort[0]=lastName:asc&pagination[pageSize]=100",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "members"
+              ],
+              "query": [
+                {
+                  "key": "filters[type][$eq]",
+                  "value": "{{memberType}}",
+                  "description": "Aktiv, Fördernd or Kids (environment variable)"
+                },
+                {
+                  "key": "sort[0]",
+                  "value": "lastName:asc"
+                },
+                {
+                  "key": "pagination[pageSize]",
+                  "value": "100"
+                }
+              ]
+            },
+            "description": "Members of one list: Aktiv, Fördernd or Kids. `since` is shown as the list's \"Stand\"."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('List with the expected fields', () => {",
+                  "  pm.expect(body.data).to.be.an('array').that.is.not.empty;",
+                  "  body.data.forEach((entry) => pm.expect(entry).to.include.keys('firstName', 'lastName', 'type', 'since'));",
+                  "});",
+                  "pm.test('Only the requested type', () => body.data.forEach((member) => pm.expect(member.type).to.eql(pm.variables.get('memberType'))));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "List Papp-Fans",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/papp-fans?sort[0]=order:asc&populate[0]=image&pagination[pageSize]=100",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "papp-fans"
+              ],
+              "query": [
+                {
+                  "key": "sort[0]",
+                  "value": "order:asc"
+                },
+                {
+                  "key": "populate[0]",
+                  "value": "image"
+                },
+                {
+                  "key": "pagination[pageSize]",
+                  "value": "100"
+                }
+              ]
+            },
+            "description": "Hall of Papp-Fans in display order."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('List with the expected fields', () => {",
+                  "  pm.expect(body.data).to.be.an('array').that.is.not.empty;",
+                  "  body.data.forEach((entry) => pm.expect(entry).to.include.keys('name', 'order', 'image'));",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "List donations",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/donations?sort[0]=date:desc&populate[0]=image&populate[1]=matchBallImage&pagination[pageSize]=100",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "donations"
+              ],
+              "query": [
+                {
+                  "key": "sort[0]",
+                  "value": "date:desc"
+                },
+                {
+                  "key": "populate[0]",
+                  "value": "image"
+                },
+                {
+                  "key": "populate[1]",
+                  "value": "matchBallImage"
+                },
+                {
+                  "key": "pagination[pageSize]",
+                  "value": "100"
+                }
+              ]
+            },
+            "description": "Match ball donations, newest first, with handover photo and ball image."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('List with the expected fields', () => {",
+                  "  pm.expect(body.data).to.be.an('array').that.is.not.empty;",
+                  "  body.data.forEach((entry) => pm.expect(entry).to.include.keys('donator', 'date', 'game', 'description', 'image', 'matchBallImage'));",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "response": []
+        }
+      ]
     }
   ]
 }

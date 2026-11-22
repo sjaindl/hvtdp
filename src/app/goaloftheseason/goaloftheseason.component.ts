@@ -3,6 +3,7 @@ import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { Subscription, forkJoin } from 'rxjs';
+import { ClubService } from '../services/club.service';
 import { MysqlService } from '../services/mysql.service';
 import { Game, Link } from '../shared/games';
 import { GoalOfTheSeason } from '../shared/goaloftheseason';
@@ -50,6 +51,7 @@ interface Candidate {
 export class GoalOfTheSeasonComponent implements OnInit, OnDestroy {
   private cookieService = inject(CookieService);
   private mysqlService = inject(MysqlService);
+  private clubService = inject(ClubService);
   private route = inject(ActivatedRoute);
   private titleService = inject(Title);
   private metaTagService = inject(Meta);
@@ -106,7 +108,7 @@ export class GoalOfTheSeasonComponent implements OnInit, OnDestroy {
     this.failed = false;
     forkJoin({
       games: this.mysqlService.getGames(),
-      players: this.mysqlService.getPlayers(),
+      players: this.clubService.getPlayers(),
       options: this.mysqlService.getGoalOfTheSeason(),
     }).subscribe({
       next: ({ games, players, options }) => {

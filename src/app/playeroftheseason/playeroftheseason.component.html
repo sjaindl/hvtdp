@@ -79,9 +79,9 @@
         (click)="choose(candidate.option)"
       >
         <span class="h-[88px] w-[88px] overflow-hidden rounded-full bg-gray-100">
-          @if (candidate.player?.imagePath; as imagePath) {
+          @if (candidate.player?.imageUrl; as imageUrl) {
             <img
-              [src]="imageBaseUrl + imagePath"
+              [src]="imageUrl"
               alt=""
               class="h-full w-full object-cover object-top"
               loading="lazy"

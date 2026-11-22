@@ -1,9 +1,10 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
-import { MysqlService } from '../services/mysql.service';
+import { ClubService } from '../services/club.service';
 import { baseUrlDocuments } from '../shared/baseurls';
 import { Member } from '../shared/member';
 import { CLUB_EMAIL } from '../shared/seasons';
+import { DateUtil } from '../shared/utils/date.util';
 import { TextUtil } from '../shared/utils/text.util';
 import { PageIntroComponent } from '../ui/page-intro/page-intro.component';
 
@@ -20,7 +21,7 @@ interface MemberGroup {
   imports: [PageIntroComponent],
 })
 export class MembershipComponent implements OnInit {
-  private mysqlService = inject(MysqlService);
+  private clubService = inject(ClubService);
   private titleService = inject(Title);
   private metaTagService = inject(Meta);
 
@@ -71,9 +72,9 @@ export class MembershipComponent implements OnInit {
       content: 'Werde aktives oder förderndes Mitglied vom HV TDP Stainz.',
     });
 
-    this.mysqlService.getActiveMembers().subscribe((members) => this.setGroup(0, members));
-    this.mysqlService.getSupportMembers().subscribe((members) => this.setGroup(1, members));
-    this.mysqlService.getKidsMembers().subscribe((members) => this.setGroup(2, members));
+    this.clubService.getMembers('Aktiv').subscribe((members) => this.setGroup(0, members));
+    this.clubService.getMembers('Fördernd').subscribe((members) => this.setGroup(1, members));
+    this.clubService.getMembers('Kids').subscribe((members) => this.setGroup(2, members));
   }
 
   get asOf(): string {
@@ -91,7 +92,13 @@ export class MembershipComponent implements OnInit {
     this.groups[index] = {
       ...this.groups[index],
       members: sorted.map((member) => TextUtil.titleCase(`${member.firstName} ${member.lastName}`)),
-      per: sorted[0]?.per ?? '',
+      // The list is as of the latest date of its members.
+      per: DateUtil.formatDate(
+        sorted
+          .map((member) => member.since ?? '')
+          .sort()
+          .pop() ?? ''
+      ),
     };
   }
 }

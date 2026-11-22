@@ -1,13 +1,10 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
-import { MysqlService } from '../services/mysql.service';
-import { baseUrlImages } from '../shared/baseurls';
+import { ClubService } from '../services/club.service';
 import { Chef } from '../shared/chefs';
 import { FittedImageComponent } from '../ui/fitted-image/fitted-image.component';
 import { ZoomableDirective } from '../ui/image-viewer/zoomable.directive';
 import { PageIntroComponent } from '../ui/page-intro/page-intro.component';
-
-const BOARD_ORDER = ['Obmann', 'Kassier', 'Schriftführer', 'Rechnungsprüfer'];
 
 @Component({
   selector: 'app-about',
@@ -16,11 +13,9 @@ const BOARD_ORDER = ['Obmann', 'Kassier', 'Schriftführer', 'Rechnungsprüfer'];
   imports: [PageIntroComponent, FittedImageComponent, ZoomableDirective],
 })
 export class AboutComponent implements OnInit {
-  private mysqlService = inject(MysqlService);
+  private clubService = inject(ClubService);
   private titleService = inject(Title);
   private metaTagService = inject(Meta);
-
-  readonly imageBaseUrl = baseUrlImages;
 
   readonly facts = [
     { value: '2014', label: 'gegründet in Stainz' },
@@ -90,16 +85,8 @@ export class AboutComponent implements OnInit {
   board: Chef[] = [];
 
   ngOnInit() {
-    this.mysqlService.getChefs().subscribe((chefs: Chef[]) => {
-      const rank = (chef: Chef) => {
-        const index = BOARD_ORDER.findIndex((role) => chef.function.includes(role));
-        return index === -1 ? BOARD_ORDER.length : index;
-      };
-      // "Dummy" entries were placeholders to align the old grid layout.
-      this.board = chefs
-        .filter((chef) => chef.firstName !== 'Dummy')
-        .sort((a, b) => rank(a) - rank(b));
-    });
+    // Sorted by the order maintained in Strapi.
+    this.clubService.getBoard().subscribe((board) => (this.board = board));
 
     this.titleService.setTitle('HV TDP Stainz: Über uns');
     this.metaTagService.updateTag({

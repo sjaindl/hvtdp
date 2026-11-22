@@ -1,8 +1,9 @@
 export interface Donation {
   donator: string;
-  date: Date;
+  /** ISO date ("2024-06-18"). */
+  date: string;
   game: string;
   description: string;
-  imagePath: string;
-  matchBallImagePath: string;
+  imageUrl: string | null;
+  matchBallImageUrl: string | null;
 }

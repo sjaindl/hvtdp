@@ -45,7 +45,7 @@
         <span class="badge-neutral">{{ group.players.length }} Spieler</span>
       </div>
       <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 lg:gap-6">
-        @for (player of group.players; track player.imagePath; let i = $index) {
+        @for (player of group.players; track player.firstName + player.lastName; let i = $index) {
           <app-player-card class="animate-stagger-in" [style.--i]="i" [player]="player" [position]="group.position"></app-player-card>
         }
       </div>
@@ -59,7 +59,7 @@
         <span class="badge-neutral">{{ activePlayers.length }}</span>
       </div>
       <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 lg:gap-6">
-        @for (player of activePlayers; track player.imagePath; let i = $index) {
+        @for (player of activePlayers; track player.firstName + player.lastName; let i = $index) {
           <app-player-card class="animate-stagger-in" [style.--i]="i" [player]="player"></app-player-card>
         }
       </div>

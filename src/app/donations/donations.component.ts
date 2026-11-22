@@ -1,7 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
-import { MysqlService } from '../services/mysql.service';
-import { baseUrlImages } from '../shared/baseurls';
+import { ClubService } from '../services/club.service';
 import { Donation } from '../shared/donations';
 import { CLUB_EMAIL } from '../shared/seasons';
 import { DateUtil } from '../shared/utils/date.util';
@@ -25,11 +24,10 @@ const INITIAL_YEARS = 2;
   imports: [EmptyStateComponent, PageIntroComponent, FittedImageComponent, ZoomableDirective],
 })
 export class DonationsComponent implements OnInit {
-  private mysqlService = inject(MysqlService);
+  private clubService = inject(ClubService);
   private titleService = inject(Title);
   private metaTagService = inject(Meta);
 
-  readonly imageBaseUrl = baseUrlImages;
   readonly formatDate = DateUtil.formatDate;
   readonly mailUrl = `mailto:${CLUB_EMAIL}?subject=${encodeURIComponent('Matchballspende')}`;
 
@@ -50,12 +48,12 @@ export class DonationsComponent implements OnInit {
 
   load() {
     this.failed = false;
-    this.mysqlService.getDonations().subscribe({
+    this.clubService.getDonations().subscribe({
       next: (donations) => {
-        const sorted = [...donations].sort((a, b) => String(b.date).localeCompare(String(a.date)));
+        const sorted = [...donations].sort((a, b) => b.date.localeCompare(a.date));
         const byYear = new Map<string, Donation[]>();
         sorted.forEach((donation) => {
-          const year = String(donation.date).slice(0, 4);
+          const year = donation.date.slice(0, 4);
           byYear.set(year, [...(byYear.get(year) ?? []), donation]);
         });
         this.years = [...byYear.entries()].map(([year, items]) => ({ year, donations: items }));

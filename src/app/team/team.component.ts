@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
-import { MysqlService } from '../services/mysql.service';
+import { ClubService } from '../services/club.service';
 import { Player } from '../shared/player';
 import { ErrorUtil } from '../shared/utils/error.util';
 import { ContentSwapDirective } from '../ui/content-swap/content-swap.directive';
@@ -27,10 +27,16 @@ const GROUP_TITLES: Record<string, string> = {
   selector: 'app-team',
   templateUrl: './team.component.html',
   standalone: true,
-  imports: [EmptyStateComponent, PageIntroComponent, PlayerCardComponent, SlidingIndicatorDirective, ContentSwapDirective],
+  imports: [
+    EmptyStateComponent,
+    PageIntroComponent,
+    PlayerCardComponent,
+    SlidingIndicatorDirective,
+    ContentSwapDirective,
+  ],
 })
 export class TeamComponent implements OnInit {
-  private mysqlService = inject(MysqlService);
+  private clubService = inject(ClubService);
   private titleService = inject(Title);
   private metaTagService = inject(Meta);
 
@@ -42,8 +48,8 @@ export class TeamComponent implements OnInit {
   failed = false;
   errorText = '';
 
-  /** TODO(API): the date of the squad list is not part of the API. */
-  readonly asOf = 'Stand 12/2025';
+  /** "Stand 12/2025", from the squad list date maintained in Strapi (team page). */
+  asOf = '';
 
   ngOnInit() {
     this.load();
@@ -56,7 +62,10 @@ export class TeamComponent implements OnInit {
 
   load() {
     this.failed = false;
-    this.mysqlService.getSquadPlayers().subscribe({
+    this.clubService
+      .getTeamPage()
+      .subscribe((page) => (this.asOf = TeamComponent.formatAsOf(page?.squadAsOf)));
+    this.clubService.getPlayers('Kader').subscribe({
       next: (players) => {
         this.squadPlayers = this.sortPlayers(players);
         this.positionGroups = this.buildPositionGroups(this.squadPlayers);
@@ -68,8 +77,8 @@ export class TeamComponent implements OnInit {
         this.errorText = ErrorUtil.message(error);
       },
     });
-    this.mysqlService
-      .getActivePlayers()
+    this.clubService
+      .getPlayers('Aktiv')
       .subscribe((players) => (this.activePlayers = this.sortPlayers(players)));
   }
 
@@ -80,13 +89,17 @@ export class TeamComponent implements OnInit {
   }
 
   get foundingMembers(): number {
-    return this.squadPlayers.filter((player) => Number(player.memberSinceYear) === 2014).length;
+    return this.squadPlayers.filter((player) => player.memberSinceYear === 2014).length;
   }
 
   get topScorer(): Player | null {
-    return (
-      [...this.squadPlayers].sort((a, b) => Number(b.goals ?? 0) - Number(a.goals ?? 0))[0] ?? null
-    );
+    return [...this.squadPlayers].sort((a, b) => b.goals - a.goals)[0] ?? null;
+  }
+
+  /** "2025-12-01" → "Stand 12/2025". */
+  static formatAsOf(date: string | null | undefined): string {
+    const match = /^(\d{4})-(\d{2})/.exec(date ?? '');
+    return match ? `Stand ${match[2]}/${match[1]}` : '';
   }
 
   private sortPlayers(players: Player[]): Player[] {

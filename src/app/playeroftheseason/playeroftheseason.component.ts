@@ -3,8 +3,8 @@ import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { Subscription, forkJoin } from 'rxjs';
+import { ClubService } from '../services/club.service';
 import { MysqlService } from '../services/mysql.service';
-import { baseUrlImages } from '../shared/baseurls';
 import { Player } from '../shared/player';
 import { PlayerOfTheSeason } from '../shared/playeroftheseason';
 import { CurrentSeason, Seasons } from '../shared/seasons';
@@ -39,13 +39,13 @@ interface Candidate {
 export class PlayerOfTheSeasonComponent implements OnInit, OnDestroy {
   private cookieService = inject(CookieService);
   private mysqlService = inject(MysqlService);
+  private clubService = inject(ClubService);
   private route = inject(ActivatedRoute);
   private titleService = inject(Title);
   private metaTagService = inject(Meta);
   private toastService = inject(ToastService);
 
   readonly seasons = Seasons.playerOfTheSeason;
-  readonly imageBaseUrl = baseUrlImages;
 
   season = '';
   candidates: Candidate[] = [];
@@ -88,7 +88,7 @@ export class PlayerOfTheSeasonComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.failed = false;
     forkJoin({
-      players: this.mysqlService.getPlayers(),
+      players: this.clubService.getPlayers(),
       options: this.mysqlService.getPlayerOfTheSeason(),
     }).subscribe({
       next: ({ players, options }) => {

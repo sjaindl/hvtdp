@@ -1,18 +1,13 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Chef } from '../shared/chefs';
 import { HvtdpDocument } from '../shared/document';
-import { Donation } from '../shared/donations';
 import { Game } from '../shared/games';
 import { GoalOfTheSeason } from '../shared/goaloftheseason';
 import { GoldenShot } from '../shared/goldenshot';
 import { Item } from '../shared/items';
 import { MatchInfo } from '../shared/match-info';
-import { Member } from '../shared/member';
-import { PappFan } from '../shared/papp';
 import { Album } from '../shared/photos';
-import { Player } from '../shared/player';
 import { PlayerOfTheSeason } from '../shared/playeroftheseason';
 import { Scorer } from '../shared/scorer';
 import { Standing } from '../shared/standing';
@@ -24,26 +19,6 @@ export class MysqlService {
   private http = inject(HttpClient);
 
   private readonly baseUrl = 'https://www.hvtdpstainz.at/api/';
-
-  public getPlayers(): Observable<Player[]> {
-    return this.http.get<Player[]>(this.baseUrl + 'getPlayers.php');
-  }
-
-  public getSquadPlayers(): Observable<Player[]> {
-    return this.http.get<Player[]>(this.baseUrl + 'getSquadPlayers.php');
-  }
-
-  public getActivePlayers(): Observable<Player[]> {
-    return this.http.get<Player[]>(this.baseUrl + 'getActivePlayers.php');
-  }
-
-  public getChefs(): Observable<Chef[]> {
-    return this.http.get<Chef[]>(this.baseUrl + 'getChefs.php');
-  }
-
-  public getDonations(): Observable<Donation[]> {
-    return this.http.get<Donation[]>(this.baseUrl + 'getDonations.php');
-  }
 
   public getItems(): Observable<Item[]> {
     return this.http.get<Item[]>(this.baseUrl + 'getItems.php');
@@ -63,22 +38,6 @@ export class MysqlService {
 
   public getSurveyLink(): Observable<Survey[]> {
     return this.http.get<Survey[]>(this.baseUrl + 'getSurvey.php');
-  }
-
-  public getPappfans(): Observable<PappFan[]> {
-    return this.http.get<PappFan[]>(this.baseUrl + 'getPappfans.php');
-  }
-
-  public getActiveMembers(): Observable<Member[]> {
-    return this.http.get<Member[]>(this.baseUrl + 'getActiveMembership.php');
-  }
-
-  public getSupportMembers(): Observable<Member[]> {
-    return this.http.get<Member[]>(this.baseUrl + 'getSupportMembership.php');
-  }
-
-  public getKidsMembers(): Observable<Member[]> {
-    return this.http.get<Member[]>(this.baseUrl + 'getKidsMembership.php');
   }
 
   public getStandings(): Observable<Standing[]> {

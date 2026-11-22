@@ -69,10 +69,10 @@
       Seidl (Obmann-Stv.), Bohacek (Kassier), Ronegg (Kassier-Stv.)
     </p>
     <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5 lg:gap-4">
-      @for (chef of board; track chef.imagePath) {
+      @for (chef of board; track chef.firstName + chef.lastName) {
         <article class="card-interactive group flex flex-col">
           <div class="aspect-[4/5] overflow-hidden bg-gray-100">
-            <img [src]="imageBaseUrl + chef.imagePath" [alt]="chef.firstName + ' ' + chef.lastName" class="card-media object-top" loading="lazy" appZoomable />
+            <img [src]="chef.imageUrl ?? 'hvtdp.png'" [alt]="chef.firstName + ' ' + chef.lastName" class="card-media object-top" loading="lazy" appZoomable />
           </div>
           <div class="px-3.5 pb-3.5 pt-3">
             <p class="text-[13px] font-semibold text-pink-600">{{ chef.function }}</p>

@@ -45,13 +45,23 @@ USE_PM2="auto"
 # `migrate`. Add new areas here and to AREAS (in migration order).
 # ---------------------------------------------------------------------------------------------
 
-AREAS=(announcement)
+AREAS=(announcement club)
 PHASE=download
 
 # Announcement bar on the home page (replaces the ticker).
 area_announcement() {
   fetch getTicker
   migrate announcement --source "$EXPORTS_DIR/getTicker.json"
+}
+
+# Team, board, members, Papp-Fans and match ball donations (with their images).
+area_club() {
+  local endpoint
+  for endpoint in getPlayers getSquadPlayers getActivePlayers getChefs \
+    getActiveMembership getSupportMembership getKidsMembership getPappfans getDonations; do
+    fetch "$endpoint"
+  done
+  migrate club --exports "$EXPORTS_DIR" "${MEDIA_ARGS[@]}"
 }
 
 # ---------------------------------------------------------------------------------------------
