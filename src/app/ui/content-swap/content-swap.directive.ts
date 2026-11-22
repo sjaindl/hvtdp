@@ -1,4 +1,5 @@
 import { Directive, ElementRef, Input, OnChanges, SimpleChanges, inject } from '@angular/core';
+import { forceReflow } from '../../shared/utils/dom.util';
 
 const ENTER_CLASS = 'animate-content-in';
 
@@ -26,7 +27,7 @@ export class ContentSwapDirective implements OnChanges {
     if (key && !key.firstChange && key.currentValue !== key.previousValue) {
       const element = this.host.nativeElement;
       element.classList.remove(ENTER_CLASS);
-      void element.offsetWidth; // restart the animation
+      forceReflow(element); // restart the animation
       element.classList.add(ENTER_CLASS);
     }
   }

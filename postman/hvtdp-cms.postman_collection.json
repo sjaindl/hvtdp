@@ -562,6 +562,81 @@
           "response": []
         }
       ]
+    },
+    {
+      "name": "Fanshop",
+      "description": "Fanshop items with base price (or price note), order options and image (`migrate-to-strapi.sh fanshop`). A choice price replaces the item price when chosen.",
+      "item": [
+        {
+          "name": "List shop items",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/shop-items?sort[0]=order:asc&populate[image]=true&populate[optionGroups][populate][choices]=true&pagination[pageSize]=100",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "shop-items"
+              ],
+              "query": [
+                {
+                  "key": "sort[0]",
+                  "value": "order:asc"
+                },
+                {
+                  "key": "populate[image]",
+                  "value": "true"
+                },
+                {
+                  "key": "populate[optionGroups][populate][choices]",
+                  "value": "true"
+                },
+                {
+                  "key": "pagination[pageSize]",
+                  "value": "100"
+                }
+              ]
+            },
+            "description": "All items in display order, with image and option groups including their choices."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('Items with price or price note', () => {",
+                  "  pm.expect(body.data).to.be.an('array').that.is.not.empty;",
+                  "  body.data.forEach((item) => {",
+                  "    pm.expect(item).to.include.keys('name', 'description', 'category', 'price', 'priceNote', 'image', 'optionGroups');",
+                  "    pm.expect(['Bekleidung', 'Accessoires', 'Sonstiges']).to.include(item.category);",
+                  "    pm.expect(item.price !== null || !!item.priceNote, `${item.name} needs a price or a price note`).to.be.true;",
+                  "  });",
+                  "});",
+                  "pm.test('Option groups are choices or text fields', () => {",
+                  "  body.data.flatMap((item) => item.optionGroups).forEach((group) => {",
+                  "    pm.expect(['Auswahl', 'Text']).to.include(group.kind);",
+                  "    pm.expect(group.choices).to.be.an('array');",
+                  "    if (group.kind === 'Auswahl') pm.expect(group.choices).to.not.be.empty;",
+                  "  });",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "response": []
+        }
+      ]
     }
   ]
 }

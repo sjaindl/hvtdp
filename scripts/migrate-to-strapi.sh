@@ -45,7 +45,7 @@ USE_PM2="auto"
 # `migrate`. Add new areas here and to AREAS (in migration order).
 # ---------------------------------------------------------------------------------------------
 
-AREAS=(announcement club)
+AREAS=(announcement club fanshop)
 PHASE=download
 
 # Announcement bar on the home page (replaces the ticker).
@@ -62,6 +62,12 @@ area_club() {
     fetch "$endpoint"
   done
   migrate club --exports "$EXPORTS_DIR" "${MEDIA_ARGS[@]}"
+}
+
+# Fanshop items with prices, order options and images.
+area_fanshop() {
+  fetch getItems
+  migrate fanshop --exports "$EXPORTS_DIR" "${MEDIA_ARGS[@]}"
 }
 
 # ---------------------------------------------------------------------------------------------

@@ -5,7 +5,6 @@ import { HvtdpDocument } from '../shared/document';
 import { Game } from '../shared/games';
 import { GoalOfTheSeason } from '../shared/goaloftheseason';
 import { GoldenShot } from '../shared/goldenshot';
-import { Item } from '../shared/items';
 import { MatchInfo } from '../shared/match-info';
 import { Album } from '../shared/photos';
 import { PlayerOfTheSeason } from '../shared/playeroftheseason';
@@ -19,10 +18,6 @@ export class MysqlService {
   private http = inject(HttpClient);
 
   private readonly baseUrl = 'https://www.hvtdpstainz.at/api/';
-
-  public getItems(): Observable<Item[]> {
-    return this.http.get<Item[]>(this.baseUrl + 'getItems.php');
-  }
 
   public getGames(): Observable<Game[]> {
     return this.http.get<Game[]>(this.baseUrl + 'getGames.php');

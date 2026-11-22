@@ -1,4 +1,5 @@
 import { AfterViewInit, Directive, ElementRef, Input, OnDestroy, inject } from '@angular/core';
+import { forceReflow } from '../../shared/utils/dom.util';
 
 export type IndicatorMode = 'underline' | 'pill';
 
@@ -95,7 +96,7 @@ export class SlidingIndicatorDirective implements AfterViewInit, OnDestroy {
     indicator.style.transform = `translate(${active.offsetLeft}px, ${top}px)`;
     indicator.style.opacity = '1';
     if (indicator.style.transition === 'none') {
-      void indicator.offsetWidth; // apply the jump before transitions come back
+      forceReflow(indicator); // apply the jump before transitions come back
       indicator.style.transition = '';
     }
 
