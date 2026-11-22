@@ -17,6 +17,7 @@
 #   --images DIR       legacy images          (default: <this repo>/src/assets/images, env IMAGES_DIR)
 #   --images-url URL   fallback for images missing locally
 #                                             (default: https://www.hvtdpstainz.at/assets/images)
+#   --documents DIR    legacy PDFs           (default: <this repo>/src/assets/documents, env DOCUMENTS_DIR)
 #   --api-url URL      legacy PHP API         (default: https://www.hvtdpstainz.at/api)
 #   --exports DIR      keep the downloaded JSON in DIR (default: temporary directory, deleted afterwards)
 #   --pm2 NAME         pm2 process to stop/start (default: strapi-hvtdp if pm2 is installed, else none)
@@ -34,6 +35,8 @@ set -euo pipefail
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 STRAPI_DIR="${STRAPI_DIR:-$REPO_DIR/../strapi-cloud-template-blog-49970f95ac}"
 IMAGES_DIR="${IMAGES_DIR:-$REPO_DIR/src/assets/images}"
+DOCUMENTS_DIR="${DOCUMENTS_DIR:-$REPO_DIR/src/assets/documents}"
+DOCUMENTS_URL="https://www.hvtdpstainz.at/assets/documents"
 IMAGES_URL="https://www.hvtdpstainz.at/assets/images"
 API_URL="https://www.hvtdpstainz.at/api"
 EXPORTS_DIR=""
@@ -45,7 +48,7 @@ USE_PM2="auto"
 # `migrate`. Add new areas here and to AREAS (in migration order).
 # ---------------------------------------------------------------------------------------------
 
-AREAS=(announcement club fanshop)
+AREAS=(announcement club fanshop documents)
 PHASE=download
 
 # Announcement bar on the home page (replaces the ticker).
@@ -68,6 +71,12 @@ area_club() {
 area_fanshop() {
   fetch getItems
   migrate fanshop --exports "$EXPORTS_DIR" "${MEDIA_ARGS[@]}"
+}
+
+# Documents (PDFs) with category and protected flag.
+area_documents() {
+  fetch getDocuments
+  migrate documents --exports "$EXPORTS_DIR" --documents "$DOCUMENTS_DIR" --documents-url "$DOCUMENTS_URL"
 }
 
 # ---------------------------------------------------------------------------------------------
@@ -145,6 +154,7 @@ while [[ $# -gt 0 ]]; do
     --strapi-dir) STRAPI_DIR="$2"; shift 2 ;;
     --images) IMAGES_DIR="$2"; shift 2 ;;
     --images-url) IMAGES_URL="$2"; shift 2 ;;
+    --documents) DOCUMENTS_DIR="$2"; shift 2 ;;
     --api-url) API_URL="${2%/}"; shift 2 ;;
     --exports) EXPORTS_DIR="$2"; shift 2 ;;
     --pm2) PM2_NAME="$2"; USE_PM2="yes"; shift 2 ;;
@@ -165,10 +175,12 @@ done
 
 [[ -f "$STRAPI_DIR/package.json" ]] || fail "Strapi repo not found at $STRAPI_DIR (use --strapi-dir)"
 [[ -d "$IMAGES_DIR" ]] || fail "images directory not found at $IMAGES_DIR (use --images)"
+[[ -d "$DOCUMENTS_DIR" ]] || fail "documents directory not found at $DOCUMENTS_DIR (use --documents)"
 command -v node >/dev/null || fail "node is required"
 command -v curl >/dev/null || fail "curl is required"
 STRAPI_DIR="$(cd "$STRAPI_DIR" && pwd)"
 IMAGES_DIR="$(cd "$IMAGES_DIR" && pwd)"
+DOCUMENTS_DIR="$(cd "$DOCUMENTS_DIR" && pwd)"
 # Arguments for migration scripts that upload images: migrate <area> --source … "${MEDIA_ARGS[@]}"
 # shellcheck disable=SC2034 # used by the area functions with images
 MEDIA_ARGS=(--images "$IMAGES_DIR" --images-url "$IMAGES_URL")

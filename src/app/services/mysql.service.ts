@@ -1,7 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HvtdpDocument } from '../shared/document';
 import { Game } from '../shared/games';
 import { GoalOfTheSeason } from '../shared/goaloftheseason';
 import { GoldenShot } from '../shared/goldenshot';
@@ -11,7 +10,6 @@ import { PlayerOfTheSeason } from '../shared/playeroftheseason';
 import { Scorer } from '../shared/scorer';
 import { Standing } from '../shared/standing';
 import { Survey } from '../shared/survey';
-import { Validation } from '../shared/validation';
 
 @Injectable()
 export class MysqlService {
@@ -25,10 +23,6 @@ export class MysqlService {
 
   public getPhotos(): Observable<Album[]> {
     return this.http.get<Album[]>(this.baseUrl + 'getPhotos.php');
-  }
-
-  public getDocuments(): Observable<HvtdpDocument[]> {
-    return this.http.get<HvtdpDocument[]>(this.baseUrl + 'getDocuments.php');
   }
 
   public getSurveyLink(): Observable<Survey[]> {
@@ -45,12 +39,6 @@ export class MysqlService {
 
   public getMatchInfo(): Observable<MatchInfo[]> {
     return this.http.get<MatchInfo[]>(this.baseUrl + 'getMatchInfo.php');
-  }
-
-  public checkPassword(password: string): Observable<Validation[]> {
-    return this.http.get<Validation[]>(this.baseUrl + 'checkPasswordValid.php', {
-      params: new HttpParams().set('password', password),
-    });
   }
 
   public postDuckrun(

@@ -23,7 +23,7 @@
     <section class="flex flex-col gap-2.5 lg:gap-3.5">
       <h2 class="text-xl font-bold text-gray-900 lg:text-[22px]">{{ group.title }}</h2>
       <div class="grid gap-2.5 lg:grid-cols-2 lg:gap-4">
-        @for (item of group.items; track item.document.link) {
+        @for (item of group.items; track item.document.title + item.document.date) {
           <button
             type="button"
             class="card flex items-center gap-3.5 px-4 py-3.5 text-left transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md"

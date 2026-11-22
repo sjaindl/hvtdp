@@ -180790,9 +180790,8 @@
                               "id": "X3Zbyw",
                               "name": "Title",
                               "fill": "$gray-900",
-                              "textGrowth": "fixed-width-height",
+                              "textGrowth": "fixed-width",
                               "width": "fill_container",
-                              "height": 42,
                               "content": "Fanschal",
                               "lineHeight": 1.3,
                               "fontFamily": "Inter",
@@ -180815,13 +180814,49 @@
                               "id": "WC5Ne",
                               "name": "Desc",
                               "fill": "$gray-600",
-                              "textGrowth": "fixed-width-height",
+                              "textGrowth": "fixed-width",
                               "width": "fill_container",
-                              "height": 59,
                               "content": "Für jedes Heim- und Auswärtsspiel – der offizielle Fanschal.",
                               "lineHeight": 1.5,
                               "fontFamily": "Inter",
                               "fontSize": 13
+                            },
+                            {
+                              "type": "frame",
+                              "id": "HWe1J",
+                              "name": "Toggle",
+                              "gap": 2,
+                              "padding": [
+                                2,
+                                0,
+                                0,
+                                0
+                              ],
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "Mxt7c",
+                                  "name": "Toggle label",
+                                  "fill": "$pink-600",
+                                  "content": "Mehr anzeigen",
+                                  "lineHeight": 1.5,
+                                  "fontFamily": "Inter",
+                                  "fontSize": 13,
+                                  "fontWeight": "600"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "SY5ZL",
+                                  "name": "Toggle icon",
+                                  "fill": "$pink-600",
+                                  "content": "expand_more",
+                                  "lineHeight": 1,
+                                  "fontFamily": "Material Icons",
+                                  "fontSize": 18,
+                                  "fontWeight": "normal"
+                                }
+                              ]
                             },
                             {
                               "type": "frame",
@@ -205785,8 +205820,11 @@
                       "content": "14,90 €"
                     },
                     "WC5Ne": {
-                      "content": "Der offizielle Fanschal für jedes Heim- und Auswärtsspiel.",
+                      "content": "Um bei jedem Heim- und Auswärtsspiel den HV TDP bestmöglich anfeuern zu können gibt es jetzt den …",
                       "height": 78
+                    },
+                    "HWe1J": {
+                      "enabled": true
                     }
                   }
                 },
@@ -205818,8 +205856,11 @@
                       "content": "ab 21,00 €"
                     },
                     "WC5Ne": {
-                      "content": "4 Varianten, Größen S/M oder L/XL. Mit Logo 25,00 €.",
+                      "content": "Wie schützt man seinen Kopf im Sommer am besten vor Sonnenstrahlen? Ganz klar mit der HV TDP …",
                       "height": 78
+                    },
+                    "HWe1J": {
+                      "enabled": true
                     }
                   }
                 }
@@ -205859,8 +205900,11 @@
                       "content": "14,50 €"
                     },
                     "WC5Ne": {
-                      "content": "Mit allen aktiven Vereinsmitgliedern.",
+                      "content": "In jedem Büro oder zuhause wird er gebraucht – der Kalender. Mit dem offiziellen Kalender …",
                       "height": 78
+                    },
+                    "HWe1J": {
+                      "enabled": true
                     }
                   }
                 },
@@ -205892,8 +205936,11 @@
                       "content": "Betrag frei wählbar"
                     },
                     "WC5Ne": {
-                      "content": "Der Beschenkte entscheidet einfach selbst.",
+                      "content": "Verschenk pure Fußball-Leidenschaft! Ab sofort bekommst du in unserem Fanshop Gutscheine mit frei …",
                       "height": 78
+                    },
+                    "HWe1J": {
+                      "enabled": true
                     }
                   }
                 }
@@ -205933,8 +205980,11 @@
                       "content": "5,00 €"
                     },
                     "WC5Ne": {
-                      "content": "Das ganze Jahr erhältlich – in Rot, Violett oder Blau.",
+                      "content": "Ho Ho Ho! Ja ist denn schon Weihnachten? Bei uns das ganze Jahr! Deshalb gibt es die exklusiven HV …",
                       "height": 78
+                    },
+                    "HWe1J": {
+                      "enabled": true
                     }
                   }
                 },
@@ -205966,8 +206016,11 @@
                       "content": "9,90 €"
                     },
                     "WC5Ne": {
-                      "content": "Größen 36–41 und 42–46.",
+                      "content": "Die HV TDP Vereinssocken - ein muss für jeden echten Fan! Erhältlich in den Größen 36-41 und …",
                       "height": 78
+                    },
+                    "HWe1J": {
+                      "enabled": true
                     }
                   }
                 }
@@ -206007,8 +206060,11 @@
                       "content": "ab 29,90 €"
                     },
                     "WC5Ne": {
-                      "content": "Für Herren, Damen und Kinder. Erwachsene 49,90 €.",
+                      "content": "Rechtzeitig zur kalten Jahreszeit gibt es den gemütlichen Hoodie inkl. Hose. Bestellbar für Herren, Damen …",
                       "height": 78
+                    },
+                    "HWe1J": {
+                      "enabled": true
                     }
                   }
                 },
@@ -206040,8 +206096,11 @@
                       "content": "12,90 €"
                     },
                     "WC5Ne": {
-                      "content": "Gesticktes Logo, mehrere Farben, Initialen möglich.",
+                      "content": "Um für die kalte Jahreszeit perfekt gerüstet zu sein, darf die offizielle HV TDP Stainz Winterhaube …",
                       "height": 78
+                    },
+                    "HWe1J": {
+                      "enabled": true
                     }
                   }
                 }
@@ -206081,8 +206140,11 @@
                       "content": "14,90 €"
                     },
                     "WC5Ne": {
-                      "content": "Gesticktes Logo, mehrere Farben, Initialen möglich.",
+                      "content": "Um für die kalte Jahreszeit perfekt gerüstet zu sein, darf die offizielle HV TDP Stainz Winterhaube …",
                       "height": 78
+                    },
+                    "HWe1J": {
+                      "enabled": true
                     }
                   }
                 },
@@ -206114,8 +206176,11 @@
                       "content": "7,50 €"
                     },
                     "WC5Ne": {
-                      "content": "Der offizielle Mund-Nasen-Schutz des HV TDP.",
+                      "content": "„Tragen sie Maske!“ Dieser Satz gehört zu den meistgehörten in der Corona Krise. Mit dem offiziellen …",
                       "height": 78
+                    },
+                    "HWe1J": {
+                      "enabled": true
                     }
                   }
                 }
@@ -206155,8 +206220,11 @@
                       "content": "ab 27,50 €"
                     },
                     "WC5Ne": {
-                      "content": "Badeschlapfn, mit Initialen 32,50 €.",
+                      "content": "Mit den Badeschlapfn vom HV TDP bist du vom Schwimmbad bis zum Wellnessresort perfekt ausgerüstet! …",
                       "height": 78
+                    },
+                    "HWe1J": {
+                      "enabled": true
                     }
                   }
                 },
@@ -206181,15 +206249,18 @@
                       "content": "Bekleidung"
                     },
                     "X3Zbyw": {
-                      "content": "Trikot – 5 Jahre Sonderedition (Rot)",
+                      "content": "Trikot - 5 Jahre Sonderedition (rot)",
                       "height": 63
                     },
                     "egkH3": {
                       "content": "35,00 €"
                     },
                     "WC5Ne": {
-                      "content": "Mit allen Vereinserfolgen auf der Rückseite.",
+                      "content": "Im Zuge des Sommerfestes 2019 im Freibad Stainz gab es zur 5 Jahresfeier unseres Vereines ein …",
                       "height": 78
+                    },
+                    "HWe1J": {
+                      "enabled": true
                     }
                   }
                 }
@@ -206222,15 +206293,18 @@
                       "content": "Bekleidung"
                     },
                     "X3Zbyw": {
-                      "content": "Trikot – 10 Jahre Sonderedition (Grau)",
+                      "content": "Trikot - 10 Jahre Sonderedition (grau)",
                       "height": 63
                     },
                     "egkH3": {
                       "content": "ab 35,00 €"
                     },
                     "WC5Ne": {
-                      "content": "Mit Hose 55,00 €.",
+                      "content": "Im Zuge des Sommerfestes 2024 gab es zur 10 Jahresfeier unseres Vereines ein …",
                       "height": 78
+                    },
+                    "HWe1J": {
+                      "enabled": true
                     }
                   }
                 },
@@ -206262,8 +206336,11 @@
                       "content": "35,00 €"
                     },
                     "WC5Ne": {
-                      "content": "Vereinstrikot in Grau und Magenta.",
+                      "content": "Das neue Trikot seit der Saison 2020/2021 ist im schönen Grau-Magenta gehalten. Seit unserem Wechsel in …",
                       "height": 78
+                    },
+                    "HWe1J": {
+                      "enabled": true
                     }
                   }
                 }
@@ -206296,15 +206373,18 @@
                       "content": "Bekleidung"
                     },
                     "X3Zbyw": {
-                      "content": "Trikot – Spiel gegen FK Austria Wien Allstars",
+                      "content": "Trikot - Spiel gegen die FK Austria Wien Allstars (weiß, magenta)",
                       "height": 63
                     },
                     "egkH3": {
                       "content": "ab 35,00 €"
                     },
                     "WC5Ne": {
-                      "content": "Mit Hose 55,00 €.",
+                      "content": "Das originale Trikot vom Spiel gegen die FK Austria Wien Allstars zum 10-Jahres-Jubiläum mit Hannes …",
                       "height": 78
+                    },
+                    "HWe1J": {
+                      "enabled": true
                     }
                   }
                 },
@@ -206329,15 +206409,18 @@
                       "content": "Bekleidung"
                     },
                     "X3Zbyw": {
-                      "content": "Trikot (Dunkelblau)",
+                      "content": "Trikot (dunkelblau)",
                       "height": 63
                     },
                     "egkH3": {
                       "content": "ab 35,00 €"
                     },
                     "WC5Ne": {
-                      "content": "Mit Hose 55,00 €.",
+                      "content": "Unser neues Auswärtstrikot ab der Saison 2024/2025 in dunkelblau gehalten mit einem dezenten …",
                       "height": 78
+                    },
+                    "HWe1J": {
+                      "enabled": true
                     }
                   }
                 }
@@ -206377,8 +206460,11 @@
                       "content": "7,90 €"
                     },
                     "WC5Ne": {
-                      "content": "Der HV TDP für den Frühstückstisch.",
+                      "content": "Ein Kaffee oder Tee darf in der Früh nicht fehlen. Was man jetzt noch dazu braucht? Die passende HV …",
                       "height": 78
+                    },
+                    "HWe1J": {
+                      "enabled": true
                     }
                   }
                 },
@@ -206403,15 +206489,18 @@
                       "content": "Bekleidung"
                     },
                     "X3Zbyw": {
-                      "content": "Trikot – Spiel gegen FC Red Bull Salzburg",
+                      "content": "Trikot - Spiel gegen FC Red Bull Salzburg (dunkelblau, magenta)",
                       "height": 63
                     },
                     "egkH3": {
                       "content": "35,00 €"
                     },
                     "WC5Ne": {
-                      "content": "Erinnerung an das Testspiel 2017.",
+                      "content": "Das Trikot erinnert an unseren bisher größten Moment der Vereinsgeschichte. Mit dem Spiel gegen den …",
                       "height": 78
+                    },
+                    "HWe1J": {
+                      "enabled": true
                     }
                   }
                 }
@@ -206444,15 +206533,18 @@
                       "content": "Bekleidung"
                     },
                     "X3Zbyw": {
-                      "content": "Trikot – Meister-Edition 2017/18",
+                      "content": "Trikot - Meister Edition 2017/2018",
                       "height": 63
                     },
                     "egkH3": {
                       "content": "35,00 €"
                     },
                     "WC5Ne": {
-                      "content": "Zur Meisterschaft 2017/18.",
+                      "content": "Meister ist man nur 1x im Jahr! Nach einer erfolgreichen Saison durften wir uns im Jahr 2018 zum dritten Mal …",
                       "height": 78
+                    },
+                    "HWe1J": {
+                      "enabled": true
                     }
                   }
                 },
@@ -206484,8 +206576,11 @@
                       "content": "ab 12,90 €"
                     },
                     "WC5Ne": {
-                      "content": "Groß 17,90 €, klein 12,90 €.",
+                      "content": "Nach einer heißen Dusche am Abend darf dieser Fanartikel nicht fehlen. Das originale Handtuch des HV …",
                       "height": 78
+                    },
+                    "HWe1J": {
+                      "enabled": true
                     }
                   }
                 }
@@ -206518,15 +206613,18 @@
                       "content": "Bekleidung"
                     },
                     "X3Zbyw": {
-                      "content": "Trikot – Vereinsgründung (Weiß, Magenta)",
+                      "content": "Trikot - Vereinsgründung (weiß, magenta)",
                       "height": 63
                     },
                     "egkH3": {
                       "content": "35,00 €"
                     },
                     "WC5Ne": {
-                      "content": "Das Trikot aus der Gründungszeit.",
+                      "content": "Seit 2014 gibt es den HV TDP Stainz. Mit der Gründung gab es auch unser erstes offizielles Trikot, mit dem wir …",
                       "height": 78
+                    },
+                    "HWe1J": {
+                      "enabled": true
                     }
                   }
                 },
@@ -206951,7 +207049,10 @@
                       "content": "14,90 €"
                     },
                     "WC5Ne": {
-                      "content": "Der offizielle Fanschal für jedes Heim- und Auswärtsspiel."
+                      "content": "Um bei jedem Heim- und Auswärtsspiel den HV TDP bestmöglich anfeuern zu können gibt es jetzt den offiziellen Fanschal! 😉"
+                    },
+                    "HWe1J": {
+                      "enabled": false
                     }
                   }
                 },
@@ -206982,7 +207083,10 @@
                       "content": "ab 21,00 €"
                     },
                     "WC5Ne": {
-                      "content": "4 Varianten, Größen S/M oder L/XL. Mit Logo 25,00 €."
+                      "content": "Wie schützt man seinen Kopf im Sommer am besten vor Sonnenstrahlen? Ganz klar mit der HV TDP Kappe! 😉 4 verschiedene Varianten stehen zur Verfügung. Größen: S/M oder …"
+                    },
+                    "HWe1J": {
+                      "enabled": true
                     }
                   }
                 },
@@ -207013,7 +207117,10 @@
                       "content": "14,50 €"
                     },
                     "WC5Ne": {
-                      "content": "Mit allen aktiven Vereinsmitgliedern."
+                      "content": "In jedem Büro oder zuhause wird er gebraucht – der Kalender. Mit dem offiziellen Kalender des HV TDP Stainz fördert man nicht nur den laufenden Spielbetrieb, sondern hat auch ein …"
+                    },
+                    "HWe1J": {
+                      "enabled": true
                     }
                   }
                 },
@@ -207044,7 +207151,10 @@
                       "content": "Betrag frei wählbar"
                     },
                     "WC5Ne": {
-                      "content": "Der Beschenkte entscheidet einfach selbst."
+                      "content": "Verschenk pure Fußball-Leidenschaft! Ab sofort bekommst du in unserem Fanshop Gutscheine mit frei wählbarem Betrag. Perfekt für alle, die nicht wissen, welches Trikot, Schal oder Accessoire es sein …"
+                    },
+                    "HWe1J": {
+                      "enabled": true
                     }
                   }
                 }
@@ -207083,7 +207193,10 @@
                       "content": "5,00 €"
                     },
                     "WC5Ne": {
-                      "content": "Das ganze Jahr erhältlich – in Rot, Violett oder Blau."
+                      "content": "Ho Ho Ho! Ja ist denn schon Weihnachten? Bei uns das ganze Jahr! Deshalb gibt es die exklusiven HV TDP Stainz Weihnachtsmützen das ganze Jahr zum Erwerben. Wir bieten die Mützen …"
+                    },
+                    "HWe1J": {
+                      "enabled": true
                     }
                   }
                 },
@@ -207114,7 +207227,10 @@
                       "content": "9,90 €"
                     },
                     "WC5Ne": {
-                      "content": "Größen 36–41 und 42–46."
+                      "content": "Die HV TDP Vereinssocken - ein muss für jeden echten Fan! Erhältlich in den Größen 36-41 und 42-46"
+                    },
+                    "HWe1J": {
+                      "enabled": false
                     }
                   }
                 },
@@ -207145,7 +207261,10 @@
                       "content": "ab 29,90 €"
                     },
                     "WC5Ne": {
-                      "content": "Für Herren, Damen und Kinder. Erwachsene 49,90 €."
+                      "content": "Rechtzeitig zur kalten Jahreszeit gibt es den gemütlichen Hoodie inkl. Hose. Bestellbar für Herren, Damen und Kinder."
+                    },
+                    "HWe1J": {
+                      "enabled": false
                     }
                   }
                 },
@@ -207176,7 +207295,10 @@
                       "content": "12,90 €"
                     },
                     "WC5Ne": {
-                      "content": "Gesticktes Logo, mehrere Farben, Initialen möglich."
+                      "content": "Um für die kalte Jahreszeit perfekt gerüstet zu sein, darf die offizielle HV TDP Stainz Winterhaube nicht fehlen! Egal ob beim Adventmarkt, bei einem Spaziergang oder bei der Ausführung …"
+                    },
+                    "HWe1J": {
+                      "enabled": true
                     }
                   }
                 }
@@ -207215,7 +207337,10 @@
                       "content": "14,90 €"
                     },
                     "WC5Ne": {
-                      "content": "Gesticktes Logo, mehrere Farben, Initialen möglich."
+                      "content": "Um für die kalte Jahreszeit perfekt gerüstet zu sein, darf die offizielle HV TDP Stainz Winterhaube nicht fehlen! Egal ob beim Adventmarkt, bei einem Spaziergang oder bei der Ausführung …"
+                    },
+                    "HWe1J": {
+                      "enabled": true
                     }
                   }
                 },
@@ -207246,7 +207371,10 @@
                       "content": "7,50 €"
                     },
                     "WC5Ne": {
-                      "content": "Der offizielle Mund-Nasen-Schutz des HV TDP."
+                      "content": "„Tragen sie Maske!“ Dieser Satz gehört zu den meistgehörten in der Corona Krise. Mit dem offiziellen Mund-Nasenschutz ist man in Bezug auf modisches Accessoire auch ganz …"
+                    },
+                    "HWe1J": {
+                      "enabled": true
                     }
                   }
                 },
@@ -207277,7 +207405,10 @@
                       "content": "ab 27,50 €"
                     },
                     "WC5Ne": {
-                      "content": "Badeschlapfn, mit Initialen 32,50 €."
+                      "content": "Mit den Badeschlapfn vom HV TDP bist du vom Schwimmbad bis zum Wellnessresort perfekt ausgerüstet! Auf Wunsch auch mit deinen Initialen erhältlich!"
+                    },
+                    "HWe1J": {
+                      "enabled": false
                     }
                   }
                 },
@@ -207302,13 +207433,16 @@
                       "content": "Bekleidung"
                     },
                     "X3Zbyw": {
-                      "content": "Trikot – 5 Jahre Sonderedition (Rot)"
+                      "content": "Trikot - 5 Jahre Sonderedition (rot)"
                     },
                     "egkH3": {
                       "content": "35,00 €"
                     },
                     "WC5Ne": {
-                      "content": "Mit allen Vereinserfolgen auf der Rückseite."
+                      "content": "Im Zuge des Sommerfestes 2019 im Freibad Stainz gab es zur 5 Jahresfeier unseres Vereines ein spezielles und somit einzigartiges Sonder T-Shirt. Auf der Rückseite befinden sich alle bisher …"
+                    },
+                    "HWe1J": {
+                      "enabled": true
                     }
                   }
                 }
@@ -207341,13 +207475,16 @@
                       "content": "Bekleidung"
                     },
                     "X3Zbyw": {
-                      "content": "Trikot – 10 Jahre Sonderedition (Grau)"
+                      "content": "Trikot - 10 Jahre Sonderedition (grau)"
                     },
                     "egkH3": {
                       "content": "ab 35,00 €"
                     },
                     "WC5Ne": {
-                      "content": "Mit Hose 55,00 €."
+                      "content": "Im Zuge des Sommerfestes 2024 gab es zur 10 Jahresfeier unseres Vereines ein spezielles und somit einzigartiges Sonder T-Shirt. Durch das weiche und atmungsaktive Material ist das Shirt …"
+                    },
+                    "HWe1J": {
+                      "enabled": true
                     }
                   }
                 },
@@ -207378,7 +207515,10 @@
                       "content": "35,00 €"
                     },
                     "WC5Ne": {
-                      "content": "Vereinstrikot in Grau und Magenta."
+                      "content": "Das neue Trikot seit der Saison 2020/2021 ist im schönen Grau-Magenta gehalten. Seit unserem Wechsel in die STT-Meisterschaft tragen es unsere Spieler auch bei den …"
+                    },
+                    "HWe1J": {
+                      "enabled": true
                     }
                   }
                 },
@@ -207403,13 +207543,16 @@
                       "content": "Bekleidung"
                     },
                     "X3Zbyw": {
-                      "content": "Trikot – Spiel gegen FK Austria Wien Allstars"
+                      "content": "Trikot - Spiel gegen die FK Austria Wien Allstars (weiß, magenta)"
                     },
                     "egkH3": {
                       "content": "ab 35,00 €"
                     },
                     "WC5Ne": {
-                      "content": "Mit Hose 55,00 €."
+                      "content": "Das originale Trikot vom Spiel gegen die FK Austria Wien Allstars zum 10-Jahres-Jubiläum mit Hannes Rainmayr, Andi Ogris, Markus Suttner und vielen mehr!"
+                    },
+                    "HWe1J": {
+                      "enabled": false
                     }
                   }
                 },
@@ -207434,13 +207577,16 @@
                       "content": "Bekleidung"
                     },
                     "X3Zbyw": {
-                      "content": "Trikot (Dunkelblau)"
+                      "content": "Trikot (dunkelblau)"
                     },
                     "egkH3": {
                       "content": "ab 35,00 €"
                     },
                     "WC5Ne": {
-                      "content": "Mit Hose 55,00 €."
+                      "content": "Unser neues Auswärtstrikot ab der Saison 2024/2025 in dunkelblau gehalten mit einem dezenten HV TDP Wasserzeichen. Für Damen und Herren erhältlich!"
+                    },
+                    "HWe1J": {
+                      "enabled": false
                     }
                   }
                 }
@@ -207479,7 +207625,10 @@
                       "content": "7,90 €"
                     },
                     "WC5Ne": {
-                      "content": "Der HV TDP für den Frühstückstisch."
+                      "content": "Ein Kaffee oder Tee darf in der Früh nicht fehlen. Was man jetzt noch dazu braucht? Die passende HV TDP Stainz Kaffeetasse! Damit sich Mann und Frau in der Früh nicht darum streiten müssen welche …"
+                    },
+                    "HWe1J": {
+                      "enabled": true
                     }
                   }
                 },
@@ -207504,13 +207653,16 @@
                       "content": "Bekleidung"
                     },
                     "X3Zbyw": {
-                      "content": "Trikot – Spiel gegen FC Red Bull Salzburg"
+                      "content": "Trikot - Spiel gegen FC Red Bull Salzburg (dunkelblau, magenta)"
                     },
                     "egkH3": {
                       "content": "35,00 €"
                     },
                     "WC5Ne": {
-                      "content": "Erinnerung an das Testspiel 2017."
+                      "content": "Das Trikot erinnert an unseren bisher größten Moment der Vereinsgeschichte. Mit dem Spiel gegen den Serienmeister der österreichischen Bundesliga, dem FC Red Bull Salzburg, ging für viele Spieler …"
+                    },
+                    "HWe1J": {
+                      "enabled": true
                     }
                   }
                 },
@@ -207535,13 +207687,16 @@
                       "content": "Bekleidung"
                     },
                     "X3Zbyw": {
-                      "content": "Trikot – Meister-Edition 2017/18"
+                      "content": "Trikot - Meister Edition 2017/2018"
                     },
                     "egkH3": {
                       "content": "35,00 €"
                     },
                     "WC5Ne": {
-                      "content": "Zur Meisterschaft 2017/18."
+                      "content": "Meister ist man nur 1x im Jahr! Nach einer erfolgreichen Saison durften wir uns im Jahr 2018 zum dritten Mal Meister des Südweststeirercups nennen. Das offizielle Meisterleiberl der Saison wurde bei der …"
+                    },
+                    "HWe1J": {
+                      "enabled": true
                     }
                   }
                 },
@@ -207572,7 +207727,10 @@
                       "content": "ab 12,90 €"
                     },
                     "WC5Ne": {
-                      "content": "Groß 17,90 €, klein 12,90 €."
+                      "content": "Nach einer heißen Dusche am Abend darf dieser Fanartikel nicht fehlen. Das originale Handtuch des HV TDP Stainz ist nicht nur für das Badezimmer ideal geeignet, sondern kann aufgrund …"
+                    },
+                    "HWe1J": {
+                      "enabled": true
                     }
                   }
                 }
@@ -207605,13 +207763,16 @@
                       "content": "Bekleidung"
                     },
                     "X3Zbyw": {
-                      "content": "Trikot – Vereinsgründung (Weiß, Magenta)"
+                      "content": "Trikot - Vereinsgründung (weiß, magenta)"
                     },
                     "egkH3": {
                       "content": "35,00 €"
                     },
                     "WC5Ne": {
-                      "content": "Das Trikot aus der Gründungszeit."
+                      "content": "Seit 2014 gibt es den HV TDP Stainz. Mit der Gründung gab es auch unser erstes offizielles Trikot, mit dem wir zahlreiche Erfolge feiern durften. Aufgrund der Tatsache, dass dieses Trikot schon von …"
+                    },
+                    "HWe1J": {
+                      "enabled": true
                     }
                   }
                 },

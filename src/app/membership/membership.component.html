@@ -4,9 +4,11 @@
   lead="Werde aktives oder förderndes Mitglied vom HV TDP Stainz – egal ob am Platz oder an der Seitenlinie."
 >
   <div class="flex flex-col gap-2.5 pt-2 sm:flex-row">
-    <a [href]="formUrl" target="_blank" rel="noopener" class="btn-primary"
-      >Beitrittserklärung (PDF) <span class="material-icons text-xl">download</span></a
-    >
+    @if (formUrl) {
+      <a [href]="formUrl" target="_blank" rel="noopener" class="btn-primary"
+        >Beitrittserklärung (PDF) <span class="material-icons text-xl">download</span></a
+      >
+    }
     <a [href]="mailUrl" class="btn-secondary">E-Mail schreiben</a>
   </div>
   <section aside class="card flex flex-col gap-4 p-5 lg:w-[480px]">

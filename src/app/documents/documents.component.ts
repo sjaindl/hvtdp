@@ -1,10 +1,10 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, inject } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { Meta, Title } from '@angular/platform-browser';
 import { PassworddialogComponent } from '../passworddialog/passworddialog.component';
-import { MysqlService } from '../services/mysql.service';
-import { baseUrlDocuments } from '../shared/baseurls';
-import { HvtdpDocument } from '../shared/document';
+import { DocumentService } from '../services/document.service';
+import { DocumentCategory, HvtdpDocument } from '../shared/document';
 import { DateUtil } from '../shared/utils/date.util';
 import { ErrorUtil } from '../shared/utils/error.util';
 import { EmptyStateComponent } from '../ui/empty-state/empty-state.component';
@@ -18,6 +18,13 @@ interface DocumentItem {
   locked: boolean;
 }
 
+/** Group headings in display order. */
+const GROUPS: { category: DocumentCategory; title: string }[] = [
+  { category: 'Allgemein', title: 'Für Mitglieder & Fans' },
+  { category: 'Turnierergebnisse', title: 'Turnierergebnisse' },
+  { category: 'Protokolle', title: 'Protokolle & Vereinsdokumente' },
+];
+
 interface DocumentGroup {
   title: string;
   items: DocumentItem[];
@@ -30,13 +37,11 @@ interface DocumentGroup {
   imports: [MatDialogModule, EmptyStateComponent, PageIntroComponent],
 })
 export class DocumentsComponent implements OnInit {
-  private mysqlService = inject(MysqlService);
+  private documentService = inject(DocumentService);
   private titleService = inject(Title);
   private metaTagService = inject(Meta);
   private dialog = inject(MatDialog);
   private toastService = inject(ToastService);
-
-  readonly documentBaseUrl = baseUrlDocuments;
 
   groups: DocumentGroup[] = [];
   loaded = false;
@@ -54,7 +59,7 @@ export class DocumentsComponent implements OnInit {
 
   load() {
     this.failed = false;
-    this.mysqlService.getDocuments().subscribe({
+    this.documentService.getDocuments().subscribe({
       next: (documents) => {
         this.groups = this.group(documents.map((document) => this.toItem(document)));
         this.loaded = true;
@@ -68,8 +73,9 @@ export class DocumentsComponent implements OnInit {
   }
 
   open(item: DocumentItem) {
-    if (!item.locked) {
-      window.open(this.documentBaseUrl + item.document.link, '_blank', 'noopener');
+    const { document } = item;
+    if (!item.locked && document.url) {
+      window.open(document.url, '_blank', 'noopener');
       return;
     }
     this.dialog
@@ -79,44 +85,45 @@ export class DocumentsComponent implements OnInit {
         if (password === undefined) {
           return;
         }
-        this.mysqlService.checkPassword(password).subscribe({
-          next: (result) => {
-            if (result.length != 1 || !result[0].valid) {
+        // The server checks the password and only then sends the PDF.
+        this.documentService.download(document, password).subscribe({
+          next: (blob) => {
+            this.documentService.save(blob, `${document.title}.pdf`);
+            this.toastService.show('Dokument wird heruntergeladen');
+          },
+          error: (error: unknown) => {
+            const status = error instanceof HttpErrorResponse ? error.status : 0;
+            if (status === 401) {
               this.toastService.show('Passwort ungültig', 'error');
+            } else if (status === 429) {
+              this.toastService.show(
+                'Zu viele Versuche – bitte in 15 Minuten erneut versuchen',
+                'error'
+              );
             } else {
-              window.location.href = this.documentBaseUrl + item.document.link;
+              this.toastService.showError('Dokument konnte nicht geladen werden', error);
             }
           },
-          error: (error: unknown) =>
-            this.toastService.showError('Passwort konnte nicht geprüft werden', error),
         });
       });
   }
 
-  /** Descriptions look like "2018-01-30, Sitzungsprotokoll"; the date prefix is optional. */
   private toItem(document: HvtdpDocument): DocumentItem {
-    const match = document.description.match(/^(\d{4}-\d{2}-\d{2}),\s*(.*)$/);
     return {
       document,
-      title: match ? match[2] : document.description,
-      date: match ? DateUtil.formatDate(match[1]) : '',
-      locked: document.protected !== '0',
+      title: document.title,
+      date: document.date ? DateUtil.formatDate(document.date) : '',
+      locked: document.protected,
     };
   }
 
-  /** TODO(API): documents have no category; they are grouped by keywords in the title for now. */
+  /** Groups by category; dated documents newest first, the others in the order maintained in Strapi. */
   private group(items: DocumentItem[]): DocumentGroup[] {
-    const byDateDesc = (a: DocumentItem, b: DocumentItem) =>
-      b.document.description.localeCompare(a.document.description);
-    const results = items.filter((item) => /Endergebnis/i.test(item.title)).sort(byDateDesc);
-    const minutes = items
-      .filter((item) => /Protokoll|Stellungnahme/i.test(item.title))
-      .sort(byDateDesc);
-    const general = items.filter((item) => !results.includes(item) && !minutes.includes(item));
-    return [
-      { title: 'Für Mitglieder & Fans', items: general },
-      { title: 'Turnierergebnisse', items: results },
-      { title: 'Protokolle & Vereinsdokumente', items: minutes },
-    ].filter((group) => group.items.length);
+    const newestFirst = (a: DocumentItem, b: DocumentItem) =>
+      (b.document.date ?? '').localeCompare(a.document.date ?? '');
+    return GROUPS.map(({ category, title }) => ({
+      title,
+      items: items.filter((item) => item.document.category === category).sort(newestFirst),
+    })).filter((group) => group.items.length);
   }
 }

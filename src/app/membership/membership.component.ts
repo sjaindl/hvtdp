@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { ClubService } from '../services/club.service';
-import { baseUrlDocuments } from '../shared/baseurls';
+import { DocumentService } from '../services/document.service';
 import { Member } from '../shared/member';
 import { CLUB_EMAIL } from '../shared/seasons';
 import { DateUtil } from '../shared/utils/date.util';
@@ -22,10 +22,12 @@ interface MemberGroup {
 })
 export class MembershipComponent implements OnInit {
   private clubService = inject(ClubService);
+  private documentService = inject(DocumentService);
   private titleService = inject(Title);
   private metaTagService = inject(Meta);
 
-  readonly formUrl = baseUrlDocuments + 'beitrittserklaerung.pdf';
+  /** The membership form is the Strapi document with the slug 'beitrittserklaerung'. */
+  formUrl: string | null = null;
   readonly mailUrl = `mailto:${CLUB_EMAIL}?subject=${encodeURIComponent('Mitgliedschaft HV TDP Stainz')}`;
   readonly email = CLUB_EMAIL;
 
@@ -72,6 +74,9 @@ export class MembershipComponent implements OnInit {
       content: 'Werde aktives oder förderndes Mitglied vom HV TDP Stainz.',
     });
 
+    this.documentService
+      .getDocument('beitrittserklaerung')
+      .subscribe((document) => (this.formUrl = document?.url ?? null));
     this.clubService.getMembers('Aktiv').subscribe((members) => this.setGroup(0, members));
     this.clubService.getMembers('Fördernd').subscribe((members) => this.setGroup(1, members));
     this.clubService.getMembers('Kids').subscribe((members) => this.setGroup(2, members));

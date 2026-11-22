@@ -637,6 +637,229 @@
           "response": []
         }
       ]
+    },
+    {
+      "name": "Documents",
+      "description": "Downloads of the documents page (`migrate-to-strapi.sh documents`). Protected documents are delivered only by `POST /api/documents/:documentId/download` with the members' password; the public list does not contain their files.",
+      "item": [
+        {
+          "name": "List documents",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/documents?sort[0]=order:asc&populate[0]=file&pagination[pageSize]=100",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "documents"
+              ],
+              "query": [
+                {
+                  "key": "sort[0]",
+                  "value": "order:asc"
+                },
+                {
+                  "key": "populate[0]",
+                  "value": "file"
+                },
+                {
+                  "key": "pagination[pageSize]",
+                  "value": "100"
+                }
+              ]
+            },
+            "description": "All documents in display order. Protected documents come without `file`; they are only available via the download endpoint. Run this first: it stores `publicDocumentId` and `protectedDocumentId` for the download requests."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('Documents with category, file and protected flag', () => {",
+                  "  pm.expect(body.data).to.be.an('array').that.is.not.empty;",
+                  "  body.data.forEach((doc) => {",
+                  "    pm.expect(doc).to.include.keys('title', 'date', 'category', 'file', 'protected', 'order');",
+                  "    pm.expect(['Allgemein', 'Turnierergebnisse', 'Protokolle']).to.include(doc.category);",
+                  "    pm.expect(doc.protected).to.be.a('boolean');",
+                  "  });",
+                  "});",
+                  "pm.test('Only public documents expose their file', () => {",
+                  "  body.data.forEach((doc) => {",
+                  "    if (doc.protected) pm.expect(doc.file, `${doc.title} must not expose its file`).to.be.null;",
+                  "    else pm.expect(doc.file && doc.file.mime, `${doc.title} needs a PDF`).to.eql('application/pdf');",
+                  "  });",
+                  "});",
+                  "// Used by the download requests below.",
+                  "const publicDoc = body.data.find((doc) => !doc.protected);",
+                  "const protectedDoc = body.data.find((doc) => doc.protected);",
+                  "if (publicDoc) pm.environment.set('publicDocumentId', publicDoc.documentId);",
+                  "if (protectedDoc) pm.environment.set('protectedDocumentId', protectedDoc.documentId);"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Download public document",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/documents/{{publicDocumentId}}/download",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "documents",
+                "{{publicDocumentId}}",
+                "download"
+              ]
+            },
+            "description": "Public documents need no password."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Delivers the PDF as download', () => {",
+                  "  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/pdf');",
+                  "  pm.expect(pm.response.headers.get('Content-Disposition')).to.include('attachment');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Download protected document",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"password\": \"{{documentsPassword}}\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/documents/{{protectedDocumentId}}/download",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "documents",
+                "{{protectedDocumentId}}",
+                "download"
+              ]
+            },
+            "description": "Protected document with the members' password (`documentsPassword` in the environment; the server compares it with DOCUMENTS_PASSWORD). Not cached (`Cache-Control: no-store`)."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Delivers the PDF as download', () => {",
+                  "  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/pdf');",
+                  "  pm.expect(pm.response.headers.get('Content-Disposition')).to.include('attachment');",
+                  "});",
+                  "pm.test('Not cached', () => pm.expect(pm.response.headers.get('Cache-Control')).to.include('no-store'));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Download protected document – wrong password",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"password\": \"falsch\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/documents/{{protectedDocumentId}}/download",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "documents",
+                "{{protectedDocumentId}}",
+                "download"
+              ]
+            },
+            "description": "Must be refused with 401. After 10 failed attempts per IP the endpoint answers 429 for 15 minutes."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Refused with 401 (or 429 after too many attempts)', () => pm.expect([401, 429]).to.include(pm.response.code));",
+                  "pm.test('No file delivered', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json'));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        }
+      ]
     }
   ]
 }
