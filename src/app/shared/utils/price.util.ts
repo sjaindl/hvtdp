@@ -1,6 +1,9 @@
 import { Item } from '../items';
 
-const NUMBER = new Intl.NumberFormat('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const NUMBER = new Intl.NumberFormat('de-DE', {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
+});
 
 /** 14.9 → "14,90 €" (amount first, as the club writes prices). */
 export function formatPrice(price: number): string {

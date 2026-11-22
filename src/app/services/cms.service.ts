@@ -82,7 +82,11 @@ export class CmsService {
     return resolveCmsUrl(url);
   }
 
-  private getPage<T>(pluralName: string, params: StrapiParams, page: number): Observable<StrapiPage<T>> {
+  private getPage<T>(
+    pluralName: string,
+    params: StrapiParams,
+    page: number
+  ): Observable<StrapiPage<T>> {
     return this.http.get<StrapiPage<T>>(`${environment.cmsUrl}/api/${pluralName}`, {
       params: { ...params, 'pagination[page]': page, 'pagination[pageSize]': this.pageSize },
     });

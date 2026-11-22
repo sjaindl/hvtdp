@@ -29,9 +29,12 @@ export class MatchUtil {
 
   /** Newest first by kickoff; matches without date (older seasons) by creation order. */
   static sortNewestFirst(matches: MatchInfo[]): MatchInfo[] {
-    return [...matches].sort(
-      (a, b) => (b.kickoff?.getTime() ?? 0) - (a.kickoff?.getTime() ?? 0) || b.id - a.id
-    );
+    return [...matches].sort(MatchUtil.compareNewestFirst);
+  }
+
+  /** Newest kickoff first; matches without a date last, by creation order. */
+  static compareNewestFirst(a: MatchInfo, b: MatchInfo): number {
+    return (b.kickoff?.getTime() ?? 0) - (a.kickoff?.getTime() ?? 0) || b.id - a.id;
   }
 
   static lastResult(matches: MatchInfo[]): MatchInfo | null {
@@ -77,8 +80,11 @@ export class MatchUtil {
       .join(', ');
   }
 
-  /** "5. Runde", "Nachtragsspiel, 5. Runde", "Cup 1. Runde", "Cup Achtelfinale", "Testspiel". */
+  /** "5. Runde", "Nachtragsspiel, 5. Runde", "Cup 1. Runde", "Cup Achtelfinale", "Testspiel"; events: "Event". */
   static label(match: Pick<MatchInfo, 'competition' | 'round' | 'stage'>): string {
+    if (match.competition === 'Event') {
+      return 'Event';
+    }
     const round = match.round ? `${match.round}. Runde` : '';
     if (match.competition === 'Cup') {
       return ['Cup', round, match.stage].filter(Boolean).join(' ');

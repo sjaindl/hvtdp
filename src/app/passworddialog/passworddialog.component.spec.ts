@@ -10,7 +10,10 @@ describe('PassworddialogComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [PassworddialogComponent],
-      providers: [...provideTestDependencies(), { provide: MatDialogRef, useValue: { close: () => undefined } }],
+      providers: [
+        ...provideTestDependencies(),
+        { provide: MatDialogRef, useValue: { close: () => undefined } },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(PassworddialogComponent);

@@ -1,12 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  ElementRef,
-  Input,
-  QueryList,
-  ViewChildren,
-  inject,
-} from '@angular/core';
+import { Component, ElementRef, Input, QueryList, ViewChildren, inject } from '@angular/core';
 import { baseUrlImages } from '../shared/baseurls';
 import { Router } from '@angular/router';
 import { Image } from '../shared/image';

@@ -15,7 +15,10 @@
     <h2 class="text-lg font-bold text-gray-900">So einfach geht's</h2>
     @for (step of steps; track step.title; let i = $index) {
       <div class="flex gap-3.5">
-        <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-pink-600 text-[15px] font-bold text-white">{{ i + 1 }}</span>
+        <span
+          class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-pink-600 text-[15px] font-bold text-white"
+          >{{ i + 1 }}</span
+        >
         <div>
           <p class="font-bold text-gray-900">{{ step.title }}</p>
           <p class="text-sm text-gray-600">{{ step.text }}</p>
@@ -30,7 +33,9 @@
   <div class="grid gap-3 lg:grid-cols-3 lg:gap-6">
     @for (type of types; track type.title) {
       <div class="card flex flex-col gap-2 p-5">
-        <span class="icon-tile"><span class="material-icons">{{ type.icon }}</span></span>
+        <span class="icon-tile"
+          ><span class="material-icons">{{ type.icon }}</span></span
+        >
         <h3 class="text-lg font-bold text-gray-900">{{ type.title }}</h3>
         <p class="text-[15px] leading-relaxed text-gray-600">{{ type.text }}</p>
       </div>
@@ -54,7 +59,10 @@
               <h3 class="text-lg font-bold text-gray-900">{{ group.title }}</h3>
               <span class="badge-neutral">{{ group.members.length }}</span>
             </div>
-            <ul class="grid gap-x-4 gap-y-2 text-[15px] font-medium text-gray-800" [class]="first ? 'grid-cols-2 lg:grid-cols-3' : 'grid-cols-2'">
+            <ul
+              class="grid gap-x-4 gap-y-2 text-[15px] font-medium text-gray-800"
+              [class]="first ? 'grid-cols-2 lg:grid-cols-3' : 'grid-cols-2'"
+            >
               @for (name of group.members; track name) {
                 <li>{{ name }}</li>
               }

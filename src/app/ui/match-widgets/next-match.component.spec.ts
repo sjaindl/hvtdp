@@ -15,6 +15,7 @@ describe('NextMatchComponent', () => {
       competition: 'Meisterschaft',
       round: 6,
       stage: null,
+      title: null,
       label: '6. Runde',
       kickoff,
       hasTime: true,

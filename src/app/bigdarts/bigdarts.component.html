@@ -59,7 +59,12 @@
         <!-- <h3 style="text-align: center;">Hier findest du unser Stadion:</h3> -->
         <!-- this creates a google map on the page with the given lat/lng from -->
         <!-- the component as the initial center of the map: -->
-        <img class="imageSmallCenter" src="assets/images/bigdarts.jpg" alt="Bigdarts" style="width: 450px" />
+        <img
+          class="imageSmallCenter"
+          src="assets/images/bigdarts.jpg"
+          alt="Bigdarts"
+          style="width: 450px"
+        />
       </div>
     </div>
   </div>
@@ -160,16 +165,16 @@
     </form>
 
     @if (submittedFeedback) {
-    <div>
       <div>
-        <h2>Wir haben deine Anmeldung erhalten, Vielen Dank! Wir melden uns bei dir in Kürze.</h2>
-        <p>Name: {{ submittedFeedback.name }}</p>
-        <p>E-Mail: {{ submittedFeedback.email }}</p>
-        <!-- <p>Telefonnummer: {{submittedFeedback.phone}}</p> -->
-        <p>Teamname: {{ submittedFeedback.teamname }}</p>
-        <!-- <p>Präferenz Vorrunde: {{submittedFeedback.day}}</p> -->
+        <div>
+          <h2>Wir haben deine Anmeldung erhalten, Vielen Dank! Wir melden uns bei dir in Kürze.</h2>
+          <p>Name: {{ submittedFeedback.name }}</p>
+          <p>E-Mail: {{ submittedFeedback.email }}</p>
+          <!-- <p>Telefonnummer: {{submittedFeedback.phone}}</p> -->
+          <p>Teamname: {{ submittedFeedback.teamname }}</p>
+          <!-- <p>Präferenz Vorrunde: {{submittedFeedback.day}}</p> -->
+        </div>
       </div>
-    </div>
     }
   </div>
   <br />

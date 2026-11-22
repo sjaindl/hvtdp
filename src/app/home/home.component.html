@@ -35,7 +35,8 @@
 <section class="page-container flex flex-col gap-4 py-8 lg:gap-6 lg:py-12">
   <div class="flex items-center justify-between">
     <h2 class="section-title">
-      <span class="lg:hidden">Neueste Nachrichten</span><span class="hidden lg:inline">Weitere Nachrichten</span>
+      <span class="lg:hidden">Neueste Nachrichten</span
+      ><span class="hidden lg:inline">Weitere Nachrichten</span>
     </h2>
     <a routerLink="/news" class="link-arrow"
       >Alle <span class="hidden lg:inline">&nbsp;Nachrichten</span>
@@ -44,8 +45,12 @@
   </div>
 
   @if (newsErrorText) {
-    <app-empty-state icon="error_outline" tone="error" title="Nachrichten konnten nicht geladen werden"
-      [text]="newsErrorText">
+    <app-empty-state
+      icon="error_outline"
+      tone="error"
+      title="Nachrichten konnten nicht geladen werden"
+      [text]="newsErrorText"
+    >
       <button type="button" class="btn-primary" (click)="loadNews()">
         Erneut versuchen <span class="material-icons text-xl">refresh</span>
       </button>

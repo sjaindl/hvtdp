@@ -48,6 +48,8 @@ export class CookieBannerComponent implements OnInit {
   }
 
   private disableAnalytics() {
-    ANALYTICS_IDS.forEach((id) => ((window as unknown as Record<string, boolean>)['ga-disable-' + id] = true));
+    ANALYTICS_IDS.forEach(
+      (id) => ((window as unknown as Record<string, boolean>)['ga-disable-' + id] = true)
+    );
   }
 }

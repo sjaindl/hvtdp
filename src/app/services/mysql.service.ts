@@ -1,11 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Game } from '../shared/games';
-import { GoalOfTheSeason } from '../shared/goaloftheseason';
 import { GoldenShot } from '../shared/goldenshot';
 import { Album } from '../shared/photos';
-import { PlayerOfTheSeason } from '../shared/playeroftheseason';
 import { Survey } from '../shared/survey';
 
 @Injectable()
@@ -13,10 +10,6 @@ export class MysqlService {
   private http = inject(HttpClient);
 
   private readonly baseUrl = 'https://www.hvtdpstainz.at/api/';
-
-  public getGames(): Observable<Game[]> {
-    return this.http.get<Game[]>(this.baseUrl + 'getGames.php');
-  }
 
   public getPhotos(): Observable<Album[]> {
     return this.http.get<Album[]>(this.baseUrl + 'getPhotos.php');
@@ -180,30 +173,6 @@ export class MysqlService {
 
     return this.http.get<unknown>(url, {
       params: new HttpParams().append('id', id),
-    });
-  }
-
-  public getGoalOfTheSeason(): Observable<GoalOfTheSeason[]> {
-    return this.http.get<GoalOfTheSeason[]>(this.baseUrl + 'getGoalOfTheSeason.php');
-  }
-
-  public postGoalOfTheSeasonVote(season: string, player: string): Observable<unknown> {
-    const url = this.baseUrl + 'postGoalOfTheSeasonVote.php?';
-
-    return this.http.get<unknown>(url, {
-      params: new HttpParams().append('season', season).append('player', player),
-    });
-  }
-
-  public getPlayerOfTheSeason(): Observable<PlayerOfTheSeason[]> {
-    return this.http.get<PlayerOfTheSeason[]>(this.baseUrl + 'getPlayerOfTheSeason.php');
-  }
-
-  public postPlayerOfTheSeasonVote(season: string, player: string): Observable<unknown> {
-    const url = this.baseUrl + 'postPlayerOfTheSeasonVote.php?';
-
-    return this.http.get<unknown>(url, {
-      params: new HttpParams().append('season', season).append('player', player),
     });
   }
 }

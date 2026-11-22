@@ -12,7 +12,9 @@
         <div class="min-w-0">
           <p class="text-[13px] font-semibold text-gray-500">E-Mail</p>
           <p class="text-[17px] font-bold text-gray-900">{{ email }}</p>
-          <p class="text-[15px] font-medium text-gray-600">Wir antworten in der Regel innerhalb weniger Tage.</p>
+          <p class="text-[15px] font-medium text-gray-600">
+            Wir antworten in der Regel innerhalb weniger Tage.
+          </p>
         </div>
       </div>
       <a [href]="'mailto:' + email" class="btn-secondary w-full">E-Mail schreiben</a>
@@ -24,7 +26,9 @@
         <div>
           <p class="text-[13px] font-semibold text-gray-500">Stadion</p>
           <p class="text-[17px] font-bold text-gray-900">Stadion Stainz</p>
-          <address class="text-[15px] font-medium not-italic text-gray-600">Sauerbrunnstraße 75 · A-8510 Stainz</address>
+          <address class="text-[15px] font-medium not-italic text-gray-600">
+            Sauerbrunnstraße 75 · A-8510 Stainz
+          </address>
         </div>
       </div>
       <div class="h-[200px] overflow-hidden rounded-xl bg-gray-100 lg:h-[260px]">
@@ -38,7 +42,9 @@
           </div>
         }
       </div>
-      <a [href]="routeUrl" target="_blank" rel="noopener" class="btn-secondary w-full">Route planen</a>
+      <a [href]="routeUrl" target="_blank" rel="noopener" class="btn-secondary w-full"
+        >Route planen</a
+      >
     </section>
 
     <section class="card p-5">
@@ -47,7 +53,9 @@
         <div>
           <p class="text-[13px] font-semibold text-gray-500">Rechnungsadresse</p>
           <p class="text-[17px] font-bold text-gray-900">HV TDP Stainz</p>
-          <address class="text-[15px] font-medium not-italic text-gray-600">Engelweingartenstraße 12d/14 · A-8510 Stainz · Österreich</address>
+          <address class="text-[15px] font-medium not-italic text-gray-600">
+            Engelweingartenstraße 12d/14 · A-8510 Stainz · Österreich
+          </address>
         </div>
       </div>
     </section>
@@ -55,27 +63,50 @@
 
   <div class="-mx-4 bg-gray-50 px-4 py-7 lg:mx-0 lg:bg-transparent lg:p-0">
     @if (submitted) {
-      <app-empty-state icon="check_circle" tone="pink" title="Danke für deine Nachricht!"
-        text="Dein E-Mail-Programm wurde mit deiner Nachricht geöffnet. Sobald du sie absendest, melden wir uns bei dir.">
+      <app-empty-state
+        icon="check_circle"
+        tone="pink"
+        title="Danke für deine Nachricht!"
+        text="Dein E-Mail-Programm wurde mit deiner Nachricht geöffnet. Sobald du sie absendest, melden wir uns bei dir."
+      >
         <button type="button" class="btn-secondary" (click)="newMessage()">Neue Nachricht</button>
       </app-empty-state>
     } @else {
-      <form class="card flex flex-col gap-4 p-6" [formGroup]="feedbackForm" (ngSubmit)="onSubmit()" novalidate>
+      <form
+        class="card flex flex-col gap-4 p-6"
+        [formGroup]="feedbackForm"
+        (ngSubmit)="onSubmit()"
+        novalidate
+      >
         <div>
           <h2 class="text-xl font-bold text-gray-900">Sende uns dein Feedback</h2>
-          <p class="text-[15px] text-gray-600">Lob, Kritik oder eine Frage? Wir freuen uns über deine Nachricht.</p>
+          <p class="text-[15px] text-gray-600">
+            Lob, Kritik oder eine Frage? Wir freuen uns über deine Nachricht.
+          </p>
         </div>
         <div class="grid gap-4 sm:grid-cols-2">
           <div>
             <label class="form-label" for="firstname">Vorname</label>
-            <input id="firstname" class="form-input" formControlName="firstname" placeholder="z. B. Max" autocomplete="given-name" />
+            <input
+              id="firstname"
+              class="form-input"
+              formControlName="firstname"
+              placeholder="z. B. Max"
+              autocomplete="given-name"
+            />
             @if (formErrors.firstname) {
               <p class="mt-1 text-sm text-pink-700">{{ formErrors.firstname }}</p>
             }
           </div>
           <div>
             <label class="form-label" for="lastname">Nachname</label>
-            <input id="lastname" class="form-input" formControlName="lastname" placeholder="z. B. Mustermann" autocomplete="family-name" />
+            <input
+              id="lastname"
+              class="form-input"
+              formControlName="lastname"
+              placeholder="z. B. Mustermann"
+              autocomplete="family-name"
+            />
             @if (formErrors.lastname) {
               <p class="mt-1 text-sm text-pink-700">{{ formErrors.lastname }}</p>
             }
@@ -83,14 +114,26 @@
         </div>
         <div>
           <label class="form-label" for="email">E-Mail</label>
-          <input id="email" type="email" class="form-input" formControlName="email" placeholder="name@beispiel.at" autocomplete="email" />
+          <input
+            id="email"
+            type="email"
+            class="form-input"
+            formControlName="email"
+            placeholder="name@beispiel.at"
+            autocomplete="email"
+          />
           @if (formErrors.email) {
             <p class="mt-1 text-sm text-pink-700">{{ formErrors.email }}</p>
           }
         </div>
         <div>
           <label class="form-label" for="message">Dein Feedback</label>
-          <textarea id="message" class="form-textarea" formControlName="message" placeholder="Was möchtest du uns sagen?"></textarea>
+          <textarea
+            id="message"
+            class="form-textarea"
+            formControlName="message"
+            placeholder="Was möchtest du uns sagen?"
+          ></textarea>
         </div>
         <label class="flex min-h-12 items-center gap-3 text-[15px] font-medium text-gray-900">
           <input type="checkbox" class="form-checkbox" formControlName="agreeContact" />
@@ -105,7 +148,9 @@
             <p class="text-sm text-pink-700">{{ formErrors.agreeGDPR }}</p>
           }
         </div>
-        <button type="submit" class="btn-primary sm:self-start">Nachricht senden <span class="material-icons text-xl">send</span></button>
+        <button type="submit" class="btn-primary sm:self-start">
+          Nachricht senden <span class="material-icons text-xl">send</span>
+        </button>
       </form>
     }
   </div>

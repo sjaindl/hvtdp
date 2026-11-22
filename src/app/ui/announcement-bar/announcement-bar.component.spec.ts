@@ -16,14 +16,18 @@ describe('AnnouncementBarComponent', () => {
 
   beforeEach(async () => {
     localStorage.removeItem(DISMISSED_KEY);
-    await TestBed.configureTestingModule({ imports: [AnnouncementBarComponent] }).compileComponents();
+    await TestBed.configureTestingModule({
+      imports: [AnnouncementBarComponent],
+    }).compileComponents();
   });
 
   afterEach(() => localStorage.removeItem(DISMISSED_KEY));
 
   it('shows the part before the first " – " bold and the rest as details', () => {
     create(TEXT);
-    expect(element().querySelector('.font-bold')?.textContent?.trim()).toBe('6. Runde STT Meisterschaft');
+    expect(element().querySelector('.font-bold')?.textContent?.trim()).toBe(
+      '6. Runde STT Meisterschaft'
+    );
     expect(element().querySelector('.font-medium')?.textContent?.trim()).toBe(
       'Samstag, 31.10.2026 – 15:30 Uhr – Stadion Stainz'
     );
@@ -32,7 +36,9 @@ describe('AnnouncementBarComponent', () => {
   it('shows texts without " – " as they are', () => {
     create('Training fällt heute aus');
     expect(element().querySelector('.font-bold')).toBeNull();
-    expect(element().querySelector('.font-medium')?.textContent?.trim()).toBe('Training fällt heute aus');
+    expect(element().querySelector('.font-medium')?.textContent?.trim()).toBe(
+      'Training fällt heute aus'
+    );
   });
 
   it('renders nothing without a text', () => {

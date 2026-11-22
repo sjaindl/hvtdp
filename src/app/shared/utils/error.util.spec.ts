@@ -12,35 +12,43 @@ describe('ErrorUtil', () => {
   });
 
   it('uses the jsonError of the PHP API', () => {
-    expect(ErrorUtil.message(httpError({ error: { jsonError: 'Malformed UTF-8' }, status: 500 }))).toBe(
-      'Malformed UTF-8'
-    );
+    expect(
+      ErrorUtil.message(httpError({ error: { jsonError: 'Malformed UTF-8' }, status: 500 }))
+    ).toBe('Malformed UTF-8');
   });
 
   it('uses the error message of Strapi', () => {
-    const error = httpError({ error: { error: { status: 404, name: 'NotFoundError', message: 'Not Found' } }, status: 404 });
+    const error = httpError({
+      error: { error: { status: 404, name: 'NotFoundError', message: 'Not Found' } },
+      status: 404,
+    });
     expect(ErrorUtil.message(error)).toBe('Not Found');
   });
 
   it('uses the text of a response that is not valid JSON', () => {
-    const error = httpError({ error: { error: new SyntaxError('Unexpected token'), text: "Table 'Game' doesn't exist" }, status: 200 });
+    const error = httpError({
+      error: { error: new SyntaxError('Unexpected token'), text: "Table 'Game' doesn't exist" },
+      status: 200,
+    });
     expect(ErrorUtil.message(error)).toBe("Table 'Game' doesn't exist");
   });
 
   it('falls back to the HTTP status', () => {
-    expect(ErrorUtil.message(httpError({ error: null, status: 503, statusText: 'Service Unavailable' }))).toBe(
-      'Serverfehler 503'
-    );
+    expect(
+      ErrorUtil.message(httpError({ error: null, status: 503, statusText: 'Service Unavailable' }))
+    ).toBe('Serverfehler 503');
   });
 
   it('skips HTML error pages', () => {
-    expect(ErrorUtil.message(httpError({ error: '<html><body>Bad Gateway</body></html>', status: 502 }))).toBe(
-      'Serverfehler 502'
-    );
+    expect(
+      ErrorUtil.message(httpError({ error: '<html><body>Bad Gateway</body></html>', status: 502 }))
+    ).toBe('Serverfehler 502');
   });
 
   it('uses the generic message when the request never reached a server', () => {
-    expect(ErrorUtil.message(httpError({ error: new ProgressEvent('error'), status: 0 }))).toBe(GENERIC_ERROR_MESSAGE);
+    expect(ErrorUtil.message(httpError({ error: new ProgressEvent('error'), status: 0 }))).toBe(
+      GENERIC_ERROR_MESSAGE
+    );
   });
 
   it('shortens long messages to 200 characters', () => {

@@ -21,20 +21,20 @@ export const MAIN_NAV: NavItem[] = [
     icon: 'leaderboard',
   },
   { label: 'Fotos', path: `/gallery/${CurrentSeason.gallery}`, match: '/gallery', icon: 'photo_library' },
-  { label: 'Videos', path: `/social/${CurrentSeason.videos}`, match: '/social', icon: 'smart_display' },
+  { label: 'Videos', path: '/social', match: '/social', icon: 'smart_display' },
 ];
 
 export const HIGHLIGHTS_NAV: NavItem[] = [
   {
     label: 'Tor des Jahres',
-    path: `/goaloftheseason/${CurrentSeason.goalOfTheSeason}`,
+    path: '/goaloftheseason',
     match: '/goaloftheseason',
     icon: 'sports_soccer',
     description: 'Die schönsten Treffer der Saison',
   },
   {
     label: 'Spieler des Jahres',
-    path: `/playeroftheseason/${CurrentSeason.playerOfTheSeason}`,
+    path: '/playeroftheseason',
     match: '/playeroftheseason',
     icon: 'star',
     description: 'Wer war der Beste der Saison?',

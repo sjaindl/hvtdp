@@ -1,29 +1,14 @@
 /**
- * Season lists used for season chips and navigation, newest first (championship seasons come from Strapi).
- * TODO(API): derive available seasons from the API (games, photos, votings) instead of maintaining them here.
+ * Season lists used for season chips and navigation, newest first (championship, video and voting seasons come from Strapi).
+ * TODO(API): derive available seasons from the API (photos, advent) instead of maintaining them here.
  */
 export const Seasons = {
   gallery: ['2026', '2025', '2024', '2023', '2022', '2021', '2019', '2018', '2015'],
-  videos: [
-    '2026-2027',
-    '2025-2026',
-    '2024-2025',
-    '2023-2024',
-    '2022-2023',
-    '2021-2022',
-    '2018-2019',
-    '2017-2018',
-  ],
-  goalOfTheSeason: ['2026', '2025', '2024', '2023', '2022'],
-  playerOfTheSeason: ['2026', '2025', '2024'],
   advent: ['2023', '2021'],
 };
 
 export const CurrentSeason = {
   gallery: Seasons.gallery[0],
-  videos: Seasons.videos[0],
-  goalOfTheSeason: Seasons.goalOfTheSeason[0],
-  playerOfTheSeason: Seasons.playerOfTheSeason[0],
   advent: Seasons.advent[0],
 };
 

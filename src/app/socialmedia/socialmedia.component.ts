@@ -1,13 +1,12 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { Subscription, forkJoin } from 'rxjs';
-import { ClubService } from '../services/club.service';
-import { MysqlService } from '../services/mysql.service';
-import { Game } from '../shared/games';
-import { Player } from '../shared/player';
-import { Seasons, formatSeason } from '../shared/seasons';
-import { DateUtil } from '../shared/utils/date.util';
+import { Subscription, combineLatest } from 'rxjs';
+import { VideoService } from '../services/video.service';
+import { MatchInfo } from '../shared/match-info';
+import { formatSeason } from '../shared/seasons';
+import { MatchVideos, Video } from '../shared/video';
+import { MatchUtil } from '../shared/utils/match.util';
 import { ErrorUtil } from '../shared/utils/error.util';
 import { ContentSwapDirective } from '../ui/content-swap/content-swap.directive';
 import { EmptyStateComponent } from '../ui/empty-state/empty-state.component';
@@ -29,18 +28,17 @@ import { VideoCardComponent } from '../video-card/video-card.component';
   ],
 })
 export class SocialmediaComponent implements OnInit, OnDestroy {
-  private mysqlService = inject(MysqlService);
-  private clubService = inject(ClubService);
+  private videoService = inject(VideoService);
   private route = inject(ActivatedRoute);
   private titleService = inject(Title);
   private metaTagService = inject(Meta);
 
-  readonly seasons = Seasons.videos;
   readonly formatSeason = formatSeason;
 
-  games: Game[] = [];
+  /** Seasons that have videos, newest first. */
+  seasons: string[] = [];
   season = '';
-  players: Player[] = [];
+  items: MatchVideos[] = [];
   loaded = false;
   failed = false;
   loading = false;
@@ -51,11 +49,7 @@ export class SocialmediaComponent implements OnInit, OnDestroy {
   private sub?: Subscription;
 
   ngOnInit() {
-    this.sub = this.route.params.subscribe((params) => {
-      this.season = params['season'];
-      this.load();
-    });
-
+    this.load();
     this.titleService.setTitle('HV TDP Stainz: Videos');
     this.metaTagService.updateTag({
       name: 'description',
@@ -68,21 +62,15 @@ export class SocialmediaComponent implements OnInit, OnDestroy {
   }
 
   load() {
+    this.sub?.unsubscribe();
     this.loading = true;
     this.failed = false;
-    forkJoin({
-      games: this.mysqlService.getGames(),
-      players: this.clubService.getPlayers(),
-    }).subscribe({
-      next: ({ games, players }) => {
-        this.players = players;
-        this.games = games
-          .filter((game) => game.season == this.season && game.links?.length)
-          .sort(
-            (a, b) =>
-              new Date(b.date).getTime() - new Date(a.date).getTime() ||
-              Number(b.round) - Number(a.round)
-          );
+    // Without a season in the URL (/social) the newest season is shown.
+    this.sub = combineLatest([this.route.params, this.videoService.getMatchVideos()]).subscribe({
+      next: ([params, all]) => {
+        this.seasons = [...new Set(all.map((item) => item.match.season))].sort().reverse();
+        this.season = params['season'] ?? this.seasons[0] ?? '';
+        this.items = all.filter((item) => item.match.season === this.season);
         this.loaded = true;
         this.loading = false;
         this.contentKey = this.season;
@@ -96,33 +84,22 @@ export class SocialmediaComponent implements OnInit, OnDestroy {
     });
   }
 
-  gameTitle(game: Game): string {
-    return (game.description ?? '').replace(/\s*:\s*/, ' – ');
+  /** "HV TDP Stainz – STT Pichler", or the title of an event. */
+  title(match: MatchInfo): string {
+    return match.title ?? `${match.homeTeam} – ${match.awayTeam}`;
   }
 
-  gameMeta(game: Game): string {
-    const round = game.customText || (Number(game.round) < 99 ? `${game.round}. Runde` : '');
-    return [round, DateUtil.formatDate(game.date)].filter(Boolean).join(' · ');
+  /** "5. Runde · Sa, 12.09.2026"; events only show the date. */
+  meta(match: MatchInfo): string {
+    const date = MatchUtil.formatDateTime({ kickoff: match.kickoff, hasTime: false });
+    return [match.competition === 'Event' ? '' : match.label, date].filter(Boolean).join(' · ');
   }
 
-  scoreLabel(game: Game): string {
-    const hasScore = (value: unknown) => value !== null && value !== undefined && value !== '';
-    return hasScore(game.homeScore) && hasScore(game.awayScore)
-      ? `${game.homeScore}:${game.awayScore}`
-      : '';
+  scoreLabel(match: MatchInfo): string {
+    return MatchUtil.hasScore(match) ? `${match.homeScore}:${match.awayScore}` : '';
   }
 
-  /** Links store either the last name ("Jaindl") or "Lastname Firstname". */
-  scorerName(scorer: string): string {
-    const name = (scorer ?? '').trim();
-    if (!name) {
-      return 'Highlight';
-    }
-    const player = this.players.find((candidate) =>
-      name.includes(' ')
-        ? `${candidate.lastName} ${candidate.firstName}` === name
-        : candidate.lastName === name
-    );
-    return player ? `${player.firstName} ${player.lastName}` : name;
+  videoTitle(video: Video): string {
+    return video.scorer ?? 'Highlight';
   }
 }

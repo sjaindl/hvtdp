@@ -1158,6 +1158,348 @@
           "response": []
         }
       ]
+    },
+    {
+      "name": "Videos & Voting",
+      "description": "Goal videos attached to the matches, Tor des Jahres / Spieler der Saison votings (`migrate-to-strapi.sh videos`). Vote counts are private (admin only). The vote request counts a real vote: use it locally only.",
+      "item": [
+        {
+          "name": "Matches with videos of a season",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/matches?filters[season][key][$eq]={{season}}&filters[videos][id][$notNull]=true&populate[season][fields][0]=key&populate[videos][sort][0]=order:asc&populate[videos][populate][player][fields][0]=firstName&populate[videos][populate][player][fields][1]=lastName&pagination[pageSize]=100",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "matches"
+              ],
+              "query": [
+                {
+                  "key": "filters[season][key][$eq]",
+                  "value": "{{season}}"
+                },
+                {
+                  "key": "filters[videos][id][$notNull]",
+                  "value": "true"
+                },
+                {
+                  "key": "populate[season][fields][0]",
+                  "value": "key"
+                },
+                {
+                  "key": "populate[videos][sort][0]",
+                  "value": "order:asc"
+                },
+                {
+                  "key": "populate[videos][populate][player][fields][0]",
+                  "value": "firstName"
+                },
+                {
+                  "key": "populate[videos][populate][player][fields][1]",
+                  "value": "lastName"
+                },
+                {
+                  "key": "pagination[pageSize]",
+                  "value": "100"
+                }
+              ]
+            },
+            "description": "Matches and events (competition `Event`, with `title`) of `{{season}}` that have videos, with the videos and their scorers."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('Non-empty list', () => pm.expect(body.data).to.be.an('array').that.is.not.empty);",
+                  "pm.test('Every match has videos with a URL', () => body.data.forEach((match) => {",
+                  "  pm.expect(match.videos).to.be.an('array').that.is.not.empty;",
+                  "  match.videos.forEach((video) => pm.expect(video.url).to.match(/^https:\\/\\/www\\.youtube\\.com\\//));",
+                  "}));",
+                  "pm.test('Events have a title instead of teams', () => body.data.filter((match) => match.competition === 'Event').forEach((match) => pm.expect(match.title).to.be.a('string')));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Polls (Tor des Jahres)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/polls?filters[type][$eq]=goalOfTheYear&sort[0]=year:desc",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "polls"
+              ],
+              "query": [
+                {
+                  "key": "filters[type][$eq]",
+                  "value": "goalOfTheYear"
+                },
+                {
+                  "key": "sort[0]",
+                  "value": "year:desc"
+                }
+              ]
+            },
+            "description": "Votings of a type, newest year first. Stores the open and a closed year for the next requests."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('Non-empty list', () => pm.expect(body.data).to.be.an('array').that.is.not.empty);",
+                  "const open = body.data.find((poll) => poll.open);",
+                  "const closed = body.data.find((poll) => !poll.open);",
+                  "pm.test('Exactly one open voting', () => pm.expect(body.data.filter((poll) => poll.open)).to.have.lengthOf(1));",
+                  "if (open) pm.environment.set('openPollYear', open.year);",
+                  "if (closed) pm.environment.set('closedPollYear', closed.year);"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Options of the open poll",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/poll-options?filters[poll][type][$eq]=goalOfTheYear&filters[poll][year][$eq]={{openPollYear}}&populate[player][fields][0]=firstName&populate[player][fields][1]=lastName&populate[video][populate][match][populate][season][fields][0]=key",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "poll-options"
+              ],
+              "query": [
+                {
+                  "key": "filters[poll][type][$eq]",
+                  "value": "goalOfTheYear"
+                },
+                {
+                  "key": "filters[poll][year][$eq]",
+                  "value": "{{openPollYear}}"
+                },
+                {
+                  "key": "populate[player][fields][0]",
+                  "value": "firstName"
+                },
+                {
+                  "key": "populate[player][fields][1]",
+                  "value": "lastName"
+                },
+                {
+                  "key": "populate[video][populate][match][populate][season][fields][0]",
+                  "value": "key"
+                }
+              ]
+            },
+            "description": "Nominated goals of `{{openPollYear}}` with video and match; stores an option for the vote request."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('Non-empty list', () => pm.expect(body.data).to.be.an('array').that.is.not.empty);",
+                  "pm.test('Vote counts are private', () => body.data.forEach((option) => pm.expect(option).to.not.have.property('votes')));",
+                  "pm.environment.set('pollOptionId', body.data[0].documentId);"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Options of a closed poll",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/poll-options?filters[poll][type][$eq]=goalOfTheYear&filters[poll][year][$eq]={{closedPollYear}}&populate[player][fields][0]=firstName&populate[player][fields][1]=lastName&populate[video][populate][match][populate][season][fields][0]=key",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "poll-options"
+              ],
+              "query": [
+                {
+                  "key": "filters[poll][type][$eq]",
+                  "value": "goalOfTheYear"
+                },
+                {
+                  "key": "filters[poll][year][$eq]",
+                  "value": "{{closedPollYear}}"
+                },
+                {
+                  "key": "populate[player][fields][0]",
+                  "value": "firstName"
+                },
+                {
+                  "key": "populate[player][fields][1]",
+                  "value": "lastName"
+                },
+                {
+                  "key": "populate[video][populate][match][populate][season][fields][0]",
+                  "value": "key"
+                }
+              ]
+            },
+            "description": "Options of `{{closedPollYear}}`; stores an option for the closed-poll vote request."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('Non-empty list', () => pm.expect(body.data).to.be.an('array').that.is.not.empty);",
+                  "pm.test('Vote counts are private', () => body.data.forEach((option) => pm.expect(option).to.not.have.property('votes')));",
+                  "pm.environment.set('closedPollOptionId', body.data[0].documentId);"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Vote (local only)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/poll-options/{{pollOptionId}}/vote",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "poll-options",
+                "{{pollOptionId}}",
+                "vote"
+              ]
+            },
+            "description": "Counts one vote for `{{pollOptionId}}` (open poll). Limited to 5 votes per IP and poll per hour (429 afterwards). Counts a real vote: do not run against production.",
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Vote counted (or limit reached)', () => pm.expect(pm.response.code).to.be.oneOf([200, 429]));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Vote on a closed poll → 409",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/poll-options/{{closedPollOptionId}}/vote",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "poll-options",
+                "{{closedPollOptionId}}",
+                "vote"
+              ]
+            },
+            "description": "Closed votings do not take votes.",
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 409', () => pm.response.to.have.status(409));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        }
+      ]
     }
   ]
 }

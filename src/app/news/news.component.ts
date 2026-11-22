@@ -32,7 +32,16 @@ const PAGE_SIZE = 12;
   selector: 'app-news',
   templateUrl: './news.component.html',
   standalone: true,
-  imports: [RouterModule, EmptyStateComponent, NewsCardComponent, NewsRowComponent, PageIntroComponent, ZoomableDirective, SlidingIndicatorDirective, ContentSwapDirective],
+  imports: [
+    RouterModule,
+    EmptyStateComponent,
+    NewsCardComponent,
+    NewsRowComponent,
+    PageIntroComponent,
+    ZoomableDirective,
+    SlidingIndicatorDirective,
+    ContentSwapDirective,
+  ],
 })
 export class NewsComponent implements OnInit, OnDestroy, AfterViewChecked {
   private cmsService = inject(CmsService);

@@ -7,7 +7,13 @@ import { ZoomableDirective } from './zoomable.directive';
   standalone: true,
   imports: [ZoomableDirective],
   template: `
-    <img id="single" src="assets/images/hvtdp.png" alt="Vereinslogo" appZoomable zoomCaption="Logo" />
+    <img
+      id="single"
+      src="assets/images/hvtdp.png"
+      alt="Vereinslogo"
+      appZoomable
+      zoomCaption="Logo"
+    />
     <img id="group" src="b.jpg" alt="B" appZoomable [zoomGroup]="album" [zoomIndex]="1" />
     <img id="off" src="c.jpg" alt="C" [appZoomable]="false" />
   `,

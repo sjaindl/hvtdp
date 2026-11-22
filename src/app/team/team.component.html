@@ -5,10 +5,24 @@
   [alignEnd]="true"
 >
   @if (positionGroups.length) {
-    <div class="scrollbar-none -mx-4 flex gap-2 overflow-x-auto px-4 lg:mx-0 lg:flex-wrap lg:px-0" appSlidingIndicator aria-label="Nach Position filtern">
-      <button type="button" [class]="selectedPosition === null ? 'chip-active' : 'chip'" (click)="selectedPosition = null">Alle</button>
+    <div
+      class="scrollbar-none -mx-4 flex gap-2 overflow-x-auto px-4 lg:mx-0 lg:flex-wrap lg:px-0"
+      appSlidingIndicator
+      aria-label="Nach Position filtern"
+    >
+      <button
+        type="button"
+        [class]="selectedPosition === null ? 'chip-active' : 'chip'"
+        (click)="selectedPosition = null"
+      >
+        Alle
+      </button>
       @for (group of positionGroups; track group.position) {
-        <button type="button" [class]="selectedPosition === group.position ? 'chip-active' : 'chip'" (click)="selectedPosition = group.position">
+        <button
+          type="button"
+          [class]="selectedPosition === group.position ? 'chip-active' : 'chip'"
+          (click)="selectedPosition = group.position"
+        >
           {{ group.title }}
         </button>
       }
@@ -16,13 +30,21 @@
   }
   @if (squadPlayers.length) {
     <div aside class="grid grid-cols-3 gap-2.5 lg:w-[560px]">
-      @for (stat of [
-        { value: squadPlayers.length, label: 'Spieler im Kader' },
-        { value: foundingMembers, label: 'seit der Gründung 2014 dabei' },
-        { value: topScorer?.goals, label: 'Tore von ' + topScorer?.firstName + ' ' + topScorer?.lastName }
-      ]; track stat.label) {
+      @for (
+        stat of [
+          { value: squadPlayers.length, label: 'Spieler im Kader' },
+          { value: foundingMembers, label: 'seit der Gründung 2014 dabei' },
+          {
+            value: topScorer?.goals,
+            label: 'Tore von ' + topScorer?.firstName + ' ' + topScorer?.lastName,
+          },
+        ];
+        track stat.label
+      ) {
         <div class="card flex flex-col gap-0.5 p-3.5">
-          <span class="text-[26px] font-extrabold leading-tight text-pink-600">{{ stat.value }}</span>
+          <span class="text-[26px] font-extrabold leading-tight text-pink-600">{{
+            stat.value
+          }}</span>
           <span class="text-[13px] font-medium leading-snug text-gray-600">{{ stat.label }}</span>
         </div>
       }
@@ -30,11 +52,20 @@
   }
 </app-page-intro>
 
-<div class="page-container flex flex-col gap-10 py-7 lg:gap-14 lg:py-10" [appContentSwap]="selectedPosition">
+<div
+  class="page-container flex flex-col gap-10 py-7 lg:gap-14 lg:py-10"
+  [appContentSwap]="selectedPosition"
+>
   @if (failed) {
-    <app-empty-state icon="error_outline" tone="error" title="Kader konnte nicht geladen werden"
-      [text]="errorText">
-      <button type="button" class="btn-primary" (click)="load()">Erneut versuchen <span class="material-icons text-xl">refresh</span></button>
+    <app-empty-state
+      icon="error_outline"
+      tone="error"
+      title="Kader konnte nicht geladen werden"
+      [text]="errorText"
+    >
+      <button type="button" class="btn-primary" (click)="load()">
+        Erneut versuchen <span class="material-icons text-xl">refresh</span>
+      </button>
     </app-empty-state>
   }
 
@@ -46,7 +77,12 @@
       </div>
       <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 lg:gap-6">
         @for (player of group.players; track player.firstName + player.lastName; let i = $index) {
-          <app-player-card class="animate-stagger-in" [style.--i]="i" [player]="player" [position]="group.position"></app-player-card>
+          <app-player-card
+            class="animate-stagger-in"
+            [style.--i]="i"
+            [player]="player"
+            [position]="group.position"
+          ></app-player-card>
         }
       </div>
     </section>
@@ -60,7 +96,11 @@
       </div>
       <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 lg:gap-6">
         @for (player of activePlayers; track player.firstName + player.lastName; let i = $index) {
-          <app-player-card class="animate-stagger-in" [style.--i]="i" [player]="player"></app-player-card>
+          <app-player-card
+            class="animate-stagger-in"
+            [style.--i]="i"
+            [player]="player"
+          ></app-player-card>
         }
       </div>
     </section>

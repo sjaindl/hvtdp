@@ -31,7 +31,7 @@
         Erneut versuchen <span class="material-icons text-xl">refresh</span>
       </button>
     </app-empty-state>
-  } @else if (loaded && !games.length) {
+  } @else if (loaded && !items.length) {
     <app-empty-state
       icon="smart_display"
       title="Noch keine Videos"
@@ -39,32 +39,32 @@
     ></app-empty-state>
   }
 
-  @for (game of games; track game.date + game.description) {
+  @for (item of items; track item.match.id) {
     <section class="flex flex-col gap-3 lg:gap-4">
       <div class="flex items-end justify-between gap-3">
         <div class="min-w-0">
-          <p class="text-[13px] font-semibold text-pink-600">{{ gameMeta(game) }}</p>
+          <p class="text-[13px] font-semibold text-pink-600">{{ meta(item.match) }}</p>
           <h2 class="text-[19px] font-bold leading-snug text-gray-900 lg:text-[22px]">
-            {{ gameTitle(game) }}
-            @if (scoreLabel(game)) {
-              <span class="ml-1 whitespace-nowrap">{{ scoreLabel(game) }}</span>
+            {{ title(item.match) }}
+            @if (scoreLabel(item.match)) {
+              <span class="ml-1 whitespace-nowrap">{{ scoreLabel(item.match) }}</span>
             }
           </h2>
-          @if (game.customText && !gameMeta(game).includes(game.customText)) {
-            <p class="text-sm text-gray-600">{{ game.customText }}</p>
+          @if (item.match.additionalInfo) {
+            <p class="text-sm text-gray-600">{{ item.match.additionalInfo }}</p>
           }
         </div>
         <span class="badge-neutral shrink-0"
-          >{{ game.links.length }} {{ game.links.length === 1 ? 'Video' : 'Videos' }}</span
+          >{{ item.videos.length }} {{ item.videos.length === 1 ? 'Video' : 'Videos' }}</span
         >
       </div>
       <div class="grid gap-3.5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
-        @for (link of game.links; track link.link) {
+        @for (video of item.videos; track video.url) {
           <app-video-card
-            [videoUrl]="link.link"
-            [title]="scorerName(link.scorer)"
-            [meta]="link.scorer ? 'Spielstand nach dem Tor' : link.description"
-            [badge]="link.scorer ? link.description : ''"
+            [videoUrl]="video.url"
+            [title]="videoTitle(video)"
+            [meta]="video.scorer ? 'Spielstand nach dem Tor' : (video.description ?? '')"
+            [badge]="video.scorer ? (video.description ?? '') : ''"
           ></app-video-card>
         }
       </div>

@@ -11,7 +11,9 @@ describe('ToastService', () => {
 
   it('shows a toast and hides it after 3 seconds', fakeAsync(() => {
     service.show('Text kopiert');
-    expect(service.toasts().map((toast) => [toast.message, toast.type])).toEqual([['Text kopiert', 'success']]);
+    expect(service.toasts().map((toast) => [toast.message, toast.type])).toEqual([
+      ['Text kopiert', 'success'],
+    ]);
 
     tick(2999);
     expect(service.toasts().length).toBe(1);
@@ -21,7 +23,12 @@ describe('ToastService', () => {
 
   it('shows the real error below an error message for 6 seconds', fakeAsync(() => {
     const retry = jasmine.createSpy('retry');
-    service.showError('Senden fehlgeschlagen', new HttpErrorResponse({ error: 'Voting beendet', status: 400 }), 'Erneut', retry);
+    service.showError(
+      'Senden fehlgeschlagen',
+      new HttpErrorResponse({ error: 'Voting beendet', status: 400 }),
+      'Erneut',
+      retry
+    );
 
     const [toast] = service.toasts();
     expect(toast.type).toBe('error');

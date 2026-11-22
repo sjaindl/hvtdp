@@ -3,7 +3,8 @@ import { TextUtil } from './text.util';
 describe('TextUtil', () => {
   describe('excerpt', () => {
     it('turns Markdown into plain text', () => {
-      const markdown = '# Titel\n\n**Großer** Sieg gegen [SV Gegner](https://example.com)!\n\n![Foto](bild.jpg)\n- Tore: 3';
+      const markdown =
+        '# Titel\n\n**Großer** Sieg gegen [SV Gegner](https://example.com)!\n\n![Foto](bild.jpg)\n- Tore: 3';
       expect(TextUtil.excerpt(markdown)).toBe('Großer Sieg gegen SV Gegner! Tore: 3');
     });
 

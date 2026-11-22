@@ -7,6 +7,7 @@ const match = (overrides: Partial<MatchInfo> = {}): MatchInfo => ({
   competition: 'Meisterschaft',
   round: 1,
   stage: null,
+  title: null,
   label: '1. Runde',
   kickoff: new Date(2026, 8, 19, 15, 30),
   hasTime: true,
@@ -47,7 +48,12 @@ describe('MatchUtil', () => {
 
   describe('lastResult / nextMatch', () => {
     const played = match({ id: 1, kickoff: new Date(2026, 8, 5, 15), homeScore: 2, awayScore: 1 });
-    const playedLater = match({ id: 2, kickoff: new Date(2026, 8, 12, 15), homeScore: 0, awayScore: 0 });
+    const playedLater = match({
+      id: 2,
+      kickoff: new Date(2026, 8, 12, 15),
+      homeScore: 0,
+      awayScore: 0,
+    });
     const upcoming = match({ id: 3, kickoff: new Date(2026, 8, 26, 15) });
     const upcomingLater = match({ id: 4, kickoff: new Date(2026, 9, 10, 15) });
     const missedWithoutScore = match({ id: 5, kickoff: new Date(2026, 7, 29, 15) });
@@ -86,9 +92,9 @@ describe('MatchUtil', () => {
     });
 
     it('leaves out the time when only the date is known', () => {
-      expect(MatchUtil.formatDateTime(match({ kickoff: new Date(2026, 8, 19), hasTime: false }))).toBe(
-        'Sa, 19.09.2026'
-      );
+      expect(
+        MatchUtil.formatDateTime(match({ kickoff: new Date(2026, 8, 19), hasTime: false }))
+      ).toBe('Sa, 19.09.2026');
     });
 
     it('is empty without a date', () => {
@@ -107,14 +113,21 @@ describe('MatchUtil', () => {
   });
 
   it('builds the match label from competition, round and stage', () => {
-    expect(MatchUtil.label({ competition: 'Meisterschaft', round: 5, stage: null })).toBe('5. Runde');
-    expect(MatchUtil.label({ competition: 'Meisterschaft', round: 5, stage: 'Nachtragsspiel' })).toBe(
-      'Nachtragsspiel, 5. Runde'
+    expect(MatchUtil.label({ competition: 'Meisterschaft', round: 5, stage: null })).toBe(
+      '5. Runde'
     );
+    expect(
+      MatchUtil.label({ competition: 'Meisterschaft', round: 5, stage: 'Nachtragsspiel' })
+    ).toBe('Nachtragsspiel, 5. Runde');
     expect(MatchUtil.label({ competition: 'Cup', round: 1, stage: null })).toBe('Cup 1. Runde');
-    expect(MatchUtil.label({ competition: 'Cup', round: null, stage: 'Achtelfinale' })).toBe('Cup Achtelfinale');
+    expect(MatchUtil.label({ competition: 'Cup', round: null, stage: 'Achtelfinale' })).toBe(
+      'Cup Achtelfinale'
+    );
     expect(MatchUtil.label({ competition: 'Cup', round: null, stage: null })).toBe('Cup');
-    expect(MatchUtil.label({ competition: 'Testspiel', round: null, stage: null })).toBe('Testspiel');
+    expect(MatchUtil.label({ competition: 'Testspiel', round: null, stage: null })).toBe(
+      'Testspiel'
+    );
+    expect(MatchUtil.label({ competition: 'Event', round: null, stage: null })).toBe('Event');
   });
 
   it('builds team initials from the first two words with letters', () => {

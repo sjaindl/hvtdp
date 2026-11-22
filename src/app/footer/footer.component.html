@@ -17,7 +17,9 @@
       <nav class="hidden flex-col gap-3 lg:flex" aria-label="Verein">
         <p class="font-bold">Verein</p>
         @for (link of clubLinks; track link.path) {
-          <a [routerLink]="link.path" class="text-sm text-gray-400 hover:text-white">{{ link.label }}</a>
+          <a [routerLink]="link.path" class="text-sm text-gray-400 hover:text-white">{{
+            link.label
+          }}</a>
         }
       </nav>
 
@@ -49,7 +51,11 @@
               class="flex h-16 items-center justify-center rounded-xl bg-white p-2"
               [attr.aria-label]="partner.name"
             >
-              <img [src]="partner.image" [alt]="partner.name" class="h-12 w-auto max-w-[124px] object-contain" />
+              <img
+                [src]="partner.image"
+                [alt]="partner.name"
+                class="h-12 w-auto max-w-[124px] object-contain"
+              />
             </a>
           }
         </div>

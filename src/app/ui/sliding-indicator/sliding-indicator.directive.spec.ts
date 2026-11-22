@@ -8,12 +8,21 @@ import { SlidingIndicatorDirective } from './sliding-indicator.directive';
   template: `
     <div id="chips" class="flex gap-2" appSlidingIndicator>
       @for (item of items; track item) {
-        <button type="button" [class]="item === selected() ? 'chip-active' : 'chip'" [style.width.px]="item.length * 30">
+        <button
+          type="button"
+          [class]="item === selected() ? 'chip-active' : 'chip'"
+          [style.width.px]="item.length * 30"
+        >
           {{ item }}
         </button>
       }
     </div>
-    <nav id="nav" class="flex h-20" appSlidingIndicator="underline" activeSelector="[aria-current='page']">
+    <nav
+      id="nav"
+      class="flex h-20"
+      appSlidingIndicator="underline"
+      activeSelector="[aria-current='page']"
+    >
       <a [attr.aria-current]="page() === 'home' ? 'page' : null" style="width: 80px">Home</a>
       <a [attr.aria-current]="page() === 'team' ? 'page' : null" style="width: 60px">Team</a>
     </nav>
@@ -29,7 +38,8 @@ describe('SlidingIndicatorDirective', () => {
   let fixture: ComponentFixture<HostComponent>;
   const group = (id: string) => fixture.nativeElement.querySelector(`#${id}`) as HTMLElement;
   const indicator = (id: string) => group(id).querySelector('.sliding-indicator') as HTMLElement;
-  const nextFrame = () => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+  const nextFrame = () =>
+    new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({ imports: [HostComponent] }).compileComponents();
@@ -50,7 +60,9 @@ describe('SlidingIndicatorDirective', () => {
     const active = group('chips').querySelector('.chip-active') as HTMLElement;
     expect(indicator('chips').style.width).toBe(`${active.offsetWidth}px`);
     expect(indicator('chips').style.height).toBe(`${active.offsetHeight}px`);
-    expect(indicator('chips').style.transform).toBe(`translate(${active.offsetLeft}px, ${active.offsetTop}px)`);
+    expect(indicator('chips').style.transform).toBe(
+      `translate(${active.offsetLeft}px, ${active.offsetTop}px)`
+    );
     expect(indicator('chips').style.opacity).toBe('1');
   });
 

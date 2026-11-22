@@ -4,7 +4,8 @@ import { FittedImageComponent } from './fitted-image.component';
 
 describe('FittedImageComponent', () => {
   let fixture: ComponentFixture<FittedImageComponent>;
-  const images = () => Array.from(fixture.nativeElement.querySelectorAll('img')) as HTMLImageElement[];
+  const images = () =>
+    Array.from(fixture.nativeElement.querySelectorAll('img')) as HTMLImageElement[];
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({ imports: [FittedImageComponent] }).compileComponents();

@@ -58,7 +58,10 @@ export class ChampionshipComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // Without a season in the URL (/championship) the newest season is shown.
-    this.sub = combineLatest([this.route.params, this.championshipService.getSeasons()]).subscribe({
+    this.sub = combineLatest([
+      this.route.params,
+      this.championshipService.getSeasons(true),
+    ]).subscribe({
       next: ([params, seasons]) => {
         this.seasons = seasons;
         this.season = params['season'] ?? seasons[0]?.key ?? '';

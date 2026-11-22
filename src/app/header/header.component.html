@@ -4,7 +4,9 @@
     <a routerLink="/home" class="flex items-center gap-3" aria-label="HV TDP Stainz – Startseite">
       <img src="hvtdp.png" alt="" class="h-10 w-8 object-contain lg:h-12 lg:w-10" />
       <span class="flex flex-col">
-        <span class="text-[17px] font-extrabold leading-tight text-gray-900 lg:text-lg">HV TDP Stainz</span>
+        <span class="text-[17px] font-extrabold leading-tight text-gray-900 lg:text-lg"
+          >HV TDP Stainz</span
+        >
         <span class="text-xs font-medium text-gray-500">Hobbyfußball seit 2014</span>
       </span>
     </a>
@@ -20,7 +22,11 @@
         <a
           [routerLink]="item.path"
           class="flex items-center px-3 text-[15px] transition-colors duration-200"
-          [class]="isActive(item) ? 'font-semibold text-pink-600' : 'font-medium text-gray-800 hover:text-pink-600'"
+          [class]="
+            isActive(item)
+              ? 'font-semibold text-pink-600'
+              : 'font-medium text-gray-800 hover:text-pink-600'
+          "
           [attr.aria-current]="isActive(item) ? 'page' : null"
           >{{ item.label }}</a
         >
@@ -31,14 +37,18 @@
           type="button"
           class="flex items-center gap-0.5 pl-3 pr-2 text-[15px] transition-colors duration-200"
           [class]="
-            moreActive || moreMenuOpen ? 'font-semibold text-pink-600' : 'font-medium text-gray-800 hover:text-pink-600'
+            moreActive || moreMenuOpen
+              ? 'font-semibold text-pink-600'
+              : 'font-medium text-gray-800 hover:text-pink-600'
           "
           [attr.aria-expanded]="moreMenuOpen"
           aria-haspopup="true"
           (click)="moreMenuOpen = !moreMenuOpen"
         >
           Mehr
-          <span class="material-icons text-xl transition-transform duration-200" [class.rotate-180]="moreMenuOpen"
+          <span
+            class="material-icons text-xl transition-transform duration-200"
+            [class.rotate-180]="moreMenuOpen"
             >expand_more</span
           >
         </button>
@@ -50,16 +60,26 @@
             animate.enter="animate-menu-in"
             (animate.leave)="onMenuLeave($event, 'animate-menu-out')"
           >
-            @for (group of [{ title: 'Saison-Highlights', items: highlightsNav }, { title: 'Verein', items: clubNav }]; track group.title) {
+            @for (
+              group of [
+                { title: 'Saison-Highlights', items: highlightsNav },
+                { title: 'Verein', items: clubNav },
+              ];
+              track group.title
+            ) {
               <div class="flex w-72 flex-col gap-1">
-                <p class="px-2.5 pb-1.5 text-[13px] font-semibold text-gray-500">{{ group.title }}</p>
+                <p class="px-2.5 pb-1.5 text-[13px] font-semibold text-gray-500">
+                  {{ group.title }}
+                </p>
                 @for (item of group.items; track item.path) {
                   <a
                     [routerLink]="item.path"
                     class="flex items-center gap-3 rounded-xl p-2.5 transition-colors duration-200 hover:bg-gray-50"
                     [class.bg-gray-50]="isActive(item)"
                   >
-                    <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-[10px] bg-pink-50">
+                    <span
+                      class="flex h-10 w-10 shrink-0 items-center justify-center rounded-[10px] bg-pink-50"
+                    >
                       <span class="material-icons text-[22px] text-pink-600">{{ item.icon }}</span>
                     </span>
                     <span class="flex flex-col">
@@ -75,7 +95,12 @@
       </div>
     </nav>
 
-    <a [href]="startingElevenUrl" target="_blank" rel="noopener" class="btn-primary hidden lg:inline-flex">
+    <a
+      [href]="startingElevenUrl"
+      target="_blank"
+      rel="noopener"
+      class="btn-primary hidden lg:inline-flex"
+    >
       Starting 11 <span class="material-icons text-xl">open_in_new</span>
     </a>
 
@@ -88,9 +113,13 @@
       (click)="toggleMobileMenu()"
     >
       @if (mobileMenuOpen) {
-        <span class="material-icons text-[28px] text-gray-900" animate.enter="animate-pop-in">close</span>
+        <span class="material-icons text-[28px] text-gray-900" animate.enter="animate-pop-in"
+          >close</span
+        >
       } @else {
-        <span class="material-icons text-[28px] text-gray-900" animate.enter="animate-pop-in">menu</span>
+        <span class="material-icons text-[28px] text-gray-900" animate.enter="animate-pop-in"
+          >menu</span
+        >
       }
     </button>
   </div>
@@ -104,7 +133,14 @@
       (animate.leave)="onMenuLeave($event, 'animate-drop-out')"
     >
       <nav class="flex flex-col gap-6 px-4 pb-6 pt-4" aria-label="Mobile Navigation">
-        @for (group of [{ title: '', items: mainNav }, { title: 'Saison-Highlights', items: highlightsNav }, { title: 'Verein', items: clubNav }]; track group.title) {
+        @for (
+          group of [
+            { title: '', items: mainNav },
+            { title: 'Saison-Highlights', items: highlightsNav },
+            { title: 'Verein', items: clubNav },
+          ];
+          track group.title
+        ) {
           <div class="flex flex-col gap-0.5">
             @if (group.title) {
               <p class="px-4 pb-2 text-[13px] font-semibold text-gray-500">{{ group.title }}</p>
@@ -113,11 +149,15 @@
               <a
                 [routerLink]="item.path"
                 class="flex h-14 items-center gap-3.5 rounded-xl px-4 text-[17px] font-semibold"
-                [class]="isActive(item) ? 'bg-pink-50 text-pink-700' : 'text-gray-900 hover:bg-gray-50'"
+                [class]="
+                  isActive(item) ? 'bg-pink-50 text-pink-700' : 'text-gray-900 hover:bg-gray-50'
+                "
               >
-                <span class="material-icons" [class]="isActive(item) ? 'text-pink-600' : 'text-gray-500'">{{
-                  item.icon
-                }}</span>
+                <span
+                  class="material-icons"
+                  [class]="isActive(item) ? 'text-pink-600' : 'text-gray-500'"
+                  >{{ item.icon }}</span
+                >
                 {{ item.label }}
               </a>
             }

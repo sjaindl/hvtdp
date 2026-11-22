@@ -24,11 +24,11 @@
     appSlidingIndicator
     aria-label="Saison wählen"
   >
-    @for (item of seasons; track item) {
+    @for (item of polls; track item.year) {
       <a
-        [routerLink]="['/playeroftheseason', item]"
-        [class]="item === season ? 'chip-active' : 'chip'"
-        >{{ item }}</a
+        [routerLink]="['/playeroftheseason', item.year]"
+        [class]="item.year === season ? 'chip-active' : 'chip'"
+        >{{ item.year }}</a
       >
     }
   </div>
@@ -64,22 +64,22 @@
     role="radiogroup"
     aria-label="Spieler auswählen"
   >
-    @for (candidate of candidates; track candidate.option.player) {
+    @for (candidate of candidates; track candidate.documentId) {
       <button
         type="button"
         class="flex flex-col items-center gap-2.5 rounded-2xl px-3 pb-3.5 pt-4 text-center shadow-sm transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-md disabled:pointer-events-none"
         [class]="
-          candidate.option === selected
+          candidate === selected
             ? 'border-2 border-pink-600 bg-pink-50'
             : 'border border-gray-100 bg-white'
         "
         role="radio"
-        [attr.aria-checked]="candidate.option === selected"
+        [attr.aria-checked]="candidate === selected"
         [disabled]="!votingOpen || !canVote"
-        (click)="choose(candidate.option)"
+        (click)="choose(candidate)"
       >
         <span class="h-[88px] w-[88px] overflow-hidden rounded-full bg-gray-100">
-          @if (candidate.player?.imageUrl; as imageUrl) {
+          @if (candidate.imageUrl; as imageUrl) {
             <img
               [src]="imageUrl"
               alt=""
@@ -89,28 +89,28 @@
           } @else {
             <span
               class="flex h-full items-center justify-center text-2xl font-bold text-gray-500"
-              >{{ candidate.option.player.charAt(0) }}</span
+              >{{ candidate.name.charAt(0) }}</span
             >
           }
         </span>
         <span
           class="text-[15px] font-bold leading-snug"
-          [class]="candidate.option === selected ? 'text-pink-700' : 'text-gray-900'"
-          >{{ candidate.option.player }}</span
+          [class]="candidate === selected ? 'text-pink-700' : 'text-gray-900'"
+          >{{ candidate.name }}</span
         >
-        @if (candidate.player?.position; as position) {
+        @if (candidate.position; as position) {
           <span class="text-[13px] font-medium text-gray-500">{{ position }}</span>
         }
         @if (votingOpen && canVote) {
           <span
             class="mt-auto flex h-7 w-7 items-center justify-center rounded-full border-2"
             [class]="
-              candidate.option === selected
+              candidate === selected
                 ? 'border-pink-600 bg-pink-600 text-white'
                 : 'border-gray-400 bg-white'
             "
           >
-            @if (candidate.option === selected) {
+            @if (candidate === selected) {
               <span class="material-icons text-lg" animate.enter="animate-pop-in">check</span>
             }
           </span>
@@ -120,6 +120,6 @@
   </div>
 
   @if (votingOpen && canVote && loaded) {
-    <app-vote-bar [choice]="selected?.player ?? ''" [busy]="busy" (voted)="vote()"></app-vote-bar>
+    <app-vote-bar [choice]="selected?.name ?? ''" [busy]="busy" (voted)="vote()"></app-vote-bar>
   }
 </div>

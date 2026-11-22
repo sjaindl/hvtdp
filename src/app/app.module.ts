@@ -141,7 +141,10 @@ import { VideoCardComponent } from './video-card/video-card.component';
     provideRouter(
       routes,
       withHashLocation(),
-      withViewTransitions({ skipInitialTransition: true, onViewTransitionCreated: onRouteViewTransition })
+      withViewTransitions({
+        skipInitialTransition: true,
+        onViewTransitionCreated: onRouteViewTransition,
+      })
     ),
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 2500 } },
     provideHttpClient(withInterceptorsFromDi(), withJsonpSupport()),

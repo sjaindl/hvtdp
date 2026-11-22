@@ -16,18 +16,19 @@
   <div class="flex flex-col gap-4">
     <h2 class="section-title">Unsere Geschichte</h2>
     <p class="text-base leading-relaxed text-gray-800 lg:text-[17px]">
-      Diese Idee wurde von den beiden auch in die Tat umgesetzt. Neben den Gründungsmitgliedern schlossen sich
-      mittlerweile über 30 weitere Fußballer dem Verein an – so entstand ein Team aus vielen heimischen Kickern, die
-      ihrem Hobby nachgehen.
+      Diese Idee wurde von den beiden auch in die Tat umgesetzt. Neben den Gründungsmitgliedern
+      schlossen sich mittlerweile über 30 weitere Fußballer dem Verein an – so entstand ein Team aus
+      vielen heimischen Kickern, die ihrem Hobby nachgehen.
     </p>
     <p class="text-base leading-relaxed text-gray-800 lg:text-[17px]">
-      Im Vereinsnamen steckt auch unser Hauptsponsor, die Firma „Textildruckprofi“ aus Stainz. Anfangs spielte der
-      Verein in der Hobbyliga „Süd-Weststeirercup“, wechselte dann in den „Grenzlandcup“ und spielt seit 2020 in der
-      STT-Meisterschaft. Gespielt und trainiert wird im Stadion Stainz.
+      Im Vereinsnamen steckt auch unser Hauptsponsor, die Firma „Textildruckprofi“ aus Stainz.
+      Anfangs spielte der Verein in der Hobbyliga „Süd-Weststeirercup“, wechselte dann in den
+      „Grenzlandcup“ und spielt seit 2020 in der STT-Meisterschaft. Gespielt und trainiert wird im
+      Stadion Stainz.
     </p>
     <p class="text-base leading-relaxed text-gray-800 lg:text-[17px]">
-      Neben dem Fußball veranstaltet der Verein etliche Turniere für alle, die mit Freunden ein paar lustige Stunden
-      verbringen möchten.
+      Neben dem Fußball veranstaltet der Verein etliche Turniere für alle, die mit Freunden ein paar
+      lustige Stunden verbringen möchten.
     </p>
   </div>
   <div class="grid grid-cols-2 gap-2.5 self-start lg:gap-3">
@@ -46,7 +47,9 @@
     <ul class="grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-4">
       @for (item of achievements; track item.title) {
         <li class="card flex items-center gap-3.5 p-4">
-          <span class="icon-tile"><span class="material-icons">{{ item.icon }}</span></span>
+          <span class="icon-tile"
+            ><span class="material-icons">{{ item.icon }}</span></span
+          >
           <div>
             <p class="font-bold leading-snug text-gray-900">{{ item.title }}</p>
             <p class="text-sm font-medium text-gray-500">{{ item.years }}</p>
@@ -63,20 +66,34 @@
       <h2 class="section-title">Unser Vorstand</h2>
       <p class="meta">Seit Dezember 2017 ist der HV TDP Stainz ein eingetragener Verein.</p>
     </div>
-    <img src="assets/images/aboutus/vorstand.JPG" alt="Vorstand des HV TDP Stainz" class="h-auto w-full rounded-2xl" loading="lazy" appZoomable />
+    <img
+      src="assets/images/aboutus/vorstand.JPG"
+      alt="Vorstand des HV TDP Stainz"
+      class="h-auto w-full rounded-2xl"
+      loading="lazy"
+      appZoomable
+    />
     <p class="text-sm font-medium text-gray-500">
-      v. l. n. r.: Heritsch (Rechnungsprüfer), Oswald (Schriftführer-Stv.), Jaindl (Schriftführer), Fabian (Obmann),
-      Seidl (Obmann-Stv.), Bohacek (Kassier), Ronegg (Kassier-Stv.)
+      v. l. n. r.: Heritsch (Rechnungsprüfer), Oswald (Schriftführer-Stv.), Jaindl (Schriftführer),
+      Fabian (Obmann), Seidl (Obmann-Stv.), Bohacek (Kassier), Ronegg (Kassier-Stv.)
     </p>
     <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5 lg:gap-4">
       @for (chef of board; track chef.firstName + chef.lastName) {
         <article class="card-interactive group flex flex-col">
           <div class="aspect-[4/5] overflow-hidden bg-gray-100">
-            <img [src]="chef.imageUrl ?? 'hvtdp.png'" [alt]="chef.firstName + ' ' + chef.lastName" class="card-media object-top" loading="lazy" appZoomable />
+            <img
+              [src]="chef.imageUrl ?? 'hvtdp.png'"
+              [alt]="chef.firstName + ' ' + chef.lastName"
+              class="card-media object-top"
+              loading="lazy"
+              appZoomable
+            />
           </div>
           <div class="px-3.5 pb-3.5 pt-3">
             <p class="text-[13px] font-semibold text-pink-600">{{ chef.function }}</p>
-            <p class="font-bold leading-snug text-gray-900">{{ chef.firstName }} {{ chef.lastName }}</p>
+            <p class="font-bold leading-snug text-gray-900">
+              {{ chef.firstName }} {{ chef.lastName }}
+            </p>
           </div>
         </article>
       }
@@ -90,9 +107,16 @@
     @for (photo of teamPhotos; track photo.src; let i = $index) {
       <figure class="group flex flex-col gap-2">
         <div class="aspect-video overflow-hidden rounded-2xl">
-          <app-fitted-image [src]="photo.src" [alt]="photo.alt" [zoomGroup]="teamPhotos" [zoomIndex]="i"></app-fitted-image>
+          <app-fitted-image
+            [src]="photo.src"
+            [alt]="photo.alt"
+            [zoomGroup]="teamPhotos"
+            [zoomIndex]="i"
+          ></app-fitted-image>
         </div>
-        <figcaption class="text-[15px] font-semibold text-gray-900">Mannschaftsfoto {{ photo.season }}</figcaption>
+        <figcaption class="text-[15px] font-semibold text-gray-900">
+          Mannschaftsfoto {{ photo.season }}
+        </figcaption>
       </figure>
     }
   </div>

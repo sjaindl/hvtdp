@@ -37,7 +37,9 @@ export class SlidingIndicatorDirective implements AfterViewInit, OnDestroy {
 
     this.indicator = document.createElement('span');
     this.indicator.className =
-      mode === 'underline' ? 'sliding-indicator bg-pink-600' : 'sliding-indicator rounded-full bg-gray-900';
+      mode === 'underline'
+        ? 'sliding-indicator bg-pink-600'
+        : 'sliding-indicator rounded-full bg-gray-900';
     this.indicator.setAttribute('aria-hidden', 'true');
     this.indicator.style.opacity = '0';
     host.prepend(this.indicator);
@@ -85,7 +87,9 @@ export class SlidingIndicatorDirective implements AfterViewInit, OnDestroy {
 
     const wasVisible = indicator.style.opacity === '1';
     const underline = host.dataset['indicator'] === 'underline';
-    const top = underline ? active.offsetTop + active.offsetHeight - UNDERLINE_HEIGHT : active.offsetTop;
+    const top = underline
+      ? active.offsetTop + active.offsetHeight - UNDERLINE_HEIGHT
+      : active.offsetTop;
 
     // The first placement (or reappearing after no item was active) jumps instead of sliding in from 0/0.
     if (!animate || !wasVisible) {

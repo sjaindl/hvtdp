@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 
-export const GENERIC_ERROR_MESSAGE = 'Ein unerwarteter Fehler ist aufgetreten. Bitte versuche es später erneut.';
+export const GENERIC_ERROR_MESSAGE =
+  'Ein unerwarteter Fehler ist aufgetreten. Bitte versuche es später erneut.';
 
 const MAX_LENGTH = 200;
 

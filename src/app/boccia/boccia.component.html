@@ -46,7 +46,12 @@
         <p class="normal">Erst mit der Einzahlung des Nenngeldes ist die Anmeldung fixiert!</p>
       </div>
       <div class="md:w-1/2 md:ml-6">
-        <img class="imageSmallCenter" src="assets/images/boccia_2026.jpeg" alt="Boccia-Turnier 2026" style="width: 400px" />
+        <img
+          class="imageSmallCenter"
+          src="assets/images/boccia_2026.jpeg"
+          alt="Boccia-Turnier 2026"
+          style="width: 400px"
+        />
       </div>
     </div>
   </div>
@@ -122,13 +127,13 @@
     </form>
 
     @if (submittedFeedback) {
-    <div>
       <div>
-        <h2>Wir haben deine Anmeldung erhalten, Vielen Dank! Wir melden uns bei dir in Kürze.</h2>
-        <p>Ansprechperson: {{ submittedFeedback.name }}</p>
-        <p>Teamname: {{ submittedFeedback.teamname }}</p>
+        <div>
+          <h2>Wir haben deine Anmeldung erhalten, Vielen Dank! Wir melden uns bei dir in Kürze.</h2>
+          <p>Ansprechperson: {{ submittedFeedback.name }}</p>
+          <p>Teamname: {{ submittedFeedback.teamname }}</p>
+        </div>
       </div>
-    </div>
     }
   </div>
   <br />

@@ -1,11 +1,15 @@
-<app-page-intro title="Dokumente" lead="Hier findest du die wichtigsten Dokumente für HV TDP-Mitglieder und Fans." [alignEnd]="true">
+<app-page-intro
+  title="Dokumente"
+  lead="Hier findest du die wichtigsten Dokumente für HV TDP-Mitglieder und Fans."
+  [alignEnd]="true"
+>
   <div aside class="flex gap-3 rounded-2xl bg-pink-50 p-4 lg:w-[480px]">
     <span class="material-icons text-pink-600">lock</span>
     <div>
       <p class="text-[15px] font-bold text-gray-900">Geschützte Dokumente</p>
       <p class="text-sm leading-relaxed text-gray-600">
-        Mit dem Schloss markierte Dokumente sind nur für Vereinsmitglieder. Beim Öffnen wirst du nach dem
-        Mitglieder-Passwort gefragt.
+        Mit dem Schloss markierte Dokumente sind nur für Vereinsmitglieder. Beim Öffnen wirst du
+        nach dem Mitglieder-Passwort gefragt.
       </p>
     </div>
   </div>
@@ -13,9 +17,15 @@
 
 <div class="page-container flex flex-col gap-7 py-7 lg:gap-10 lg:py-10">
   @if (failed) {
-    <app-empty-state icon="error_outline" tone="error" title="Dokumente konnten nicht geladen werden"
-      [text]="errorText">
-      <button type="button" class="btn-primary" (click)="load()">Erneut versuchen <span class="material-icons text-xl">refresh</span></button>
+    <app-empty-state
+      icon="error_outline"
+      tone="error"
+      title="Dokumente konnten nicht geladen werden"
+      [text]="errorText"
+    >
+      <button type="button" class="btn-primary" (click)="load()">
+        Erneut versuchen <span class="material-icons text-xl">refresh</span>
+      </button>
     </app-empty-state>
   }
 
@@ -29,16 +39,25 @@
             class="card flex items-center gap-3.5 px-4 py-3.5 text-left transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md"
             (click)="open(item)"
           >
-            <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl" [class]="item.locked ? 'bg-gray-100 text-gray-600' : 'bg-pink-50 text-pink-600'">
+            <span
+              class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl"
+              [class]="item.locked ? 'bg-gray-100 text-gray-600' : 'bg-pink-50 text-pink-600'"
+            >
               <span class="material-icons">{{ item.locked ? 'lock' : 'description' }}</span>
             </span>
             <span class="min-w-0 flex-1">
               <span class="block font-semibold leading-snug text-gray-900">{{ item.title }}</span>
               <span class="block text-[13px] font-medium text-gray-500">
-                {{ item.date ? item.date + ' · ' : '' }}PDF{{ item.locked ? ' · Nur für Mitglieder' : '' }}
+                {{ item.date ? item.date + ' · ' : '' }}PDF{{
+                  item.locked ? ' · Nur für Mitglieder' : ''
+                }}
               </span>
             </span>
-            <span class="material-icons" [class]="item.locked ? 'text-gray-400' : 'text-gray-600'">{{ item.locked ? 'key' : 'download' }}</span>
+            <span
+              class="material-icons"
+              [class]="item.locked ? 'text-gray-400' : 'text-gray-600'"
+              >{{ item.locked ? 'key' : 'download' }}</span
+            >
           </button>
         }
       </div>

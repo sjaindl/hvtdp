@@ -2,9 +2,20 @@
 <h4 class="small header">powered by 11teamsports Graz</h4>
 
 @if (isMobile) {
-<img class="imageSmallCenter" src="assets/images/torschusschallenge.jpeg" alt="Torschusschallenge" style="width: 80%" />
-} @if (!isMobile) {
-<img class="imageSmallCenter" src="assets/images/torschusschallenge.jpeg" alt="Torschusschallenge" style="width: 40%" />
+  <img
+    class="imageSmallCenter"
+    src="assets/images/torschusschallenge.jpeg"
+    alt="Torschusschallenge"
+    style="width: 80%"
+  />
+}
+@if (!isMobile) {
+  <img
+    class="imageSmallCenter"
+    src="assets/images/torschusschallenge.jpeg"
+    alt="Torschusschallenge"
+    style="width: 40%"
+  />
 }
 
 <p class="normal">
@@ -192,15 +203,15 @@
 </div>
 
 @if (submittedFormData) {
-<div>
   <div>
-    <h2>Wir haben deine Anmeldung erhalten, Vielen Dank!</h2>
-    <p>Vorname: {{ submittedFormData.firstName }}</p>
-    <p>Nachname: {{ submittedFormData.lastName }}</p>
-    <p>E-Mail: {{ submittedFormData.email }}</p>
-    <p>Telefonnummer: {{ submittedFormData.phone }}</p>
+    <div>
+      <h2>Wir haben deine Anmeldung erhalten, Vielen Dank!</h2>
+      <p>Vorname: {{ submittedFormData.firstName }}</p>
+      <p>Nachname: {{ submittedFormData.lastName }}</p>
+      <p>E-Mail: {{ submittedFormData.email }}</p>
+      <p>Telefonnummer: {{ submittedFormData.phone }}</p>
+    </div>
+    <br /><br />
+    <br /><br />
   </div>
-  <br /><br />
-  <br /><br />
-</div>
 }

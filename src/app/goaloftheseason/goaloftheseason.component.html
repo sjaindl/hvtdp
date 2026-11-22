@@ -24,11 +24,11 @@
     appSlidingIndicator
     aria-label="Saison wählen"
   >
-    @for (item of seasons; track item) {
+    @for (item of polls; track item.year) {
       <a
-        [routerLink]="['/goaloftheseason', item]"
-        [class]="item === season ? 'chip-active' : 'chip'"
-        >{{ item }}</a
+        [routerLink]="['/goaloftheseason', item.year]"
+        [class]="item.year === season ? 'chip-active' : 'chip'"
+        >{{ item.year }}</a
       >
     }
   </div>
@@ -70,15 +70,15 @@
     role="radiogroup"
     aria-label="Tor auswählen"
   >
-    @for (candidate of candidates; track candidate.link.link) {
+    @for (candidate of candidates; track candidate.documentId) {
       <app-video-card
-        [videoUrl]="candidate.link.link"
-        [title]="candidate.scorer"
+        [videoUrl]="candidate.video?.url ?? ''"
+        [title]="candidate.name || 'Highlight'"
         [meta]="candidateMeta(candidate)"
-        [badge]="votingOpen ? '' : candidate.link.description"
-        [selectable]="votingOpen && canVote && !!candidate.option"
-        [selected]="!!candidate.option && candidate.option === selected"
-        (chosen)="choose(candidate.option)"
+        [badge]="votingOpen ? '' : (candidate.video?.description ?? '')"
+        [selectable]="votingOpen && canVote"
+        [selected]="candidate === selected"
+        (chosen)="choose(candidate)"
       ></app-video-card>
     }
   </div>
@@ -91,7 +91,7 @@
         role="radiogroup"
         aria-label="Weitere Kandidaten"
       >
-        @for (option of optionsWithoutVideo; track option.player) {
+        @for (option of optionsWithoutVideo; track option.documentId) {
           <button
             type="button"
             class="flex min-h-14 items-center justify-between gap-3 rounded-2xl border px-4 py-3 text-left shadow-sm"
@@ -107,7 +107,7 @@
             <span
               class="font-bold"
               [class]="option === selected ? 'text-pink-700' : 'text-gray-900'"
-              >{{ option.player }}</span
+              >{{ option.name }}</span
             >
             <span
               class="flex h-7 w-7 items-center justify-center rounded-full border-2"
@@ -126,6 +126,6 @@
   }
 
   @if (votingOpen && canVote && loaded) {
-    <app-vote-bar [choice]="selected?.player ?? ''" [busy]="busy" (voted)="vote()"></app-vote-bar>
+    <app-vote-bar [choice]="selected?.name ?? ''" [busy]="busy" (voted)="vote()"></app-vote-bar>
   }
 </div>

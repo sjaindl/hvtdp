@@ -120,12 +120,7 @@ export class KleinfeldTurnierComponent implements OnInit {
     ${feedback.phone}, ${feedback.email}, ${feedback.teamname}`);
 
     this.mysqlService
-      .postTurnier(
-        feedback.name,
-        feedback.email,
-        feedback.phone ?? '',
-        feedback.teamname
-      )
+      .postTurnier(feedback.name, feedback.email, feedback.phone ?? '', feedback.teamname)
       .subscribe((result) => {
         console.log(`response from server: ${result}`);
       });
