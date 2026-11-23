@@ -2,6 +2,7 @@ import { HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { environment } from '../../environments/environment';
 import { provideTestDependencies } from '../../testing/test-providers';
+import { News } from '../shared/news';
 import { CmsService } from './cms.service';
 
 describe('CmsService', () => {
@@ -93,5 +94,44 @@ describe('CmsService', () => {
       );
     expect(title).toBe('Kegelturnier');
     expect(imageUrl as string | null).toBe(`${environment.cmsUrl}/uploads/a.jpg`);
+  });
+
+  it('maps the news category and the match of a report', () => {
+    let result: News[] = [];
+    service.getNews().subscribe((news) => (result = news));
+    const request = http.expectOne((r) => r.url === `${api}/news-items`);
+    expect(request.request.params.get('populate[match][fields][0]')).toBe('round');
+    request.flush(
+      page(
+        [
+          {
+            newsId: 2,
+            date: '2026-10-24',
+            title: '5. Runde - STT Pichler : HV TDP Stainz (Spielbericht)',
+            content: null,
+            image: null,
+            homeImage: null,
+            category: 'Spielbericht',
+            match: { id: 71 },
+          },
+          {
+            newsId: 1,
+            date: '2026-11-07',
+            title: 'Alte News',
+            content: null,
+            image: null,
+            homeImage: null,
+            category: null,
+            match: null,
+          },
+        ],
+        1,
+        1
+      )
+    );
+    expect(result.map((news) => [news.category, news.matchId])).toEqual([
+      ['Spielbericht', 71],
+      [null, null],
+    ]);
   });
 });

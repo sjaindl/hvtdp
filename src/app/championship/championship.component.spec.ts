@@ -2,6 +2,7 @@ import { HttpTestingController } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { environment } from '../../environments/environment';
 import { provideTestDependencies } from '../../testing/test-providers';
+import { MatchInfo } from '../shared/match-info';
 import { ChampionshipComponent } from './championship.component';
 
 describe('ChampionshipComponent', () => {
@@ -54,5 +55,23 @@ describe('ChampionshipComponent', () => {
       request.flush(page([]));
     }
     expect(component.loaded).toBeTrue();
+  });
+
+  it('links results to their newest match report', () => {
+    const news = (newsId: number, matchId: number | null) => ({
+      newsId,
+      date: '2026-10-24',
+      title: `News ${newsId}`,
+      content: null,
+      image: null,
+      homeImage: null,
+      category: matchId ? 'Spielbericht' : 'Turnier',
+      match: matchId ? { id: matchId } : null,
+    });
+    http
+      .expectOne((r) => r.url === `${api}/news-items`)
+      .flush(page([news(12, 71), news(11, 71), news(10, null)]));
+    expect(component.reportFor({ id: 71 } as MatchInfo)).toBe(12);
+    expect(component.reportFor({ id: 5 } as MatchInfo)).toBeNull();
   });
 });

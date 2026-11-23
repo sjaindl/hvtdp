@@ -10,7 +10,7 @@
 
     <div class="grid gap-4 lg:grid-cols-3 lg:gap-6">
       @if (lastResult) {
-        <app-last-result [match]="lastResult"></app-last-result>
+        <app-last-result [match]="lastResult" [reportNewsId]="reportNewsId"></app-last-result>
       }
       @if (nextMatch) {
         <app-next-match [match]="nextMatch"></app-next-match>

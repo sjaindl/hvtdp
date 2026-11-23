@@ -16,6 +16,8 @@ export class LastResultComponent {
   readonly goalsLabel = MatchUtil.goalsLabel;
 
   @Input({ required: true }) match!: MatchInfo;
+  /** News item with the report of this match, if there is one. */
+  @Input() reportNewsId: number | null = null;
 
   get outcome() {
     return MatchUtil.outcome(this.match);

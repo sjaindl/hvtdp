@@ -3,6 +3,7 @@ import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Subscription, combineLatest, forkJoin } from 'rxjs';
 import { ChampionshipService } from '../services/championship.service';
+import { CmsService } from '../services/cms.service';
 import { MatchGoal, MatchInfo } from '../shared/match-info';
 import { Scorer } from '../shared/scorer';
 import { Season } from '../shared/season';
@@ -31,6 +32,7 @@ import { SlidingIndicatorDirective } from '../ui/sliding-indicator/sliding-indic
 })
 export class ChampionshipComponent implements OnInit, OnDestroy {
   private championshipService = inject(ChampionshipService);
+  private cmsService = inject(CmsService);
   private route = inject(ActivatedRoute);
   private titleService = inject(Title);
   private metaTagService = inject(Meta);
@@ -54,9 +56,24 @@ export class ChampionshipComponent implements OnInit, OnDestroy {
   contentKey = '';
   errorText = '';
 
+  /** Match id → news id of its report (newest report wins). */
+  private reports = new Map<number, number>();
   private sub?: Subscription;
 
   ngOnInit() {
+    // Report links are optional: without news the results just show no link.
+    this.cmsService.getNews().subscribe({
+      next: (news) => {
+        this.reports = new Map();
+        for (const item of news) {
+          if (item.matchId !== null && !this.reports.has(item.matchId)) {
+            this.reports.set(item.matchId, item.newsId);
+          }
+        }
+      },
+      error: () => (this.reports = new Map()),
+    });
+
     // Without a season in the URL (/championship) the newest season is shown.
     this.sub = combineLatest([
       this.route.params,
@@ -135,6 +152,10 @@ export class ChampionshipComponent implements OnInit, OnDestroy {
   matchMeta(match: MatchInfo): string {
     const date = MatchUtil.formatDateTime(match).split(' · ')[0];
     return [match.label, date].filter(Boolean).join(' · ');
+  }
+
+  reportFor(match: MatchInfo): number | null {
+    return this.reports.get(match.id) ?? null;
   }
 
   additionalInfo(match: MatchInfo): string {

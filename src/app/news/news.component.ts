@@ -12,7 +12,7 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Marked } from 'marked';
 import { Subscription } from 'rxjs';
 import { CmsService } from '../services/cms.service';
-import { News } from '../shared/news';
+import { NEWS_CATEGORIES, News, NewsCategory } from '../shared/news';
 import { DateUtil } from '../shared/utils/date.util';
 import { ErrorUtil } from '../shared/utils/error.util';
 import { TextUtil } from '../shared/utils/text.util';
@@ -56,7 +56,9 @@ export class NewsComponent implements OnInit, OnDestroy, AfterViewChecked {
   failed = false;
   errorText = '';
 
-  /** Year filter. TODO(API): replace with news categories (Spielbericht, Vereinsleben, …) once the CMS has them. */
+  readonly categories = NEWS_CATEGORIES;
+  /** Category chips (main filter) and year select. */
+  selectedCategory: NewsCategory | null = null;
   years: string[] = [];
   selectedYear: string | null = null;
   readonly pageSize = PAGE_SIZE;
@@ -129,9 +131,16 @@ export class NewsComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   get filteredNews(): News[] {
-    return this.selectedYear
-      ? this.news.filter((item) => String(item.newsDate.getFullYear()) === this.selectedYear)
-      : this.news;
+    return this.news.filter(
+      (item) =>
+        (!this.selectedCategory || item.category === this.selectedCategory) &&
+        (!this.selectedYear || String(item.newsDate.getFullYear()) === this.selectedYear)
+    );
+  }
+
+  /** Changes of the filter play the content entrance animation. */
+  get filterKey(): string {
+    return `${this.selectedCategory ?? ''}|${this.selectedYear ?? ''}`;
   }
 
   get visibleNews(): News[] {
@@ -142,9 +151,19 @@ export class NewsComponent implements OnInit, OnDestroy, AfterViewChecked {
     return this.news.filter((item) => item.newsId !== this.selectedNews?.newsId).slice(0, 3);
   }
 
+  selectCategory(category: NewsCategory | null) {
+    this.selectedCategory = category;
+    this.visibleCount = PAGE_SIZE;
+  }
+
   selectYear(year: string | null) {
     this.selectedYear = year;
     this.visibleCount = PAGE_SIZE;
+  }
+
+  resetFilters() {
+    this.selectedCategory = null;
+    this.selectYear(null);
   }
 
   showMore() {

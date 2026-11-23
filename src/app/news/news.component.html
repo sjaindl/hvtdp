@@ -9,8 +9,7 @@
           ><span class="material-icons text-lg">arrow_back</span> Alle Nachrichten</a
         >
         <div class="flex flex-wrap items-center gap-2.5">
-          <!-- TODO(API): show the news category once the CMS provides one. -->
-          <span class="badge-pink">News</span>
+          <span class="badge-pink">{{ selectedNews.category ?? 'News' }}</span>
           <span class="text-sm font-medium text-gray-500"
             >{{ weekdayDate }} · {{ readingMinutes }} Min. Lesezeit</span
           >
@@ -103,35 +102,50 @@
     title="Nachrichten"
     lead="Spielberichte, Vereinsleben und alles rund um den HV TDP."
   >
-    @if (years.length) {
-      <div
-        class="scrollbar-none -mx-4 flex gap-2 overflow-x-auto px-4 lg:mx-0 lg:flex-wrap lg:px-0"
-        appSlidingIndicator
-        aria-label="Nach Jahr filtern"
-      >
-        <button
-          type="button"
-          [class]="selectedYear === null ? 'chip-active' : 'chip'"
-          (click)="selectYear(null)"
+    @if (news.length) {
+      <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+        <div
+          class="scrollbar-none -mx-4 flex gap-2 overflow-x-auto px-4 lg:mx-0 lg:flex-wrap lg:px-0"
+          appSlidingIndicator
+          aria-label="Nach Kategorie filtern"
         >
-          Alle
-        </button>
-        @for (year of years; track year) {
           <button
             type="button"
-            [class]="selectedYear === year ? 'chip-active' : 'chip'"
-            (click)="selectYear(year)"
+            [class]="selectedCategory === null ? 'chip-active' : 'chip'"
+            (click)="selectCategory(null)"
           >
-            {{ year }}
+            Alle
           </button>
-        }
+          @for (category of categories; track category) {
+            <button
+              type="button"
+              [class]="selectedCategory === category ? 'chip-active' : 'chip'"
+              (click)="selectCategory(category)"
+            >
+              {{ category }}
+            </button>
+          }
+        </div>
+        <label class="flex items-center gap-2 text-sm font-semibold text-gray-600">
+          Jahr
+          <select
+            class="form-input w-auto min-w-[8rem]"
+            [value]="selectedYear ?? ''"
+            (change)="selectYear($any($event.target).value || null)"
+          >
+            <option value="">Alle Jahre</option>
+            @for (year of years; track year) {
+              <option [value]="year">{{ year }}</option>
+            }
+          </select>
+        </label>
       </div>
     }
   </app-page-intro>
 
   <section
     class="page-container flex flex-col gap-3 py-6 lg:gap-6 lg:py-10"
-    [appContentSwap]="selectedYear"
+    [appContentSwap]="filterKey"
   >
     @if (failed) {
       <app-empty-state
@@ -150,7 +164,7 @@
         title="Keine Nachrichten gefunden"
         text="Für diesen Filter gibt es noch keine Beiträge. Schau später wieder vorbei."
       >
-        <button type="button" class="btn-secondary" (click)="selectYear(null)">
+        <button type="button" class="btn-secondary" (click)="resetFilters()">
           Alle Nachrichten
         </button>
       </app-empty-state>

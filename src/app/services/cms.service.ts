@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { EMPTY, Observable, expand, map, reduce, shareReplay } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { News } from '../shared/news';
+import { News, NewsCategory } from '../shared/news';
 import { StrapiMedia, mediaUrl, resolveCmsUrl } from '../shared/utils/media.util';
 
 interface StrapiNewsItem {
@@ -12,6 +12,8 @@ interface StrapiNewsItem {
   content: string | null;
   image: StrapiMedia | null;
   homeImage: StrapiMedia | null;
+  category: NewsCategory | null;
+  match: { id: number } | null;
 }
 
 interface StrapiPage<T> {
@@ -72,8 +74,9 @@ export class CmsService {
     return this.getCollection<StrapiNewsItem>('news-items', {
       'sort[0]': 'date:desc',
       'sort[1]': 'newsId:desc',
-      'populate[0]': 'image',
-      'populate[1]': 'homeImage',
+      'populate[image]': true,
+      'populate[homeImage]': true,
+      'populate[match][fields][0]': 'round',
     }).pipe(map((items) => items.map((item) => this.toNews(item))));
   }
 
@@ -100,6 +103,8 @@ export class CmsService {
       content: item.content ?? '',
       imageUrl: mediaUrl(item.image),
       homeImageUrl: mediaUrl(item.homeImage),
+      category: item.category ?? null,
+      matchId: item.match?.id ?? null,
     };
   }
 }

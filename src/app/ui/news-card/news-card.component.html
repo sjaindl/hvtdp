@@ -14,8 +14,7 @@
   </div>
   <div class="flex flex-1 flex-col gap-2.5 px-5 pb-6 pt-5">
     <div class="flex items-center gap-2.5">
-      <!-- TODO(API): news items have no category yet; show it here once the CMS provides one. -->
-      <span class="badge-pink">News</span>
+      <span class="badge-pink">{{ news.category ?? 'News' }}</span>
       <span class="text-[13px] font-medium text-gray-500">{{ date }}</span>
     </div>
     <h3 class="text-xl font-bold leading-snug text-gray-900">{{ news.title }}</h3>

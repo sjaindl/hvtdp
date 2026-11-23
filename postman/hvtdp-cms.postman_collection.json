@@ -120,7 +120,8 @@
                   "});",
                   "pm.test('News have title, date and newsId', () => {",
                   "  body.data.forEach((news) => pm.expect(news).to.include.keys('newsId', 'title', 'date', 'content'));",
-                  "});"
+                  "});",
+                  "pm.test('Every news item has a category', () => pm.response.json().data.forEach((news) => pm.expect(['Spielbericht', 'Turnier', 'Veranstaltung', 'Vereinsleben']).to.include(news.category)));"
                 ]
               }
             }
@@ -173,6 +174,63 @@
                   "pm.test('Status 200', () => pm.response.to.have.status(200));",
                   "const body = pm.response.json();",
                   "pm.test('Exactly one news item', () => pm.expect(body.data).to.have.lengthOf(1));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Match reports with their match",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/news-items?filters[category][$eq]=Spielbericht&sort[0]=date:desc&populate[match][fields][0]=round&pagination[pageSize]=20",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "news-items"
+              ],
+              "query": [
+                {
+                  "key": "filters[category][$eq]",
+                  "value": "Spielbericht"
+                },
+                {
+                  "key": "sort[0]",
+                  "value": "date:desc"
+                },
+                {
+                  "key": "populate[match][fields][0]",
+                  "value": "round"
+                },
+                {
+                  "key": "pagination[pageSize]",
+                  "value": "20"
+                }
+              ]
+            },
+            "description": "Newest match reports (category Spielbericht) with the linked match (`migrate-to-strapi.sh news-categories`)."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('Only match reports', () => body.data.forEach((news) => pm.expect(news.category).to.eql('Spielbericht')));",
+                  "pm.test('Most recent reports are linked to a match', () => pm.expect(body.data.filter((news) => news.match).length).to.be.above(0));",
+                  "pm.test('Admin titles are private', () => pm.expect(pm.response.text()).to.not.include('adminTitle'));"
                 ]
               }
             }

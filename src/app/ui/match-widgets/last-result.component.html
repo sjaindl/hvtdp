@@ -48,8 +48,14 @@
     </div>
   }
 
-  <!-- TODO(API): link the matching match report once news items reference their match. -->
-  <a [routerLink]="['/championship', match.season]" class="btn-secondary mt-auto w-full"
-    >Alle Ergebnisse</a
-  >
+  <div class="mt-auto flex gap-2.5">
+    @if (reportNewsId) {
+      <a [routerLink]="['/news', reportNewsId]" class="btn-primary flex-1"
+        >Spielbericht <span class="material-icons text-xl">article</span></a
+      >
+    }
+    <a [routerLink]="['/championship', match.season]" class="btn-secondary flex-1"
+      >Alle Ergebnisse</a
+    >
+  </div>
 </article>

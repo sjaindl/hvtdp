@@ -91,6 +91,14 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  /** The report of the last result, once the news are loaded. */
+  get reportNewsId(): number | null {
+    const matchId = this.lastResult?.id;
+    return (
+      this.news.find((item) => matchId !== undefined && item.matchId === matchId)?.newsId ?? null
+    );
+  }
+
   get latestNews(): News | null {
     return this.news[0] ?? null;
   }

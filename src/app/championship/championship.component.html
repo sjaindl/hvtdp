@@ -245,6 +245,11 @@
                   }
                 </div>
               }
+              @if (reportFor(match); as newsId) {
+                <a [routerLink]="['/news', newsId]" class="link-arrow self-start text-sm"
+                  >Spielbericht <span class="material-icons text-base">arrow_forward</span></a
+                >
+              }
             </article>
           }
         </div>

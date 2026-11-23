@@ -51,7 +51,7 @@ USE_PM2="auto"
 # `migrate`. Add new areas here and to AREAS (in migration order).
 # ---------------------------------------------------------------------------------------------
 
-AREAS=(announcement club fanshop documents championship videos gallery pages)
+AREAS=(announcement club fanshop documents championship videos gallery pages news-categories)
 PHASE=download
 
 # Announcement bar on the home page (replaces the ticker).
@@ -96,6 +96,11 @@ area_videos() {
 area_gallery() {
   fetch getPhotos
   migrate gallery --exports "$EXPORTS_DIR" "${MEDIA_ARGS[@]}"
+}
+
+# News categories and match reports linked to their match (after championship and videos; keeps admin changes).
+area_news-categories() {
+  migrate news-categories
 }
 
 # Hallenturnier page and Advent calendars (posters + videos; after gallery for the album link).
