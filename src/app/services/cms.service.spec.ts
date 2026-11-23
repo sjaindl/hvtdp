@@ -55,6 +55,46 @@ describe('CmsService', () => {
       .flush(page([], 1, 1));
   });
 
+  it('requests the remaining pages in parallel after the first one', () => {
+    let count = 0;
+    service.getCollection<{ id: number }>('photos').subscribe((r) => (count = r.length));
+    http
+      .expectOne((request) => request.params.get('pagination[page]') === '1')
+      .flush(page([{ id: 1 }], 1, 3));
+    const rest = http.match((request) => request.url === `${api}/photos`);
+    expect(rest.map((request) => request.request.params.get('pagination[page]'))).toEqual([
+      '2',
+      '3',
+    ]);
+    rest[1].flush(page([{ id: 3 }], 3, 3));
+    rest[0].flush(page([{ id: 2 }], 2, 3));
+    expect(count).toBe(3);
+  });
+
+  it('requests again after a failed load instead of replaying the error', () => {
+    let failed = false;
+    service.getCollection('documents').subscribe({ error: () => (failed = true) });
+    http
+      .expectOne((request) => request.url === `${api}/documents`)
+      .flush('down', { status: 503, statusText: 'Service Unavailable' });
+    expect(failed).toBeTrue();
+
+    let result: unknown[] = [];
+    service.getCollection('documents').subscribe((r) => (result = r));
+    http.expectOne((request) => request.url === `${api}/documents`).flush(page([{ id: 1 }], 1, 1));
+    expect(result).toEqual([{ id: 1 }]);
+  });
+
+  it('loads only the first entries with getFirst', () => {
+    let result: unknown[] = [];
+    service.getFirst('news-items', 5, { 'sort[0]': 'date:desc' }).subscribe((r) => (result = r));
+    const request = http.expectOne((r) => r.url === `${api}/news-items`);
+    expect(request.request.params.get('pagination[pageSize]')).toBe('5');
+    expect(request.request.params.get('pagination[page]')).toBe('1');
+    request.flush(page([{ id: 1 }], 1, 4));
+    expect(result).toEqual([{ id: 1 }]);
+  });
+
   it('loads a single type and returns null when it does not exist yet', () => {
     let announcement: unknown = undefined;
     service.getSingle('announcement').subscribe((data) => (announcement = data));

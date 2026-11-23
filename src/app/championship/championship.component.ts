@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { Subscription, combineLatest, forkJoin } from 'rxjs';
+import { EMPTY, Subject, Subscription, catchError, combineLatest, forkJoin, switchMap } from 'rxjs';
 import { ChampionshipService } from '../services/championship.service';
 import { CmsService } from '../services/cms.service';
 import { MatchGoal, MatchInfo } from '../shared/match-info';
@@ -58,7 +58,10 @@ export class ChampionshipComponent implements OnInit, OnDestroy {
 
   /** Match id → news id of its report (newest report wins). */
   private reports = new Map<number, number>();
+  /** Each request cancels the previous one, so a slow earlier season never replaces the one shown. */
+  private loads = new Subject<string>();
   private sub?: Subscription;
+  private loadSub?: Subscription;
 
   ngOnInit() {
     // Report links are optional: without news the results just show no link.
@@ -73,6 +76,33 @@ export class ChampionshipComponent implements OnInit, OnDestroy {
       },
       error: () => (this.reports = new Map()),
     });
+
+    this.loadSub = this.loads
+      .pipe(
+        switchMap((season) =>
+          forkJoin({
+            standings: this.championshipService.getStandings(season),
+            scorers: this.championshipService.getScorers(season),
+            matches: this.championshipService.getMatches(season),
+          }).pipe(
+            catchError((error: unknown) => {
+              this.showError(error);
+              return EMPTY;
+            })
+          )
+        )
+      )
+      .subscribe(({ standings, scorers, matches }) => {
+        this.standings = standings;
+        this.scorers = scorers;
+        this.results = MatchUtil.sortNewestFirst(
+          matches.filter((match) => MatchUtil.hasScore(match))
+        );
+        this.nextMatch = MatchUtil.nextMatch(matches);
+        this.loaded = true;
+        this.loading = false;
+        this.contentKey = this.season;
+      });
 
     // Without a season in the URL (/championship) the newest season is shown.
     this.sub = combineLatest([
@@ -98,6 +128,7 @@ export class ChampionshipComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.sub?.unsubscribe();
+    this.loadSub?.unsubscribe();
   }
 
   load() {
@@ -106,24 +137,7 @@ export class ChampionshipComponent implements OnInit, OnDestroy {
     }
     this.loading = true;
     this.failed = false;
-    forkJoin({
-      standings: this.championshipService.getStandings(this.season),
-      scorers: this.championshipService.getScorers(this.season),
-      matches: this.championshipService.getMatches(this.season),
-    }).subscribe({
-      next: ({ standings, scorers, matches }) => {
-        this.standings = standings;
-        this.scorers = scorers;
-        this.results = MatchUtil.sortNewestFirst(
-          matches.filter((match) => MatchUtil.hasScore(match))
-        );
-        this.nextMatch = MatchUtil.nextMatch(matches);
-        this.loaded = true;
-        this.loading = false;
-        this.contentKey = this.season;
-      },
-      error: (error: unknown) => this.showError(error),
-    });
+    this.loads.next(this.season);
   }
 
   /** Season notes may contain several paragraphs (blank lines). */

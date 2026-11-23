@@ -6,6 +6,7 @@ import { PageService } from '../services/page.service';
 import { AdventCalendar } from '../shared/page';
 import { ContentSwapDirective } from '../ui/content-swap/content-swap.directive';
 import { PageIntroComponent } from '../ui/page-intro/page-intro.component';
+import { ScrollLockService } from '../ui/scroll-lock/scroll-lock.service';
 import { SlidingIndicatorDirective } from '../ui/sliding-indicator/sliding-indicator.directive';
 import { VideoCardComponent } from '../video-card/video-card.component';
 
@@ -26,6 +27,7 @@ export class AdventComponent implements OnInit, OnDestroy {
   private metaTagService = inject(Meta);
   private route = inject(ActivatedRoute);
   private pageService = inject(PageService);
+  private scrollLock = inject(ScrollLockService);
 
   readonly days = Array.from({ length: 24 }, (_, index) => index + 1);
 
@@ -60,7 +62,7 @@ export class AdventComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.sub?.unsubscribe();
-    document.body.classList.remove('overflow-hidden');
+    this.scrollLock.unlock(this);
   }
 
   get text() {
@@ -95,13 +97,13 @@ export class AdventComponent implements OnInit, OnDestroy {
   open(day: number) {
     if (day <= this.openedDoors) {
       this.openDay = day;
-      document.body.classList.add('overflow-hidden');
+      this.scrollLock.lock(this);
     }
   }
 
   close() {
     this.openDay = null;
-    document.body.classList.remove('overflow-hidden');
+    this.scrollLock.unlock(this);
   }
 
   @HostListener('document:keydown.escape')

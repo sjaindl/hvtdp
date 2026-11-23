@@ -43,6 +43,8 @@ VIDEOS_URL="https://www.hvtdpstainz.at/assets/videos"
 IMAGES_URL="https://www.hvtdpstainz.at/assets/images"
 API_URL="https://www.hvtdpstainz.at/api"
 EXPORTS_DIR=""
+# Endpoints downloaded in this run (see fetch).
+FETCHED=""
 PM2_NAME=""
 USE_PM2="auto"
 
@@ -153,9 +155,11 @@ fail() {
 fetch() {
   local endpoint="$1"
   local file="$EXPORTS_DIR/$endpoint.json"
-  if [[ -s "$file" ]]; then
-    return # already downloaded in this run
+  # Download each endpoint once per run. Files of an earlier run (persistent --exports) are replaced.
+  if [[ " $FETCHED " == *" $endpoint "* ]]; then
+    return
   fi
+  FETCHED="$FETCHED $endpoint"
   log "Downloading $endpoint.php"
   curl -fsS --retry 3 "$API_URL/$endpoint.php" -o "$file" || fail "could not download $API_URL/$endpoint.php"
   # shellcheck disable=SC2016 # JavaScript template literal, not a shell expansion

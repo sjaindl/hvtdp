@@ -1,4 +1,5 @@
-import { Injectable, computed, signal } from '@angular/core';
+import { Injectable, computed, inject, signal } from '@angular/core';
+import { ScrollLockService } from '../scroll-lock/scroll-lock.service';
 
 export interface ViewerImage {
   src: string;
@@ -9,6 +10,8 @@ export interface ViewerImage {
 /** Fullscreen image viewer (design: "Lightbox"), rendered once by `ImageViewerHostComponent`. */
 @Injectable({ providedIn: 'root' })
 export class ImageViewerService {
+  private scrollLock = inject(ScrollLockService);
+
   readonly images = signal<ViewerImage[]>([]);
   readonly index = signal(0);
   readonly current = computed<ViewerImage | null>(() => this.images()[this.index()] ?? null);
@@ -22,7 +25,7 @@ export class ImageViewerService {
     this.trigger = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     this.images.set(images);
     this.index.set(Math.max(0, Math.min(images.length - 1, index)));
-    document.body.classList.add('overflow-hidden');
+    this.scrollLock.lock(this);
   }
 
   close() {
@@ -30,7 +33,7 @@ export class ImageViewerService {
       return;
     }
     this.images.set([]);
-    document.body.classList.remove('overflow-hidden');
+    this.scrollLock.unlock(this);
     this.trigger?.focus();
     this.trigger = null;
   }

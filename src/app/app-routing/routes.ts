@@ -1,4 +1,4 @@
-import { Routes } from '@angular/router';
+import { Routes, UrlMatchResult, UrlMatcher, UrlSegment } from '@angular/router';
 
 import { AboutComponent } from '../about/about.component';
 import { AdventComponent } from '../advent/advent.component';
@@ -24,6 +24,20 @@ import { StartingelevenComponent } from '../startingeleven/startingeleven.compon
 import { SurveysComponent } from '../surveys/surveys.component';
 import { TeamComponent } from '../team/team.component';
 
+/**
+ * Matches `<path>` and `<path>/:season` with one route, so switching the season (also from the page
+ * without season) keeps the page instead of rebuilding it (see `isSamePage`).
+ */
+export function withOptionalSeason(path: string): UrlMatcher {
+  return (segments: UrlSegment[]): UrlMatchResult | null => {
+    if (segments[0]?.path !== path || segments.length > 2) {
+      return null;
+    }
+    const posParams: Record<string, UrlSegment> = segments[1] ? { season: segments[1] } : {};
+    return { consumed: segments, posParams };
+  };
+}
+
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -31,13 +45,11 @@ export const routes: Routes = [
   { path: 'news/:newsId', component: NewsComponent },
   { path: 'team', component: TeamComponent },
   // Without a season the newest season from Strapi is shown.
-  { path: 'championship', component: ChampionshipComponent },
-  { path: 'championship/:season', component: ChampionshipComponent },
-  { path: 'gallery', component: GalleryComponent },
+  { matcher: withOptionalSeason('championship'), component: ChampionshipComponent },
+  // An album is its own page (page transition, scrolled to the top).
   { path: 'gallery/:season/:albumId', component: GalleryComponent },
-  { path: 'gallery/:season', component: GalleryComponent },
-  { path: 'social', component: SocialmediaComponent },
-  { path: 'social/:season', component: SocialmediaComponent },
+  { matcher: withOptionalSeason('gallery'), component: GalleryComponent },
+  { matcher: withOptionalSeason('social'), component: SocialmediaComponent },
   { path: 'donation', component: DonationsComponent },
   { path: 'about', component: AboutComponent },
   { path: 'contact', component: ContactComponent },
@@ -47,14 +59,11 @@ export const routes: Routes = [
   { path: 'membership', component: MembershipComponent },
   { path: 'documents', component: DocumentsComponent },
   { path: 'surveys', component: SurveysComponent },
-  { path: 'goaloftheseason', component: GoalOfTheSeasonComponent },
-  { path: 'goaloftheseason/:season', component: GoalOfTheSeasonComponent },
-  { path: 'playeroftheseason', component: PlayerOfTheSeasonComponent },
-  { path: 'playeroftheseason/:season', component: PlayerOfTheSeasonComponent },
+  { matcher: withOptionalSeason('goaloftheseason'), component: GoalOfTheSeasonComponent },
+  { matcher: withOptionalSeason('playeroftheseason'), component: PlayerOfTheSeasonComponent },
   { path: 'startingeleven', component: StartingelevenComponent },
   { path: 'hallofpapp', component: HallofpappComponent },
-  { path: 'advent', component: AdventComponent },
-  { path: 'advent/:season', component: AdventComponent },
+  { matcher: withOptionalSeason('advent'), component: AdventComponent },
   { path: 'hallenturnier', component: HallenturnierComponent },
   // Event pages with registration/order; the slug selects the "Veranstaltung" in Strapi (hidden while inactive).
   { path: 'bocciaturnier', component: ClubEventComponent, data: { slug: 'bocciaturnier' } },

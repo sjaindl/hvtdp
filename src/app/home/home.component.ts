@@ -1,13 +1,13 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
+import { forkJoin, of, switchMap } from 'rxjs';
 import { ChampionshipService } from '../services/championship.service';
 import { CmsService } from '../services/cms.service';
 import { Announcement } from '../shared/announcement';
 import { MatchInfo } from '../shared/match-info';
 import { News } from '../shared/news';
 import { ErrorUtil } from '../shared/utils/error.util';
-import { MatchUtil } from '../shared/utils/match.util';
 import { AnnouncementBarComponent } from '../ui/announcement-bar/announcement-bar.component';
 import { EmptyStateComponent } from '../ui/empty-state/empty-state.component';
 import { LastResultComponent } from '../ui/match-widgets/last-result.component';
@@ -43,6 +43,8 @@ export class HomeComponent implements OnInit {
   lastResult: MatchInfo | null = null;
   nextMatch: MatchInfo | null = null;
   matchesLoaded = false;
+  /** News id of the report of the last result. */
+  reportNewsId: number | null = null;
   announcement = '';
 
   ngOnInit() {
@@ -55,14 +57,27 @@ export class HomeComponent implements OnInit {
       error: () => (this.announcement = ''),
     });
 
-    this.championshipService.getMatches().subscribe({
-      next: (matches) => {
-        this.lastResult = MatchUtil.lastResult(matches ?? []);
-        this.nextMatch = MatchUtil.nextMatch(matches ?? []);
+    // Only the matches the widgets show are requested, not all seasons.
+    forkJoin({
+      lastResult: this.championshipService.getLastResult(),
+      nextMatch: this.championshipService.getNextMatch(),
+    }).subscribe({
+      next: ({ lastResult, nextMatch }) => {
+        this.lastResult = lastResult;
+        this.nextMatch = nextMatch;
         this.matchesLoaded = true;
       },
       error: () => (this.matchesLoaded = true),
     });
+
+    // The report link is optional: without one the last result shows no link.
+    this.championshipService
+      .getLastResult()
+      .pipe(switchMap((match) => (match ? this.cmsService.getMatchReport(match.id) : of(null))))
+      .subscribe({
+        next: (newsId) => (this.reportNewsId = newsId),
+        error: () => (this.reportNewsId = null),
+      });
 
     this.titleService.setTitle('Fußballverein Stainz. HVTDP Stainz.');
     this.metaTagService.updateTag({
@@ -79,7 +94,8 @@ export class HomeComponent implements OnInit {
   loadNews() {
     this.newsLoaded = false;
     this.newsErrorText = '';
-    this.cmsService.getNews().subscribe({
+    // The home page shows the latest news and four more.
+    this.cmsService.getNews(5).subscribe({
       next: (news) => {
         this.news = news;
         this.newsLoaded = true;
@@ -89,14 +105,6 @@ export class HomeComponent implements OnInit {
         this.newsErrorText = ErrorUtil.message(error);
       },
     });
-  }
-
-  /** The report of the last result, once the news are loaded. */
-  get reportNewsId(): number | null {
-    const matchId = this.lastResult?.id;
-    return (
-      this.news.find((item) => matchId !== undefined && item.matchId === matchId)?.newsId ?? null
-    );
   }
 
   get latestNews(): News | null {

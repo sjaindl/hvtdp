@@ -41,15 +41,18 @@ export class MatchUtil {
     return MatchUtil.sortNewestFirst(matches).find((match) => MatchUtil.hasScore(match)) ?? null;
   }
 
-  /** The earliest match that has not been played and has not started yet. */
+  /** The earliest match that has not been played and has not started yet (date-only matches: not before their day). */
   static nextMatch(matches: MatchInfo[], now = new Date()): MatchInfo | null {
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
     return (
       matches
         .filter(
           (match): match is MatchInfo & { kickoff: Date } =>
             !MatchUtil.hasScore(match) &&
             match.kickoff !== null &&
-            match.kickoff.getTime() >= now.getTime()
+            (match.hasTime
+              ? match.kickoff.getTime() >= now.getTime()
+              : match.kickoff.getTime() >= today)
         )
         .sort((a, b) => a.kickoff.getTime() - b.kickoff.getTime())[0] ?? null
     );

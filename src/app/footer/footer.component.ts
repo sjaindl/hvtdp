@@ -2,6 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { StatisticsService } from '../services/statistics.service';
 import { CLUB_NAV, PARTNERS, SOCIAL_LINKS } from '../shared/navigation';
+import { CookieConsentService } from '../ui/cookie-banner/cookie-consent.service';
 
 @Component({
   selector: 'app-footer',
@@ -11,6 +12,7 @@ import { CLUB_NAV, PARTNERS, SOCIAL_LINKS } from '../shared/navigation';
 })
 export class FooterComponent implements OnInit {
   private statisticsService = inject(StatisticsService);
+  readonly cookieConsent = inject(CookieConsentService);
 
   readonly socialLinks = SOCIAL_LINKS;
   readonly partners = PARTNERS;

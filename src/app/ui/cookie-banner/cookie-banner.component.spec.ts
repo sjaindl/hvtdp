@@ -4,6 +4,7 @@ import { AnalyticsService } from '../../services/analytics.service';
 import { provideTestDependencies } from '../../../testing/test-providers';
 import { ImageViewerService } from '../image-viewer/image-viewer.service';
 import { CookieBannerComponent } from './cookie-banner.component';
+import { CookieConsentService } from './cookie-consent.service';
 
 describe('CookieBannerComponent', () => {
   const CONSENT_COOKIE = 'cookieconsent_status';
@@ -77,6 +78,19 @@ describe('CookieBannerComponent', () => {
     create('deny');
     expect(analytics.enable).not.toHaveBeenCalled();
     expect(analytics.disable).toHaveBeenCalled();
+  });
+
+  it('opens again from the cookie settings, so consent can be withdrawn', () => {
+    create('allow');
+    TestBed.inject(CookieConsentService).reopen();
+    fixture.detectChanges();
+    expect(banner()).not.toBeNull();
+
+    button('Nur notwendige')?.click();
+    fixture.detectChanges();
+    expect(cookies.set).toHaveBeenCalledWith(CONSENT_COOKIE, 'deny', jasmine.any(Object));
+    expect(analytics.disable).toHaveBeenCalled();
+    expect(banner()).toBeNull();
   });
 
   it('hides while the image viewer is open', () => {

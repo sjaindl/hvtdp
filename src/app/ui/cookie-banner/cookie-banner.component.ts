@@ -3,13 +3,15 @@ import { RouterModule } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { AnalyticsService } from '../../services/analytics.service';
 import { ImageViewerService } from '../image-viewer/image-viewer.service';
+import { CookieConsentService } from './cookie-consent.service';
 
 /** Same cookie as the previous cookieconsent library, so existing choices are kept. */
 const CONSENT_COOKIE = 'cookieconsent_status';
 
 /**
  * Cookie consent (design: "Cookie/Banner/Mobile|Desktop"). Accept and reject are offered on the
- * first layer with equal size. Google Analytics is loaded only after "Alle akzeptieren".
+ * first layer with equal size. Google Analytics is loaded only after "Alle akzeptieren". The footer link
+ * "Cookie-Einstellungen" opens the banner again, so the choice can be changed or withdrawn.
  */
 @Component({
   selector: 'app-cookie-banner',
@@ -20,13 +22,16 @@ const CONSENT_COOKIE = 'cookieconsent_status';
 export class CookieBannerComponent implements OnInit {
   private cookieService = inject(CookieService);
   private analytics = inject(AnalyticsService);
+  private consent = inject(CookieConsentService);
   readonly imageViewer = inject(ImageViewerService);
 
-  visible = false;
+  get visible(): boolean {
+    return this.consent.bannerVisible();
+  }
 
   ngOnInit() {
     const status = this.cookieService.get(CONSENT_COOKIE);
-    this.visible = !status;
+    this.consent.bannerVisible.set(!status);
     if (status === 'allow') {
       this.analytics.enable();
     } else {
@@ -47,6 +52,6 @@ export class CookieBannerComponent implements OnInit {
     } else {
       this.analytics.disable();
     }
-    this.visible = false;
+    this.consent.bannerVisible.set(false);
   }
 }

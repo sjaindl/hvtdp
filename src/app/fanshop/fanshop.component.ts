@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Meta, Title } from '@angular/platform-browser';
 import { ShopService } from '../services/shop.service';
@@ -11,6 +11,7 @@ import { ContentSwapDirective } from '../ui/content-swap/content-swap.directive'
 import { EmptyStateComponent } from '../ui/empty-state/empty-state.component';
 import { ZoomableDirective } from '../ui/image-viewer/zoomable.directive';
 import { PageIntroComponent } from '../ui/page-intro/page-intro.component';
+import { ScrollLockService } from '../ui/scroll-lock/scroll-lock.service';
 import { SlidingIndicatorDirective } from '../ui/sliding-indicator/sliding-indicator.directive';
 import { ToastService } from '../ui/toast/toast.service';
 
@@ -36,11 +37,12 @@ interface Order {
     ClampedTextComponent,
   ],
 })
-export class FanshopComponent implements OnInit {
+export class FanshopComponent implements OnInit, OnDestroy {
   private shopService = inject(ShopService);
   private titleService = inject(Title);
   private metaTagService = inject(Meta);
   private toastService = inject(ToastService);
+  private scrollLock = inject(ScrollLockService);
 
   readonly email = CLUB_EMAIL;
   readonly priceLabel = priceLabel;
@@ -64,6 +66,11 @@ export class FanshopComponent implements OnInit {
       name: 'description',
       content: 'Handtücher, Fan-Shirts, Mützen & Co aus dem offizellen Fanshop des HV TDP Stainz.',
     });
+  }
+
+  ngOnDestroy() {
+    // Leaving the page with the order sheet open (back button, header link) must not keep the lock.
+    this.scrollLock.unlock(this);
   }
 
   load() {
@@ -98,7 +105,7 @@ export class FanshopComponent implements OnInit {
         : ''
     );
     this.order = { item, values, quantity: 1, note: '' };
-    document.body.classList.add('overflow-hidden');
+    this.scrollLock.lock(this);
     // Focus the sheet so Escape works right away.
     setTimeout(() => this.orderBackdrop?.nativeElement.focus());
   }
@@ -108,7 +115,7 @@ export class FanshopComponent implements OnInit {
       return;
     }
     this.order = null;
-    document.body.classList.remove('overflow-hidden');
+    this.scrollLock.unlock(this);
     this.orderTrigger?.focus();
     this.orderTrigger = null;
   }

@@ -15,7 +15,15 @@ export function priceLabel(item: Item): string {
   const choicePrices = item.optionGroups
     .flatMap((group) => group.choices.map((choice) => choice.price))
     .filter((price): price is number => price !== null);
-  const prices = choicePrices.length ? choicePrices : item.price !== null ? [item.price] : [];
+  // The item price applies unless a required option prices every choice (as in the order sheet).
+  const choiceDecides = item.optionGroups.some(
+    (group) =>
+      group.required &&
+      group.choices.length > 0 &&
+      group.choices.every((choice) => choice.price !== null)
+  );
+  const prices =
+    item.price !== null && !choiceDecides ? [...choicePrices, item.price] : choicePrices;
   if (!prices.length) {
     return item.priceNote || 'Preis auf Anfrage';
   }

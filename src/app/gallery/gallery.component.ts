@@ -112,10 +112,13 @@ export class GalleryComponent implements OnInit, OnDestroy {
             this.selectedAlbum = null;
           } else {
             this.selectedAlbum = result;
-            if (result) {
-              this.titleService.setTitle(`HV TDP Stainz: ${result.name}`);
-            }
           }
+          // Back in the year view (or for a missing album) the album name must not stay in the title.
+          this.titleService.setTitle(
+            this.selectedAlbum
+              ? `HV TDP Stainz: ${this.selectedAlbum.name}`
+              : 'HV TDP Stainz: Galerie'
+          );
           this.loaded = true;
           this.loading = false;
           this.contentKey = this.selectedAlbumSlug ?? this.season;

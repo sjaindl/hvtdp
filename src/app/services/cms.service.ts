@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { EMPTY, Observable, expand, map, reduce, shareReplay } from 'rxjs';
+import { Observable, forkJoin, map, of, shareReplay, switchMap } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { News, NewsCategory } from '../shared/news';
 import { StrapiMedia, mediaUrl, resolveCmsUrl } from '../shared/utils/media.util';
@@ -32,20 +32,46 @@ export class CmsService {
   private readonly pageSize = 100;
   private readonly cache = new Map<string, Observable<unknown>>();
 
-  /** All entries of a collection type (e.g. `news-items`), loaded once and shared. */
+  /**
+   * All entries of a collection type (e.g. `news-items`), loaded once and shared. After the first
+   * page the remaining pages are requested in parallel. A failed load is not kept: shareReplay
+   * resets on error, so the next subscriber (e.g. "Erneut") requests again.
+   */
   public getCollection<T>(pluralName: string, params: StrapiParams = {}): Observable<T[]> {
     const key = `${pluralName}?${new HttpParams({ fromObject: params }).toString()}`;
     if (!this.cache.has(key)) {
       this.cache.set(
         key,
-        this.getPage<T>(pluralName, params, 1).pipe(
-          expand((page) =>
-            page.meta.pagination.page < page.meta.pagination.pageCount
-              ? this.getPage<T>(pluralName, params, page.meta.pagination.page + 1)
-              : EMPTY
-          ),
+        this.getPage<T>(pluralName, params, 1, this.pageSize).pipe(
+          switchMap((first) => {
+            const { pageCount } = first.meta.pagination;
+            const rest = Array.from({ length: pageCount - 1 }, (_, index) =>
+              this.getPage<T>(pluralName, params, index + 2, this.pageSize)
+            );
+            return rest.length
+              ? forkJoin(rest).pipe(map((pages) => [first, ...pages]))
+              : of([first]);
+          }),
+          map((pages) => pages.flatMap((page) => page.data)),
+          shareReplay(1)
+        )
+      );
+    }
+    return this.cache.get(key) as Observable<T[]>;
+  }
+
+  /** The first `limit` entries of a collection type (use with a sort), loaded once and shared. */
+  public getFirst<T>(
+    pluralName: string,
+    limit: number,
+    params: StrapiParams = {}
+  ): Observable<T[]> {
+    const key = `${pluralName}?limit=${limit}&${new HttpParams({ fromObject: params }).toString()}`;
+    if (!this.cache.has(key)) {
+      this.cache.set(
+        key,
+        this.getPage<T>(pluralName, params, 1, limit).pipe(
           map((page) => page.data),
-          reduce((all, data) => all.concat(data), [] as T[]),
           shareReplay(1)
         )
       );
@@ -70,14 +96,29 @@ export class CmsService {
     return this.cache.get(key) as Observable<T | null>;
   }
 
-  public getNews(): Observable<News[]> {
-    return this.getCollection<StrapiNewsItem>('news-items', {
+  /** All news, newest first; with `limit` only the newest ones (home page). */
+  public getNews(limit?: number): Observable<News[]> {
+    const params: StrapiParams = {
       'sort[0]': 'date:desc',
       'sort[1]': 'newsId:desc',
       'populate[image]': true,
       'populate[homeImage]': true,
       'populate[match][fields][0]': 'round',
-    }).pipe(map((items) => items.map((item) => this.toNews(item))));
+    };
+    const items = limit
+      ? this.getFirst<StrapiNewsItem>('news-items', limit, params)
+      : this.getCollection<StrapiNewsItem>('news-items', params);
+    return items.pipe(map((list) => list.map((item) => this.toNews(item))));
+  }
+
+  /** News id of the newest report of a match, or null without report. */
+  public getMatchReport(matchId: number): Observable<number | null> {
+    return this.getFirst<{ newsId: number }>('news-items', 1, {
+      'filters[match][id][$eq]': matchId,
+      'sort[0]': 'date:desc',
+      'sort[1]': 'newsId:desc',
+      'fields[0]': 'newsId',
+    }).pipe(map(([report]) => report?.newsId ?? null));
   }
 
   /** Resolves CMS-relative paths (e.g. /uploads/x.jpg) against the CMS host. */
@@ -88,10 +129,11 @@ export class CmsService {
   private getPage<T>(
     pluralName: string,
     params: StrapiParams,
-    page: number
+    page: number,
+    pageSize: number
   ): Observable<StrapiPage<T>> {
     return this.http.get<StrapiPage<T>>(`${environment.cmsUrl}/api/${pluralName}`, {
-      params: { ...params, 'pagination[page]': page, 'pagination[pageSize]': this.pageSize },
+      params: { ...params, 'pagination[page]': page, 'pagination[pageSize]': pageSize },
     });
   }
 

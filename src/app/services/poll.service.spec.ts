@@ -33,6 +33,35 @@ describe('PollService', () => {
     ]);
   });
 
+  it('treats a poll past its end date as closed', () => {
+    let polls: Poll[] = [];
+    service
+      .getPolls('playerOfTheYear', new Date('2026-06-01T12:00:00Z'))
+      .subscribe((result) => (polls = result));
+    http
+      .expectOne((r) => r.url === `${api}/polls`)
+      .flush(
+        page([
+          {
+            type: 'playerOfTheYear',
+            year: '2026',
+            open: true,
+            closesAt: '2026-05-31T21:55:00.000Z',
+            surveyUrl: null,
+          },
+          {
+            type: 'playerOfTheYear',
+            year: '2025',
+            open: true,
+            closesAt: '2026-06-30T21:55:00.000Z',
+            surveyUrl: null,
+          },
+          { type: 'playerOfTheYear', year: '2024', open: true, closesAt: null, surveyUrl: null },
+        ])
+      );
+    expect(polls.map((poll) => poll.open)).toEqual([false, true, true]);
+  });
+
   it('maps goal options with video and match, player options with portrait', () => {
     let options: PollOption[] = [];
     service.getOptions('goalOfTheYear', '2026').subscribe((result) => (options = result));

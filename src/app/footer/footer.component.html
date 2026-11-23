@@ -74,6 +74,10 @@
       <p>
         <a routerLink="/impressum" class="hover:text-white">Impressum</a> ·
         <a routerLink="/datenschutz" class="hover:text-white">Datenschutz</a> ·
+        <button type="button" class="hover:text-white" (click)="cookieConsent.reopen()">
+          Cookie-Einstellungen
+        </button>
+        ·
         <a routerLink="/contact" class="hover:text-white">Kontakt</a> ·
         <a href="https://github.com/sjaindl" target="_blank" rel="noopener" class="hover:text-white"
           >Website: Stefan Jaindl</a

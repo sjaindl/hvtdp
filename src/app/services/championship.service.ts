@@ -165,6 +165,40 @@ export class ChampionshipService {
       );
   }
 
+  /** The most recent played match (home page), without loading all seasons; events are left out. */
+  getLastResult(): Observable<MatchInfo | null> {
+    return this.cms
+      .getFirst<StrapiMatch>('matches', 5, {
+        ...MATCH_POPULATE,
+        'filters[competition][$ne]': 'Event',
+        'filters[homeScore][$notNull]': true,
+        'filters[awayScore][$notNull]': true,
+        'filters[date][$notNull]': true,
+        'sort[0]': 'date:desc',
+        'sort[1]': 'time:desc',
+        'sort[2]': 'id:desc',
+      })
+      .pipe(map((matches) => MatchUtil.lastResult(matches.map(toMatchInfo))));
+  }
+
+  /** The next match (home page): the earliest matches from today on, checked by `MatchUtil.nextMatch`. */
+  getNextMatch(now = new Date()): Observable<MatchInfo | null> {
+    const today = [
+      now.getFullYear(),
+      String(now.getMonth() + 1).padStart(2, '0'),
+      String(now.getDate()).padStart(2, '0'),
+    ].join('-');
+    return this.cms
+      .getFirst<StrapiMatch>('matches', 10, {
+        ...MATCH_POPULATE,
+        'filters[competition][$ne]': 'Event',
+        'filters[date][$gte]': today,
+        'sort[0]': 'date:asc',
+        'sort[1]': 'time:asc',
+      })
+      .pipe(map((matches) => MatchUtil.nextMatch(matches.map(toMatchInfo), now)));
+  }
+
   /** Matches of one season, or all matches (home widgets) without a season; events are left out. */
   getMatches(season?: string): Observable<MatchInfo[]> {
     const params: StrapiParams = { ...MATCH_POPULATE, 'filters[competition][$ne]': 'Event' };

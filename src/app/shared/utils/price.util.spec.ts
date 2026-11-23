@@ -59,6 +59,25 @@ describe('price util', () => {
     expect(priceLabel(socks)).toBe('9,90 €');
   });
 
+  it('counts the item price for choices without a price', () => {
+    const shirt = item({
+      price: 20,
+      optionGroups: [
+        {
+          label: 'Größe',
+          kind: 'choice',
+          required: true,
+          placeholder: '',
+          choices: [
+            { label: 'M', price: null },
+            { label: 'XXL', price: 22 },
+          ],
+        },
+      ],
+    });
+    expect(priceLabel(shirt)).toBe('ab 20,00 €');
+  });
+
   it('shows the price note (or a fallback) without any price', () => {
     expect(priceLabel(item({ priceNote: 'Betrag frei wählbar' }))).toBe('Betrag frei wählbar');
     expect(priceLabel(item({}))).toBe('Preis auf Anfrage');

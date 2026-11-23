@@ -70,6 +70,12 @@ describe('MatchUtil', () => {
       expect(MatchUtil.nextMatch(all, new Date(2026, 11, 1))).toBeNull();
     });
 
+    it('keeps a match without kickoff time as next match for its whole day', () => {
+      const dateOnly = match({ id: 6, kickoff: new Date(2026, 8, 19), hasTime: false });
+      expect(MatchUtil.nextMatch([dateOnly], new Date(2026, 8, 19, 18))).toBe(dateOnly);
+      expect(MatchUtil.nextMatch([dateOnly], new Date(2026, 8, 20, 0, 1))).toBeNull();
+    });
+
     it('ignores matches without a date', () => {
       expect(MatchUtil.nextMatch([match({ kickoff: null })], new Date(2026, 0, 1))).toBeNull();
     });

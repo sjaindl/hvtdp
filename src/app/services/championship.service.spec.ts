@@ -93,6 +93,39 @@ describe('ChampionshipService', () => {
     expect(cup.goals).toEqual([]);
   });
 
+  it('requests only the upcoming matches for the next match', () => {
+    const strapiMatch = (id: number, date: string, time: string | null) => ({
+      id,
+      season: { key: '2026-2027' },
+      competition: 'Meisterschaft',
+      round: 1,
+      stage: null,
+      date,
+      time,
+      venue: null,
+      homeTeam: 'HV TDP Stainz',
+      awayTeam: 'SV Gast',
+      homeScore: null,
+      awayScore: null,
+      additionalInfo: null,
+      goals: [],
+    });
+    let next: MatchInfo | null = null;
+    service.getNextMatch(new Date(2026, 8, 19, 18)).subscribe((match) => (next = match));
+    const request = http.expectOne((r) => r.url === `${api}/matches`);
+    expect(request.request.params.get('filters[date][$gte]')).toBe('2026-09-19');
+    expect(request.request.params.get('pagination[pageSize]')).toBe('10');
+    // Today 15:00 has started, today without time and next week have not.
+    request.flush(
+      page([
+        strapiMatch(1, '2026-09-19', '15:00:00.000'),
+        strapiMatch(2, '2026-09-19', null),
+        strapiMatch(3, '2026-09-26', '15:00:00.000'),
+      ])
+    );
+    expect(next!.id).toBe(2);
+  });
+
   it('maps season scorers with portrait, most goals first', () => {
     let scorers: Scorer[] = [];
     service.getScorers('2026-2027').subscribe((result) => (scorers = result));

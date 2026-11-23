@@ -12,6 +12,7 @@ interface StrapiPoll {
   type: PollType;
   year: string;
   open: boolean | null;
+  closesAt: string | null;
   surveyUrl: string | null;
 }
 
@@ -45,7 +46,7 @@ export class PollService {
   private http = inject(HttpClient);
 
   /** Polls of a type, newest year first. */
-  getPolls(type: PollType): Observable<Poll[]> {
+  getPolls(type: PollType, now = new Date()): Observable<Poll[]> {
     return this.cms
       .getCollection<StrapiPoll>('polls', { 'filters[type][$eq]': type, 'sort[0]': 'year:desc' })
       .pipe(
@@ -53,7 +54,8 @@ export class PollService {
           polls.map((poll) => ({
             type: poll.type,
             year: poll.year,
-            open: poll.open ?? false,
+            // Same rule as the vote endpoint: a poll past its end date takes no votes any more.
+            open: !!poll.open && (!poll.closesAt || new Date(poll.closesAt) > now),
             surveyUrl: poll.surveyUrl,
           }))
         )

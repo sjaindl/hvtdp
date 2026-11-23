@@ -3,6 +3,7 @@ import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { filter } from 'rxjs';
 import { CLUB_NAV, HIGHLIGHTS_NAV, MAIN_NAV, NavItem, SOCIAL_LINKS } from '../shared/navigation';
 import { STARTING_ELEVEN_URL } from '../shared/seasons';
+import { ScrollLockService } from '../ui/scroll-lock/scroll-lock.service';
 import { SlidingIndicatorDirective } from '../ui/sliding-indicator/sliding-indicator.directive';
 
 @Component({
@@ -14,6 +15,7 @@ import { SlidingIndicatorDirective } from '../ui/sliding-indicator/sliding-indic
 export class HeaderComponent {
   private router = inject(Router);
   private elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  private scrollLock = inject(ScrollLockService);
 
   readonly mainNav = MAIN_NAV;
   readonly highlightsNav = HIGHLIGHTS_NAV;
@@ -47,14 +49,18 @@ export class HeaderComponent {
 
   toggleMobileMenu() {
     this.mobileMenuOpen = !this.mobileMenuOpen;
-    document.body.classList.toggle('overflow-hidden', this.mobileMenuOpen);
+    if (this.mobileMenuOpen) {
+      this.scrollLock.lock(this);
+    } else {
+      this.scrollLock.unlock(this);
+    }
   }
 
   closeMenus(forNavigation = false) {
     this.closeWithoutAnimation = forNavigation && (this.mobileMenuOpen || this.moreMenuOpen);
     this.mobileMenuOpen = false;
     this.moreMenuOpen = false;
-    document.body.classList.remove('overflow-hidden');
+    this.scrollLock.unlock(this);
   }
 
   /** Leave animation of the menus; skipped when a navigation closes them, so the new page has no menu. */
