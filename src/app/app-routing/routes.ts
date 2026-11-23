@@ -7,6 +7,7 @@ import { ContactComponent } from '../contact/contact.component';
 import { DocumentsComponent } from '../documents/documents.component';
 import { DonationsComponent } from '../donations/donations.component';
 import { FanshopComponent } from '../fanshop/fanshop.component';
+import { GoldenshotComponent } from '../goldenshot/goldenshot.component';
 import { GalleryComponent } from '../gallery/gallery.component';
 import { GoalOfTheSeasonComponent } from '../goaloftheseason/goaloftheseason.component';
 import { HallenturnierComponent } from '../hallenturnier/hallenturnier.component';
@@ -56,9 +57,10 @@ export const routes: Routes = [
   //{ path: 'bocciaturnier', component: BocciaComponent },
   // { path: '10-jahre-hvtdp', component: ZehnjahresfeierComponent },
   // { path: 'stadionfest', component: StadionFestComponent },
-  // { path: 'torschusschallenge', component: GoldenshotComponent },
+  { path: 'torschusschallenge', component: GoldenshotComponent },
   // { path: 'comedyhirten', component: ComedyhirtenComponent },
   // { path: 'bigdarts', component: BigdartsComponent },
-  // { path: 'torschusschallenge-voting', component: GoldenshotVotingComponent },
+  // Old voting link: the voting is part of the challenge page now.
+  { path: 'torschusschallenge-voting', redirectTo: 'torschusschallenge', pathMatch: 'full' },
   { path: '**', component: NotFoundComponent },
 ];

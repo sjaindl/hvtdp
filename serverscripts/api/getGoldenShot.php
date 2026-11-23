@@ -18,7 +18,8 @@
 
         $con->set_charset("utf8mb4");
 
-        $sql = "SELECT id, firstName, lastName, email, phone, photo, votes FROM Goldenshot WHERE season = '2026'";
+        // Public endpoint: no contact data (email/phone stay in the database).
+        $sql = "SELECT id, firstName, lastName, photo, votes FROM Goldenshot WHERE season = '2026'";
         $q = mysqli_query($con, $sql);
 
         $goldenshot_array = array();
@@ -28,8 +29,6 @@
             'id'=> $res["id"],
             'firstName'=> $res["firstName"],
             'lastName'=> $res["lastName"],
-            'email'=> $res["email"],
-            'phone'=> $res["phone"],
             'photo'=> $res["photo"],
             'votes'=> $res["votes"]));
         }

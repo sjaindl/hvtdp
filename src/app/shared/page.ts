@@ -35,3 +35,21 @@ export interface AdventCalendar {
   note: string;
   doors: AdventDoor[];
 }
+
+/** The Torschuss Challenge (Golden Shot) page, prepared for display. */
+export interface GoldenShotPage {
+  active: boolean;
+  title: string;
+  sponsor: string;
+  imageUrl: string | null;
+  /** Markdown (prizes, rules). */
+  description: string;
+  /** "Sa, 06.06.2026", or ''. */
+  finalDate: string;
+  /** Switched on and the deadline has not passed. */
+  registrationOpen: boolean;
+  deadline: string;
+  /** The voting of this edition. */
+  poll: { year: string; open: boolean; closesAt: string } | null;
+  resultImageUrl: string | null;
+}

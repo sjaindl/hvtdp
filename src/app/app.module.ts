@@ -48,7 +48,6 @@ import { FanshopComponent } from './fanshop/fanshop.component';
 import { FooterComponent } from './footer/footer.component';
 import { GalleryComponent } from './gallery/gallery.component';
 import { GoalOfTheSeasonComponent } from './goaloftheseason/goaloftheseason.component';
-import { GoldenshotVotingComponent } from './goldenshot-voting/goldenshot-voting.component';
 import { GoldenshotComponent } from './goldenshot/goldenshot.component';
 import { HallenturnierComponent } from './hallenturnier/hallenturnier.component';
 import { HallofpappComponent } from './hallofpapp/hallofpapp.component';
@@ -125,7 +124,6 @@ import { VideoCardComponent } from './video-card/video-card.component';
     DonationsComponent,
     GalleryComponent,
     GoalOfTheSeasonComponent,
-    GoldenshotVotingComponent,
     MembershipComponent,
     PlayerOfTheSeasonComponent,
     StadionFestComponent,

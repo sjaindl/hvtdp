@@ -1,7 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { GoldenShot } from '../shared/goldenshot';
 import { Survey } from '../shared/survey';
 
 @Injectable()
@@ -101,48 +100,6 @@ export class MysqlService {
         .append('useragent', window.navigator.userAgent)
         .append('language', window.navigator.language)
         .append('platform', window.navigator.platform),
-    });
-  }
-
-  public getGoldenshot(): Observable<GoldenShot[]> {
-    return this.http.get<GoldenShot[]>(this.baseUrl + 'getGoldenShot.php');
-  }
-
-  public postGoldenShotRegistration(
-    firstName: string,
-    lastName: string,
-    mail: string,
-    phone: string,
-    photo: string
-  ): Observable<unknown> {
-    let url = this.baseUrl + 'postGoldenShot.php?';
-    url += '&firstName=' + firstName;
-    url += '&lastName=' + lastName;
-    url += '&mail=' + mail;
-    url += '&phone=' + phone;
-    url += '&photo=' + photo;
-    url += '&useragent=' + window.navigator.userAgent;
-    url += '&language=' + window.navigator.language;
-    url += '&platform=' + window.navigator.platform;
-
-    return this.http.get<unknown>(url, {
-      params: new HttpParams()
-        .append('firstName', firstName)
-        .append('lastName', lastName)
-        .append('mail', mail)
-        .append('phone', phone)
-        .append('photo', photo)
-        .append('useragent', window.navigator.userAgent)
-        .append('language', window.navigator.language)
-        .append('platform', window.navigator.platform),
-    });
-  }
-
-  public postGoldenShotVote(id: string): Observable<unknown> {
-    const url = this.baseUrl + 'postGoldenShotVote.php?';
-
-    return this.http.get<unknown>(url, {
-      params: new HttpParams().append('id', id),
     });
   }
 }

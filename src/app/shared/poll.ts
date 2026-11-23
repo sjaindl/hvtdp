@@ -1,7 +1,7 @@
 import { MatchInfo } from './match-info';
 import { Video } from './video';
 
-export type PollType = 'goalOfTheYear' | 'playerOfTheYear';
+export type PollType = 'goalOfTheYear' | 'playerOfTheYear' | 'goldenShot';
 
 /** Tor des Jahres / Spieler der Saison of one year. */
 export interface Poll {

@@ -18,6 +18,8 @@ interface StrapiPoll {
 interface StrapiPollOption {
   documentId: string;
   name: string | null;
+  /** Photo of a participant without player entry (Torschuss Challenge). */
+  image: StrapiMedia | null;
   player: {
     firstName: string;
     lastName: string;
@@ -68,6 +70,7 @@ export class PollService {
         'populate[player][fields][1]': 'lastName',
         'populate[player][fields][2]': 'position',
         'populate[player][populate][image]': true,
+        'populate[image]': true,
         'populate[video][populate][player][fields][0]': 'firstName',
         'populate[video][populate][player][fields][1]': 'lastName',
         ...nested('populate[video][populate][match]'),
@@ -79,7 +82,7 @@ export class PollService {
             name: option.player
               ? `${option.player.firstName} ${option.player.lastName}`
               : (option.name ?? ''),
-            imageUrl: mediaUrl(option.player?.image, 'thumbnail'),
+            imageUrl: mediaUrl(option.player?.image ?? option.image, 'thumbnail'),
             position: option.player?.position ?? null,
             video: option.video ? toVideo(option.video) : null,
             match: option.video?.match ? toMatchInfo(option.video.match) : null,

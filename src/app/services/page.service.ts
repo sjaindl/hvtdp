@@ -2,7 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { AdventCalendar, Hallenturnier, HallenturnierRegistration } from '../shared/page';
+import {
+  AdventCalendar,
+  GoldenShotPage,
+  Hallenturnier,
+  HallenturnierRegistration,
+} from '../shared/page';
 import { MatchUtil } from '../shared/utils/match.util';
 import { StrapiMedia, mediaUrl } from '../shared/utils/media.util';
 import { formatPrice } from '../shared/utils/price.util';
@@ -24,6 +29,19 @@ interface StrapiHallenturnier {
   iban: string | null;
   paymentReference: string | null;
   lastEditionAlbum: { name: string; year: string; slug: string } | null;
+}
+
+interface StrapiGoldenShot {
+  active: boolean | null;
+  title: string;
+  sponsor: string | null;
+  image: StrapiMedia | null;
+  description: string | null;
+  finalDate: string | null;
+  registrationOpen: boolean | null;
+  registrationDeadline: string | null;
+  poll: { year: string; open: boolean | null; closesAt: string | null } | null;
+  resultImage: StrapiMedia | null;
 }
 
 interface StrapiAdventCalendar {
@@ -86,6 +104,35 @@ export function toHallenturnier(entry: StrapiHallenturnier, now = new Date()): H
   };
 }
 
+export function toGoldenShot(entry: StrapiGoldenShot, now = new Date()): GoldenShotPage {
+  const poll = entry.poll;
+  const closesAt = poll?.closesAt ? new Date(poll.closesAt) : null;
+  return {
+    active: entry.active ?? false,
+    title: entry.title,
+    sponsor: entry.sponsor ?? '',
+    imageUrl: mediaUrl(entry.image, 'large'),
+    description: entry.description ?? '',
+    finalDate: formatDay(entry.finalDate),
+    registrationOpen:
+      !!entry.active &&
+      !!entry.registrationOpen &&
+      (!entry.registrationDeadline || today(now) <= entry.registrationDeadline),
+    deadline: formatDay(entry.registrationDeadline),
+    poll: poll
+      ? {
+          year: poll.year,
+          open: !!poll.open && (!closesAt || closesAt > now),
+          // "So, 17.05.2026, 23:55 Uhr"
+          closesAt: closesAt
+            ? MatchUtil.formatDateTime({ kickoff: closesAt, hasTime: true }).replace(' · ', ', ')
+            : '',
+        }
+      : null,
+    resultImageUrl: mediaUrl(entry.resultImage, 'large'),
+  };
+}
+
 /** Page texts from Strapi: the Hallenturnier page (with its registration) and the Advent calendars. */
 @Injectable({ providedIn: 'root' })
 export class PageService {
@@ -108,6 +155,26 @@ export class PageService {
   register(registration: HallenturnierRegistration): Observable<unknown> {
     return this.http.post(
       `${environment.cmsUrl}/api/hallenturnier-registrations/register`,
+      registration
+    );
+  }
+
+  getGoldenShot(): Observable<GoldenShotPage | null> {
+    return this.cms
+      .getSingle<StrapiGoldenShot>('golden-shot', {
+        'populate[image]': true,
+        'populate[resultImage]': true,
+        'populate[poll][fields][0]': 'year',
+        'populate[poll][fields][1]': 'open',
+        'populate[poll][fields][2]': 'closesAt',
+      })
+      .pipe(map((entry) => (entry ? toGoldenShot(entry) : null)));
+  }
+
+  /** Multipart registration (fields + optional photo); the server adds the participant to the voting and sends the mails. */
+  registerGoldenShot(registration: FormData): Observable<unknown> {
+    return this.http.post(
+      `${environment.cmsUrl}/api/golden-shot-registrations/register`,
       registration
     );
   }

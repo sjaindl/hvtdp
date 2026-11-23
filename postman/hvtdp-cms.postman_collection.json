@@ -2054,6 +2054,235 @@
           "response": []
         }
       ]
+    },
+    {
+      "name": "Torschuss Challenge",
+      "description": "Golden Shot page, its voting and the registration (`migrate-to-strapi.sh goldenshot`). The registration stores an entry, adds a voting option and sends two mails: use it locally only (and only while the page is active with registration open).",
+      "item": [
+        {
+          "name": "Torschuss Challenge page",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/golden-shot?populate[image]=true&populate[resultImage]=true&populate[poll][fields][0]=year&populate[poll][fields][1]=open&populate[poll][fields][2]=closesAt",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "golden-shot"
+              ],
+              "query": [
+                {
+                  "key": "populate[image]",
+                  "value": "true"
+                },
+                {
+                  "key": "populate[resultImage]",
+                  "value": "true"
+                },
+                {
+                  "key": "populate[poll][fields][0]",
+                  "value": "year"
+                },
+                {
+                  "key": "populate[poll][fields][1]",
+                  "value": "open"
+                },
+                {
+                  "key": "populate[poll][fields][2]",
+                  "value": "closesAt"
+                }
+              ]
+            },
+            "description": "Page with image, result image and the linked voting."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const page = pm.response.json().data;",
+                  "pm.test('Has title and voting', () => {",
+                  "  pm.expect(page.title).to.be.a('string');",
+                  "  pm.expect(page.poll.year).to.match(/^\\d{4}$/);",
+                  "});",
+                  "pm.environment.set('goldenShotYear', page.poll.year);"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Participants of the voting",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/poll-options?filters[poll][type][$eq]=goldenShot&filters[poll][year][$eq]={{goldenShotYear}}&populate[image]=true&pagination[pageSize]=100",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "poll-options"
+              ],
+              "query": [
+                {
+                  "key": "filters[poll][type][$eq]",
+                  "value": "goldenShot"
+                },
+                {
+                  "key": "filters[poll][year][$eq]",
+                  "value": "{{goldenShotYear}}"
+                },
+                {
+                  "key": "populate[image]",
+                  "value": "true"
+                },
+                {
+                  "key": "pagination[pageSize]",
+                  "value": "100"
+                }
+              ]
+            },
+            "description": "Options of the Torschuss Challenge voting of `{{goldenShotYear}}`: name and photo only."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('Participants listed', () => pm.expect(body.data).to.be.an('array').that.is.not.empty);",
+                  "pm.test('No contact data and no vote counts', () => {",
+                  "  const text = pm.response.text();",
+                  "  ['email', 'phone', 'votes', 'adminTitle'].forEach((key) => pm.expect(text).to.not.include(`\"${key}\"`));",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Registration (local only)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/golden-shot-registrations/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "golden-shot-registrations",
+                "register"
+              ]
+            },
+            "description": "Multipart registration (add a `photo` file field to test the upload). 200, or 400 (invalid input/photo), 409 (registration closed), 429 (more than 5 per hour from one IP).",
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "firstName",
+                  "value": "Postman",
+                  "type": "text"
+                },
+                {
+                  "key": "lastName",
+                  "value": "Test",
+                  "type": "text"
+                },
+                {
+                  "key": "email",
+                  "value": "postman@example.com",
+                  "type": "text"
+                },
+                {
+                  "key": "phone",
+                  "value": "",
+                  "type": "text"
+                },
+                {
+                  "key": "website",
+                  "value": "",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Registered, closed or limited', () => pm.expect(pm.response.code).to.be.oneOf([200, 409, 429]));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Registrations are not public",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/golden-shot-registrations",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "golden-shot-registrations"
+              ]
+            },
+            "description": "Contact data is only visible in the admin."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 403', () => pm.response.to.have.status(403));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        }
+      ]
     }
   ]
 }

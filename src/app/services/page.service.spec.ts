@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { environment } from '../../environments/environment';
 import { provideTestDependencies } from '../../testing/test-providers';
 import { AdventCalendar } from '../shared/page';
-import { PageService, toHallenturnier } from './page.service';
+import { PageService, toGoldenShot, toHallenturnier } from './page.service';
 
 describe('PageService', () => {
   const api = `${environment.cmsUrl}/api`;
@@ -67,6 +67,38 @@ describe('PageService', () => {
         toHallenturnier({ ...entry, registrationDeadline: null }, new Date(2030, 0, 1))
           .registrationOpen
       ).toBeTrue();
+    });
+  });
+
+  describe('toGoldenShot', () => {
+    const page = {
+      active: true,
+      title: 'Torschuss Challenge 2027',
+      sponsor: 'powered by 11teamsports Graz',
+      image: null,
+      description: '### Preise',
+      finalDate: '2027-06-05',
+      registrationOpen: true,
+      registrationDeadline: '2027-04-30',
+      poll: { year: '2027', open: true, closesAt: '2027-05-16T21:55:00.000Z' },
+      resultImage: null,
+    };
+
+    it('opens registration and voting by switch, deadline and voting end', () => {
+      const before = toGoldenShot(page, new Date(2027, 3, 1));
+      expect(before.registrationOpen).toBeTrue();
+      expect(before.poll?.open).toBeTrue();
+      expect(before.finalDate).toBe('Sa, 05.06.2027');
+
+      const after = toGoldenShot(page, new Date(2027, 4, 20));
+      expect(after.registrationOpen).toBeFalse();
+      expect(after.poll?.open).toBeFalse();
+    });
+
+    it('keeps everything closed while the page is inactive', () => {
+      expect(
+        toGoldenShot({ ...page, active: false }, new Date(2027, 3, 1)).registrationOpen
+      ).toBeFalse();
     });
   });
 
