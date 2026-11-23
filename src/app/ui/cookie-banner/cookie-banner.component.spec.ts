@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CookieService } from 'ngx-cookie-service';
+import { AnalyticsService } from '../../services/analytics.service';
 import { provideTestDependencies } from '../../../testing/test-providers';
 import { ImageViewerService } from '../image-viewer/image-viewer.service';
 import { CookieBannerComponent } from './cookie-banner.component';
@@ -8,6 +9,7 @@ describe('CookieBannerComponent', () => {
   const CONSENT_COOKIE = 'cookieconsent_status';
   let fixture: ComponentFixture<CookieBannerComponent>;
   let cookies: jasmine.SpyObj<CookieService>;
+  let analytics: jasmine.SpyObj<AnalyticsService>;
   const banner = () => (fixture.nativeElement as HTMLElement).querySelector('div.fixed');
   const button = (label: string) =>
     Array.from((fixture.nativeElement as HTMLElement).querySelectorAll('button')).find((b) =>
@@ -22,27 +24,31 @@ describe('CookieBannerComponent', () => {
 
   beforeEach(async () => {
     cookies = jasmine.createSpyObj<CookieService>('CookieService', ['get', 'set']);
+    analytics = jasmine.createSpyObj<AnalyticsService>('AnalyticsService', ['enable', 'disable']);
     await TestBed.configureTestingModule({
       imports: [CookieBannerComponent],
-      providers: [...provideTestDependencies(), { provide: CookieService, useValue: cookies }],
+      providers: [
+        ...provideTestDependencies(),
+        { provide: CookieService, useValue: cookies },
+        { provide: AnalyticsService, useValue: analytics },
+      ],
     }).compileComponents();
   });
 
   afterEach(() => {
     TestBed.inject(ImageViewerService).close();
-    const flags = window as unknown as Record<string, boolean>;
-    delete flags['ga-disable-UA-122732749-1'];
-    delete flags['ga-disable-G-FNF110XEHW'];
   });
 
-  it('asks for consent on the first visit', () => {
+  it('asks for consent on the first visit and loads no Analytics before', () => {
     create('');
     expect(banner()).not.toBeNull();
+    expect(analytics.enable).not.toHaveBeenCalled();
   });
 
-  it('stays hidden once a choice was made', () => {
+  it('stays hidden once a choice was made and loads Analytics after an earlier consent', () => {
     create('allow');
     expect(banner()).toBeNull();
+    expect(analytics.enable).toHaveBeenCalled();
   });
 
   it('stores the consent for a year and hides the banner', () => {
@@ -56,18 +62,21 @@ describe('CookieBannerComponent', () => {
       jasmine.objectContaining({ expires: 365, path: '/', sameSite: 'Lax' })
     );
     expect(banner()).toBeNull();
+    expect(analytics.enable).toHaveBeenCalled();
   });
 
-  it('switches off Google Analytics when declined', () => {
+  it('keeps Google Analytics off when declined', () => {
     create('');
     button('Nur notwendige')?.click();
     expect(cookies.set).toHaveBeenCalledWith(CONSENT_COOKIE, 'deny', jasmine.any(Object));
-    expect((window as unknown as Record<string, boolean>)['ga-disable-G-FNF110XEHW']).toBeTrue();
+    expect(analytics.enable).not.toHaveBeenCalled();
+    expect(analytics.disable).toHaveBeenCalled();
   });
 
-  it('keeps Google Analytics switched off on later visits after declining', () => {
+  it('keeps Google Analytics off on later visits after declining', () => {
     create('deny');
-    expect((window as unknown as Record<string, boolean>)['ga-disable-UA-122732749-1']).toBeTrue();
+    expect(analytics.enable).not.toHaveBeenCalled();
+    expect(analytics.disable).toHaveBeenCalled();
   });
 
   it('hides while the image viewer is open', () => {

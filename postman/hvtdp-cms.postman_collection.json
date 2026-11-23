@@ -2552,6 +2552,100 @@
           "response": []
         }
       ]
+    },
+    {
+      "name": "Legal pages",
+      "description": "Impressum and Datenschutzerklärung (`migrate-to-strapi.sh legal`).",
+      "item": [
+        {
+          "name": "Impressum",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/legal-pages?filters[slug][$eq]=impressum",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "legal-pages"
+              ],
+              "query": [
+                {
+                  "key": "filters[slug][$eq]",
+                  "value": "impressum"
+                }
+              ]
+            },
+            "description": "Legal page `impressum` (Markdown). Placeholders [[…]] must be replaced in the admin before going live."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const page = pm.response.json().data[0];",
+                  "pm.test('Page with content', () => pm.expect(page.content).to.be.a('string').that.is.not.empty);",
+                  "pm.test('No placeholders left (fails until the club data is filled in)', () => pm.expect(page.content).to.not.include('[['));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Datenschutz",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/legal-pages?filters[slug][$eq]=datenschutz",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "legal-pages"
+              ],
+              "query": [
+                {
+                  "key": "filters[slug][$eq]",
+                  "value": "datenschutz"
+                }
+              ]
+            },
+            "description": "Legal page `datenschutz` (Markdown). Placeholders [[…]] must be replaced in the admin before going live."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const page = pm.response.json().data[0];",
+                  "pm.test('Page with content', () => pm.expect(page.content).to.be.a('string').that.is.not.empty);",
+                  "pm.test('No placeholders left (fails until the club data is filled in)', () => pm.expect(page.content).to.not.include('[['));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        }
+      ]
     }
   ]
 }

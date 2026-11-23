@@ -67,11 +67,13 @@ Season/year lists (chips, newest-first) are derived from the Strapi data; routes
 
 **Deployment**: Production is served as static files by nginx (CloudPanel) on the VPS. Run `npm run build` and upload the *contents* of `dist/hvtdp/` (`index.html`, hashed `*.js`/`*.css`, `assets/`) directly into the site's document root, keeping the existing `api/` folder (remaining PHP endpoints). Strapi changes (content types, migrations, SMTP/password settings) are deployed separately, see `DEPLOY-VPS.md` in the Strapi repo — its checklist in section 5b comes before the website deploy. Verify with `curl -I https://www.hvtdpstainz.at/<main.[hash].js>` — a 404 means the files went to the wrong folder. `server.ts` (Express SSR, `npm run serve:ssr:hvtdp`) exists but is not used in production.
 
-**Third-party integrations embedded in `src/index.html`**:
-- Flowise AI chatbot
-- Google Analytics (UA + GA4)
-- SurveyHero surveys
-- Cookie consent (ngx-cookieconsent)
+**Third-party integrations and privacy**:
+- Flowise AI chatbot (`src/index.html`; the embed script is served from this site via the npm package `flowise-embed`, see `angular.json` assets)
+- Google Analytics 4 is loaded by `src/app/services/analytics.service.ts` **only after consent** in the cookie banner (`cookieconsent_status` cookie); never add tracking snippets to `index.html`
+- SurveyHero surveys: the embed script is loaded only on `/surveys` (`SurveysComponent`)
+- Google Maps on the contact page loads only after "Karte laden"; YouTube videos use youtube-nocookie and load on play
+- Fonts (Inter, Material Icons) are self-hosted via npm (`@fontsource/inter`, `material-icons` in `angular.json` styles) — no Google Fonts
+- Impressum and Datenschutzerklärung are Strapi `legal-page` entries (`/impressum`, `/datenschutz`); update the privacy text when adding a new third-party service
 
 ## NotebookLM Skill
 
@@ -96,4 +98,4 @@ Video generation takes 15–45 minutes. Auth state is stored in `~/.notebooklm/`
 - All new routes must be added to both `src/app/app-routing/routes.ts` and declared/imported in `src/app/app.module.ts`.
 - Photo album import tooling lives in `scripts/` — shell scripts produce CSV data consumed by the backend.
 - Angular Material is the primary component library; Tailwind is used for layout/spacing utilities.
-- Cookie consent is initialized in `AppComponent.ngOnInit()`.
+- Cookie consent is handled by `CookieBannerComponent` (`src/app/ui/cookie-banner/`), which switches Analytics on or off.

@@ -20,4 +20,10 @@ describe('ContactComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('loads Google Maps only after "Karte laden"', () => {
+    expect(component.apiLoaded).toBeUndefined();
+    component.loadMap();
+    expect(component.apiLoaded).toBeDefined();
+  });
 });

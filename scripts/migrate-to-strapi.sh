@@ -51,7 +51,7 @@ USE_PM2="auto"
 # `migrate`. Add new areas here and to AREAS (in migration order).
 # ---------------------------------------------------------------------------------------------
 
-AREAS=(announcement club fanshop documents championship videos gallery pages news-categories goldenshot events)
+AREAS=(announcement club fanshop documents championship videos gallery pages news-categories goldenshot events legal)
 PHASE=download
 
 # Announcement bar on the home page (replaces the ticker).
@@ -96,6 +96,11 @@ area_videos() {
 area_gallery() {
   fetch getPhotos
   migrate gallery --exports "$EXPORTS_DIR" "${MEDIA_ARGS[@]}"
+}
+
+# Impressum and Datenschutzerklärung drafts (existing pages are kept; fill in the [[placeholders]] in the admin).
+area_legal() {
+  migrate legal
 }
 
 # Event pages with registration/order (Bocciaturnier, Kleinfeldturnier, Big Darts, Entenrennen).

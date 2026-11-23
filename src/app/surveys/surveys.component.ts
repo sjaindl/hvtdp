@@ -1,8 +1,10 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DOCUMENT } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
+import { Meta, Title } from '@angular/platform-browser';
 import { MysqlService } from '../services/mysql.service';
-import { DomSanitizer } from '@angular/platform-browser';
-import { Title, Meta } from '@angular/platform-browser';
+
+/** Only SurveyHero embed scripts are loaded (the link comes from the survey API). */
+const SURVEYHERO_SCRIPT = /^https:\/\/embed-cdn\.surveyhero\.com\/js\/user\/embed\.[a-z0-9]+\.js$/;
 
 @Component({
   selector: 'app-surveys',
@@ -13,7 +15,7 @@ import { Title, Meta } from '@angular/platform-browser';
 })
 export class SurveysComponent implements OnInit {
   private mysqlService = inject(MysqlService);
-  private sanitizer = inject(DomSanitizer);
+  private document = inject(DOCUMENT);
   private titleService = inject(Title);
   private metaTagService = inject(Meta);
 
@@ -25,8 +27,8 @@ export class SurveysComponent implements OnInit {
       if (surveys.length > 0) {
         this.surveyLink = surveys[0].link;
         this.surveyId = surveys[0].id;
-        console.log(this.surveyLink);
-        console.log(this.surveyId);
+        // The embed script looks for its container, so it is added once the container is rendered.
+        setTimeout(() => this.loadSurveyScript(this.surveyLink));
       }
     });
 
@@ -46,8 +48,13 @@ export class SurveysComponent implements OnInit {
     ]);
   }
 
-  surveyUrl() {
-    //bypass Angular XSS security for trusted URL
-    return this.sanitizer.bypassSecurityTrustResourceUrl(this.surveyLink);
+  private loadSurveyScript(link: string) {
+    if (!SURVEYHERO_SCRIPT.test(link) || this.document.querySelector(`script[src="${link}"]`)) {
+      return;
+    }
+    const script = this.document.createElement('script');
+    script.src = link;
+    script.async = true;
+    this.document.body.appendChild(script);
   }
 }

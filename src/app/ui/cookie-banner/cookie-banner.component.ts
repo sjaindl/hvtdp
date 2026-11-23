@@ -1,17 +1,15 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
+import { AnalyticsService } from '../../services/analytics.service';
 import { ImageViewerService } from '../image-viewer/image-viewer.service';
 
 /** Same cookie as the previous cookieconsent library, so existing choices are kept. */
 const CONSENT_COOKIE = 'cookieconsent_status';
-const ANALYTICS_IDS = ['UA-122732749-1', 'G-FNF110XEHW'];
 
 /**
  * Cookie consent (design: "Cookie/Banner/Mobile|Desktop"). Accept and reject are offered on the
- * first layer with equal size.
- * TODO(consent): load Google Analytics only after consent instead of disabling it after the fact
- * (gtag is currently embedded unconditionally in index.html).
+ * first layer with equal size. Google Analytics is loaded only after "Alle akzeptieren".
  */
 @Component({
   selector: 'app-cookie-banner',
@@ -21,6 +19,7 @@ const ANALYTICS_IDS = ['UA-122732749-1', 'G-FNF110XEHW'];
 })
 export class CookieBannerComponent implements OnInit {
   private cookieService = inject(CookieService);
+  private analytics = inject(AnalyticsService);
   readonly imageViewer = inject(ImageViewerService);
 
   visible = false;
@@ -28,8 +27,10 @@ export class CookieBannerComponent implements OnInit {
   ngOnInit() {
     const status = this.cookieService.get(CONSENT_COOKIE);
     this.visible = !status;
-    if (status === 'deny') {
-      this.disableAnalytics();
+    if (status === 'allow') {
+      this.analytics.enable();
+    } else {
+      this.analytics.disable();
     }
   }
 
@@ -41,15 +42,11 @@ export class CookieBannerComponent implements OnInit {
       domain,
       sameSite: 'Lax',
     });
-    if (status === 'deny') {
-      this.disableAnalytics();
+    if (status === 'allow') {
+      this.analytics.enable();
+    } else {
+      this.analytics.disable();
     }
     this.visible = false;
-  }
-
-  private disableAnalytics() {
-    ANALYTICS_IDS.forEach(
-      (id) => ((window as unknown as Record<string, boolean>)['ga-disable-' + id] = true)
-    );
   }
 }

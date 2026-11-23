@@ -88,3 +88,12 @@ export interface ClubEventRegistration {
   /** Honeypot. */
   website: string;
 }
+
+/** Impressum / Datenschutzerklärung. */
+export interface LegalPage {
+  title: string;
+  /** Markdown; [[placeholders]] mark club data that is still missing. */
+  content: string;
+  /** "Stand 23.11.2026", or ''. */
+  asOf: string;
+}

@@ -9,6 +9,7 @@ import {
   GoldenShotPage,
   Hallenturnier,
   HallenturnierRegistration,
+  LegalPage,
 } from '../shared/page';
 import { MatchUtil } from '../shared/utils/match.util';
 import { StrapiMedia, mediaUrl } from '../shared/utils/media.util';
@@ -271,6 +272,29 @@ export class PageService {
       `${environment.cmsUrl}/api/club-event-registrations/register`,
       registration
     );
+  }
+
+  /** Impressum or Datenschutzerklärung by slug, or null if there is none. */
+  getLegalPage(slug: string): Observable<LegalPage | null> {
+    return this.cms
+      .getCollection<{
+        title: string;
+        content: string | null;
+        effectiveDate: string | null;
+      }>('legal-pages', { 'filters[slug][$eq]': slug })
+      .pipe(
+        map(([page]) =>
+          page
+            ? {
+                title: page.title,
+                content: page.content ?? '',
+                asOf: page.effectiveDate
+                  ? `Stand ${formatDay(page.effectiveDate).replace(/^\w+, /, '')}`
+                  : '',
+              }
+            : null
+        )
+      );
   }
 
   /** Years with an Advent calendar, newest first. */

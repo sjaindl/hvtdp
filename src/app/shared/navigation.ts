@@ -44,13 +44,6 @@ export const HIGHLIGHTS_NAV: NavItem[] = [
     icon: 'emoji_events',
     description: 'Unser Turnier im Winter',
   },
-  {
-    label: 'Adventkalender',
-    path: '/advent',
-    match: '/advent',
-    icon: 'celebration',
-    description: '24 Türchen voller Überraschungen',
-  },
 ];
 
 export const CLUB_NAV: NavItem[] = [
@@ -102,6 +95,13 @@ export const CLUB_NAV: NavItem[] = [
     match: '/hallofpapp',
     icon: 'emoji_people',
     description: 'Danke an unsere Tribünen-Fans',
+  },
+  {
+    label: 'Adventkalender',
+    path: '/advent',
+    match: '/advent',
+    icon: 'celebration',
+    description: '24 Türchen voller Überraschungen',
   },
 ];
 

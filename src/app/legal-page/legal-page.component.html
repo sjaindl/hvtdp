@@ -1,0 +1,40 @@
+@if (failed) {
+  <div class="page-container py-10">
+    <app-empty-state
+      icon="error_outline"
+      tone="error"
+      title="Seite konnte nicht geladen werden"
+      [text]="errorText"
+    >
+      <button type="button" class="btn-primary" (click)="load()">
+        Erneut versuchen <span class="material-icons text-xl">refresh</span>
+      </button>
+    </app-empty-state>
+  </div>
+} @else if (loaded && !page) {
+  <div class="page-container py-10">
+    <app-empty-state
+      icon="description"
+      title="Seite nicht gefunden"
+      text="Diese Seite gibt es (noch) nicht."
+    ></app-empty-state>
+  </div>
+} @else if (page) {
+  <article class="page-container flex flex-col items-center gap-6 pb-12 pt-6 lg:pb-16 lg:pt-10">
+    <header class="flex w-full max-w-prose flex-col gap-2">
+      <h1 class="page-title">{{ page.title }}</h1>
+      @if (page.asOf) {
+        <p class="meta">{{ page.asOf }}</p>
+      }
+      @if (incomplete) {
+        <p
+          class="flex items-center gap-2 rounded-xl bg-amber-50 px-3.5 py-2.5 text-sm font-medium text-amber-900"
+        >
+          <span class="material-icons text-lg">edit_note</span>Markierte Angaben werden noch
+          ergänzt.
+        </p>
+      }
+    </header>
+    <div class="prose-hv w-full max-w-prose" [innerHTML]="html"></div>
+  </article>
+}

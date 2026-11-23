@@ -36,6 +36,15 @@
           <google-map [options]="mapOptions" width="100%" height="100%">
             <map-marker [position]="stadium"></map-marker>
           </google-map>
+        } @else if (!apiLoaded) {
+          <div class="flex h-full flex-col items-center justify-center gap-2.5 px-6 text-center">
+            <span class="material-icons text-4xl text-gray-400">map</span>
+            <button type="button" class="btn-secondary" (click)="loadMap()">Karte laden</button>
+            <p class="text-xs text-gray-500">
+              Dabei werden Daten an Google übermittelt (siehe
+              <a routerLink="/datenschutz" class="underline">Datenschutz</a>).
+            </p>
+          </div>
         } @else {
           <div class="flex h-full items-center justify-center text-gray-400">
             <span class="material-icons text-4xl">map</span>
@@ -142,7 +151,13 @@
         <div>
           <label class="flex min-h-12 items-center gap-3 text-[15px] font-medium text-gray-900">
             <input type="checkbox" class="form-checkbox" formControlName="agreeGDPR" />
-            Ich akzeptiere die Bestimmungen der Datenschutzgrundverordnung (DSGVO).
+            <span
+              >Ich habe die
+              <a routerLink="/datenschutz" class="font-semibold text-pink-600 hover:text-pink-700"
+                >Datenschutzerklärung</a
+              >
+              gelesen und akzeptiere sie.</span
+            >
           </label>
           @if (formErrors.agreeGDPR) {
             <p class="text-sm text-pink-700">{{ formErrors.agreeGDPR }}</p>

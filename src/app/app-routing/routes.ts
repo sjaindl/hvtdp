@@ -16,6 +16,7 @@ import { HallofpappComponent } from '../hallofpapp/hallofpapp.component';
 import { HomeComponent } from '../home/home.component';
 import { MembershipComponent } from '../membership/membership.component';
 import { NewsComponent } from '../news/news.component';
+import { LegalPageComponent } from '../legal-page/legal-page.component';
 import { NotFoundComponent } from '../not-found/not-found.component';
 import { PlayerOfTheSeasonComponent } from '../playeroftheseason/playeroftheseason.component';
 import { SocialmediaComponent } from '../socialmedia/socialmedia.component';
@@ -40,6 +41,8 @@ export const routes: Routes = [
   { path: 'donation', component: DonationsComponent },
   { path: 'about', component: AboutComponent },
   { path: 'contact', component: ContactComponent },
+  { path: 'impressum', component: LegalPageComponent, data: { slug: 'impressum' } },
+  { path: 'datenschutz', component: LegalPageComponent, data: { slug: 'datenschutz' } },
   { path: 'fanshop', component: FanshopComponent },
   { path: 'membership', component: MembershipComponent },
   { path: 'documents', component: DocumentsComponent },

@@ -4,6 +4,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { Meta, Title } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { catchError, map, shareReplay } from 'rxjs/operators';
 import { Feedback } from '../shared/feedback';
@@ -21,6 +22,7 @@ const STADIUM = { lat: 46.899395, lng: 15.248251 };
   imports: [
     AsyncPipe,
     ReactiveFormsModule,
+    RouterModule,
     GoogleMapsModule,
     EmptyStateComponent,
     PageIntroComponent,
@@ -45,6 +47,7 @@ export class ContactComponent implements OnInit {
     message: '',
   });
   submitted = false;
+  /** Google Maps is only loaded after the visitor asks for it ("Karte laden", see the privacy policy). */
   apiLoaded?: Observable<boolean>;
   mapOptions: google.maps.MapOptions = {};
 
@@ -85,8 +88,10 @@ export class ContactComponent implements OnInit {
       name: 'description',
       content: 'Kontaktiere den HV TDP Stainz: Adresse, Feedback und Stadion.',
     });
+  }
 
-    this.apiLoaded = this.httpClient
+  loadMap() {
+    this.apiLoaded ??= this.httpClient
       .jsonp('https://maps.googleapis.com/maps/api/js?key=' + GOOGLE_MAPS_API_KEY, 'callback')
       .pipe(
         map(() => {
