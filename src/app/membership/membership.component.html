@@ -47,16 +47,18 @@
   <div class="page-container flex flex-col gap-4 pb-12 pt-8 lg:gap-5 lg:pt-0">
     <div>
       <h2 class="section-title">Unsere Mitglieder</h2>
-      @if (asOf) {
-        <p class="meta">{{ asOf }}</p>
-      }
     </div>
     <div class="grid gap-3 lg:grid-cols-[600px_1fr] lg:items-start lg:gap-6">
       @for (group of groups; track group.title; let first = $first) {
         @if (group.members.length) {
           <section class="card flex flex-col gap-4 p-5" [class]="first ? 'lg:row-span-2' : ''">
-            <div class="flex items-center justify-between">
-              <h3 class="text-lg font-bold text-gray-900">{{ group.title }}</h3>
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <h3 class="text-lg font-bold text-gray-900">{{ group.title }}</h3>
+                @if (group.asOf) {
+                  <p class="meta">{{ group.asOf }}</p>
+                }
+              </div>
               <span class="badge-neutral">{{ group.members.length }}</span>
             </div>
             <ul

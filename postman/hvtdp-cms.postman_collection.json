@@ -281,7 +281,7 @@
                 }
               ]
             },
-            "description": "All players with portrait. `status`: Kader (team page), Aktiv (further active members), Ehemalig (only used for scorer names/voting)."
+            "description": "All players with portrait. `squad`: Kader (team page), Aktiv (further active members), Ehemalig (only used for scorer names/voting)."
           },
           "event": [
             {
@@ -293,10 +293,10 @@
                   "const body = pm.response.json();",
                   "pm.test('List with the expected fields', () => {",
                   "  pm.expect(body.data).to.be.an('array').that.is.not.empty;",
-                  "  body.data.forEach((entry) => pm.expect(entry).to.include.keys('firstName', 'lastName', 'position', 'status', 'games', 'goals', 'image'));",
+                  "  body.data.forEach((entry) => pm.expect(entry).to.include.keys('firstName', 'lastName', 'position', 'squad', 'games', 'goals', 'image'));",
                   "});",
                   "pm.test('Status is Kader, Aktiv or Ehemalig', () => {",
-                  "  body.data.forEach((player) => pm.expect(['Kader', 'Aktiv', 'Ehemalig']).to.include(player.status));",
+                  "  body.data.forEach((player) => pm.expect(['Kader', 'Aktiv', 'Ehemalig']).to.include(player.squad));",
                   "});",
                   "pm.test('Admin titles are private', () => pm.expect(pm.response.text()).to.not.include('adminTitle'));"
                 ]
@@ -316,7 +316,7 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/players?filters[status][$eq]=Kader&sort[0]=lastName:asc&populate[0]=image&pagination[pageSize]=100",
+              "raw": "{{baseUrl}}/api/players?filters[squad][$eq]=Kader&sort[0]=lastName:asc&populate[0]=image&pagination[pageSize]=100",
               "host": [
                 "{{baseUrl}}"
               ],
@@ -326,7 +326,7 @@
               ],
               "query": [
                 {
-                  "key": "filters[status][$eq]",
+                  "key": "filters[squad][$eq]",
                   "value": "Kader"
                 },
                 {
@@ -355,9 +355,9 @@
                   "const body = pm.response.json();",
                   "pm.test('List with the expected fields', () => {",
                   "  pm.expect(body.data).to.be.an('array').that.is.not.empty;",
-                  "  body.data.forEach((entry) => pm.expect(entry).to.include.keys('firstName', 'lastName', 'status'));",
+                  "  body.data.forEach((entry) => pm.expect(entry).to.include.keys('firstName', 'lastName', 'squad'));",
                   "});",
-                  "pm.test('Only squad players', () => body.data.forEach((player) => pm.expect(player.status).to.eql('Kader')));",
+                  "pm.test('Only squad players', () => body.data.forEach((player) => pm.expect(player.squad).to.eql('Kader')));",
                   "pm.test('Admin titles are private', () => pm.expect(pm.response.text()).to.not.include('adminTitle'));"
                 ]
               }
@@ -396,7 +396,7 @@
                 "exec": [
                   "pm.test('Status 200', () => pm.response.to.have.status(200));",
                   "const body = pm.response.json();",
-                  "pm.test('Has squadAsOf', () => pm.expect(body.data).to.have.property('squadAsOf'));"
+                  "pm.test('Has the as-of dates of the squad and the member lists', () => ['squadAsOf', 'activeMembersAsOf', 'supportingMembersAsOf', 'kidsMembersAsOf'].forEach((key) => pm.expect(body.data).to.have.property(key)));"
                 ]
               }
             }
@@ -488,7 +488,7 @@
                 }
               ]
             },
-            "description": "Members of one list: Aktiv, Fördernd or Kids. `since` is shown as the list's \"Stand\"."
+            "description": "Members of one list: Aktiv, Fördernd or Kids. The list's \"Stand\" comes from the team page (activeMembersAsOf, supportingMembersAsOf, kidsMembersAsOf)."
           },
           "event": [
             {
@@ -500,7 +500,7 @@
                   "const body = pm.response.json();",
                   "pm.test('List with the expected fields', () => {",
                   "  pm.expect(body.data).to.be.an('array').that.is.not.empty;",
-                  "  body.data.forEach((entry) => pm.expect(entry).to.include.keys('firstName', 'lastName', 'type', 'since'));",
+                  "  body.data.forEach((entry) => pm.expect(entry).to.include.keys('firstName', 'lastName', 'type'));",
                   "});",
                   "pm.test('Only the requested type', () => body.data.forEach((member) => pm.expect(member.type).to.eql(pm.variables.get('memberType'))));"
                 ]

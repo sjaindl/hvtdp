@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Subscription, combineLatest } from 'rxjs';
 import { VideoService } from '../services/video.service';
 import { MatchInfo } from '../shared/match-info';
@@ -30,6 +30,7 @@ import { VideoCardComponent } from '../video-card/video-card.component';
 export class SocialmediaComponent implements OnInit, OnDestroy {
   private videoService = inject(VideoService);
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
   private titleService = inject(Title);
   private metaTagService = inject(Meta);
 
@@ -38,6 +39,10 @@ export class SocialmediaComponent implements OnInit, OnDestroy {
   /** Seasons that have videos, newest first. */
   seasons: string[] = [];
   season = '';
+  /** Everyone with a goal video, by last name, with the number of videos. */
+  players: { name: string; count: number }[] = [];
+  /** Player filter (`?spieler=`): his goals from all seasons instead of one season. */
+  player: string | null = null;
   items: MatchVideos[] = [];
   loaded = false;
   failed = false;
@@ -66,14 +71,30 @@ export class SocialmediaComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.failed = false;
     // Without a season in the URL (/social) the newest season is shown.
-    this.sub = combineLatest([this.route.params, this.videoService.getMatchVideos()]).subscribe({
-      next: ([params, all]) => {
+    this.sub = combineLatest([
+      this.route.params,
+      this.route.queryParams,
+      this.videoService.getMatchVideos(),
+    ]).subscribe({
+      next: ([params, queryParams, all]) => {
         this.seasons = [...new Set(all.map((item) => item.match.season))].sort().reverse();
         this.season = params['season'] ?? this.seasons[0] ?? '';
-        this.items = all.filter((item) => item.match.season === this.season);
+        this.players = SocialmediaComponent.playersOf(all);
+        this.player = this.players.some((entry) => entry.name === queryParams['spieler'])
+          ? queryParams['spieler']
+          : null;
+        const player = this.player;
+        this.items = player
+          ? all
+              .map((item) => ({
+                ...item,
+                videos: item.videos.filter((video) => video.scorer === player),
+              }))
+              .filter((item) => item.videos.length)
+          : all.filter((item) => item.match.season === this.season);
         this.loaded = true;
         this.loading = false;
-        this.contentKey = this.season;
+        this.contentKey = player ? `player:${player}` : this.season;
       },
       error: (error: unknown) => {
         this.loaded = true;
@@ -82,6 +103,33 @@ export class SocialmediaComponent implements OnInit, OnDestroy {
         this.errorText = ErrorUtil.message(error);
       },
     });
+  }
+
+  /** Chooses a player (or none) and keeps the choice in the URL. */
+  selectPlayer(name: string | null) {
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { spieler: name || null },
+      queryParamsHandling: 'merge',
+    });
+  }
+
+  /** Scorers of all videos (not "Eigentor"), sorted by last name. */
+  static playersOf(all: MatchVideos[]): { name: string; count: number }[] {
+    const counts = new Map<string, number>();
+    for (const video of all.flatMap((item) => item.videos)) {
+      if (video.scorer && video.scorer !== 'Eigentor') {
+        counts.set(video.scorer, (counts.get(video.scorer) ?? 0) + 1);
+      }
+    }
+    const lastName = (name: string) => name.split(' ').slice(-1)[0] ?? name;
+    return [...counts]
+      .map(([name, count]) => ({ name, count }))
+      .sort(
+        (a, b) =>
+          lastName(a.name).localeCompare(lastName(b.name), 'de-DE') ||
+          a.name.localeCompare(b.name, 'de-DE')
+      );
   }
 
   /** "HV TDP Stainz – STT Pichler", or the title of an event. */

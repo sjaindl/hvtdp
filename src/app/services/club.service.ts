@@ -13,11 +13,10 @@ interface StrapiPlayer {
   firstName: string;
   lastName: string;
   position: string | null;
-  status: PlayerStatus;
+  squad: PlayerStatus;
   memberSinceYear: number | null;
   games: number | null;
   goals: number | null;
-  jerseyNumber: number | null;
   image: StrapiMedia | null;
 }
 
@@ -50,8 +49,8 @@ const PORTRAIT = 'medium';
 export class ClubService {
   private cms = inject(CmsService);
 
-  /** All players (or only those with the given status), sorted by last name. */
-  getPlayers(status?: PlayerStatus): Observable<Player[]> {
+  /** All players (or only those with the given squad status), sorted by last name. */
+  getPlayers(squad?: PlayerStatus): Observable<Player[]> {
     return this.cms
       .getCollection<StrapiPlayer>('players', {
         'sort[0]': 'lastName:asc',
@@ -61,16 +60,15 @@ export class ClubService {
       .pipe(
         map((players) =>
           players
-            .filter((player) => !status || player.status === status)
+            .filter((player) => !squad || player.squad === squad)
             .map((player) => ({
               firstName: player.firstName,
               lastName: player.lastName,
               position: player.position ?? '',
-              status: player.status,
+              squad: player.squad,
               memberSinceYear: player.memberSinceYear,
               games: player.games ?? 0,
               goals: player.goals ?? 0,
-              jerseyNumber: player.jerseyNumber,
               imageUrl: mediaUrl(player.image, PORTRAIT),
             }))
         )
@@ -101,15 +99,13 @@ export class ClubService {
 
   getMembers(type: MemberType): Observable<Member[]> {
     return this.cms
-      .getCollection<Member>('members', {
+      .getCollection<Pick<Member, 'firstName' | 'lastName'>>('members', {
         'filters[type][$eq]': type,
         'sort[0]': 'lastName:asc',
         'sort[1]': 'firstName:asc',
       })
       .pipe(
-        map((members) =>
-          members.map(({ firstName, lastName, since }) => ({ firstName, lastName, type, since }))
-        )
+        map((members) => members.map(({ firstName, lastName }) => ({ firstName, lastName, type })))
       );
   }
 

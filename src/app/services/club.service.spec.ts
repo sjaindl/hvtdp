@@ -29,33 +29,30 @@ describe('ClubService', () => {
       firstName: 'Daniel',
       lastName: 'Fabian',
       position: 'Stürmer',
-      status: 'Kader',
+      squad: 'Kader',
       memberSinceYear: 2014,
       games: 120,
       goals: 170,
-      jerseyNumber: null,
       image: photo('fabian'),
     },
     {
       firstName: 'Bernhard',
       lastName: 'Reinisch',
       position: 'Mittelfeld',
-      status: 'Aktiv',
+      squad: 'Aktiv',
       memberSinceYear: 2019,
       games: null,
       goals: null,
-      jerseyNumber: null,
       image: null,
     },
     {
       firstName: 'Max',
       lastName: 'Ehemaliger',
       position: null,
-      status: 'Ehemalig',
+      squad: 'Ehemalig',
       memberSinceYear: null,
       games: 3,
       goals: 0,
-      jerseyNumber: null,
       image: null,
     },
   ];
@@ -75,7 +72,7 @@ describe('ClubService', () => {
     expect(result[2].position).toBe('');
   });
 
-  it('filters players by status', () => {
+  it('filters players by squad status', () => {
     let squad: string[] = [];
     let active: string[] = [];
     service
@@ -95,10 +92,8 @@ describe('ClubService', () => {
     service.getMembers('Fördernd').subscribe((list) => (members = list));
     const request = http.expectOne((r) => r.url === `${api}/members`);
     expect(request.request.params.get('filters[type][$eq]')).toBe('Fördernd');
-    request.flush(page([{ firstName: 'Simon', lastName: 'Lazarus', since: '2024-07-01' }]));
-    expect(members).toEqual([
-      { firstName: 'Simon', lastName: 'Lazarus', type: 'Fördernd', since: '2024-07-01' },
-    ]);
+    request.flush(page([{ firstName: 'Simon', lastName: 'Lazarus' }]));
+    expect(members).toEqual([{ firstName: 'Simon', lastName: 'Lazarus', type: 'Fördernd' }]);
   });
 
   it('maps donations with photo and ball image', () => {

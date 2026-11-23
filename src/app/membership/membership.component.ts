@@ -11,7 +11,8 @@ import { PageIntroComponent } from '../ui/page-intro/page-intro.component';
 interface MemberGroup {
   title: string;
   members: string[];
-  per: string;
+  /** "Stand 11.09.2026" (from the team page in Strapi), or ''. */
+  asOf: string;
 }
 
 @Component({
@@ -62,9 +63,9 @@ export class MembershipComponent implements OnInit {
   ];
 
   groups: MemberGroup[] = [
-    { title: 'Aktive Mitglieder', members: [], per: '' },
-    { title: 'Fördernde Mitglieder', members: [], per: '' },
-    { title: 'Kids Corner', members: [], per: '' },
+    { title: 'Aktive Mitglieder', members: [], asOf: '' },
+    { title: 'Fördernde Mitglieder', members: [], asOf: '' },
+    { title: 'Kids Corner', members: [], asOf: '' },
   ];
 
   ngOnInit() {
@@ -77,15 +78,19 @@ export class MembershipComponent implements OnInit {
     this.documentService
       .getDocument('beitrittserklaerung')
       .subscribe((document) => (this.formUrl = document?.url ?? null));
+    // Each list has its own "as of" date, maintained on the team page in Strapi.
+    this.clubService.getTeamPage().subscribe((page) => {
+      [page?.activeMembersAsOf, page?.supportingMembersAsOf, page?.kidsMembersAsOf].forEach(
+        (date, index) =>
+          (this.groups[index] = {
+            ...this.groups[index],
+            asOf: date ? `Stand ${DateUtil.formatDate(date)}` : '',
+          })
+      );
+    });
     this.clubService.getMembers('Aktiv').subscribe((members) => this.setGroup(0, members));
     this.clubService.getMembers('Fördernd').subscribe((members) => this.setGroup(1, members));
     this.clubService.getMembers('Kids').subscribe((members) => this.setGroup(2, members));
-  }
-
-  get asOf(): string {
-    return [...new Set(this.groups.map((group) => group.per).filter(Boolean))]
-      .map((per) => `Stand ${per}`)
-      .join(' · ');
   }
 
   private setGroup(index: number, members: Member[]) {
@@ -97,13 +102,6 @@ export class MembershipComponent implements OnInit {
     this.groups[index] = {
       ...this.groups[index],
       members: sorted.map((member) => TextUtil.titleCase(`${member.firstName} ${member.lastName}`)),
-      // The list is as of the latest date of its members.
-      per: DateUtil.formatDate(
-        sorted
-          .map((member) => member.since ?? '')
-          .sort()
-          .pop() ?? ''
-      ),
     };
   }
 }

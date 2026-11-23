@@ -2,17 +2,39 @@
   title="Videos"
   lead="Für unsere Fans haben wir alle Tore und Events archiviert. Viel Spaß beim Stöbern durch unser Videoarchiv!"
 >
-  <div
-    class="scrollbar-none -mx-4 flex gap-2 overflow-x-auto px-4 lg:mx-0 lg:flex-wrap lg:px-0"
-    appSlidingIndicator
-    aria-label="Saison wählen"
-  >
-    @for (item of seasons; track item) {
-      <a [routerLink]="['/social', item]" [class]="item === season ? 'chip-active' : 'chip'">{{
-        formatSeason(item)
-      }}</a>
+  <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+    <div
+      class="scrollbar-none -mx-4 flex gap-2 overflow-x-auto px-4 lg:mx-0 lg:flex-wrap lg:px-0"
+      appSlidingIndicator
+      aria-label="Saison wählen"
+    >
+      @for (item of seasons; track item) {
+        <a
+          [routerLink]="['/social', item]"
+          [class]="!player && item === season ? 'chip-active' : 'chip'"
+          >{{ formatSeason(item) }}</a
+        >
+      }
+    </div>
+    @if (players.length) {
+      <label class="flex shrink-0 items-center gap-2 text-sm font-semibold text-gray-600">
+        Spieler
+        <select
+          class="form-input w-auto min-w-[12rem]"
+          [value]="player ?? ''"
+          (change)="selectPlayer($any($event.target).value || null)"
+        >
+          <option value="">Alle Spieler</option>
+          @for (entry of players; track entry.name) {
+            <option [value]="entry.name">{{ entry.name }} ({{ entry.count }})</option>
+          }
+        </select>
+      </label>
     }
   </div>
+  @if (player) {
+    <p class="meta">Alle Tore von {{ player }} aus allen Saisonen</p>
+  }
 </app-page-intro>
 
 <div
