@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 
 import { AboutComponent } from '../about/about.component';
 import { AdventComponent } from '../advent/advent.component';
+import { ClubEventComponent } from '../club-event/club-event.component';
 import { ChampionshipComponent } from '../championship/championship.component';
 import { ContactComponent } from '../contact/contact.component';
 import { DocumentsComponent } from '../documents/documents.component';
@@ -25,7 +26,6 @@ import { TeamComponent } from '../team/team.component';
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
-  // {path: "entenrennen", component: DuckrunComponent},
   { path: 'news', component: NewsComponent },
   { path: 'news/:newsId', component: NewsComponent },
   { path: 'team', component: TeamComponent },
@@ -53,13 +53,15 @@ export const routes: Routes = [
   { path: 'advent', component: AdventComponent },
   { path: 'advent/:season', component: AdventComponent },
   { path: 'hallenturnier', component: HallenturnierComponent },
-  // { path: 'kleinfeldturnier', component: KleinfeldTurnierComponent },
-  //{ path: 'bocciaturnier', component: BocciaComponent },
+  // Event pages with registration/order; the slug selects the "Veranstaltung" in Strapi (hidden while inactive).
+  { path: 'bocciaturnier', component: ClubEventComponent, data: { slug: 'bocciaturnier' } },
+  { path: 'kleinfeldturnier', component: ClubEventComponent, data: { slug: 'kleinfeldturnier' } },
+  { path: 'bigdarts', component: ClubEventComponent, data: { slug: 'bigdarts' } },
+  { path: 'entenrennen', component: ClubEventComponent, data: { slug: 'entenrennen' } },
   // { path: '10-jahre-hvtdp', component: ZehnjahresfeierComponent },
   // { path: 'stadionfest', component: StadionFestComponent },
   { path: 'torschusschallenge', component: GoldenshotComponent },
   // { path: 'comedyhirten', component: ComedyhirtenComponent },
-  // { path: 'bigdarts', component: BigdartsComponent },
   // Old voting link: the voting is part of the challenge page now.
   { path: 'torschusschallenge-voting', redirectTo: 'torschusschallenge', pathMatch: 'full' },
   { path: '**', component: NotFoundComponent },

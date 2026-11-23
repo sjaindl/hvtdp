@@ -51,7 +51,7 @@ USE_PM2="auto"
 # `migrate`. Add new areas here and to AREAS (in migration order).
 # ---------------------------------------------------------------------------------------------
 
-AREAS=(announcement club fanshop documents championship videos gallery pages news-categories goldenshot)
+AREAS=(announcement club fanshop documents championship videos gallery pages news-categories goldenshot events)
 PHASE=download
 
 # Announcement bar on the home page (replaces the ticker).
@@ -98,6 +98,11 @@ area_gallery() {
   migrate gallery --exports "$EXPORTS_DIR" "${MEDIA_ARGS[@]}"
 }
 
+# Event pages with registration/order (Bocciaturnier, Kleinfeldturnier, Big Darts, Entenrennen).
+area_events() {
+  migrate events "${MEDIA_ARGS[@]}"
+}
+
 # Torschuss Challenge (Golden Shot): page texts and the 2026 voting with its participants.
 area_goldenshot() {
   fetch getGoldenShot
@@ -112,11 +117,14 @@ area_news-categories() {
 # Hallenturnier page and Advent calendars (posters + videos; after gallery for the album link).
 area_pages() {
   [[ -d "$VIDEOS_DIR" ]] || fail "videos directory not found at $VIDEOS_DIR (use --videos)"
+  VIDEOS_DIR="$(cd "$VIDEOS_DIR" && pwd)"
   migrate pages --images "$IMAGES_DIR" --images-url "$IMAGES_URL" --videos "$VIDEOS_DIR" --videos-url "$VIDEOS_URL"
 }
 
 # Documents (PDFs) with category and protected flag.
 area_documents() {
+  [[ -d "$DOCUMENTS_DIR" ]] || fail "documents directory not found at $DOCUMENTS_DIR (use --documents)"
+  DOCUMENTS_DIR="$(cd "$DOCUMENTS_DIR" && pwd)"
   fetch getDocuments
   migrate documents --exports "$EXPORTS_DIR" --documents "$DOCUMENTS_DIR" --documents-url "$DOCUMENTS_URL"
 }
@@ -218,12 +226,10 @@ done
 
 [[ -f "$STRAPI_DIR/package.json" ]] || fail "Strapi repo not found at $STRAPI_DIR (use --strapi-dir)"
 [[ -d "$IMAGES_DIR" ]] || fail "images directory not found at $IMAGES_DIR (use --images)"
-[[ -d "$DOCUMENTS_DIR" ]] || fail "documents directory not found at $DOCUMENTS_DIR (use --documents)"
 command -v node >/dev/null || fail "node is required"
 command -v curl >/dev/null || fail "curl is required"
 STRAPI_DIR="$(cd "$STRAPI_DIR" && pwd)"
 IMAGES_DIR="$(cd "$IMAGES_DIR" && pwd)"
-DOCUMENTS_DIR="$(cd "$DOCUMENTS_DIR" && pwd)"
 # Arguments for migration scripts that upload images: migrate <area> --source … "${MEDIA_ARGS[@]}"
 # shellcheck disable=SC2034 # used by the area functions with images
 MEDIA_ARGS=(--images "$IMAGES_DIR" --images-url "$IMAGES_URL")

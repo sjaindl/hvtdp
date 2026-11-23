@@ -2283,6 +2283,275 @@
           "response": []
         }
       ]
+    },
+    {
+      "name": "Events",
+      "description": "Event pages with registration or order (`migrate-to-strapi.sh events`): Bocciaturnier, Kleinfeldturnier, Big Darts, Entenrennen. Registrations store an entry and send two mails: local only, and only while the event is active with registration open.",
+      "item": [
+        {
+          "name": "Events",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/club-events?populate[image]=true&sort[0]=date:desc",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "club-events"
+              ],
+              "query": [
+                {
+                  "key": "populate[image]",
+                  "value": "true"
+                },
+                {
+                  "key": "sort[0]",
+                  "value": "date:desc"
+                }
+              ]
+            },
+            "description": "All events with picture (the website shows an event only while it is active)."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('Events with slug and form type', () => body.data.forEach((event) => {",
+                  "  pm.expect(event.slug).to.match(/^[a-z0-9-]+$/);",
+                  "  pm.expect(['team', 'order']).to.include(event.formType);",
+                  "}));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Event by slug",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/club-events?filters[slug][$eq]={{eventSlug}}&populate[image]=true",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "club-events"
+              ],
+              "query": [
+                {
+                  "key": "filters[slug][$eq]",
+                  "value": "{{eventSlug}}"
+                },
+                {
+                  "key": "populate[image]",
+                  "value": "true"
+                }
+              ]
+            },
+            "description": "The event `{{eventSlug}}`."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Exactly one event', () => pm.expect(pm.response.json().data).to.have.lengthOf(1));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Team registration (local only)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/club-event-registrations/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "club-event-registrations",
+                "register"
+              ]
+            },
+            "description": "Team registration for `{{eventSlug}}`: 200, or 400 (invalid), 404 (unknown event), 409 (closed), 429 (more than 5 per hour).",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"event\": \"{{eventSlug}}\",\n  \"name\": \"Postman Test\",\n  \"email\": \"postman@example.com\",\n  \"phone\": \"\",\n  \"teamName\": \"FC Postman\",\n  \"website\": \"\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Registered, closed or limited', () => pm.expect(pm.response.code).to.be.oneOf([200, 409, 429]));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Duck order (local only)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/club-event-registrations/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "club-event-registrations",
+                "register"
+              ]
+            },
+            "description": "Order for the Entenrennen (address, phone, quantity); the confirmation contains the amount and the bank details.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"event\": \"entenrennen\",\n  \"name\": \"Postman Test\",\n  \"email\": \"postman@example.com\",\n  \"phone\": \"0664 1234567\",\n  \"address\": \"Hauptplatz 1, 8510 Stainz\",\n  \"quantity\": 3,\n  \"website\": \"\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Ordered, closed or limited', () => pm.expect(pm.response.code).to.be.oneOf([200, 409, 429]));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Unknown event → 404",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/club-event-registrations/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "club-event-registrations",
+                "register"
+              ]
+            },
+            "description": "Registrations need an existing event.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"event\": \"gibt-es-nicht\",\n  \"name\": \"Postman Test\",\n  \"email\": \"postman@example.com\",\n  \"teamName\": \"FC Postman\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 404', () => pm.response.to.have.status(404));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Registrations are not public",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/club-event-registrations",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "club-event-registrations"
+              ]
+            },
+            "description": "Contact data is only visible in the admin."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 403', () => pm.response.to.have.status(403));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        }
+      ]
     }
   ]
 }

@@ -53,3 +53,38 @@ export interface GoldenShotPage {
   poll: { year: string; open: boolean; closesAt: string } | null;
   resultImageUrl: string | null;
 }
+
+/** An event page with registration (team) or order (e.g. ducks), prepared for display. */
+export interface ClubEvent {
+  slug: string;
+  active: boolean;
+  title: string;
+  lead: string;
+  imageUrl: string | null;
+  /** Markdown. */
+  description: string;
+  facts: { icon: string; label: string; value: string }[];
+  formType: 'team' | 'order';
+  /** Fee per team or price per unit (e.g. per duck); null when free. */
+  price: number | null;
+  /** "Ente" / "Enten" for orders. */
+  unit: string;
+  units: string;
+  phoneRequired: boolean;
+  /** Active, switched on and the deadline has not passed. */
+  registrationOpen: boolean;
+  deadline: string;
+  bank: { recipient: string; iban: string; bic: string; reference: string } | null;
+}
+
+export interface ClubEventRegistration {
+  event: string;
+  name: string;
+  email: string;
+  phone: string;
+  teamName: string;
+  address: string;
+  quantity: number | null;
+  /** Honeypot. */
+  website: string;
+}

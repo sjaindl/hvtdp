@@ -4,6 +4,8 @@ import { Observable, map } from 'rxjs';
 import { environment } from '../../environments/environment';
 import {
   AdventCalendar,
+  ClubEvent,
+  ClubEventRegistration,
   GoldenShotPage,
   Hallenturnier,
   HallenturnierRegistration,
@@ -42,6 +44,31 @@ interface StrapiGoldenShot {
   registrationDeadline: string | null;
   poll: { year: string; open: boolean | null; closesAt: string | null } | null;
   resultImage: StrapiMedia | null;
+}
+
+interface StrapiClubEvent {
+  slug: string;
+  active: boolean | null;
+  title: string;
+  lead: string | null;
+  image: StrapiMedia | null;
+  description: string | null;
+  date: string | null;
+  /** "12:30:00.000" */
+  startTime: string | null;
+  location: string | null;
+  format: string | null;
+  formType: 'team' | 'order';
+  price: number | null;
+  orderUnit: string | null;
+  orderUnitPlural: string | null;
+  phoneRequired: boolean | null;
+  registrationOpen: boolean | null;
+  registrationDeadline: string | null;
+  bankRecipient: string | null;
+  iban: string | null;
+  bic: string | null;
+  paymentReference: string | null;
 }
 
 interface StrapiAdventCalendar {
@@ -133,6 +160,55 @@ export function toGoldenShot(entry: StrapiGoldenShot, now = new Date()): GoldenS
   };
 }
 
+/** "70 €" / "2,50 €" */
+const euro = (value: number) => (Number.isInteger(value) ? `${value} €` : formatPrice(value));
+
+export function toClubEvent(entry: StrapiClubEvent, now = new Date()): ClubEvent {
+  const order = entry.formType === 'order';
+  const unit = entry.orderUnit || 'Stück';
+  const when = [formatDay(entry.date), entry.startTime ? `${entry.startTime.slice(0, 5)} Uhr` : '']
+    .filter(Boolean)
+    .join(', ');
+  return {
+    slug: entry.slug,
+    active: entry.active ?? false,
+    title: entry.title,
+    lead: entry.lead ?? '',
+    imageUrl: mediaUrl(entry.image, 'large'),
+    description: entry.description ?? '',
+    facts: [
+      { icon: 'event', label: 'Wann', value: when },
+      { icon: 'location_on', label: 'Wo', value: entry.location ?? '' },
+      { icon: 'groups', label: 'Spielform', value: entry.format ?? '' },
+      {
+        icon: 'payments',
+        label: order ? 'Preis' : 'Nenngeld',
+        value:
+          entry.price === null ? '' : `${euro(entry.price)} ${order ? `pro ${unit}` : 'pro Team'}`,
+      },
+    ].filter((fact) => fact.value),
+    formType: entry.formType,
+    price: entry.price,
+    unit,
+    units: entry.orderUnitPlural || unit,
+    phoneRequired: order || !!entry.phoneRequired,
+    registrationOpen:
+      !!entry.active &&
+      !!entry.registrationOpen &&
+      (!entry.registrationDeadline || today(now) <= entry.registrationDeadline),
+    deadline: formatDay(entry.registrationDeadline),
+    bank:
+      entry.price && entry.iban
+        ? {
+            recipient: entry.bankRecipient ?? '',
+            iban: entry.iban,
+            bic: entry.bic ?? '',
+            reference: entry.paymentReference ?? '',
+          }
+        : null,
+  };
+}
+
 /** Page texts from Strapi: the Hallenturnier page (with its registration) and the Advent calendars. */
 @Injectable({ providedIn: 'root' })
 export class PageService {
@@ -175,6 +251,24 @@ export class PageService {
   registerGoldenShot(registration: FormData): Observable<unknown> {
     return this.http.post(
       `${environment.cmsUrl}/api/golden-shot-registrations/register`,
+      registration
+    );
+  }
+
+  /** Event page by slug, or null if there is none. */
+  getEvent(slug: string): Observable<ClubEvent | null> {
+    return this.cms
+      .getCollection<StrapiClubEvent>('club-events', {
+        'filters[slug][$eq]': slug,
+        'populate[image]': true,
+      })
+      .pipe(map(([entry]) => (entry ? toClubEvent(entry) : null)));
+  }
+
+  /** Stores the registration/order; the server sends the mails to the club and to the registrant. */
+  registerEvent(registration: ClubEventRegistration): Observable<unknown> {
+    return this.http.post(
+      `${environment.cmsUrl}/api/club-event-registrations/register`,
       registration
     );
   }

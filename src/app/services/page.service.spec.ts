@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { environment } from '../../environments/environment';
 import { provideTestDependencies } from '../../testing/test-providers';
 import { AdventCalendar } from '../shared/page';
-import { PageService, toGoldenShot, toHallenturnier } from './page.service';
+import { PageService, toClubEvent, toGoldenShot, toHallenturnier } from './page.service';
 
 describe('PageService', () => {
   const api = `${environment.cmsUrl}/api`;
@@ -99,6 +99,55 @@ describe('PageService', () => {
       expect(
         toGoldenShot({ ...page, active: false }, new Date(2027, 3, 1)).registrationOpen
       ).toBeFalse();
+    });
+  });
+
+  describe('toClubEvent', () => {
+    const ducks = {
+      slug: 'entenrennen',
+      active: true,
+      title: '3. Entenrennen Stainz 2025',
+      lead: null,
+      image: null,
+      description: null,
+      date: '2025-09-20',
+      startTime: '17:30:00.000',
+      location: 'Stainz',
+      format: null,
+      formType: 'order' as const,
+      price: 3,
+      orderUnit: 'Ente',
+      orderUnitPlural: 'Enten',
+      phoneRequired: false,
+      registrationOpen: true,
+      registrationDeadline: '2025-09-19',
+      bankRecipient: 'HV TDP Stainz',
+      iban: 'AT67',
+      bic: 'RZSTAT2G439',
+      paymentReference: 'Entenrennen 2025 + Name',
+    };
+
+    it('builds the facts and the order details', () => {
+      const event = toClubEvent(ducks, new Date(2025, 8, 1));
+      expect(event.facts.map((fact) => fact.value)).toEqual([
+        'Sa, 20.09.2025, 17:30 Uhr',
+        'Stainz',
+        '3 € pro Ente',
+      ]);
+      expect(event.units).toBe('Enten');
+      expect(event.phoneRequired).toBeTrue();
+      expect(event.bank?.reference).toBe('Entenrennen 2025 + Name');
+      expect(event.registrationOpen).toBeTrue();
+    });
+
+    it('team events show the fee per team, free events no bank data, and close after the deadline', () => {
+      const team = toClubEvent(
+        { ...ducks, formType: 'team', price: 20, format: '2er Teams' },
+        new Date(2025, 8, 20)
+      );
+      expect(team.facts.map((fact) => fact.value)).toContain('20 € pro Team');
+      expect(team.registrationOpen).toBeFalse();
+      expect(toClubEvent({ ...ducks, formType: 'team', price: null }).bank).toBeNull();
     });
   });
 

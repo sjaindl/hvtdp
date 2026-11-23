@@ -36,14 +36,11 @@ import { StatisticsService } from './services/statistics.service';
 
 import { AboutComponent } from './about/about.component';
 import { AdventComponent } from './advent/advent.component';
-import { BigdartsComponent } from './bigdarts/bigdarts.component';
-import { BocciaComponent } from './boccia/boccia.component';
 import { ChampionshipComponent } from './championship/championship.component';
 import { ComedyhirtenComponent } from './comedyhirten/comedyhirten.component';
 import { ContactComponent } from './contact/contact.component';
 import { DocumentsComponent } from './documents/documents.component';
 import { DonationsComponent } from './donations/donations.component';
-import { DuckrunComponent } from './duckrun/duckrun.component';
 import { FanshopComponent } from './fanshop/fanshop.component';
 import { FooterComponent } from './footer/footer.component';
 import { GalleryComponent } from './gallery/gallery.component';
@@ -55,7 +52,6 @@ import { HeaderComponent } from './header/header.component';
 import { HomeComponent } from './home/home.component';
 import { HvtdpImageComponent } from './hvtdp-image/hvtdp-image.component';
 import { ImagesliderComponent } from './imageslider/imageslider.component';
-import { KleinfeldTurnierComponent } from './kleinfeldturnier/kleinfeldturnier.component';
 import { MembershipComponent } from './membership/membership.component';
 import { NewsComponent } from './news/news.component';
 import { PassworddialogComponent } from './passworddialog/passworddialog.component';
@@ -102,8 +98,6 @@ import { VideoCardComponent } from './video-card/video-card.component';
     HomeComponent,
     NewsComponent,
     ChampionshipComponent,
-    KleinfeldTurnierComponent,
-    DuckrunComponent,
     GoldenshotComponent,
     PassworddialogComponent,
     ImagesliderComponent,
@@ -111,9 +105,7 @@ import { VideoCardComponent } from './video-card/video-card.component';
     VideoCardComponent,
     HallenturnierComponent,
     HallofpappComponent,
-    BigdartsComponent,
     ContactComponent,
-    BocciaComponent,
     FanshopComponent,
     TeamComponent,
     SocialmediaComponent,
