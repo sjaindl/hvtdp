@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { MatDialogRef } from '@angular/material/dialog';
+import { provideTestDependencies } from '../../testing/test-providers';
 import { PassworddialogComponent } from './passworddialog.component';
 
 describe('PassworddialogComponent', () => {
@@ -8,11 +9,13 @@ describe('PassworddialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [PassworddialogComponent],
+      imports: [PassworddialogComponent],
+      providers: [
+        ...provideTestDependencies(),
+        { provide: MatDialogRef, useValue: { close: () => undefined } },
+      ],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(PassworddialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

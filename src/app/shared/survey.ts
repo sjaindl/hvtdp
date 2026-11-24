@@ -1,4 +1,4 @@
-export class Survey {
+export interface Survey {
   id: string;
   link: string;
 }

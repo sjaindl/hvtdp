@@ -1,30 +1,207 @@
-<h1 class="large header">HV TDP News</h1>
+@if (newsId) {
+  <!-- Article -->
+  @if (selectedNews) {
+    <article
+      class="page-container flex flex-col items-center gap-6 pb-12 pt-2 lg:gap-8 lg:pb-16 lg:pt-8"
+    >
+      <header class="flex w-full max-w-prose flex-col gap-3 lg:gap-3.5">
+        <a routerLink="/news" class="link-arrow self-start"
+          ><span class="material-icons text-lg">arrow_back</span> Alle Nachrichten</a
+        >
+        <div class="flex flex-wrap items-center gap-2.5">
+          <span class="badge-pink">{{ selectedNews.category ?? 'News' }}</span>
+          <span class="text-sm font-medium text-gray-500"
+            >{{ weekdayDate }} · {{ readingMinutes }} Min. Lesezeit</span
+          >
+        </div>
+        <h1 class="text-[28px] font-extrabold leading-tight text-gray-900 lg:text-[44px]">
+          {{ selectedNews.title }}
+        </h1>
+      </header>
 
-<mat-accordion>
-  @for (newsItem of news; track newsItem) { @if ( news.indexOf(newsItem) >= this.pageEvent.pageIndex
-  * this.pageEvent.pageSize && news.indexOf(newsItem) + 1 <= (this.pageEvent.pageIndex + 1) *
-  this.pageEvent.pageSize ) {
-  <mat-expansion-panel
-    [expanded]="newsItem.newsId === selectedNews?.newsId"
-    (opened)="opened()"
+      @if (selectedNews.imageUrl) {
+        <div class="w-full max-w-[60rem] overflow-hidden rounded-2xl bg-gray-100">
+          <img
+            [src]="selectedNews.imageUrl"
+            [alt]="selectedNews.title"
+            class="h-auto w-full"
+            appZoomable
+          />
+        </div>
+      }
+
+      <div
+        #content
+        class="prose-hv w-full max-w-prose outline-none"
+        tabindex="-1"
+        [innerHTML]="selectedHtml"
+        (click)="openContentImage($event)"
+        (keydown.enter)="openContentImage($event)"
+      ></div>
+
+      <div class="flex w-full max-w-prose items-center gap-3 border-t border-gray-200 pt-6">
+        <span class="text-[15px] font-semibold text-gray-900">Teilen</span>
+        <button
+          type="button"
+          class="icon-btn border border-gray-200"
+          aria-label="Link kopieren"
+          (click)="copyLink()"
+        >
+          <span class="material-icons text-[22px] text-gray-800">link</span>
+        </button>
+        <a
+          [href]="whatsappUrl"
+          target="_blank"
+          rel="noopener"
+          class="icon-btn border border-gray-200"
+          aria-label="Per WhatsApp teilen"
+        >
+          <span class="material-icons text-[22px] text-gray-800">chat</span>
+        </a>
+        <a
+          [href]="facebookUrl"
+          target="_blank"
+          rel="noopener"
+          class="icon-btn border border-gray-200"
+          aria-label="Auf Facebook teilen"
+        >
+          <span class="material-icons text-[22px] text-gray-800">facebook</span>
+        </a>
+      </div>
+    </article>
+
+    <section class="bg-gray-50">
+      <div class="page-container flex flex-col gap-4 py-8 lg:gap-6 lg:py-12">
+        <h2 class="section-title">Weitere Nachrichten</h2>
+        <div class="flex flex-col gap-3 lg:hidden">
+          @for (item of relatedNews; track item.newsId) {
+            <app-news-row [news]="item"></app-news-row>
+          }
+        </div>
+        <div class="hidden gap-6 lg:grid lg:grid-cols-3">
+          @for (item of relatedNews; track item.newsId) {
+            <app-news-card [news]="item"></app-news-card>
+          }
+        </div>
+      </div>
+    </section>
+  } @else if (loaded) {
+    <div class="page-container py-12">
+      <app-empty-state
+        icon="article"
+        title="Nachricht nicht gefunden"
+        text="Diesen Beitrag gibt es nicht (mehr). Schau dir die aktuellen Nachrichten an."
+      >
+        <a routerLink="/news" class="btn-secondary">Alle Nachrichten</a>
+      </app-empty-state>
+    </div>
+  }
+} @else {
+  <!-- List -->
+  <app-page-intro
+    title="Nachrichten"
+    lead="Spielberichte, Vereinsleben und alles rund um den HV TDP."
   >
-    <mat-expansion-panel-header>
-      {{ formatDate(newsItem.newsDate) }}, {{ newsItem.title }}
-    </mat-expansion-panel-header>
-    @if (newsItem.imageUrl) {
-    <app-hvtdp-image [imagePath]="newsItem.imageUrl" [altText]="newsItem.title"></app-hvtdp-image>
+    @if (news.length) {
+      <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+        <div
+          class="scrollbar-none -mx-4 flex gap-2 overflow-x-auto px-4 lg:mx-0 lg:flex-wrap lg:px-0"
+          appSlidingIndicator
+          aria-label="Nach Kategorie filtern"
+        >
+          <button
+            type="button"
+            [class]="selectedCategory === null ? 'chip-active' : 'chip'"
+            (click)="selectCategory(null)"
+          >
+            Alle
+          </button>
+          @for (category of categories; track category) {
+            <button
+              type="button"
+              [class]="selectedCategory === category ? 'chip-active' : 'chip'"
+              (click)="selectCategory(category)"
+            >
+              {{ category }}
+            </button>
+          }
+        </div>
+        <label class="flex items-center gap-2 text-sm font-semibold text-gray-600">
+          Jahr
+          <select
+            class="form-input w-auto min-w-[8rem]"
+            [value]="selectedYear ?? ''"
+            (change)="selectYear($any($event.target).value || null)"
+          >
+            <option value="">Alle Jahre</option>
+            @for (year of years; track year) {
+              <option [value]="year">{{ year }}</option>
+            }
+          </select>
+        </label>
+      </div>
     }
-    <div class="news-content" [innerHTML]="htmlNews.get(newsItem.newsId)"></div>
-  </mat-expansion-panel>
-  } }
-</mat-accordion>
+  </app-page-intro>
 
-<br />
+  <section
+    class="page-container flex flex-col gap-3 py-6 lg:gap-6 lg:py-10"
+    [appContentSwap]="filterKey"
+  >
+    @if (failed) {
+      <app-empty-state
+        icon="error_outline"
+        tone="error"
+        title="Nachrichten konnten nicht geladen werden"
+        [text]="errorText"
+      >
+        <button type="button" class="btn-primary" (click)="load()">
+          Erneut versuchen <span class="material-icons text-xl">refresh</span>
+        </button>
+      </app-empty-state>
+    } @else if (loaded && !filteredNews.length) {
+      <app-empty-state
+        icon="article"
+        title="Keine Nachrichten gefunden"
+        text="Für diesen Filter gibt es noch keine Beiträge. Schau später wieder vorbei."
+      >
+        <button type="button" class="btn-secondary" (click)="resetFilters()">
+          Alle Nachrichten
+        </button>
+      </app-empty-state>
+    }
 
-<mat-paginator
-  [length]="length"
-  [pageSize]="pageSize"
-  [pageSizeOptions]="pageSizeOptions"
-  (page)="pageEvent = $event"
->
-</mat-paginator>
+    <!-- Mobile: featured card + compact rows -->
+    <div class="flex flex-col gap-3 lg:hidden">
+      @for (item of visibleNews; track item.newsId; let first = $first; let i = $index) {
+        @if (first) {
+          <app-news-card class="animate-stagger-in" [style.--i]="0" [news]="item"></app-news-card>
+        } @else {
+          <app-news-row
+            class="animate-stagger-in"
+            [style.--i]="i % pageSize"
+            [news]="item"
+          ></app-news-row>
+        }
+      }
+    </div>
+
+    <!-- Desktop: card grid -->
+    <div class="hidden gap-6 lg:grid lg:grid-cols-3">
+      @for (item of visibleNews; track item.newsId; let i = $index) {
+        <app-news-card
+          class="animate-stagger-in"
+          [style.--i]="i % pageSize"
+          [news]="item"
+        ></app-news-card>
+      }
+    </div>
+
+    @if (visibleNews.length < filteredNews.length) {
+      <div class="flex justify-center pt-2 lg:pt-4">
+        <button type="button" class="btn-secondary w-full lg:w-auto" (click)="showMore()">
+          Ältere Nachrichten laden
+        </button>
+      </div>
+    }
+  </section>
+}

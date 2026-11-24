@@ -1,108 +1,134 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { ImagesliderComponent } from '../imageslider/imageslider.component';
-import { MysqlService } from '../services/mysql.service';
-import { baseUrlImages } from '../shared/baseurls';
-import { Album } from '../shared/photos';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import { Observable, Subscription, combineLatest, switchMap } from 'rxjs';
+import { GalleryService } from '../services/gallery.service';
+import { Album, AlbumWithPhotos, Photo } from '../shared/photos';
+import { DateUtil } from '../shared/utils/date.util';
+import { ErrorUtil } from '../shared/utils/error.util';
+import { ContentSwapDirective } from '../ui/content-swap/content-swap.directive';
+import { EmptyStateComponent } from '../ui/empty-state/empty-state.component';
+import { FittedImageComponent } from '../ui/fitted-image/fitted-image.component';
+import { ImageViewerService, ViewerImage } from '../ui/image-viewer/image-viewer.service';
+import { PageIntroComponent } from '../ui/page-intro/page-intro.component';
+import { SlidingIndicatorDirective } from '../ui/sliding-indicator/sliding-indicator.directive';
+
+const PHOTO_PAGE_SIZE = 24;
 
 @Component({
   selector: 'app-gallery',
   templateUrl: './gallery.component.html',
-  styleUrls: ['./gallery.component.css'],
   standalone: true,
-  imports: [CommonModule, ImagesliderComponent],
+  imports: [
+    RouterModule,
+    EmptyStateComponent,
+    FittedImageComponent,
+    PageIntroComponent,
+    SlidingIndicatorDirective,
+    ContentSwapDirective,
+  ],
 })
 export class GalleryComponent implements OnInit, OnDestroy {
+  private galleryService = inject(GalleryService);
+  private route = inject(ActivatedRoute);
+  private titleService = inject(Title);
+  private metaTagService = inject(Meta);
+  private imageViewer = inject(ImageViewerService);
+
+  readonly formatDate = DateUtil.formatDate;
+
+  /** Years with albums, newest first (season chips). */
+  seasons: string[] = [];
   albums: Album[] = [];
-  season: string;
-  imageBaseUrl: string;
-  isMobile = null;
-  selectedAlbum: Album | null = null;
+  season = '';
+  selectedAlbum: AlbumWithPhotos | null = null;
+  selectedAlbumSlug: string | null = null;
+  loaded = false;
+  failed = false;
+  loading = false;
+  /** Season of the content on screen; changing it plays the content entrance animation. */
+  contentKey = '';
+  errorText = '';
 
-  private routeSub: Subscription;
-  private photosSub: Subscription;
-  private selectedAlbumSlug: string | null = null;
+  visiblePhotos = PHOTO_PAGE_SIZE;
 
-  constructor(
-    private mysqlService: MysqlService,
-    private route: ActivatedRoute,
-    private titleService: Title,
-    private metaTagService: Meta,
-    private router: Router
-  ) {}
+  private sub?: Subscription;
 
   ngOnInit() {
-    this.imageBaseUrl = baseUrlImages;
-
-    this.routeSub = this.route.params.subscribe((params) => {
-      this.season = params['season'];
-      this.selectedAlbumSlug = params['albumId'] ? decodeURIComponent(params['albumId']) : null;
-      this.loadAlbums();
-    });
+    this.loadAlbums();
 
     this.titleService.setTitle('HV TDP Stainz: Galerie');
     this.metaTagService.updateTag({
       name: 'description',
       content: 'Die wichtigsten Events des HV TDP Stainz in der Galerie.',
     });
-
-    this.metaTagService.addTags([
-      {
-        name: 'keywords',
-        content: 'Fußballverein, Stainz, SC Stainz, Fußballverein Stainz, HVTDP, HVTDP Stainz',
-      },
-      { name: 'author', content: 'Stefan Jaindl' },
-      { charset: 'UTF-8' },
-    ]);
   }
 
   ngOnDestroy() {
-    this.routeSub?.unsubscribe();
-    this.photosSub?.unsubscribe();
+    this.sub?.unsubscribe();
   }
 
-  albumSlug(album: Album): string {
-    const slug = (album.name || '')
-      .toLowerCase()
-      .trim()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/^-+|-+$/g, '');
-    return slug || 'album';
+  get photos(): Photo[] {
+    return this.selectedAlbum?.photos ?? [];
   }
 
-  openAlbum(album: Album) {
-    this.router.navigate(['/gallery', this.season, this.albumSlug(album)]);
+  showMorePhotos() {
+    this.visiblePhotos += PHOTO_PAGE_SIZE;
   }
 
-  backToOverview() {
-    this.router.navigate(['/gallery', this.season]);
+  /** Opens the photo in the fullscreen viewer, browsable through the whole album. */
+  openPhoto(index: number) {
+    const album = this.selectedAlbum?.name ?? '';
+    const images: ViewerImage[] = this.photos.map((photo) => ({
+      src: photo.fullUrl,
+      alt: photo.caption || album,
+      caption: photo.caption ?? undefined,
+    }));
+    this.imageViewer.open(images, index);
   }
 
-  items(album: Album) {
-    if (!album?.photos) {
-      return [];
-    }
-    return album.photos.map((photo) => {
-      return {
-        imagePath: photo.imagePath,
-        navPath: '',
-        title: photo.description,
-        date: undefined,
-      };
-    });
-  }
-
-  private loadAlbums() {
-    this.photosSub?.unsubscribe();
-    this.photosSub = this.mysqlService.getPhotos().subscribe((albums) => {
-      this.albums = albums.filter((album) => album.season == this.season);
-      this.selectedAlbum =
-        this.selectedAlbumSlug && this.albums.length
-          ? this.albums.find((album) => this.albumSlug(album) === this.selectedAlbumSlug) || null
-          : null;
-    });
+  loadAlbums() {
+    this.sub?.unsubscribe();
+    this.loading = true;
+    this.failed = false;
+    // Without a year in the URL (/gallery) the newest year is shown.
+    this.sub = combineLatest([this.route.params, this.galleryService.getYears()])
+      .pipe(
+        switchMap(([params, years]): Observable<Album[] | AlbumWithPhotos | null> => {
+          this.seasons = years;
+          this.season = params['season'] ?? years[0] ?? '';
+          this.selectedAlbumSlug = params['albumId'] ? decodeURIComponent(params['albumId']) : null;
+          this.visiblePhotos = PHOTO_PAGE_SIZE;
+          this.loading = true;
+          return this.selectedAlbumSlug
+            ? this.galleryService.getAlbum(this.season, this.selectedAlbumSlug)
+            : this.galleryService.getAlbums(this.season);
+        })
+      )
+      .subscribe({
+        next: (result) => {
+          if (Array.isArray(result)) {
+            this.albums = result;
+            this.selectedAlbum = null;
+          } else {
+            this.selectedAlbum = result;
+          }
+          // Back in the year view (or for a missing album) the album name must not stay in the title.
+          this.titleService.setTitle(
+            this.selectedAlbum
+              ? `HV TDP Stainz: ${this.selectedAlbum.name}`
+              : 'HV TDP Stainz: Galerie'
+          );
+          this.loaded = true;
+          this.loading = false;
+          this.contentKey = this.selectedAlbumSlug ?? this.season;
+        },
+        error: (error: unknown) => {
+          this.loaded = true;
+          this.loading = false;
+          this.failed = true;
+          this.errorText = ErrorUtil.message(error);
+        },
+      });
   }
 }

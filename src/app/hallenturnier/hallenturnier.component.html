@@ -1,170 +1,248 @@
-<div class="container flex flex-col gap-3">
-  <div>
-    <h3 class="large header">17. Stainzer Hallenturnier 2027</h3>
-    <hr />
-  </div>
-
-  <div class="flex flex-col md:flex-row">
-    <div class="md:w-1/2 md:ml-2.5">
-      <p class="normal"></p>
-      <p class="normal">
-        Das größte Hallenturnier für Hobby-, Firmen- und Vereinsmannschaften vom Bezirk im Jänner
-        findet natürlich auch 2027 statt!
-      </p>
-      <p class="normal">
-        📅 Wann: Samstag, 09.01.2027<br />
-        (Erweiterung auf Freitag, 08.01.2027 bei entsprechender Teilnehmeranzahl möglich)
-      </p>
-
-      <p class="normal">
-        🏟 Wo: Mittelschule Stainz<br />
-        👨👩👧👦 Spielform: 3+1<br />
-        💵 Nenngeld: 70 €
-      </p>
-
-      <p class="normal">
-        🎁🏆👕 Preise: Urkunde für jede teilnehmende Mannschaft sowie für die besten 8
-        Mannschaften Pokal, Sachpreise und für jeden Spieler der Siegermannschaft ein offizielles
-        Siegertrikot!
-      </p>
-
-      <p class="normal">
-        📝 Anmeldemöglichkeiten<br />
-        ➡ Telefon (06644310021)<br />
-        ➡ E-Mail (hvtdpstainz&#64;gmx.at)<br />
-        ➡ Facebook (HV TDP Stainz)<br />
-        ➡ Instagram (hvtdpstainz_2014)<br />
-        ➡ Homepage (www.hvtdpstainz.at)<br />
-        ➡ Über dieses Anmeldeformular
-      </p>
-
-      <p class="normal">
-        Anmeldeschluss: Dienstag, 05.01.2027 oder bei vollem Teilnehmerfeld (ACHTUNG: Begrenzte
-        Teilnehmerzahl!!!)<br />
-        Das Nenngeld MUSS im Vorhinein überwiesen werden, nur dann ist man FIX angemeldet!
-      </p>
-
-      <p class="normal">
-        Bankdaten<br />
-        ➡ Empfänger: HV TDP Stainz<br />
-        ➡ IBAN: AT67 3843 9000 0481 3481<br />
-        ➡ Verwendungszweck: Hallenturnier 2027 + eigener Mannschaftsname<br /><br />
-
-        Der Turnierklassiker in Stainz - Anmelden, mitspielen und Spaß haben! 😉
-        <br />
-      </p>
-    </div>
-    <div class="md:w-1/2 md:ml-6">
-      <!-- <h3 style="text-align: center;">Hier findest du unser Stadion:</h3> -->
-      <!-- this creates a google map on the page with the given lat/lng from -->
-      <!-- the component as the initial center of the map: -->
-      <img
-        class="imageSmallCenter"
-        src="assets/images/hallenturnier_2027.jpg "
-        style="width: 450px"
-      />
-    </div>
-  </div>
-</div>
-
-<div class="form-size md:ml-5">
-  <h3>Sichere dir die Teilnahme am legendären Stainzer Hallenklassiker gleich jetzt ⬇</h3>
-  <!-- <p>{{ feedbackForm.value | json }} {{ feedbackForm.status | json }}</p> -->
-  <form
-    novalidate
-    [formGroup]="feedbackForm"
-    (ngSubmit)="onSubmit()"
-    class="form-panel form-stacked"
-  >
-    <p>
-      <mat-form-field class="full-width" color="{{ formErrors.name ? 'warn' : 'primary' }}">
-        <input
-          class="formElement"
-          matInput
-          type="text"
-          formControlName="name"
-          placeholder="Name"
-          required
-        />
-        <mat-hint>
-          <span [hidden]="!formErrors.name"> {{ formErrors.name }}</span>
-        </mat-hint>
-      </mat-form-field>
-    </p>
-
-    <p>
-      <mat-form-field class="full-width" color="{{ formErrors.email ? 'warn' : 'primary' }}">
-        <input matInput formControlName="email" placeholder="E-Mail" type="email" email required />
-        <mat-hint>
-          <span [hidden]="!formErrors.email"> {{ formErrors.email }}</span>
-        </mat-hint>
-      </mat-form-field>
-    </p>
-
-    <!-- <p>
-      <mat-form-field class="full-width"
-        color="{{(formErrors.phone) ? 'warn' : 'primary'}}">
-        <input class="formElement" matInput formControlName="phone" placeholder="Telefonnummer" type="text" required>
-        <mat-hint>
-          <span [hidden]="!(formErrors.phone)">
-          {{formErrors.phone}}</span>
-        </mat-hint>
-      </mat-form-field>
-    </p> -->
-
-    <p>
-      <mat-form-field class="full-width" color="{{ formErrors.teamname ? 'warn' : 'primary' }}">
-        <input
-          class="formElement"
-          matInput
-          type="text"
-          formControlName="teamname"
-          placeholder="Mannschaftsname"
-          required
-        />
-        <mat-hint>
-          <span [hidden]="!formErrors.teamname"> {{ formErrors.teamname }}</span>
-        </mat-hint>
-      </mat-form-field>
-    </p>
-
-    <!-- <p>
-    <mat-form-field class="full-width"
-      color="{{(formErrors.day) ? 'warn' : 'primary'}}">
-      <mat-label>Präferenz Vorrunde</mat-label>
-      <mat-select class="formElement" formControlName="day" >
-        <mat-option value="Freitag"> Freitag </mat-option>
-        <mat-option value="Samstag"> Samstag </mat-option>
-      </mat-select>
-      <mat-hint>
-        <span [hidden]="!(formErrors.day)">{{formErrors.day}}</span>
-      </mat-hint>
-    </mat-form-field>
-    </p> -->
-
-    <div class="form-actions">
-      <button
-        class="formElement background-primary"
-        type="submit"
-        mat-button
-        [disabled]="feedbackForm.invalid"
-        style="font-size: 20px"
-      >
-        Anmelden
+@if (failed) {
+  <div class="page-container py-10">
+    <app-empty-state
+      icon="error_outline"
+      tone="error"
+      title="Daten konnten nicht geladen werden"
+      [text]="errorText"
+    >
+      <button type="button" class="btn-primary" (click)="load()">
+        Erneut versuchen <span class="material-icons text-xl">refresh</span>
       </button>
-    </div>
-  </form>
-
-  @if (submittedFeedback) {
-  <div>
-    <div>
-      <h2>Wir haben deine Anmeldung erhalten, Vielen Dank! Wir melden uns bei dir in Kürze.</h2>
-      <p>Name: {{ submittedFeedback.name }}</p>
-      <p>E-Mail: {{ submittedFeedback.email }}</p>
-      <!-- <p>Telefonnummer: {{submittedFeedback.phone}}</p> -->
-      <p>Teamname: {{ submittedFeedback.teamname }}</p>
-      <!-- <p>Präferenz Vorrunde: {{submittedFeedback.day}}</p> -->
-    </div>
+    </app-empty-state>
   </div>
-  }
-</div>
+} @else if (loaded && !tournament) {
+  <div class="page-container py-10">
+    <app-empty-state
+      icon="sports_soccer"
+      title="Derzeit ist kein Hallenturnier geplant"
+      text="Sobald das nächste Turnier feststeht, findest du hier alle Infos und die Anmeldung."
+    ></app-empty-state>
+  </div>
+} @else if (tournament) {
+  <section class="bg-gray-50">
+    <div class="page-container flex flex-col lg:flex-row lg:items-center lg:gap-12 lg:py-12">
+      <img
+        [src]="tournament.imageUrl"
+        [alt]="tournament.title"
+        appZoomable
+        class="-mx-4 aspect-[3/2] w-[calc(100%+2rem)] max-w-none object-cover lg:order-2 lg:mx-0 lg:w-[580px] lg:rounded-2xl"
+      />
+      <div class="flex flex-1 flex-col gap-3 py-6 lg:py-0">
+        <div class="flex items-center gap-2.5">
+          @if (tournament.registrationOpen) {
+            <span class="badge-pink">Anmeldung offen</span>
+            @if (tournament.deadline) {
+              <span class="meta">bis {{ tournament.deadline }}</span>
+            }
+          } @else {
+            <span class="badge-neutral">Anmeldung geschlossen</span>
+          }
+        </div>
+        <h1 class="page-title">{{ tournament.title }}</h1>
+        @if (tournament.lead) {
+          <p class="page-lead">{{ tournament.lead }}</p>
+        }
+        @if (tournament.registrationOpen) {
+          <button
+            type="button"
+            class="btn-primary mt-1 w-full sm:w-auto sm:self-start"
+            (click)="scrollToForm()"
+          >
+            Jetzt anmelden <span class="material-icons text-xl">arrow_downward</span>
+          </button>
+        }
+      </div>
+    </div>
+  </section>
+
+  <div class="page-container flex flex-col gap-6 py-6 lg:gap-8 lg:py-8">
+    <div class="grid grid-cols-2 gap-2.5 lg:grid-cols-4 lg:gap-4">
+      @for (fact of tournament.facts; track fact.label) {
+        <div class="card flex flex-col gap-1.5 p-4">
+          <span class="material-icons text-pink-600">{{ fact.icon }}</span>
+          <span class="text-[13px] font-semibold text-gray-500">{{ fact.label }}</span>
+          <span class="text-lg font-extrabold leading-tight text-gray-900">{{ fact.value }}</span>
+          @if (fact.hint) {
+            <span class="text-[13px] font-medium leading-snug text-gray-500">{{ fact.hint }}</span>
+          }
+        </div>
+      }
+    </div>
+
+    <div class="grid gap-4 lg:grid-cols-[1fr_460px] lg:items-start lg:gap-8">
+      <div class="flex flex-col gap-4">
+        <section class="card flex flex-col gap-3 p-5">
+          <div class="flex items-center gap-3">
+            <span class="icon-tile"><span class="material-icons">emoji_events</span></span>
+            <h2 class="text-lg font-bold text-gray-900">Preise</h2>
+          </div>
+          @for (prize of tournament.prizes; track prize) {
+            <p class="flex gap-2.5 text-[15px] font-medium text-gray-800">
+              <span class="material-icons text-xl text-pink-600">check_circle</span>{{ prize }}
+            </p>
+          }
+        </section>
+
+        <section class="flex gap-3 rounded-2xl bg-pink-50 p-4">
+          <span class="material-icons text-pink-600">info</span>
+          <div>
+            <p class="text-[15px] font-bold text-gray-900">Begrenzte Teilnehmerzahl</p>
+            <p class="text-sm leading-relaxed text-gray-600">
+              Anmeldeschluss ist {{ tournament.deadline || 'bald' }} oder sobald das Teilnehmerfeld
+              voll ist. Fix angemeldet bist du erst nach Überweisung des Nenngelds.
+            </p>
+          </div>
+        </section>
+
+        <section class="card flex flex-col p-5">
+          <div class="flex items-center gap-3 pb-2">
+            <span class="icon-tile"><span class="material-icons">account_balance</span></span>
+            <h2 class="text-lg font-bold text-gray-900">Bankdaten</h2>
+          </div>
+          @for (
+            row of [
+              { label: 'Empfänger', value: tournament.bank.recipient, copy: false },
+              { label: 'IBAN', value: tournament.bank.iban, copy: true },
+              { label: 'Verwendungszweck', value: tournament.bank.reference, copy: true },
+            ];
+            track row.label
+          ) {
+            <div class="flex items-center gap-3 border-b border-gray-100 py-2.5 last:border-0">
+              <div class="min-w-0 flex-1">
+                <p class="text-[13px] font-semibold text-gray-500">{{ row.label }}</p>
+                <p class="font-semibold text-gray-900">{{ row.value }}</p>
+              </div>
+              @if (row.copy) {
+                <button
+                  type="button"
+                  class="icon-btn h-11 w-11 rounded-xl border border-gray-200"
+                  [attr.aria-label]="row.label + ' kopieren'"
+                  (click)="copy(row.value)"
+                >
+                  <span class="material-icons text-xl text-gray-600">content_copy</span>
+                </button>
+              }
+            </div>
+          }
+        </section>
+
+        <section class="card flex flex-col p-5 lg:order-last">
+          <h2 class="pb-1 text-lg font-bold text-gray-900">Weitere Anmeldewege</h2>
+          @for (channel of channels; track channel.label) {
+            <a
+              [href]="channel.href"
+              target="_blank"
+              rel="noopener"
+              class="flex min-h-14 items-center gap-3 py-2"
+            >
+              <span class="material-icons text-gray-600">{{ channel.icon }}</span>
+              <span class="flex-1">
+                <span class="block text-[13px] font-semibold text-gray-500">{{
+                  channel.label
+                }}</span>
+                <span class="block font-semibold text-gray-900">{{ channel.value }}</span>
+              </span>
+              <span class="material-icons text-gray-400">chevron_right</span>
+            </a>
+          }
+        </section>
+      </div>
+
+      <div
+        id="anmeldung"
+        class="-mx-4 scroll-mt-24 bg-gray-50 px-4 py-7 lg:sticky lg:top-28 lg:mx-0 lg:bg-transparent lg:p-0"
+      >
+        @if (!tournament.registrationOpen) {
+          <app-empty-state
+            icon="event_busy"
+            title="Die Anmeldung ist geschlossen"
+            text="Das Teilnehmerfeld ist voll oder der Anmeldeschluss vorbei. Bei Fragen erreichst du uns über die Kontaktwege auf dieser Seite."
+          ></app-empty-state>
+        } @else if (submitted) {
+          <app-empty-state
+            icon="check_circle"
+            tone="pink"
+            title="Danke für deine Anmeldung!"
+            text="Wir haben deine Anmeldung erhalten und dir eine Bestätigung per E-Mail geschickt. Bitte überweise das Nenngeld, damit dein Team fix dabei ist."
+          >
+          </app-empty-state>
+        } @else {
+          <form
+            class="card flex flex-col gap-4 border-2 border-pink-600 p-6"
+            [formGroup]="form"
+            (ngSubmit)="onSubmit()"
+            novalidate
+          >
+            <div>
+              <h2 class="text-xl font-extrabold text-gray-900">Jetzt anmelden</h2>
+              <p class="text-[15px] text-gray-600">
+                Sichere dir die Teilnahme am Stainzer Hallenklassiker.
+              </p>
+            </div>
+            <div>
+              <label class="form-label" for="hall-name">Name</label>
+              <input
+                id="hall-name"
+                class="form-input"
+                formControlName="name"
+                placeholder="Vor- und Nachname"
+                autocomplete="name"
+              />
+              @if (formErrors.name) {
+                <p class="mt-1 text-sm text-pink-700">{{ formErrors.name }}</p>
+              }
+            </div>
+            <div>
+              <label class="form-label" for="hall-email">E-Mail</label>
+              <input
+                id="hall-email"
+                type="email"
+                class="form-input"
+                formControlName="email"
+                placeholder="name@beispiel.at"
+                autocomplete="email"
+              />
+              @if (formErrors.email) {
+                <p class="mt-1 text-sm text-pink-700">{{ formErrors.email }}</p>
+              }
+            </div>
+            <div>
+              <label class="form-label" for="hall-team">Mannschaftsname</label>
+              <input
+                id="hall-team"
+                class="form-input"
+                formControlName="teamname"
+                placeholder="z. B. Die Hallenhelden"
+              />
+              @if (formErrors.teamname) {
+                <p class="mt-1 text-sm text-pink-700">{{ formErrors.teamname }}</p>
+              }
+            </div>
+            <!-- Honeypot: invisible for people, filled in by bots. -->
+            <input
+              class="absolute -left-[9999px] h-px w-px opacity-0"
+              formControlName="website"
+              tabindex="-1"
+              autocomplete="off"
+              aria-hidden="true"
+            />
+            <button type="submit" class="btn-primary w-full" [disabled]="busy">
+              Anmeldung absenden <span class="material-icons text-xl">send</span>
+            </button>
+          </form>
+        }
+      </div>
+    </div>
+
+    @if (tournament.lastEdition; as lastEdition) {
+      <section class="flex flex-col gap-3 pb-6">
+        <h2 class="section-title">Rückblick</h2>
+        <a [routerLink]="lastEdition.link" class="link-arrow self-start"
+          >Fotos vom {{ lastEdition.title }}
+          <span class="material-icons text-lg">arrow_forward</span></a
+        >
+      </section>
+    }
+  </div>
+}

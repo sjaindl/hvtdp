@@ -1,206 +1,258 @@
-<h3 class="large header">Die „Torschuss Challenge 2.0“</h3>
-<h4 class="small header">powered by 11teamsports Graz</h4>
-
-@if (isMobile) {
-<img class="imageSmallCenter" src="assets/images/torschusschallenge.jpeg" style="width: 80%" />
-} @if (!isMobile) {
-<img class="imageSmallCenter" src="assets/images/torschusschallenge.jpeg" style="width: 40%" />
-}
-
-<p class="normal">
-  Die Legende ist zurück!
-  <br />
-  Nach einer erfolgreichen Premiere beim letzten Stadionfest gibt es auch dieses Mal unsere
-  legendäre Torschusschallenge!
-</p>
-
-<p class="normal">
-  Du traust dir zu den Ball von der Mittellinie direkt (ohne Berührung vor der Torlinie) ins Tor zu
-  treffen und willst dabei auch noch einen sensationellen Preis gewinnen?!? Dann bist du hier genau
-  richtig!
-</p>
-
-<p class="normal">
-  Die Anmeldung ist für jeden und jede interessierte geöffnet und ist völlig KOSTENLOS.
-  Anmeldemöglichkeit ausschließlich über das offizielle Anmeldeformular!
-</p>
-
-<p class="normal">
-  Sichere dir deinen Platz, melde dich an und mit etwas Glück sehen wir uns beim Finaltag am 06.
-  Juni 2026 im Stadion Stainz!
-</p>
-
-<p class="normal">
-  <b>WANN:</b> Samstag, 06. Juni 2026 (in der Halbzeitpause vom Legendenspiel der SK Rapid Allstars)
-</p>
-
-<p class="normal"><b>WO:</b> Stadion Stainz</p>
-
-<br />
-
-<!-- <p class="normal">
-  <b><u>Was gibt es zu gewinnen?</u></b>
-</p> -->
-
-<!-- <p class="normal">
-  Der mögliche Gewinner erhält
-  <b>2 VIP Karten für ein Heimspiel des SK Puntigamer Sturm Graz!</b> (gesponsert von 11teamsports
-  Graz) Die 3 Finalisten erhalten für ihre Teilnahme GRATIS Eintritt zu unserem Sommerfest!
-</p> -->
-
-<p class="normal">
-  <b><u>Wer kann teilnehmen?</u></b>
-</p>
-
-<p class="normal">Jeder, der mindestens 18 Jahre alt ist.</p>
-
-<br />
-
-<p class="normal">
-  <b><u>Wie läuft der Bewerb ab?</u></b>
-</p>
-
-<ul style="margin-left: 40px">
-  <li class="normal">1. Phase - Anmeldung über unser Online Formular (KOSTENLOS!)</li>
-  <li class="normal">
-    2. Phase - Online Voting auf unserer Homepage (die ersten 50 Anmeldungen stehen zur Wahl!)
-  </li>
-  <li class="normal">
-    3. Phase - Die Top 3 vom Online Voting schaffen den Einzug ins Finale und dürfen am Tag vom
-    Stadionfest um den Hauptpreis spielen!
-  </li>
-</ul>
-
-<br />
-
-<div
-  style="
-    background-color: darkblue;
-    color: rgba(255, 255, 255, 0.7);
-    border: 10px solid;
-    margin-left: 10px;
-    margin-right: 10px;
-  "
->
-  <form
-    novalidate
-    [formGroup]="feedbackForm"
-    (ngSubmit)="onSubmit()"
-    style="margin-left: 10px; margin-right: 10px"
-  >
-    <p style="margin-top: 20px">
-      <mat-form-field class="full-width" color="{{ formErrors.firstName ? 'warn' : 'primary' }}">
-        <input
-          class="formElement"
-          matInput
-          type="text"
-          formControlName="firstName"
-          placeholder="Vorname"
-          required
-        />
-        <mat-hint>
-          <span [hidden]="!formErrors.firstName"> {{ formErrors.firstName }}</span>
-        </mat-hint>
-      </mat-form-field>
-    </p>
-
-    <p>
-      <mat-form-field class="full-width" color="{{ formErrors.lastName ? 'warn' : 'primary' }}">
-        <input
-          class="formElement"
-          matInput
-          type="text"
-          formControlName="lastName"
-          placeholder="Nachname"
-          required
-        />
-        <mat-hint>
-          <span [hidden]="!formErrors.lastName"> {{ formErrors.lastName }}</span>
-        </mat-hint>
-      </mat-form-field>
-    </p>
-
-    <p>
-      <mat-form-field class="full-width" color="{{ formErrors.email ? 'warn' : 'primary' }}">
-        <input matInput formControlName="email" placeholder="E-Mail" type="email" email required />
-        <mat-hint>
-          <span [hidden]="!formErrors.email"> {{ formErrors.email }}</span>
-        </mat-hint>
-      </mat-form-field>
-    </p>
-
-    <p>
-      <mat-form-field class="full-width" color="{{ formErrors.phone ? 'warn' : 'primary' }}">
-        <input
-          class="formElement"
-          matInput
-          formControlName="phone"
-          placeholder="Telefonnummer"
-          type="text"
-        />
-        <mat-hint>
-          <span [hidden]="!formErrors.phone"> {{ formErrors.phone }}</span>
-        </mat-hint>
-      </mat-form-field>
-    </p>
-
-    <button
-      style="margin: 100 auto; float: right; font-size: 20px"
-      class="formElement"
-      type="submit"
-      mat-button
-      class="background-primary"
-      [disabled]="feedbackForm.invalid"
+@if (failed) {
+  <div class="page-container py-10">
+    <app-empty-state
+      icon="error_outline"
+      tone="error"
+      title="Daten konnten nicht geladen werden"
+      [text]="errorText"
     >
-      Anmeldung abschicken
-    </button>
-    <br />
-  </form>
-
-  <input
-    type="file"
-    class="file-input"
-    accept="image/*"
-    (change)="onFileSelected($event)"
-    #fileUpload
-  />
-
-  <div class="file-upload" style="margin-left: 10px; margin-right: 10px">
-    <br />
-    Profilfoto: <br />
-    {{ fileName || 'Noch kein Profilfoto hochgeladen' }}
-
-    <button mat-mini-fab color="primary" class="upload-btn" (click)="fileUpload.click()">
-      <mat-icon>attach_file</mat-icon>
-    </button>
+      <button type="button" class="btn-primary" (click)="load()">
+        Erneut versuchen <span class="material-icons text-xl">refresh</span>
+      </button>
+    </app-empty-state>
   </div>
-
-  <br />
-
-  <div style="margin-left: 10px; margin-right: 10px">
-    <u>Die mit * markierten Felder sind Pflichtfelder</u>
+} @else if (loaded && !page?.active) {
+  <div class="page-container py-10">
+    <app-empty-state
+      icon="sports_soccer"
+      title="Derzeit keine Torschuss Challenge"
+      text="Sobald die nächste Torschuss Challenge feststeht, findest du hier alle Infos, die Anmeldung und das Voting."
+    ></app-empty-state>
   </div>
+} @else if (page) {
+  <section class="bg-gray-50">
+    <div class="page-container flex flex-col lg:flex-row lg:items-center lg:gap-12 lg:py-12">
+      @if (page.imageUrl) {
+        <img
+          [src]="page.imageUrl"
+          [alt]="page.title"
+          appZoomable
+          class="-mx-4 aspect-[3/2] w-[calc(100%+2rem)] max-w-none object-cover lg:order-2 lg:mx-0 lg:w-[580px] lg:rounded-2xl"
+        />
+      }
+      <div class="flex flex-1 flex-col gap-3 py-6 lg:py-0">
+        <div class="flex flex-wrap items-center gap-2.5">
+          @if (page.registrationOpen) {
+            <span class="badge-pink">Anmeldung offen</span>
+            @if (page.deadline) {
+              <span class="meta">bis {{ page.deadline }}</span>
+            }
+          } @else if (votingOpen) {
+            <span class="badge-pink">{{
+              canVote ? 'Voting läuft' : 'Danke für deine Stimme'
+            }}</span>
+          } @else if (page.poll) {
+            <span class="badge-neutral">Voting beendet</span>
+          }
+          @if (page.finalDate) {
+            <span class="meta">Finale am {{ page.finalDate }}</span>
+          }
+        </div>
+        <h1 class="page-title">{{ page.title }}</h1>
+        @if (page.sponsor) {
+          <p class="page-lead">{{ page.sponsor }}</p>
+        }
+        @if (page.registrationOpen) {
+          <button
+            type="button"
+            class="btn-primary mt-1 w-full sm:w-auto sm:self-start"
+            (click)="scrollToForm()"
+          >
+            Jetzt anmelden <span class="material-icons text-xl">arrow_downward</span>
+          </button>
+        }
+      </div>
+    </div>
+  </section>
 
-  <br />
+  <div
+    class="page-container flex flex-col gap-8 py-6 lg:py-10"
+    [class.pb-32]="votingOpen && canVote"
+  >
+    <div class="grid gap-6 lg:grid-cols-[1fr_460px] lg:items-start lg:gap-8">
+      <div class="prose-hv max-w-prose" [innerHTML]="descriptionHtml"></div>
 
-  <div style="margin-left: 10px; margin-right: 10px">
-    Mit dem Abschicken der Anmeldung bestätige ich, dass ich mindestens 18 Jahre bin und mit der
-    Veröffentlichung der persönlichen Daten im Zuge des Bewerbs einverstanden bin.
+      @if (page.registrationOpen) {
+        <div
+          id="anmeldung"
+          class="-mx-4 scroll-mt-24 bg-gray-50 px-4 py-7 lg:sticky lg:top-28 lg:mx-0 lg:bg-transparent lg:p-0"
+        >
+          @if (submitted) {
+            <app-empty-state
+              icon="check_circle"
+              tone="pink"
+              title="Danke für deine Anmeldung!"
+              text="Wir haben deine Anmeldung erhalten und dir eine Bestätigung per E-Mail geschickt. Viel Glück im Voting!"
+            ></app-empty-state>
+          } @else {
+            <form
+              class="card flex flex-col gap-4 border-2 border-pink-600 p-6"
+              [formGroup]="form"
+              (ngSubmit)="onSubmit()"
+              novalidate
+            >
+              <div>
+                <h2 class="text-xl font-extrabold text-gray-900">Jetzt anmelden</h2>
+                <p class="text-[15px] text-gray-600">Kostenlos – ab 18 Jahren.</p>
+              </div>
+              <div class="grid gap-4 sm:grid-cols-2">
+                <div>
+                  <label class="form-label" for="gs-first">Vorname</label>
+                  <input
+                    id="gs-first"
+                    class="form-input"
+                    formControlName="firstName"
+                    autocomplete="given-name"
+                  />
+                  @if (formErrors['firstName']) {
+                    <p class="mt-1 text-sm text-pink-700">{{ formErrors['firstName'] }}</p>
+                  }
+                </div>
+                <div>
+                  <label class="form-label" for="gs-last">Nachname</label>
+                  <input
+                    id="gs-last"
+                    class="form-input"
+                    formControlName="lastName"
+                    autocomplete="family-name"
+                  />
+                  @if (formErrors['lastName']) {
+                    <p class="mt-1 text-sm text-pink-700">{{ formErrors['lastName'] }}</p>
+                  }
+                </div>
+              </div>
+              <div>
+                <label class="form-label" for="gs-email">E-Mail</label>
+                <input
+                  id="gs-email"
+                  type="email"
+                  class="form-input"
+                  formControlName="email"
+                  placeholder="name@beispiel.at"
+                  autocomplete="email"
+                />
+                @if (formErrors['email']) {
+                  <p class="mt-1 text-sm text-pink-700">{{ formErrors['email'] }}</p>
+                }
+              </div>
+              <div>
+                <label class="form-label" for="gs-phone">Telefon (optional)</label>
+                <input
+                  id="gs-phone"
+                  type="tel"
+                  class="form-input"
+                  formControlName="phone"
+                  autocomplete="tel"
+                />
+                @if (formErrors['phone']) {
+                  <p class="mt-1 text-sm text-pink-700">{{ formErrors['phone'] }}</p>
+                }
+              </div>
+              <div>
+                <label class="form-label" for="gs-photo">Foto fürs Voting (optional)</label>
+                <input
+                  id="gs-photo"
+                  type="file"
+                  accept="image/*"
+                  class="block w-full text-sm text-gray-600 file:mr-3 file:rounded-xl file:border-0 file:bg-pink-50 file:px-4 file:py-2.5 file:font-semibold file:text-pink-700"
+                  (change)="onPhotoSelected($event)"
+                />
+                @if (photoError) {
+                  <p class="mt-1 text-sm text-pink-700">{{ photoError }}</p>
+                }
+              </div>
+              <!-- Honeypot: invisible for people, filled in by bots. -->
+              <input
+                class="absolute -left-[9999px] h-px w-px opacity-0"
+                formControlName="website"
+                tabindex="-1"
+                autocomplete="off"
+                aria-hidden="true"
+              />
+              <button type="submit" class="btn-primary w-full" [disabled]="busy">
+                Anmeldung absenden <span class="material-icons text-xl">send</span>
+              </button>
+            </form>
+          }
+        </div>
+      }
+    </div>
+
+    @if (page.poll) {
+      <section class="flex flex-col gap-4">
+        <div class="flex flex-col gap-1">
+          <h2 class="section-title">Voting</h2>
+          @if (votingOpen) {
+            <p class="text-[15px] text-gray-600">
+              {{ candidates.length }} Teilnehmer stehen zur Wahl – nur die Top 3 schaffen es ins
+              Finale. Du kannst einmal pro Stunde abstimmen.
+              @if (page.poll.closesAt) {
+                Votingende: {{ page.poll.closesAt }}.
+              }
+            </p>
+          } @else if (page.resultImageUrl) {
+            <p class="text-[15px] text-gray-600">
+              Das Voting ist beendet – danke an alle für eure Stimmen!
+            </p>
+          }
+        </div>
+
+        @if (!votingOpen && page.resultImageUrl) {
+          <img
+            [src]="page.resultImageUrl"
+            [alt]="'Ergebnis ' + page.title"
+            appZoomable
+            class="w-full max-w-2xl rounded-2xl"
+          />
+        } @else {
+          <div
+            class="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6 lg:gap-4"
+            role="radiogroup"
+            aria-label="Teilnehmer auswählen"
+          >
+            @for (candidate of candidates; track candidate.documentId) {
+              <button
+                type="button"
+                class="flex flex-col items-center gap-2.5 rounded-2xl px-3 pb-3.5 pt-4 text-center shadow-sm transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-md disabled:pointer-events-none"
+                [class]="
+                  candidate === selected
+                    ? 'border-2 border-pink-600 bg-pink-50'
+                    : 'border border-gray-100 bg-white'
+                "
+                role="radio"
+                [attr.aria-checked]="candidate === selected"
+                [disabled]="!votingOpen || !canVote"
+                (click)="choose(candidate)"
+              >
+                <span class="h-[88px] w-[88px] overflow-hidden rounded-full bg-gray-100">
+                  @if (candidate.imageUrl; as imageUrl) {
+                    <img
+                      [src]="imageUrl"
+                      alt=""
+                      class="h-full w-full object-cover object-top"
+                      loading="lazy"
+                    />
+                  } @else {
+                    <span
+                      class="flex h-full items-center justify-center text-2xl font-bold text-gray-500"
+                      >{{ candidate.name.charAt(0) }}</span
+                    >
+                  }
+                </span>
+                <span
+                  class="text-[15px] font-bold leading-snug"
+                  [class]="candidate === selected ? 'text-pink-700' : 'text-gray-900'"
+                  >{{ candidate.name }}</span
+                >
+              </button>
+            }
+          </div>
+        }
+      </section>
+    }
+
+    @if (votingOpen && canVote && loaded) {
+      <app-vote-bar [choice]="selected?.name ?? ''" [busy]="voting" (voted)="vote()"></app-vote-bar>
+    }
   </div>
-
-  <br />
-</div>
-
-@if (submittedFormData) {
-<div>
-  <div>
-    <h2>Wir haben deine Anmeldung erhalten, Vielen Dank!</h2>
-    <p>Vorname: {{ submittedFormData.firstName }}</p>
-    <p>Nachname: {{ submittedFormData.lastName }}</p>
-    <p>E-Mail: {{ submittedFormData.email }}</p>
-    <p>Telefonnummer: {{ submittedFormData.phone }}</p>
-  </div>
-  <br /><br />
-  <br /><br />
-</div>
 }

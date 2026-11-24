@@ -1,26 +1,53 @@
-<h1 class="large header">Hall of Papp-Fans</h1>
-
-<p class="normal">
-  Wir sagen herzlichen Dank für die Unterstützung des Hobbyverein TDP Stainz als Papp-Fan auf
-  unserer Tribüne. Durch Kauf einer Pappfigur im
-  <a href="https://www.ligaportal.at/fan/">Ligaportal</a> kannst du uns auch während der
-  zuschauerfreien Zeit tatkräftig unterstützen. Wir sagen Danke zu unseren unglaulichen
-  {{ pappfans.length }} Unterstützern:
-</p>
-
-<div class="papp-grid">
-  @for (pappfan of pappfans; track pappfan) {
-  <article class="papp-card">
-    <app-hvtdp-image
-      class="papp-preview"
-      [imagePath]="imageBaseUrl + pappfan.imagePath"
-      [altText]="pappfan.name"
-    />
-    <div class="papp-meta">
-      <p class="papp-label">Unterstützer</p>
-      <p class="papp-name">{{ pappfan.name }}</p>
-      <p class="papp-credit">copyright: Ligaportal.at</p>
+<app-page-intro
+  eyebrow="Danke!"
+  title="Hall of Papp-Fans"
+  lead="Wir sagen herzlichen Dank für die Unterstützung als Papp-Fan auf unserer Tribüne! Durch den Kauf einer Pappfigur im Ligaportal kannst du uns auch in zuschauerfreien Zeiten tatkräftig unterstützen."
+>
+  <div aside class="flex flex-col gap-4 lg:w-80">
+    <div class="flex items-center gap-3">
+      <span class="flex h-12 w-12 items-center justify-center rounded-xl bg-pink-600 text-white">
+        <span class="material-icons">favorite</span>
+      </span>
+      <div>
+        <p class="text-2xl font-extrabold leading-tight text-gray-900 lg:text-[28px]">
+          {{ pappfans.length }}
+        </p>
+        <p class="text-sm font-medium text-gray-600">unglaubliche Unterstützer</p>
+      </div>
     </div>
-  </article>
-  }
-</div>
+    <a
+      href="https://www.ligaportal.at/fan/"
+      target="_blank"
+      rel="noopener"
+      class="btn-secondary w-full"
+      >Pappfigur im Ligaportal</a
+    >
+  </div>
+</app-page-intro>
+
+<section class="page-container flex flex-col gap-4 py-6 lg:py-10">
+  <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6 lg:gap-4">
+    @for (fan of pappfans; track fan.name) {
+      <article class="card-interactive group flex flex-col">
+        <div class="aspect-[4/5] overflow-hidden bg-gray-100">
+          @if (fan.imageUrl) {
+            <img
+              [src]="fan.imageUrl"
+              [alt]="titleCase(fan.name)"
+              class="card-media"
+              loading="lazy"
+              appZoomable
+            />
+          } @else {
+            <img src="hvtdp.png" alt="" class="h-full w-full object-contain p-8" />
+          }
+        </div>
+        <div class="px-3.5 pb-3.5 pt-3">
+          <p class="text-[13px] font-semibold text-pink-600">Papp-Fan</p>
+          <p class="font-bold leading-snug text-gray-900">{{ titleCase(fan.name) }}</p>
+        </div>
+      </article>
+    }
+  </div>
+  <p class="text-[13px] font-medium text-gray-500">Fotos: © Ligaportal.at</p>
+</section>

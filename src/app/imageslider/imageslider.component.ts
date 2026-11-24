@@ -1,36 +1,40 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, Input, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Component, ElementRef, Input, QueryList, ViewChildren, inject } from '@angular/core';
 import { baseUrlImages } from '../shared/baseurls';
 import { Router } from '@angular/router';
 import { Image } from '../shared/image';
+import { ImageViewerService, ViewerImage } from '../ui/image-viewer/image-viewer.service';
 import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
-    selector: 'app-imageslider',
-    templateUrl: './imageslider.component.html',
-    styleUrls: ['./imageslider.component.css'],
-    standalone: true,
-    imports: [CommonModule],
-    animations: [
-        trigger('slideAnimation', [
-            // swipe right
-            transition(':increment', [
-                style({ opacity: 0, transform: 'translateX(24px)' }),
-                animate('250ms ease-out', style({ opacity: 1, transform: 'translateX(0)' })),
-            ]),
-            // swipe left
-            transition(':decrement', [
-                style({ opacity: 0, transform: 'translateX(-24px)' }),
-                animate('250ms ease-out', style({ opacity: 1, transform: 'translateX(0)' })),
-            ]),
-        ]),
-    ]
+  selector: 'app-imageslider',
+  templateUrl: './imageslider.component.html',
+  styleUrls: ['./imageslider.component.css'],
+  standalone: true,
+  imports: [CommonModule],
+  animations: [
+    trigger('slideAnimation', [
+      // swipe right
+      transition(':increment', [
+        style({ opacity: 0, transform: 'translateX(24px)' }),
+        animate('250ms ease-out', style({ opacity: 1, transform: 'translateX(0)' })),
+      ]),
+      // swipe left
+      transition(':decrement', [
+        style({ opacity: 0, transform: 'translateX(-24px)' }),
+        animate('250ms ease-out', style({ opacity: 1, transform: 'translateX(0)' })),
+      ]),
+    ]),
+  ],
 })
-export class ImagesliderComponent implements OnInit {
+export class ImagesliderComponent {
+  router = inject(Router);
+  private imageViewer = inject(ImageViewerService);
+
   @ViewChildren('thumbBtn', { read: ElementRef })
   thumbButtons!: QueryList<ElementRef<HTMLButtonElement>>;
 
-  imageBaseUrl: string;
+  readonly imageBaseUrl = baseUrlImages;
   currentIndex = 0;
 
   // Swipe state
@@ -41,12 +45,6 @@ export class ImagesliderComponent implements OnInit {
 
   @Input() carouselItems: Image[] = [];
   @Input() showDots: boolean = false;
-
-  constructor(public router: Router) {}
-
-  ngOnInit(): void {
-    this.imageBaseUrl = baseUrlImages;
-  }
 
   showImageDetails(item: Image) {
     console.log('navigate to ' + item.navPath);
@@ -60,7 +58,9 @@ export class ImagesliderComponent implements OnInit {
 
   imagePath(item: Image): string {
     // Absolute URLs (e.g. CMS images) are used as-is; asset paths are relative to the image base.
-    return /^https?:\/\//.test(item.imagePath) ? item.imagePath : this.imageBaseUrl + item.imagePath;
+    return /^https?:\/\//.test(item.imagePath)
+      ? item.imagePath
+      : this.imageBaseUrl + item.imagePath;
   }
 
   previous() {
@@ -82,43 +82,14 @@ export class ImagesliderComponent implements OnInit {
     this.scrollActiveThumbIntoView();
   }
 
-  trackByIndex(index: number) {
-    return index;
-  }
-
-  toggleFullscreen(container: HTMLElement, event: MouseEvent): void {
+  /** Opens the slides in the shared fullscreen viewer, starting at the current one. */
+  openFullscreen(event: MouseEvent): void {
     event.stopPropagation();
-
-    const doc: any = document;
-    const el: any = container;
-
-    const isFullscreen =
-      doc.fullscreenElement ||
-      doc.webkitFullscreenElement ||
-      doc.mozFullScreenElement ||
-      doc.msFullscreenElement;
-
-    if (!isFullscreen) {
-      if (el.requestFullscreen) {
-        el.requestFullscreen();
-      } else if (el.webkitRequestFullscreen) {
-        el.webkitRequestFullscreen();
-      } else if (el.mozRequestFullScreen) {
-        el.mozRequestFullScreen();
-      } else if (el.msRequestFullscreen) {
-        el.msRequestFullscreen();
-      }
-    } else {
-      if (doc.exitFullscreen) {
-        doc.exitFullscreen();
-      } else if (doc.webkitExitFullscreen) {
-        doc.webkitExitFullscreen();
-      } else if (doc.mozCancelFullScreen) {
-        doc.mozCancelFullScreen();
-      } else if (doc.msExitFullscreen) {
-        doc.msExitFullscreen();
-      }
-    }
+    const images: ViewerImage[] = this.carouselItems.map((item) => ({
+      src: this.imagePath(item),
+      alt: item.title || 'Bild',
+    }));
+    this.imageViewer.open(images, this.currentIndex);
   }
 
   onTouchStart(event: TouchEvent) {
@@ -137,7 +108,7 @@ export class ImagesliderComponent implements OnInit {
     this.currentTranslate = deltaX;
   }
 
-  onTouchEnd(event: TouchEvent) {
+  onTouchEnd() {
     if (!this.isDragging) return;
     this.isDragging = false;
 
@@ -161,11 +132,11 @@ export class ImagesliderComponent implements OnInit {
     this.moveDrag(event.clientX);
   }
 
-  onMouseUp(event: MouseEvent) {
+  onMouseUp() {
     this.endDrag();
   }
 
-  onMouseLeave(event: MouseEvent) {
+  onMouseLeave() {
     if (this.isDragging) {
       this.endDrag();
     }

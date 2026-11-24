@@ -1,11 +1,11 @@
-export class Standing {
+export interface Standing {
   place: number;
   team: string;
   games: number;
   wins: number;
   draws: number;
   losses: number;
-  goalDifference: string;
+  goalsFor: number;
+  goalsAgainst: number;
   points: number;
-  season: string;
 }

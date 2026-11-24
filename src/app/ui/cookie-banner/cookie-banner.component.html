@@ -1,0 +1,37 @@
+<!-- Hidden while the fullscreen image viewer is open, shown again afterwards. -->
+@if (visible && !imageViewer.current()) {
+  <div
+    class="fixed inset-x-0 bottom-0 z-[2147483000] p-4 pb-[max(1rem,env(safe-area-inset-bottom))] md:px-8 md:pb-6"
+    animate.enter="animate-rise-in"
+    animate.leave="animate-rise-out"
+    role="dialog"
+    aria-labelledby="cookie-title"
+  >
+    <div
+      class="mx-auto flex max-w-page flex-col gap-3.5 rounded-2xl border border-gray-200 bg-white p-5 shadow-2xl md:flex-row md:items-center md:gap-8 md:px-6"
+    >
+      <span class="material-icons hidden text-[32px] text-pink-600 md:block">cookie</span>
+      <div class="flex-1">
+        <div class="flex items-center gap-2.5">
+          <span class="material-icons text-pink-600 md:hidden">cookie</span>
+          <h2 id="cookie-title" class="text-[17px] font-bold text-gray-900">
+            Cookies &amp; Datenschutz
+          </h2>
+        </div>
+        <p class="mt-1.5 text-sm leading-relaxed text-gray-600">
+          Wir verwenden Cookies, um dir die bestmögliche Nutzung unserer Website zu ermöglichen und
+          Zugriffe anonym auszuwerten.
+          <a routerLink="/datenschutz" class="font-semibold text-pink-600 hover:text-pink-700"
+            >Mehr erfahren</a
+          >
+        </p>
+      </div>
+      <div class="flex flex-col gap-2.5 md:flex-row-reverse">
+        <button type="button" class="btn-primary" (click)="choose('allow')">
+          Alle akzeptieren <span class="material-icons text-xl">check</span>
+        </button>
+        <button type="button" class="btn-secondary" (click)="choose('deny')">Nur notwendige</button>
+      </div>
+    </div>
+  </div>
+}

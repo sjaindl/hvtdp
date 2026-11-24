@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { provideTestDependencies } from '../../testing/test-providers';
 import { ZehnjahresfeierComponent } from './zehnjahresfeier.component';
 
 describe('ZehnjahresfeierComponent', () => {
@@ -8,7 +8,8 @@ describe('ZehnjahresfeierComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ZehnjahresfeierComponent],
+      imports: [ZehnjahresfeierComponent],
+      providers: provideTestDependencies(),
     }).compileComponents();
 
     fixture = TestBed.createComponent(ZehnjahresfeierComponent);

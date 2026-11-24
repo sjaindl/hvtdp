@@ -1,0 +1,34 @@
+<article class="card flex h-full flex-col gap-4 p-5">
+  <div class="flex items-center justify-between">
+    <h2 class="text-base font-bold text-gray-900">Nächstes Spiel</h2>
+    <span class="badge-pink">{{ isHome ? 'Heimspiel' : 'Auswärtsspiel' }}</span>
+  </div>
+  <p class="text-[22px] font-extrabold leading-tight text-gray-900">
+    {{ match.homeTeam }} vs. {{ match.awayTeam }}
+  </p>
+  <div class="flex flex-col gap-1.5">
+    <p class="flex items-center gap-2 text-sm font-medium text-gray-600">
+      <span class="material-icons text-lg text-gray-500">event</span>{{ dateLabel }}
+    </p>
+    @if (match.venue) {
+      <p class="flex items-center gap-2 text-sm font-medium text-gray-600">
+        <span class="material-icons text-lg text-gray-500">place</span>{{ match.venue }}
+      </p>
+    }
+  </div>
+  @if (countdown) {
+    <div class="mt-auto grid grid-cols-4 gap-2" aria-label="Countdown bis zum Anpfiff">
+      @for (unit of countdown; track unit.label) {
+        <div class="flex flex-col items-center gap-0.5 rounded-xl bg-pink-50 py-3">
+          <!-- Re-created when the value changes, so each new value fades in. -->
+          @for (value of [unit.value]; track value) {
+            <span class="animate-fade-in text-[28px] font-extrabold leading-none text-pink-600">{{
+              value
+            }}</span>
+          }
+          <span class="text-xs font-semibold text-gray-600">{{ unit.label }}</span>
+        </div>
+      }
+    </div>
+  }
+</article>

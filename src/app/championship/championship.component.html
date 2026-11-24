@@ -1,181 +1,262 @@
-<br />
-
-<!-- <a class="center" href="http://www.stt-meisterschaft.at/node/7">http://www.stt-meisterschaft.at/node/7</a>
-
-<div class="h_iframe">
-  &nbsp;
-  <iframe src="http://www.stt-meisterschaft.at/node/7" frameborder="0" allowfullscreen height="1400">
-  </iframe>
-</div>
--->
-
-<h1 class="large header">STT - Meisterschaft {{ season }} - aktueller Tabellenstand:</h1>
-
-<div class="standings">
-  <h3 class="header">Liga B</h3>
-
-  <br />
-
-  @if (!isMobile) {
-  <div class="table-scroll">
-    <mat-table
-      [dataSource]="dataSource"
-      matSort
-      matSortActive="place"
-      matSortDirection="asc"
-      matSortDisableClear
-      multiTemplateDataRows
-    >
-      <ng-container matColumnDef="place">
-        <mat-header-cell *matHeaderCellDef>Platz</mat-header-cell>
-        <mat-cell *matCellDef="let standings">{{ standings.place }}</mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="team">
-        <mat-header-cell *matHeaderCellDef>Mannschaft</mat-header-cell>
-        <mat-cell *matCellDef="let standings">{{ standings.team }}</mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="games">
-        <mat-header-cell *matHeaderCellDef>Spiele</mat-header-cell>
-        <mat-cell *matCellDef="let standings">{{ standings.games }}</mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="wins">
-        <mat-header-cell *matHeaderCellDef>Siege</mat-header-cell>
-        <mat-cell *matCellDef="let standings">{{ standings.wins }}</mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="draws">
-        <mat-header-cell *matHeaderCellDef>Unentschieden</mat-header-cell>
-        <mat-cell *matCellDef="let standings">{{ standings.draws }}</mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="losses">
-        <mat-header-cell *matHeaderCellDef>Niederlagen</mat-header-cell>
-        <mat-cell *matCellDef="let standings">{{ standings.losses }}</mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="goalDifference">
-        <mat-header-cell *matHeaderCellDef>Torverhältnis</mat-header-cell>
-        <mat-cell *matCellDef="let standings">{{ standings.goalDifference }}</mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="points">
-        <mat-header-cell *matHeaderCellDef>Punkte</mat-header-cell>
-        <mat-cell *matCellDef="let standings">{{ standings.points }}</mat-cell>
-      </ng-container>
-      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
-    </mat-table>
-  </div>
-  } @if (isMobile) {
-  <div class="mobile-standings">
-    @for (standings of mobileStandings; track standings) {
-    <div class="mobile-card">
-      <div class="card-row top">
-        <span class="badge">#{{ standings.place }}</span>
-        <div class="team">{{ standings.team }}</div>
-        <div class="points">{{ standings.points }} P</div>
-      </div>
-      <div class="card-row chips">
-        <div class="chip">
-          <span>Spiele</span>
-          <strong>{{ standings.games }}</strong>
-        </div>
-        <div class="chip">
-          <span>Torv.</span>
-          <strong>{{ standings.goalDifference }}</strong>
-        </div>
-      </div>
-      <div class="stats-grid">
-        <div class="stat-block wins">
-          <span>S</span>
-          <strong>{{ standings.wins }}</strong>
-        </div>
-        <div class="stat-block draws">
-          <span>U</span>
-          <strong>{{ standings.draws }}</strong>
-        </div>
-        <div class="stat-block losses">
-          <span>N</span>
-          <strong>{{ standings.losses }}</strong>
-        </div>
-      </div>
-    </div>
+<app-page-intro
+  [eyebrow]="'STT-Meisterschaft' + (seasonInfo?.league ? ' · ' + seasonInfo?.league : '')"
+  [title]="'Meisterschaft ' + formatSeason(season)"
+  [alignEnd]="true"
+>
+  <div
+    class="scrollbar-none -mx-4 flex gap-2 overflow-x-auto px-4 lg:mx-0 lg:flex-wrap lg:px-0"
+    appSlidingIndicator
+    aria-label="Saison wählen"
+  >
+    @for (item of seasons; track item.key) {
+      <a
+        [routerLink]="['/championship', item.key]"
+        [class]="item.key === season ? 'chip-active' : 'chip'"
+        >{{ formatSeason(item.key) }}</a
+      >
     }
   </div>
-  }
-</div>
+</app-page-intro>
 
-<div class="championship-sections">
-  @if (seasonContent?.preface?.length) {
-  <div class="champ-note">
-    @for (line of seasonContent.preface; track line) {
-    <p class="small">{{ line }}</p>
-    }
-  </div>
-  }
-
-  @if (seasonContent?.upcomingTitle) {
-  <section class="champ-section">
-    <div class="section-header">
-      <h2>{{ seasonContent.upcomingTitle }}</h2>
+<div [appContentSwap]="contentKey" [busy]="loading">
+  @if (failed) {
+    <div class="page-container py-10">
+      <app-empty-state
+        icon="error_outline"
+        tone="error"
+        title="Daten konnten nicht geladen werden"
+        [text]="errorText"
+      >
+        <button type="button" class="btn-primary" (click)="load()">
+          Erneut versuchen <span class="material-icons text-xl">refresh</span>
+        </button>
+      </app-empty-state>
     </div>
-    <div class="section-body">
-      @for (match of getUpcomingForSeason(season); track match.id) {
-      <div class="match-row upcoming">
-        <span class="match-dot"></span>
-        <div class="match-text">
-          <span>{{ formatMatch(match) }}</span>
-          @if (getGoalScorers(match); as goalScorers) {
-          <span class="match-scorers">⚽ {{ goalScorers }}</span>
+  } @else if (loaded) {
+    <div class="page-container grid gap-8 py-8 lg:grid-cols-[1fr_389px] lg:gap-6 lg:py-10">
+      <!-- Standings -->
+      <section class="flex flex-col gap-3 lg:gap-4">
+        <div>
+          <h2 class="section-title">Tabelle</h2>
+          @if (standingsNote) {
+            <p class="meta">{{ standingsNote }}</p>
           }
         </div>
-      </div>
-      }
-    </div>
-  </section>
-  }
+        @for (text of paragraphs(seasonInfo?.preface); track text) {
+          <p class="rounded-xl bg-gray-50 p-4 text-sm text-gray-600">{{ text }}</p>
+        }
 
-  @if (scorers?.length) {
-  <section class="champ-section">
-    <div class="section-header">
-      <h2>Unsere Torschützen</h2>
-    </div>
-    <div class="section-body scorers-grid">
-      @for (scorer of scorers; track scorer) {
-      <div class="scorer-card">
-        <span class="scorer-goals">{{ scorer.goalsDisplay }}</span>
-        <span class="scorer-name">{{ scorer.playerName }}</span>
-      </div>
-      }
-    </div>
-  </section>
-  }
+        @if (!standings.length) {
+          <app-empty-state
+            icon="leaderboard"
+            title="Noch keine Tabelle"
+            text="Für diese Saison gibt es noch keinen Tabellenstand."
+          ></app-empty-state>
+        }
 
-  @if (getResultsForSeason(season).length) {
-  <section class="champ-section">
-    <div class="section-header">
-      <h2>Ergebnisse</h2>
+        <!-- Mobile: stacked cards (no horizontal scrolling tables) -->
+        <ol class="flex flex-col gap-2.5 lg:hidden">
+          @for (row of standings; track row.team) {
+            <li
+              class="flex items-center gap-3.5 rounded-2xl p-4 shadow-sm"
+              [class]="
+                isOwn(row.team)
+                  ? 'border-2 border-pink-600 bg-pink-50'
+                  : 'border border-gray-100 bg-white'
+              "
+            >
+              <span
+                class="flex h-9 w-9 shrink-0 items-center justify-center rounded-[10px] text-[15px] font-bold"
+                [class]="isOwn(row.team) ? 'bg-pink-600 text-white' : 'bg-gray-100 text-gray-800'"
+                >{{ row.place }}</span
+              >
+              <div class="min-w-0 flex-1">
+                <p class="text-base font-bold leading-snug text-gray-900">{{ row.team }}</p>
+                <p class="text-[13px] font-medium text-gray-500">
+                  {{ row.games }} Sp · {{ row.wins }} S · {{ row.draws }} U · {{ row.losses }} N ·
+                  {{ row.goalsFor }}:{{ row.goalsAgainst }}
+                </p>
+              </div>
+              <div class="flex flex-col items-end">
+                <span
+                  class="text-[22px] font-extrabold leading-tight"
+                  [class]="isOwn(row.team) ? 'text-pink-600' : 'text-gray-900'"
+                  >{{ row.points }}</span
+                >
+                <span class="text-xs font-medium text-gray-500">Pkt</span>
+              </div>
+            </li>
+          }
+        </ol>
+
+        <!-- Desktop: table -->
+        @if (standings.length) {
+          <div
+            class="hidden overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm lg:block"
+          >
+            <table class="w-full text-left">
+              <thead
+                class="border-b border-gray-200 bg-gray-50 text-[13px] font-semibold text-gray-500"
+              >
+                <tr>
+                  <th class="w-16 py-3 pl-4">#</th>
+                  <th class="py-3">Mannschaft</th>
+                  <th class="w-16 py-3 text-center">Sp</th>
+                  <th class="w-16 py-3 text-center">S</th>
+                  <th class="w-16 py-3 text-center">U</th>
+                  <th class="w-16 py-3 text-center">N</th>
+                  <th class="w-20 py-3 text-center">Tore</th>
+                  <th class="w-16 py-3 pr-4 text-center">Pkt</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (row of standings; track row.team) {
+                  <tr
+                    class="h-14 border-b border-gray-100 text-sm last:border-0"
+                    [class]="isOwn(row.team) ? 'bg-pink-50 text-pink-700' : 'text-gray-700'"
+                  >
+                    <td class="pl-4">
+                      <span
+                        class="flex h-8 w-8 items-center justify-center rounded-lg font-bold"
+                        [class]="
+                          isOwn(row.team) ? 'bg-pink-600 text-white' : 'bg-gray-100 text-gray-800'
+                        "
+                        >{{ row.place }}</span
+                      >
+                    </td>
+                    <td
+                      class="text-[15px]"
+                      [class]="isOwn(row.team) ? 'font-bold' : 'font-semibold text-gray-900'"
+                    >
+                      {{ row.team }}
+                    </td>
+                    <td class="text-center">{{ row.games }}</td>
+                    <td class="text-center">{{ row.wins }}</td>
+                    <td class="text-center">{{ row.draws }}</td>
+                    <td class="text-center">{{ row.losses }}</td>
+                    <td class="text-center">{{ row.goalsFor }}:{{ row.goalsAgainst }}</td>
+                    <td
+                      class="pr-4 text-center font-extrabold"
+                      [class]="isOwn(row.team) ? 'text-pink-600' : 'text-gray-900'"
+                    >
+                      {{ row.points }}
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        }
+      </section>
+
+      <!-- Next match + scorers -->
+      <aside
+        class="-mx-4 flex flex-col gap-4 bg-gray-50 px-4 py-8 lg:mx-0 lg:gap-6 lg:bg-transparent lg:p-0"
+      >
+        @if (nextMatch) {
+          <app-next-match [match]="nextMatch"></app-next-match>
+        }
+        @if (scorers.length) {
+          <section class="card px-4 pb-2 pt-4">
+            <h2 class="text-base font-bold text-gray-900">Torschützen</h2>
+            <ol>
+              @for (scorer of scorers; track scorer.name; let i = $index) {
+                <li
+                  class="flex items-center gap-3 border-b border-gray-100 px-1 py-2.5 last:border-0"
+                >
+                  <span class="w-5 text-sm font-semibold text-gray-400">{{ i + 1 }}</span>
+                  @if (scorer.imageUrl) {
+                    <img
+                      [src]="scorer.imageUrl"
+                      alt=""
+                      class="h-10 w-10 shrink-0 rounded-full bg-gray-100 object-cover object-top"
+                      loading="lazy"
+                    />
+                  } @else {
+                    <span
+                      class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gray-100 text-sm font-bold text-gray-600"
+                      >{{ scorerInitials(scorer.name) }}</span
+                    >
+                  }
+                  <span class="flex-1 text-base font-semibold text-gray-900">{{
+                    scorer.name
+                  }}</span>
+                  <span class="flex items-center gap-1 text-lg font-extrabold text-gray-900"
+                    >{{ scorer.goals
+                    }}<span class="material-icons text-base text-pink-600"
+                      >sports_soccer</span
+                    ></span
+                  >
+                </li>
+              }
+            </ol>
+          </section>
+        }
+      </aside>
     </div>
-    <div class="section-body">
-      @for (match of getResultsForSeason(season); track match.id) {
-      <div class="match-row result">
-        <span class="match-dot"></span>
-        <div class="match-text">
-          <span>{{ formatMatch(match) }}</span>
-          @if (getGoalScorers(match); as goalScorers) {
-          <span class="match-scorers">⚽ {{ goalScorers }}</span>
+
+    <!-- Results -->
+    @if (results.length) {
+      <section class="page-container flex flex-col gap-3 pb-10 lg:gap-4 lg:pb-16">
+        <h2 class="section-title">Ergebnisse</h2>
+        <div class="grid gap-2.5 lg:grid-cols-2 lg:gap-6">
+          @for (match of results; track match.id) {
+            <article class="card flex flex-col gap-2.5 p-4">
+              <div class="flex items-center justify-between gap-3">
+                <span class="text-xs font-semibold text-gray-500">{{ matchMeta(match) }}</span>
+                @if (outcome(match); as result) {
+                  <span [class]="result === 'Sieg' ? 'badge-dark' : 'badge-neutral'">{{
+                    result
+                  }}</span>
+                }
+              </div>
+              @for (
+                side of [
+                  { team: match.homeTeam, score: match.homeScore },
+                  { team: match.awayTeam, score: match.awayScore },
+                ];
+                track $index
+              ) {
+                <div class="flex items-center justify-between">
+                  <span
+                    class="text-base"
+                    [class]="
+                      isOwn(side.team) ? 'font-bold text-gray-900' : 'font-medium text-gray-600'
+                    "
+                    >{{ side.team }}</span
+                  >
+                  <span
+                    class="text-lg font-extrabold"
+                    [class]="isOwn(side.team) ? 'text-gray-900' : 'text-gray-600'"
+                    >{{ side.score }}</span
+                  >
+                </div>
+              }
+              @if (match.goals.length || additionalInfo(match)) {
+                <div
+                  class="flex items-center gap-1.5 border-t border-gray-100 pt-2 text-[13px] font-medium text-gray-600"
+                >
+                  @if (match.goals.length) {
+                    <span class="material-icons text-base text-gray-400">sports_soccer</span
+                    >{{ goalsLabel(match.goals) }}
+                  }
+                  @if (additionalInfo(match); as info) {
+                    <span class="text-gray-500">{{ info }}</span>
+                  }
+                </div>
+              }
+              @if (reportFor(match); as newsId) {
+                <a [routerLink]="['/news', newsId]" class="link-arrow self-start text-sm"
+                  >Spielbericht <span class="material-icons text-base">arrow_forward</span></a
+                >
+              }
+            </article>
           }
         </div>
-      </div>
-      }
-    </div>
-  </section>
-  }
-
-  @if (seasonContent?.postResults?.length) {
-  <div class="champ-note subtle">
-    @for (line of seasonContent.postResults; track line) {
-    <p class="small">{{ line }}</p>
+        @for (text of paragraphs(seasonInfo?.postResults); track text) {
+          <p class="text-sm text-gray-500">{{ text }}</p>
+        }
+      </section>
     }
-  </div>
   }
 </div>
-
-<br />
-<br />

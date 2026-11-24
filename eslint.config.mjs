@@ -29,16 +29,11 @@ export default tseslint.config(
           style: 'kebab-case',
         },
       ],
-      // Downgrade to warn — requires large refactor of entire codebase
-      '@angular-eslint/prefer-inject': 'warn',
-      // Downgrade to warn — existing code uses any types
-      '@typescript-eslint/no-explicit-any': 'warn',
-      // Downgrade to warn — existing code has unused vars
-      '@typescript-eslint/no-unused-vars': 'warn',
-      // Downgrade to warn — existing code uses wrapper object types
-      '@typescript-eslint/no-wrapper-object-types': 'warn',
-      // Downgrade to warn — entire project uses NgModule pattern, standalone migration is separate
-      '@angular-eslint/prefer-standalone': 'warn',
+      '@angular-eslint/prefer-inject': 'error',
+      '@typescript-eslint/no-explicit-any': 'error',
+      '@typescript-eslint/no-unused-vars': 'error',
+      '@typescript-eslint/no-wrapper-object-types': 'error',
+      '@angular-eslint/prefer-standalone': 'error',
     },
   },
   {
@@ -48,11 +43,10 @@ export default tseslint.config(
       ...angular.configs.templateAccessibility,
     ],
     rules: {
-      // Downgrade accessibility rules to warn — existing templates not updated yet
-      '@angular-eslint/template/alt-text': 'warn',
-      '@angular-eslint/template/click-events-have-key-events': 'warn',
-      '@angular-eslint/template/interactive-supports-focus': 'warn',
-      '@angular-eslint/template/label-has-associated-control': 'warn',
+      '@angular-eslint/template/alt-text': 'error',
+      '@angular-eslint/template/click-events-have-key-events': 'error',
+      '@angular-eslint/template/interactive-supports-focus': 'error',
+      '@angular-eslint/template/label-has-associated-control': 'error',
     },
   },
 );

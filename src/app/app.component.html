@@ -1,3 +1,10 @@
-<app-header></app-header>
-<router-outlet></router-outlet>
-<app-footer></app-footer>
+<div class="flex min-h-screen flex-col">
+  <app-header></app-header>
+  <main class="flex-1">
+    <router-outlet></router-outlet>
+  </main>
+  <app-footer></app-footer>
+</div>
+<app-image-viewer-host></app-image-viewer-host>
+<app-toast-host></app-toast-host>
+<app-cookie-banner></app-cookie-banner>

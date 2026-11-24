@@ -1,48 +1,28 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
+import { Meta, Title } from '@angular/platform-browser';
+import { ClubService } from '../services/club.service';
 import { PappFan } from '../shared/papp';
-import { baseUrlImages } from '../shared/baseurls';
-import { MysqlService } from '../services/mysql.service';
-import { Title, Meta } from '@angular/platform-browser';
-import { HvtdpImageComponent } from '../hvtdp-image/hvtdp-image.component';
+import { TextUtil } from '../shared/utils/text.util';
+import { ZoomableDirective } from '../ui/image-viewer/zoomable.directive';
+import { PageIntroComponent } from '../ui/page-intro/page-intro.component';
 
 @Component({
-    selector: 'app-hallofpapp',
-    templateUrl: './hallofpapp.component.html',
-    styleUrls: ['./hallofpapp.component.css'],
-    standalone: true,
-    imports: [CommonModule, HvtdpImageComponent]
+  selector: 'app-hallofpapp',
+  templateUrl: './hallofpapp.component.html',
+  standalone: true,
+  imports: [PageIntroComponent, ZoomableDirective],
 })
 export class HallofpappComponent implements OnInit {
-  pappfans: PappFan[];
-  imageBaseUrl: string;
+  private clubService = inject(ClubService);
+  private titleService = inject(Title);
+  private metaTagService = inject(Meta);
 
-  constructor(
-    private mysqlService: MysqlService,
-    private titleService: Title,
-    private metaTagService: Meta
-  ) {}
+  readonly titleCase = TextUtil.titleCase;
+  pappfans: PappFan[] = [];
 
   ngOnInit() {
-    this.imageBaseUrl = baseUrlImages;
-
-    this.mysqlService.getPappfans().subscribe((fans) => {
-      this.pappfans = fans;
-    });
-
+    this.clubService.getPappFans().subscribe((fans) => (this.pappfans = fans));
     this.titleService.setTitle('HV TDP Stainz: Papp-Fans');
-    this.metaTagService.updateTag({
-      name: 'description',
-      content: 'Papp-Fans des HV TDP Stainz.',
-    });
-
-    this.metaTagService.addTags([
-      {
-        name: 'keywords',
-        content: 'Fußballverein, Stainz, SC Stainz, Fußballverein Stainz, HVTDP, HVTDP Stainz',
-      },
-      { name: 'author', content: 'Stefan Jaindl' },
-      { charset: 'UTF-8' },
-    ]);
+    this.metaTagService.updateTag({ name: 'description', content: 'Papp-Fans des HV TDP Stainz.' });
   }
 }

@@ -1,87 +1,131 @@
-<h1 class="large header">Wähle das Tor des Jahres {{ season }}</h1>
-
-<!-- <button style="margin: auto; font-size: 20px;" mat-button class="background-primary" (click)="reload()"> Umfrage laden</button> -->
-<!-- <button style="margin: auto; font-size: 20px;" mat-button class="background-primary" (click)="goToSurvey()">Zur Umfrage</button> -->
-
-@if (season === '2022') {
-<a
-  href="https://www.umfrageonline.com/c/zwsdprsc"
-  style="font-size: 20px; text-align: center; display: block"
-  target="_blank"
+<app-page-intro
+  eyebrow="Saison-Highlight"
+  [title]="'Tor des Jahres ' + season"
+  lead="Wähle das schönste Tor der Saison – Video ansehen, Karte auswählen, Stimme abgeben."
 >
-  Zur Umfrage
-</a>
-} @if (season === '2023') {
-<a
-  href="https://www.umfrageonline.com/c/djhufanr"
-  style="font-size: 20px; text-align: center; display: block"
-  target="_blank"
->
-  Zur Umfrage
-</a>
-}
-
-<br />
-
-<!-- <div id="surveyhero-embed-wcuxrs9g"></div> -->
-
-<!-- <div class="h_iframe">
-<iframe
-  frameborder="0"
-  id="surveyhero-embed-wcuxrs9g"
-  src="https://www.umfrageonline.com/e/wcuxrs9g"
-  allowfullscreen
-  height="1700">
-</iframe>
-</div> -->
-
-<div class="video-grid">
-  @for (link of links; track link.link.link) {
-    <app-video-card
-      [videoUrl]="link.link.link"
-      [scorerImage]="scorerImage(link.link.scorer)"
-      [scorerName]="scorerDisplayName(link.link.scorer)"
-      [description]="link.link.description || 'Video-Highlight'"
-    />
-  }
-</div>
-
-@if (season === '2026') {
-<div>
-  @if (canVote) {
-  <div>
-    <p class="normal">
-      Stimme hier für dein Tor des Jahres {{ season }} (abgestimmt werden kann pro Stunde 1x):
-    </p>
-    <mat-selection-list #voting [multiple]="false">
-      @for (vote of goalOfSeasonOptions; track vote) {
-      <mat-list-option [value]="vote" style="color: whitesmoke">
-        {{ vote.player }}
-      </mat-list-option>
-      }
-    </mat-selection-list>
-    @if (voting.selectedOptions.hasValue()) {
-    <p class="normal">Deine Wahl: {{ voting.selectedOptions.selected[0].value.player }}</p>
+  <div class="flex flex-wrap items-center gap-2.5">
+    @if (votingOpen) {
+      <span class="badge-pink">{{ canVote ? 'Voting läuft' : 'Danke für deine Stimme' }}</span>
+    } @else {
+      <span class="badge-neutral">Voting beendet</span>
     }
-    <br />
-    <p class="normal">
-      <button
-        mat-flat-button
-        color="primary"
-        [disabled]="!voting.selectedOptions.hasValue()"
-        (click)="saveVote(voting.selectedOptions.selected[0].value)"
-      >
-        Stimme abgeben
-      </button>
+    @if (candidates.length) {
+      <span class="meta">{{ candidates.length }} Tore nominiert</span>
+    }
+  </div>
+  @if (votingOpen) {
+    <p class="flex items-center gap-2 text-sm font-medium text-gray-600">
+      <span class="material-icons text-lg text-gray-500">schedule</span>Du kannst einmal pro Stunde
+      abstimmen.
     </p>
-    <br /><br />
+  }
+  <div
+    class="scrollbar-none -mx-4 flex gap-2 overflow-x-auto px-4 lg:mx-0 lg:flex-wrap lg:px-0"
+    appSlidingIndicator
+    aria-label="Saison wählen"
+  >
+    @for (item of polls; track item.year) {
+      <a
+        [routerLink]="['/goaloftheseason', item.year]"
+        [class]="item.year === season ? 'chip-active' : 'chip'"
+        >{{ item.year }}</a
+      >
+    }
   </div>
-  } @if (!canVote) {
-  <div>
-    <p class="normal center">Vielen Dank für deine Stimme!</p>
+</app-page-intro>
+
+<div
+  class="page-container flex flex-col gap-6 py-6 lg:gap-8 lg:py-10"
+  [appContentSwap]="contentKey"
+  [busy]="loading"
+  [class.pb-32]="votingOpen && canVote"
+>
+  @if (failed) {
+    <app-empty-state
+      icon="error_outline"
+      tone="error"
+      title="Daten konnten nicht geladen werden"
+      [text]="errorText"
+    >
+      <button type="button" class="btn-primary" (click)="load()">
+        Erneut versuchen <span class="material-icons text-xl">refresh</span>
+      </button>
+    </app-empty-state>
+  } @else if (loaded && !candidates.length && !optionsWithoutVideo.length) {
+    <app-empty-state
+      icon="sports_soccer"
+      title="Noch keine Tore nominiert"
+      text="Für diese Saison gibt es noch keine Kandidaten."
+    ></app-empty-state>
+  }
+
+  @if (surveyLink) {
+    <a [href]="surveyLink" target="_blank" rel="noopener" class="btn-secondary self-start"
+      >Zur damaligen Umfrage</a
+    >
+  }
+
+  <div
+    class="grid gap-3.5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6"
+    role="radiogroup"
+    aria-label="Tor auswählen"
+  >
+    @for (candidate of candidates; track candidate.documentId) {
+      <app-video-card
+        [videoUrl]="candidate.video?.url ?? ''"
+        [title]="candidate.name || 'Highlight'"
+        [meta]="candidateMeta(candidate)"
+        [badge]="votingOpen ? '' : (candidate.video?.description ?? '')"
+        [selectable]="votingOpen && canVote"
+        [selected]="candidate === selected"
+        (chosen)="choose(candidate)"
+      ></app-video-card>
+    }
   </div>
+
+  @if (votingOpen && canVote && optionsWithoutVideo.length) {
+    <section class="flex flex-col gap-3">
+      <h2 class="text-lg font-bold text-gray-900">Weitere Kandidaten</h2>
+      <div
+        class="grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3"
+        role="radiogroup"
+        aria-label="Weitere Kandidaten"
+      >
+        @for (option of optionsWithoutVideo; track option.documentId) {
+          <button
+            type="button"
+            class="flex min-h-14 items-center justify-between gap-3 rounded-2xl border px-4 py-3 text-left shadow-sm"
+            [class]="
+              option === selected
+                ? 'border-2 border-pink-600 bg-pink-50'
+                : 'border-gray-100 bg-white'
+            "
+            role="radio"
+            [attr.aria-checked]="option === selected"
+            (click)="choose(option)"
+          >
+            <span
+              class="font-bold"
+              [class]="option === selected ? 'text-pink-700' : 'text-gray-900'"
+              >{{ option.name }}</span
+            >
+            <span
+              class="flex h-7 w-7 items-center justify-center rounded-full border-2"
+              [class]="
+                option === selected ? 'border-pink-600 bg-pink-600 text-white' : 'border-gray-400'
+              "
+            >
+              @if (option === selected) {
+                <span class="material-icons text-lg" animate.enter="animate-pop-in">check</span>
+              }
+            </span>
+          </button>
+        }
+      </div>
+    </section>
+  }
+
+  @if (votingOpen && canVote && loaded) {
+    <app-vote-bar [choice]="selected?.name ?? ''" [busy]="busy" (voted)="vote()"></app-vote-bar>
   }
 </div>
-}
-
-<br />

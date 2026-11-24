@@ -1,135 +1,153 @@
-import { ChangeDetectorRef, Component, HostListener, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
-import { DeviceDetectorService } from 'ngx-device-detector';
-import { MysqlService } from '../services/mysql.service';
-import { baseUrlImages } from '../shared/baseurls';
-import { Game } from '../shared/games';
-import { Player } from '../shared/player';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { Subscription, combineLatest } from 'rxjs';
+import { VideoService } from '../services/video.service';
+import { MatchInfo } from '../shared/match-info';
+import { formatSeason } from '../shared/seasons';
+import { MatchVideos, Video } from '../shared/video';
+import { MatchUtil } from '../shared/utils/match.util';
+import { ErrorUtil } from '../shared/utils/error.util';
+import { ContentSwapDirective } from '../ui/content-swap/content-swap.directive';
+import { EmptyStateComponent } from '../ui/empty-state/empty-state.component';
+import { PageIntroComponent } from '../ui/page-intro/page-intro.component';
+import { SlidingIndicatorDirective } from '../ui/sliding-indicator/sliding-indicator.directive';
 import { VideoCardComponent } from '../video-card/video-card.component';
 
 @Component({
   selector: 'app-socialmedia',
   templateUrl: './socialmedia.component.html',
-  styleUrls: ['./socialmedia.component.css'],
   standalone: true,
-  imports: [VideoCardComponent],
+  imports: [
+    RouterModule,
+    EmptyStateComponent,
+    PageIntroComponent,
+    VideoCardComponent,
+    SlidingIndicatorDirective,
+    ContentSwapDirective,
+  ],
 })
-export class SocialmediaComponent implements OnInit, AfterViewInit, OnDestroy {
-  games: Game[];
-  season: string;
-  players: Player[];
-  imageBaseUrl: string;
-  isMobile = null;
+export class SocialmediaComponent implements OnInit, OnDestroy {
+  private videoService = inject(VideoService);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private titleService = inject(Title);
+  private metaTagService = inject(Meta);
 
-  private sub: any;
+  readonly formatSeason = formatSeason;
 
-  constructor(
-    private mysqlService: MysqlService,
-    private route: ActivatedRoute,
-    private cdr: ChangeDetectorRef,
-    private deviceService: DeviceDetectorService,
-    private titleService: Title,
-    private metaTagService: Meta
-  ) {}
+  /** Seasons that have videos, newest first. */
+  seasons: string[] = [];
+  season = '';
+  /** Everyone with a goal video, by last name, with the number of videos. */
+  players: { name: string; count: number }[] = [];
+  /** Player filter (`?spieler=`): his goals from all seasons instead of one season. */
+  player: string | null = null;
+  items: MatchVideos[] = [];
+  loaded = false;
+  failed = false;
+  loading = false;
+  /** Season of the content on screen; changing it plays the content entrance animation. */
+  contentKey = '';
+  errorText = '';
+
+  private sub?: Subscription;
 
   ngOnInit() {
-    this.imageBaseUrl = baseUrlImages;
-
-    this.sub = this.route.params.subscribe((params) => {
-      this.season = params['season'];
-
-      this.mysqlService.getGames().subscribe((games) => {
-        this.games = games
-          .filter((game) => {
-            return game.season == this.season;
-          })
-          .sort((a, b) => {
-            return b.round - a.round;
-          });
-      });
-
-      this.mysqlService.getPlayers().subscribe((players) => {
-        this.players = players;
-      });
-    });
-
+    this.load();
     this.titleService.setTitle('HV TDP Stainz: Videos');
     this.metaTagService.updateTag({
       name: 'description',
       content: 'Videos von Veranstaltungen und Toren vom HV TDP Stainz.',
     });
-
-    this.metaTagService.addTags([
-      {
-        name: 'keywords',
-        content: 'Fußballverein, Stainz, SC Stainz, Fußballverein Stainz, HVTDP, HVTDP Stainz',
-      },
-      { name: 'author', content: 'Stefan Jaindl' },
-      { charset: 'UTF-8' },
-    ]);
-  }
-
-  ngAfterViewInit() {
-    this.cdr.detectChanges();
   }
 
   ngOnDestroy() {
-    this.sub.unsubscribe();
+    this.sub?.unsubscribe();
   }
 
-  @HostListener('window:resize', ['$event'])
-  onResize(event) {
-    this.checkDevice();
+  load() {
+    this.sub?.unsubscribe();
+    this.loading = true;
+    this.failed = false;
+    // Without a season in the URL (/social) the newest season is shown.
+    this.sub = combineLatest([
+      this.route.params,
+      this.route.queryParams,
+      this.videoService.getMatchVideos(),
+    ]).subscribe({
+      next: ([params, queryParams, all]) => {
+        this.seasons = [...new Set(all.map((item) => item.match.season))].sort().reverse();
+        this.season = params['season'] ?? this.seasons[0] ?? '';
+        this.players = SocialmediaComponent.playersOf(all);
+        this.player = this.players.some((entry) => entry.name === queryParams['spieler'])
+          ? queryParams['spieler']
+          : null;
+        const player = this.player;
+        this.items = player
+          ? all
+              .map((item) => ({
+                ...item,
+                videos: item.videos.filter((video) => video.scorer === player),
+              }))
+              .filter((item) => item.videos.length)
+          : all.filter((item) => item.match.season === this.season);
+        this.loaded = true;
+        this.loading = false;
+        this.contentKey = player ? `player:${player}` : this.season;
+      },
+      error: (error: unknown) => {
+        this.loaded = true;
+        this.loading = false;
+        this.failed = true;
+        this.errorText = ErrorUtil.message(error);
+      },
+    });
   }
 
-  checkDevice() {
-    this.isMobile = this.deviceService.isMobile();
+  /** Chooses a player (or none) and keeps the choice in the URL. */
+  selectPlayer(name: string | null) {
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { spieler: name || null },
+      queryParamsHandling: 'merge',
+    });
   }
 
-  matches(name: string, player: Player) {
-    if (name.includes(' ')) {
-      return player.lastName + ' ' + player.firstName == name;
+  /** Scorers of all videos (not "Eigentor"), sorted by last name. */
+  static playersOf(all: MatchVideos[]): { name: string; count: number }[] {
+    const counts = new Map<string, number>();
+    for (const video of all.flatMap((item) => item.videos)) {
+      if (video.scorer && video.scorer !== 'Eigentor') {
+        counts.set(video.scorer, (counts.get(video.scorer) ?? 0) + 1);
+      }
     }
-
-    return player.lastName == name;
+    const lastName = (name: string) => name.split(' ').slice(-1)[0] ?? name;
+    return [...counts]
+      .map(([name, count]) => ({ name, count }))
+      .sort(
+        (a, b) =>
+          lastName(a.name).localeCompare(lastName(b.name), 'de-DE') ||
+          a.name.localeCompare(b.name, 'de-DE')
+      );
   }
 
-  getPlayerByName(name: string): Player | undefined {
-    if (!name || !this.players) return undefined;
-    return this.players.find((player) => this.matches(name, player));
+  /** "HV TDP Stainz – STT Pichler", or the title of an event. */
+  title(match: MatchInfo): string {
+    return match.title ?? `${match.homeTeam} – ${match.awayTeam}`;
   }
 
-  scorerImage(name: string): string {
-    const player = this.getPlayerByName(name);
-    if (player?.imagePath) {
-      return this.imageBaseUrl + player.imagePath;
-    }
-
-    return this.imageBaseUrl + 'team/no_photo.jpg';
+  /** "5. Runde · Sa, 12.09.2026"; events only show the date. */
+  meta(match: MatchInfo): string {
+    const date = MatchUtil.formatDateTime({ kickoff: match.kickoff, hasTime: false });
+    return [match.competition === 'Event' ? '' : match.label, date].filter(Boolean).join(' · ');
   }
 
-  scorerName(name: string): string {
-    if (name && name.trim().length > 0) {
-      return name;
-    }
-
-    return 'Highlight';
+  scoreLabel(match: MatchInfo): string {
+    return MatchUtil.hasScore(match) ? `${match.homeScore}:${match.awayScore}` : '';
   }
 
-  scoreLabel(game: Game): string {
-    if (!game) return '';
-    const homeScore = game.homeScore;
-    const awayScore = game.awayScore;
-    if (
-      homeScore === null ||
-      homeScore === undefined ||
-      awayScore === null ||
-      awayScore === undefined
-    ) {
-      return '';
-    }
-
-    return `${homeScore}:${awayScore}`;
+  videoTitle(video: Video): string {
+    return video.scorer ?? 'Highlight';
   }
 }

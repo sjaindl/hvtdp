@@ -1,12 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { EMPTY, Observable, expand, map, reduce, shareReplay } from 'rxjs';
+import { Injectable, inject } from '@angular/core';
+import { Observable, forkJoin, map, of, shareReplay, switchMap } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { News } from '../shared/news';
-
-interface StrapiMedia {
-  url: string;
-}
+import { News, NewsCategory } from '../shared/news';
+import { StrapiMedia, mediaUrl, resolveCmsUrl } from '../shared/utils/media.util';
 
 interface StrapiNewsItem {
   newsId: number;
@@ -15,6 +12,8 @@ interface StrapiNewsItem {
   content: string | null;
   image: StrapiMedia | null;
   homeImage: StrapiMedia | null;
+  category: NewsCategory | null;
+  match: { id: number } | null;
 }
 
 interface StrapiPage<T> {
@@ -22,45 +21,119 @@ interface StrapiPage<T> {
   meta: { pagination: { page: number; pageCount: number } };
 }
 
+/** Query parameters in Strapi's bracket syntax, e.g. `{ 'sort[0]': 'date:desc', 'populate[0]': 'image' }`. */
+export type StrapiParams = Record<string, string | number | boolean>;
+
 @Injectable({ providedIn: 'root' })
 export class CmsService {
-  // Strapi caps page size at 100, so all news are collected page by page.
+  private http = inject(HttpClient);
+
+  // Strapi caps page size at 100, so collections are collected page by page.
   private readonly pageSize = 100;
-  private news$: Observable<News[]>;
+  private readonly cache = new Map<string, Observable<unknown>>();
 
-  constructor(private http: HttpClient) {}
+  /**
+   * All entries of a collection type (e.g. `news-items`), loaded once and shared. After the first
+   * page the remaining pages are requested in parallel. A failed load is not kept: shareReplay
+   * resets on error, so the next subscriber (e.g. "Erneut") requests again.
+   */
+  public getCollection<T>(pluralName: string, params: StrapiParams = {}): Observable<T[]> {
+    const key = `${pluralName}?${new HttpParams({ fromObject: params }).toString()}`;
+    if (!this.cache.has(key)) {
+      this.cache.set(
+        key,
+        this.getPage<T>(pluralName, params, 1, this.pageSize).pipe(
+          switchMap((first) => {
+            const { pageCount } = first.meta.pagination;
+            const rest = Array.from({ length: pageCount - 1 }, (_, index) =>
+              this.getPage<T>(pluralName, params, index + 2, this.pageSize)
+            );
+            return rest.length
+              ? forkJoin(rest).pipe(map((pages) => [first, ...pages]))
+              : of([first]);
+          }),
+          map((pages) => pages.flatMap((page) => page.data)),
+          shareReplay(1)
+        )
+      );
+    }
+    return this.cache.get(key) as Observable<T[]>;
+  }
 
-  public getNews(): Observable<News[]> {
-    this.news$ ??= this.getNewsPage(1).pipe(
-      expand((page) =>
-        page.meta.pagination.page < page.meta.pagination.pageCount
-          ? this.getNewsPage(page.meta.pagination.page + 1)
-          : EMPTY
-      ),
-      map((page) => page.data.map((item) => this.toNews(item))),
-      reduce((all, news) => all.concat(news), [] as News[]),
-      shareReplay(1)
-    );
+  /** The first `limit` entries of a collection type (use with a sort), loaded once and shared. */
+  public getFirst<T>(
+    pluralName: string,
+    limit: number,
+    params: StrapiParams = {}
+  ): Observable<T[]> {
+    const key = `${pluralName}?limit=${limit}&${new HttpParams({ fromObject: params }).toString()}`;
+    if (!this.cache.has(key)) {
+      this.cache.set(
+        key,
+        this.getPage<T>(pluralName, params, 1, limit).pipe(
+          map((page) => page.data),
+          shareReplay(1)
+        )
+      );
+    }
+    return this.cache.get(key) as Observable<T[]>;
+  }
 
-    return this.news$;
+  /** A single type (e.g. `announcement`), or null when it has not been created yet. */
+  public getSingle<T>(singularName: string, params: StrapiParams = {}): Observable<T | null> {
+    const key = `${singularName}?${new HttpParams({ fromObject: params }).toString()}`;
+    if (!this.cache.has(key)) {
+      this.cache.set(
+        key,
+        this.http
+          .get<{ data: T | null }>(`${environment.cmsUrl}/api/${singularName}`, { params })
+          .pipe(
+            map((response) => response.data),
+            shareReplay(1)
+          )
+      );
+    }
+    return this.cache.get(key) as Observable<T | null>;
+  }
+
+  /** All news, newest first; with `limit` only the newest ones (home page). */
+  public getNews(limit?: number): Observable<News[]> {
+    const params: StrapiParams = {
+      'sort[0]': 'date:desc',
+      'sort[1]': 'newsId:desc',
+      'populate[image]': true,
+      'populate[homeImage]': true,
+      'populate[match][fields][0]': 'round',
+    };
+    const items = limit
+      ? this.getFirst<StrapiNewsItem>('news-items', limit, params)
+      : this.getCollection<StrapiNewsItem>('news-items', params);
+    return items.pipe(map((list) => list.map((item) => this.toNews(item))));
+  }
+
+  /** News id of the newest report of a match, or null without report. */
+  public getMatchReport(matchId: number): Observable<number | null> {
+    return this.getFirst<{ newsId: number }>('news-items', 1, {
+      'filters[match][id][$eq]': matchId,
+      'sort[0]': 'date:desc',
+      'sort[1]': 'newsId:desc',
+      'fields[0]': 'newsId',
+    }).pipe(map(([report]) => report?.newsId ?? null));
   }
 
   /** Resolves CMS-relative paths (e.g. /uploads/x.jpg) against the CMS host. */
   public resolveUrl(url: string): string {
-    return url.startsWith('/') ? environment.cmsUrl + url : url;
+    return resolveCmsUrl(url);
   }
 
-  private getNewsPage(page: number): Observable<StrapiPage<StrapiNewsItem>> {
-    const params = new HttpParams()
-      .set('sort[0]', 'date:desc')
-      .set('sort[1]', 'newsId:desc')
-      .set('populate[0]', 'image')
-      .set('populate[1]', 'homeImage')
-      .set('pagination[page]', page)
-      .set('pagination[pageSize]', this.pageSize);
-
-    return this.http.get<StrapiPage<StrapiNewsItem>>(environment.cmsUrl + '/api/news-items', {
-      params,
+  private getPage<T>(
+    pluralName: string,
+    params: StrapiParams,
+    page: number,
+    pageSize: number
+  ): Observable<StrapiPage<T>> {
+    return this.http.get<StrapiPage<T>>(`${environment.cmsUrl}/api/${pluralName}`, {
+      params: { ...params, 'pagination[page]': page, 'pagination[pageSize]': pageSize },
     });
   }
 
@@ -70,8 +143,10 @@ export class CmsService {
       newsDate: new Date(item.date),
       title: item.title,
       content: item.content ?? '',
-      imageUrl: item.image ? this.resolveUrl(item.image.url) : null,
-      homeImageUrl: item.homeImage ? this.resolveUrl(item.homeImage.url) : null,
+      imageUrl: mediaUrl(item.image),
+      homeImageUrl: mediaUrl(item.homeImage),
+      category: item.category ?? null,
+      matchId: item.match?.id ?? null,
     };
   }
 }

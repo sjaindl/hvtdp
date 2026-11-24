@@ -1,0 +1,2651 @@
+{
+  "info": {
+    "_postman_id": "6c0f4cbb-ce5f-4732-af26-463d75ee599a",
+    "name": "HV TDP Stainz CMS",
+    "description": "Public read API of the HV TDP Stainz website (Strapi 5). Pick the environment `HV TDP CMS – local` or `HV TDP CMS – production`.\n\nCollections are paged (max. 100 per page); the website loads all pages. Images come with `populate` and contain `url` plus `formats` (thumbnail, small, medium, large).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Announcement",
+      "description": "Single type `announcement`: the bar below the header on the home page (replaces the ticker). The part before the first \" – \" is shown bold.",
+      "item": [
+        {
+          "name": "Get announcement",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/announcement",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "announcement"
+              ],
+              "query": []
+            },
+            "description": "The current announcement. `active: false` or empty `text` hides the bar."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('Has text and active flag', () => {",
+                  "  pm.expect(body.data).to.be.an('object');",
+                  "  pm.expect(body.data).to.have.property('active').that.is.a('boolean');",
+                  "  pm.expect(body.data).to.have.property('text');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "News",
+      "description": "Collection type `news-item`.",
+      "item": [
+        {
+          "name": "List news",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/news-items?sort[0]=date:desc&sort[1]=newsId:desc&populate[0]=image&populate[1]=homeImage&pagination[page]=1&pagination[pageSize]=100",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "news-items"
+              ],
+              "query": [
+                {
+                  "key": "sort[0]",
+                  "value": "date:desc"
+                },
+                {
+                  "key": "sort[1]",
+                  "value": "newsId:desc"
+                },
+                {
+                  "key": "populate[0]",
+                  "value": "image"
+                },
+                {
+                  "key": "populate[1]",
+                  "value": "homeImage"
+                },
+                {
+                  "key": "pagination[page]",
+                  "value": "1"
+                },
+                {
+                  "key": "pagination[pageSize]",
+                  "value": "100"
+                }
+              ]
+            },
+            "description": "Newest first, with images, first page of 100 (the website follows `meta.pagination.pageCount`)."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('Paged list of news', () => {",
+                  "  pm.expect(body.data).to.be.an('array');",
+                  "  pm.expect(body.meta.pagination).to.include.keys('page', 'pageSize', 'pageCount', 'total');",
+                  "});",
+                  "pm.test('News have title, date and newsId', () => {",
+                  "  body.data.forEach((news) => pm.expect(news).to.include.keys('newsId', 'title', 'date', 'content'));",
+                  "});",
+                  "pm.test('Every news item has a category', () => pm.response.json().data.forEach((news) => pm.expect(['Spielbericht', 'Turnier', 'Veranstaltung', 'Vereinsleben']).to.include(news.category)));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Get news by newsId",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/news-items?filters[newsId][$eq]={{newsId}}&populate[0]=image&populate[1]=homeImage",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "news-items"
+              ],
+              "query": [
+                {
+                  "key": "filters[newsId][$eq]",
+                  "value": "{{newsId}}",
+                  "description": "Numeric newsId, set in the environment"
+                },
+                {
+                  "key": "populate[0]",
+                  "value": "image"
+                },
+                {
+                  "key": "populate[1]",
+                  "value": "homeImage"
+                }
+              ]
+            },
+            "description": "A single news item by its numeric `newsId` (used for deep links `/news/:newsId`)."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('Exactly one news item', () => pm.expect(body.data).to.have.lengthOf(1));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Match reports with their match",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/news-items?filters[category][$eq]=Spielbericht&sort[0]=date:desc&populate[match][fields][0]=round&pagination[pageSize]=20",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "news-items"
+              ],
+              "query": [
+                {
+                  "key": "filters[category][$eq]",
+                  "value": "Spielbericht"
+                },
+                {
+                  "key": "sort[0]",
+                  "value": "date:desc"
+                },
+                {
+                  "key": "populate[match][fields][0]",
+                  "value": "round"
+                },
+                {
+                  "key": "pagination[pageSize]",
+                  "value": "20"
+                }
+              ]
+            },
+            "description": "Newest match reports (category Spielbericht) with the linked match (`migrate-to-strapi.sh news-categories`)."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('Only match reports', () => body.data.forEach((news) => pm.expect(news.category).to.eql('Spielbericht')));",
+                  "pm.test('Most recent reports are linked to a match', () => pm.expect(body.data.filter((news) => news.match).length).to.be.above(0));",
+                  "pm.test('Admin titles are private', () => pm.expect(pm.response.text()).to.not.include('adminTitle'));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Club",
+      "description": "Team, board, members, Papp-Fans and match ball donations (migrated from the PHP API with `migrate-to-strapi.sh club`).",
+      "item": [
+        {
+          "name": "List players",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/players?sort[0]=lastName:asc&sort[1]=firstName:asc&populate[0]=image&pagination[pageSize]=100",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "players"
+              ],
+              "query": [
+                {
+                  "key": "sort[0]",
+                  "value": "lastName:asc"
+                },
+                {
+                  "key": "sort[1]",
+                  "value": "firstName:asc"
+                },
+                {
+                  "key": "populate[0]",
+                  "value": "image"
+                },
+                {
+                  "key": "pagination[pageSize]",
+                  "value": "100"
+                }
+              ]
+            },
+            "description": "All players with portrait. `squad`: Kader (team page), Aktiv (further active members), Ehemalig (only used for scorer names/voting)."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('List with the expected fields', () => {",
+                  "  pm.expect(body.data).to.be.an('array').that.is.not.empty;",
+                  "  body.data.forEach((entry) => pm.expect(entry).to.include.keys('firstName', 'lastName', 'position', 'squad', 'games', 'goals', 'image'));",
+                  "});",
+                  "pm.test('Status is Kader, Aktiv or Ehemalig', () => {",
+                  "  body.data.forEach((player) => pm.expect(['Kader', 'Aktiv', 'Ehemalig']).to.include(player.squad));",
+                  "});",
+                  "pm.test('Admin titles are private', () => pm.expect(pm.response.text()).to.not.include('adminTitle'));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "List squad players",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/players?filters[squad][$eq]=Kader&sort[0]=lastName:asc&populate[0]=image&pagination[pageSize]=100",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "players"
+              ],
+              "query": [
+                {
+                  "key": "filters[squad][$eq]",
+                  "value": "Kader"
+                },
+                {
+                  "key": "sort[0]",
+                  "value": "lastName:asc"
+                },
+                {
+                  "key": "populate[0]",
+                  "value": "image"
+                },
+                {
+                  "key": "pagination[pageSize]",
+                  "value": "100"
+                }
+              ]
+            },
+            "description": "Only the squad (team page)."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('List with the expected fields', () => {",
+                  "  pm.expect(body.data).to.be.an('array').that.is.not.empty;",
+                  "  body.data.forEach((entry) => pm.expect(entry).to.include.keys('firstName', 'lastName', 'squad'));",
+                  "});",
+                  "pm.test('Only squad players', () => body.data.forEach((player) => pm.expect(player.squad).to.eql('Kader')));",
+                  "pm.test('Admin titles are private', () => pm.expect(pm.response.text()).to.not.include('adminTitle'));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Get team page",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/team-page",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "team-page"
+              ],
+              "query": []
+            },
+            "description": "Single type with the date of the squad list (shown as \"Stand MM/YYYY\")."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('Has the as-of dates of the squad and the member lists', () => ['squadAsOf', 'activeMembersAsOf', 'supportingMembersAsOf', 'kidsMembersAsOf'].forEach((key) => pm.expect(body.data).to.have.property(key)));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "List board members",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/board-members?sort[0]=order:asc&populate[0]=image",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "board-members"
+              ],
+              "query": [
+                {
+                  "key": "sort[0]",
+                  "value": "order:asc"
+                },
+                {
+                  "key": "populate[0]",
+                  "value": "image"
+                }
+              ]
+            },
+            "description": "Board (Über uns) in display order."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('List with the expected fields', () => {",
+                  "  pm.expect(body.data).to.be.an('array').that.is.not.empty;",
+                  "  body.data.forEach((entry) => pm.expect(entry).to.include.keys('function', 'firstName', 'lastName', 'order', 'image'));",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "List members by type",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/members?filters[type][$eq]={{memberType}}&sort[0]=lastName:asc&pagination[pageSize]=100",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "members"
+              ],
+              "query": [
+                {
+                  "key": "filters[type][$eq]",
+                  "value": "{{memberType}}",
+                  "description": "Aktiv, Fördernd or Kids (environment variable)"
+                },
+                {
+                  "key": "sort[0]",
+                  "value": "lastName:asc"
+                },
+                {
+                  "key": "pagination[pageSize]",
+                  "value": "100"
+                }
+              ]
+            },
+            "description": "Members of one list: Aktiv, Fördernd or Kids. The list's \"Stand\" comes from the team page (activeMembersAsOf, supportingMembersAsOf, kidsMembersAsOf)."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('List with the expected fields', () => {",
+                  "  pm.expect(body.data).to.be.an('array').that.is.not.empty;",
+                  "  body.data.forEach((entry) => pm.expect(entry).to.include.keys('firstName', 'lastName', 'type'));",
+                  "});",
+                  "pm.test('Only the requested type', () => body.data.forEach((member) => pm.expect(member.type).to.eql(pm.variables.get('memberType'))));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "List Papp-Fans",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/papp-fans?sort[0]=order:asc&populate[0]=image&pagination[pageSize]=100",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "papp-fans"
+              ],
+              "query": [
+                {
+                  "key": "sort[0]",
+                  "value": "order:asc"
+                },
+                {
+                  "key": "populate[0]",
+                  "value": "image"
+                },
+                {
+                  "key": "pagination[pageSize]",
+                  "value": "100"
+                }
+              ]
+            },
+            "description": "Hall of Papp-Fans in display order."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('List with the expected fields', () => {",
+                  "  pm.expect(body.data).to.be.an('array').that.is.not.empty;",
+                  "  body.data.forEach((entry) => pm.expect(entry).to.include.keys('name', 'order', 'image'));",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "List donations",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/donations?sort[0]=date:desc&populate[0]=image&populate[1]=matchBallImage&pagination[pageSize]=100",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "donations"
+              ],
+              "query": [
+                {
+                  "key": "sort[0]",
+                  "value": "date:desc"
+                },
+                {
+                  "key": "populate[0]",
+                  "value": "image"
+                },
+                {
+                  "key": "populate[1]",
+                  "value": "matchBallImage"
+                },
+                {
+                  "key": "pagination[pageSize]",
+                  "value": "100"
+                }
+              ]
+            },
+            "description": "Match ball donations, newest first, with handover photo and ball image."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('List with the expected fields', () => {",
+                  "  pm.expect(body.data).to.be.an('array').that.is.not.empty;",
+                  "  body.data.forEach((entry) => pm.expect(entry).to.include.keys('donator', 'date', 'game', 'description', 'image', 'matchBallImage'));",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Fanshop",
+      "description": "Fanshop items with base price (or price note), order options and image (`migrate-to-strapi.sh fanshop`). A choice price replaces the item price when chosen.",
+      "item": [
+        {
+          "name": "List shop items",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/shop-items?sort[0]=order:asc&populate[image]=true&populate[optionGroups][populate][choices]=true&pagination[pageSize]=100",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "shop-items"
+              ],
+              "query": [
+                {
+                  "key": "sort[0]",
+                  "value": "order:asc"
+                },
+                {
+                  "key": "populate[image]",
+                  "value": "true"
+                },
+                {
+                  "key": "populate[optionGroups][populate][choices]",
+                  "value": "true"
+                },
+                {
+                  "key": "pagination[pageSize]",
+                  "value": "100"
+                }
+              ]
+            },
+            "description": "All items in display order, with image and option groups including their choices."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('Items with price or price note', () => {",
+                  "  pm.expect(body.data).to.be.an('array').that.is.not.empty;",
+                  "  body.data.forEach((item) => {",
+                  "    pm.expect(item).to.include.keys('name', 'description', 'category', 'price', 'priceNote', 'image', 'optionGroups');",
+                  "    pm.expect(['Bekleidung', 'Accessoires', 'Sonstiges']).to.include(item.category);",
+                  "    pm.expect(item.price !== null || !!item.priceNote, `${item.name} needs a price or a price note`).to.be.true;",
+                  "  });",
+                  "});",
+                  "pm.test('Option groups are choices or text fields', () => {",
+                  "  body.data.flatMap((item) => item.optionGroups).forEach((group) => {",
+                  "    pm.expect(['Auswahl', 'Text']).to.include(group.kind);",
+                  "    pm.expect(group.choices).to.be.an('array');",
+                  "    if (group.kind === 'Auswahl') pm.expect(group.choices).to.not.be.empty;",
+                  "  });",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Documents",
+      "description": "Downloads of the documents page (`migrate-to-strapi.sh documents`). Protected documents are delivered only by `POST /api/documents/:documentId/download` with the members' password; the public list does not contain their files.",
+      "item": [
+        {
+          "name": "List documents",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/documents?sort[0]=order:asc&populate[0]=file&pagination[pageSize]=100",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "documents"
+              ],
+              "query": [
+                {
+                  "key": "sort[0]",
+                  "value": "order:asc"
+                },
+                {
+                  "key": "populate[0]",
+                  "value": "file"
+                },
+                {
+                  "key": "pagination[pageSize]",
+                  "value": "100"
+                }
+              ]
+            },
+            "description": "All documents in display order. Protected documents come without `file`; they are only available via the download endpoint. Run this first: it stores `publicDocumentId` and `protectedDocumentId` for the download requests."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('Documents with category, file and protected flag', () => {",
+                  "  pm.expect(body.data).to.be.an('array').that.is.not.empty;",
+                  "  body.data.forEach((doc) => {",
+                  "    pm.expect(doc).to.include.keys('title', 'date', 'category', 'file', 'protected', 'order');",
+                  "    pm.expect(['Allgemein', 'Turnierergebnisse', 'Protokolle']).to.include(doc.category);",
+                  "    pm.expect(doc.protected).to.be.a('boolean');",
+                  "  });",
+                  "});",
+                  "pm.test('Only public documents expose their file', () => {",
+                  "  body.data.forEach((doc) => {",
+                  "    if (doc.protected) pm.expect(doc.file, `${doc.title} must not expose its file`).to.be.null;",
+                  "    else pm.expect(doc.file && doc.file.mime, `${doc.title} needs a PDF`).to.eql('application/pdf');",
+                  "  });",
+                  "});",
+                  "// Used by the download requests below.",
+                  "const publicDoc = body.data.find((doc) => !doc.protected);",
+                  "const protectedDoc = body.data.find((doc) => doc.protected);",
+                  "if (publicDoc) pm.environment.set('publicDocumentId', publicDoc.documentId);",
+                  "if (protectedDoc) pm.environment.set('protectedDocumentId', protectedDoc.documentId);"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Download public document",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/documents/{{publicDocumentId}}/download",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "documents",
+                "{{publicDocumentId}}",
+                "download"
+              ]
+            },
+            "description": "Public documents need no password."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Delivers the PDF as download', () => {",
+                  "  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/pdf');",
+                  "  pm.expect(pm.response.headers.get('Content-Disposition')).to.include('attachment');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Download protected document",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"password\": \"{{documentsPassword}}\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/documents/{{protectedDocumentId}}/download",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "documents",
+                "{{protectedDocumentId}}",
+                "download"
+              ]
+            },
+            "description": "Protected document with the members' password (`documentsPassword` in the environment; the server compares it with DOCUMENTS_PASSWORD). Not cached (`Cache-Control: no-store`)."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Delivers the PDF as download', () => {",
+                  "  pm.expect(pm.response.headers.get('Content-Type')).to.include('application/pdf');",
+                  "  pm.expect(pm.response.headers.get('Content-Disposition')).to.include('attachment');",
+                  "});",
+                  "pm.test('Not cached', () => pm.expect(pm.response.headers.get('Cache-Control')).to.include('no-store'));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Download protected document – wrong password",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"password\": \"falsch\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/documents/{{protectedDocumentId}}/download",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "documents",
+                "{{protectedDocumentId}}",
+                "download"
+              ]
+            },
+            "description": "Must be refused with 401. After 10 failed attempts per IP the endpoint answers 429 for 15 minutes."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Refused with 401 (or 429 after too many attempts)', () => pm.expect([401, 429]).to.include(pm.response.code));",
+                  "pm.test('No file delivered', () => pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json'));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Championship",
+      "description": "Seasons, standings, season scorer table and matches with their goal scorers (`migrate-to-strapi.sh championship`). Set `season` in the environment (e.g. 2026-2027).",
+      "item": [
+        {
+          "name": "List seasons",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/seasons?sort[0]=key:desc",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "seasons"
+              ],
+              "query": [
+                {
+                  "key": "sort[0]",
+                  "value": "key:desc"
+                }
+              ]
+            },
+            "description": "All seasons, newest first, with league and notes."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('Non-empty list', () => pm.expect(body.data).to.be.an('array').that.is.not.empty);",
+                  "pm.test('Seasons have a key like 2026-2027', () => body.data.forEach((s) => pm.expect(s.key).to.match(/^\\d{4}-\\d{4}$/)));",
+                  "pm.test('Newest first', () => pm.expect(body.data.map((s) => s.key)).to.eql([...body.data.map((s) => s.key)].sort().reverse()));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Standings of a season",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/standings?filters[season][key][$eq]={{season}}&sort[0]=place:asc&pagination[pageSize]=100",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "standings"
+              ],
+              "query": [
+                {
+                  "key": "filters[season][key][$eq]",
+                  "value": "{{season}}"
+                },
+                {
+                  "key": "sort[0]",
+                  "value": "place:asc"
+                },
+                {
+                  "key": "pagination[pageSize]",
+                  "value": "100"
+                }
+              ]
+            },
+            "description": "Table of `{{season}}` by place; goal difference as goalsFor/goalsAgainst numbers."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('Non-empty list', () => pm.expect(body.data).to.be.an('array').that.is.not.empty);",
+                  "pm.test('Numbers, ordered by place', () => {",
+                  "  body.data.forEach((row, i) => {",
+                  "    ['place', 'games', 'wins', 'draws', 'losses', 'goalsFor', 'goalsAgainst', 'points'].forEach((key) => pm.expect(row[key], key).to.be.a('number'));",
+                  "    pm.expect(row.place).to.eql(i + 1);",
+                  "  });",
+                  "});",
+                  "pm.test('Admin titles are private', () => pm.expect(pm.response.text()).to.not.include('adminTitle'));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Scorers of a season",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/scorers?filters[season][key][$eq]={{season}}&filters[goals][$gt]=0&sort[0]=goals:desc&populate[player][fields][0]=firstName&populate[player][fields][1]=lastName&populate[player][populate][image]=true&pagination[pageSize]=100",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "scorers"
+              ],
+              "query": [
+                {
+                  "key": "filters[season][key][$eq]",
+                  "value": "{{season}}"
+                },
+                {
+                  "key": "filters[goals][$gt]",
+                  "value": "0"
+                },
+                {
+                  "key": "sort[0]",
+                  "value": "goals:desc"
+                },
+                {
+                  "key": "populate[player][fields][0]",
+                  "value": "firstName"
+                },
+                {
+                  "key": "populate[player][fields][1]",
+                  "value": "lastName"
+                },
+                {
+                  "key": "populate[player][populate][image]",
+                  "value": "true"
+                },
+                {
+                  "key": "pagination[pageSize]",
+                  "value": "100"
+                }
+              ]
+            },
+            "description": "Season scorer table of `{{season}}` with linked player and portrait (maintained separately from the match scorers)."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('Non-empty list', () => pm.expect(body.data).to.be.an('array').that.is.not.empty);",
+                  "pm.test('Goals as numbers; player or name', () => body.data.forEach((s) => {",
+                  "  pm.expect(s.goals).to.be.a('number');",
+                  "  pm.expect(!!s.player || !!s.name).to.be.true;",
+                  "}));",
+                  "pm.test('Admin titles are private', () => pm.expect(pm.response.text()).to.not.include('adminTitle'));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Matches of a season",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/matches?filters[season][key][$eq]={{season}}&populate[season][fields][0]=key&populate[goals][populate][player][fields][0]=firstName&populate[goals][populate][player][fields][1]=lastName&pagination[pageSize]=100",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "matches"
+              ],
+              "query": [
+                {
+                  "key": "filters[season][key][$eq]",
+                  "value": "{{season}}"
+                },
+                {
+                  "key": "populate[season][fields][0]",
+                  "value": "key"
+                },
+                {
+                  "key": "populate[goals][populate][player][fields][0]",
+                  "value": "firstName"
+                },
+                {
+                  "key": "populate[goals][populate][player][fields][1]",
+                  "value": "lastName"
+                },
+                {
+                  "key": "pagination[pageSize]",
+                  "value": "100"
+                }
+              ]
+            },
+            "description": "Matches of `{{season}}` with competition/round/stage, date and time, scores (null = not played) and goal scorers."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('Non-empty list', () => pm.expect(body.data).to.be.an('array').that.is.not.empty);",
+                  "pm.test('Typed match fields', () => body.data.forEach((m) => {",
+                  "  pm.expect(['Meisterschaft', 'Cup', 'Testspiel']).to.include(m.competition);",
+                  "  if (m.date !== null) pm.expect(m.date).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);",
+                  "  if (m.time !== null) pm.expect(m.time).to.match(/^\\d{2}:\\d{2}:\\d{2}/);",
+                  "  ['homeScore', 'awayScore'].forEach((key) => pm.expect(m[key] === null || typeof m[key] === 'number', key).to.be.true);",
+                  "  pm.expect(m.goals).to.be.an('array');",
+                  "  m.goals.forEach((g) => pm.expect(g.count).to.be.a('number'));",
+                  "}));",
+                  "pm.test('Admin titles are private', () => pm.expect(pm.response.text()).to.not.include('adminTitle'));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "All matches",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/matches?populate[season][fields][0]=key&populate[goals][populate][player][fields][0]=lastName&pagination[pageSize]=100",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "matches"
+              ],
+              "query": [
+                {
+                  "key": "populate[season][fields][0]",
+                  "value": "key"
+                },
+                {
+                  "key": "populate[goals][populate][player][fields][0]",
+                  "value": "lastName"
+                },
+                {
+                  "key": "pagination[pageSize]",
+                  "value": "100"
+                }
+              ]
+            },
+            "description": "All matches of all seasons (home page: last result and next match)."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('Non-empty list', () => pm.expect(body.data).to.be.an('array').that.is.not.empty);",
+                  "pm.test('Every match belongs to a season', () => body.data.forEach((m) => pm.expect(m.season && m.season.key).to.be.a('string')));",
+                  "pm.test('Admin titles are private', () => pm.expect(pm.response.text()).to.not.include('adminTitle'));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Videos & Voting",
+      "description": "Goal videos attached to the matches, Tor des Jahres / Spieler der Saison votings (`migrate-to-strapi.sh videos`). Vote counts are private (admin only). The vote request counts a real vote: use it locally only.",
+      "item": [
+        {
+          "name": "Matches with videos of a season",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/matches?filters[season][key][$eq]={{season}}&filters[videos][id][$notNull]=true&populate[season][fields][0]=key&populate[videos][sort][0]=order:asc&populate[videos][populate][player][fields][0]=firstName&populate[videos][populate][player][fields][1]=lastName&pagination[pageSize]=100",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "matches"
+              ],
+              "query": [
+                {
+                  "key": "filters[season][key][$eq]",
+                  "value": "{{season}}"
+                },
+                {
+                  "key": "filters[videos][id][$notNull]",
+                  "value": "true"
+                },
+                {
+                  "key": "populate[season][fields][0]",
+                  "value": "key"
+                },
+                {
+                  "key": "populate[videos][sort][0]",
+                  "value": "order:asc"
+                },
+                {
+                  "key": "populate[videos][populate][player][fields][0]",
+                  "value": "firstName"
+                },
+                {
+                  "key": "populate[videos][populate][player][fields][1]",
+                  "value": "lastName"
+                },
+                {
+                  "key": "pagination[pageSize]",
+                  "value": "100"
+                }
+              ]
+            },
+            "description": "Matches and events (competition `Event`, with `title`) of `{{season}}` that have videos, with the videos and their scorers."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('Non-empty list', () => pm.expect(body.data).to.be.an('array').that.is.not.empty);",
+                  "pm.test('Every match has videos with a URL', () => body.data.forEach((match) => {",
+                  "  pm.expect(match.videos).to.be.an('array').that.is.not.empty;",
+                  "  match.videos.forEach((video) => pm.expect(video.url).to.match(/^https:\\/\\/www\\.youtube\\.com\\//));",
+                  "}));",
+                  "pm.test('Events have a title instead of teams', () => body.data.filter((match) => match.competition === 'Event').forEach((match) => pm.expect(match.title).to.be.a('string')));",
+                  "pm.test('Admin titles are private', () => pm.expect(pm.response.text()).to.not.include('adminTitle'));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Polls (Tor des Jahres)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/polls?filters[type][$eq]=goalOfTheYear&sort[0]=year:desc",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "polls"
+              ],
+              "query": [
+                {
+                  "key": "filters[type][$eq]",
+                  "value": "goalOfTheYear"
+                },
+                {
+                  "key": "sort[0]",
+                  "value": "year:desc"
+                }
+              ]
+            },
+            "description": "Votings of a type, newest year first. Stores the open and a closed year for the next requests."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('Non-empty list', () => pm.expect(body.data).to.be.an('array').that.is.not.empty);",
+                  "const open = body.data.find((poll) => poll.open);",
+                  "const closed = body.data.find((poll) => !poll.open);",
+                  "pm.test('Exactly one open voting', () => pm.expect(body.data.filter((poll) => poll.open)).to.have.lengthOf(1));",
+                  "if (open) pm.environment.set('openPollYear', open.year);",
+                  "if (closed) pm.environment.set('closedPollYear', closed.year);",
+                  "pm.test('Admin titles are private', () => pm.expect(pm.response.text()).to.not.include('adminTitle'));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Options of the open poll",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/poll-options?filters[poll][type][$eq]=goalOfTheYear&filters[poll][year][$eq]={{openPollYear}}&populate[player][fields][0]=firstName&populate[player][fields][1]=lastName&populate[video][populate][match][populate][season][fields][0]=key",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "poll-options"
+              ],
+              "query": [
+                {
+                  "key": "filters[poll][type][$eq]",
+                  "value": "goalOfTheYear"
+                },
+                {
+                  "key": "filters[poll][year][$eq]",
+                  "value": "{{openPollYear}}"
+                },
+                {
+                  "key": "populate[player][fields][0]",
+                  "value": "firstName"
+                },
+                {
+                  "key": "populate[player][fields][1]",
+                  "value": "lastName"
+                },
+                {
+                  "key": "populate[video][populate][match][populate][season][fields][0]",
+                  "value": "key"
+                }
+              ]
+            },
+            "description": "Nominated goals of `{{openPollYear}}` with video and match; stores an option for the vote request."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('Non-empty list', () => pm.expect(body.data).to.be.an('array').that.is.not.empty);",
+                  "pm.test('Vote counts are private', () => body.data.forEach((option) => pm.expect(option).to.not.have.property('votes')));",
+                  "pm.environment.set('pollOptionId', body.data[0].documentId);",
+                  "pm.test('Admin titles are private', () => pm.expect(pm.response.text()).to.not.include('adminTitle'));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Options of a closed poll",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/poll-options?filters[poll][type][$eq]=goalOfTheYear&filters[poll][year][$eq]={{closedPollYear}}&populate[player][fields][0]=firstName&populate[player][fields][1]=lastName&populate[video][populate][match][populate][season][fields][0]=key",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "poll-options"
+              ],
+              "query": [
+                {
+                  "key": "filters[poll][type][$eq]",
+                  "value": "goalOfTheYear"
+                },
+                {
+                  "key": "filters[poll][year][$eq]",
+                  "value": "{{closedPollYear}}"
+                },
+                {
+                  "key": "populate[player][fields][0]",
+                  "value": "firstName"
+                },
+                {
+                  "key": "populate[player][fields][1]",
+                  "value": "lastName"
+                },
+                {
+                  "key": "populate[video][populate][match][populate][season][fields][0]",
+                  "value": "key"
+                }
+              ]
+            },
+            "description": "Options of `{{closedPollYear}}`; stores an option for the closed-poll vote request."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('Non-empty list', () => pm.expect(body.data).to.be.an('array').that.is.not.empty);",
+                  "pm.test('Vote counts are private', () => body.data.forEach((option) => pm.expect(option).to.not.have.property('votes')));",
+                  "pm.environment.set('closedPollOptionId', body.data[0].documentId);",
+                  "pm.test('Admin titles are private', () => pm.expect(pm.response.text()).to.not.include('adminTitle'));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Vote (local only)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/poll-options/{{pollOptionId}}/vote",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "poll-options",
+                "{{pollOptionId}}",
+                "vote"
+              ]
+            },
+            "description": "Counts one vote for `{{pollOptionId}}` (open poll). Limited to 5 votes per IP and poll per hour (429 afterwards). Counts a real vote: do not run against production.",
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Vote counted (or limit reached)', () => pm.expect(pm.response.code).to.be.oneOf([200, 429]));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Vote on a closed poll → 409",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/poll-options/{{closedPollOptionId}}/vote",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "poll-options",
+                "{{closedPollOptionId}}",
+                "vote"
+              ]
+            },
+            "description": "Closed votings do not take votes.",
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 409', () => pm.response.to.have.status(409));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Gallery",
+      "description": "Photo albums with their photos in the media library (`migrate-to-strapi.sh gallery`). Set `galleryYear` in the environment (e.g. 2026).",
+      "item": [
+        {
+          "name": "Album years",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/albums?fields[0]=year&pagination[pageSize]=100",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "albums"
+              ],
+              "query": [
+                {
+                  "key": "fields[0]",
+                  "value": "year"
+                },
+                {
+                  "key": "pagination[pageSize]",
+                  "value": "100"
+                }
+              ]
+            },
+            "description": "Only the year of every album (season chips on the website)."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('Non-empty list', () => pm.expect(body.data).to.be.an('array').that.is.not.empty);",
+                  "pm.test('Admin titles are private', () => pm.expect(pm.response.text()).to.not.include('adminTitle'));",
+                  "pm.test('Years like 2026', () => body.data.forEach((album) => pm.expect(album.year).to.match(/^\\d{4}$/)));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Albums of a year",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/albums?filters[year][$eq]={{galleryYear}}&sort[0]=date:desc&populate[cover]=true&populate[photos][fields][0]=id&pagination[pageSize]=100",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "albums"
+              ],
+              "query": [
+                {
+                  "key": "filters[year][$eq]",
+                  "value": "{{galleryYear}}"
+                },
+                {
+                  "key": "sort[0]",
+                  "value": "date:desc"
+                },
+                {
+                  "key": "populate[cover]",
+                  "value": "true"
+                },
+                {
+                  "key": "populate[photos][fields][0]",
+                  "value": "id"
+                },
+                {
+                  "key": "pagination[pageSize]",
+                  "value": "100"
+                }
+              ]
+            },
+            "description": "Albums of `{{galleryYear}}`, newest first, with cover and only the photo ids (count); stores a slug for the next request."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('Non-empty list', () => pm.expect(body.data).to.be.an('array').that.is.not.empty);",
+                  "pm.test('Admin titles are private', () => pm.expect(pm.response.text()).to.not.include('adminTitle'));",
+                  "pm.test('Cover with formats, photos only as ids', () => body.data.forEach((album) => {",
+                  "  pm.expect(album.slug).to.match(/^[a-z0-9-]+$/);",
+                  "  pm.expect(album.cover && album.cover.formats).to.be.an('object');",
+                  "  album.photos.forEach((photo) => pm.expect(photo).to.not.have.property('url'));",
+                  "}));",
+                  "pm.environment.set('albumSlug', body.data[0].slug);"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Album by slug",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/albums?filters[year][$eq]={{galleryYear}}&filters[slug][$eq]={{albumSlug}}&populate[cover]=true&populate[photos]=true",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "albums"
+              ],
+              "query": [
+                {
+                  "key": "filters[year][$eq]",
+                  "value": "{{galleryYear}}"
+                },
+                {
+                  "key": "filters[slug][$eq]",
+                  "value": "{{albumSlug}}"
+                },
+                {
+                  "key": "populate[cover]",
+                  "value": "true"
+                },
+                {
+                  "key": "populate[photos]",
+                  "value": "true"
+                }
+              ]
+            },
+            "description": "One album of `{{galleryYear}}` with all photos (formats, width/height)."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('Non-empty list', () => pm.expect(body.data).to.be.an('array').that.is.not.empty);",
+                  "pm.test('Admin titles are private', () => pm.expect(pm.response.text()).to.not.include('adminTitle'));",
+                  "pm.test('Exactly one album', () => pm.expect(body.data).to.have.lengthOf(1));",
+                  "pm.test('Photos with size and formats', () => body.data[0].photos.forEach((photo) => {",
+                  "  pm.expect(photo.width).to.be.a('number');",
+                  "  pm.expect(photo.height).to.be.a('number');",
+                  "  pm.expect(photo.url).to.match(/^\\/uploads\\//);",
+                  "}));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Pages",
+      "description": "Hallenturnier page with its registration and the Advent calendars (`migrate-to-strapi.sh pages`). The registration request stores an entry and sends two mails (to the club and the registrant): use it locally only.",
+      "item": [
+        {
+          "name": "Hallenturnier",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/hallenturnier?populate[image]=true&populate[prizes]=true&populate[lastEditionAlbum][fields][0]=name&populate[lastEditionAlbum][fields][1]=year&populate[lastEditionAlbum][fields][2]=slug",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "hallenturnier"
+              ],
+              "query": [
+                {
+                  "key": "populate[image]",
+                  "value": "true"
+                },
+                {
+                  "key": "populate[prizes]",
+                  "value": "true"
+                },
+                {
+                  "key": "populate[lastEditionAlbum][fields][0]",
+                  "value": "name"
+                },
+                {
+                  "key": "populate[lastEditionAlbum][fields][1]",
+                  "value": "year"
+                },
+                {
+                  "key": "populate[lastEditionAlbum][fields][2]",
+                  "value": "slug"
+                }
+              ]
+            },
+            "description": "The current tournament with image, prizes and the link to last year's album."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "const t = body.data;",
+                  "pm.test('Date and fee are typed', () => {",
+                  "  pm.expect(t.date).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);",
+                  "  pm.expect(t.entryFee).to.be.a('number');",
+                  "});",
+                  "pm.test('Prizes and album link', () => {",
+                  "  pm.expect(t.prizes).to.be.an('array').that.is.not.empty;",
+                  "  pm.expect(t.lastEditionAlbum.slug).to.match(/^[a-z0-9-]+$/);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Hallenturnier registration (local only)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/hallenturnier-registrations/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "hallenturnier-registrations",
+                "register"
+              ]
+            },
+            "description": "Registers a team: 200, or 400 (invalid input), 409 (registration closed), 429 (more than 5 per hour from one IP). Stores the registration and sends the club mail and the confirmation mail (without SMTP_HOST they are only logged).",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Postman Test\",\n  \"email\": \"postman@example.com\",\n  \"teamName\": \"FC Postman\",\n  \"website\": \"\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Registered, closed or limited', () => pm.expect(pm.response.code).to.be.oneOf([200, 409, 429]));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Hallenturnier registration with invalid email → 400",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/hallenturnier-registrations/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "hallenturnier-registrations",
+                "register"
+              ]
+            },
+            "description": "The server validates like the form does.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Postman Test\",\n  \"email\": \"no-email\",\n  \"teamName\": \"FC Postman\",\n  \"website\": \"\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 400', () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Hallenturnier registrations are not public",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/hallenturnier-registrations",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "hallenturnier-registrations"
+              ]
+            },
+            "description": "Registrations contain personal data: only visible in the admin."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 403', () => pm.response.to.have.status(403));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Advent years",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/advent-calendars?fields[0]=year&sort[0]=year:desc",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "advent-calendars"
+              ],
+              "query": [
+                {
+                  "key": "fields[0]",
+                  "value": "year"
+                },
+                {
+                  "key": "sort[0]",
+                  "value": "year:desc"
+                }
+              ]
+            },
+            "description": "Years with a calendar, newest first; stores the newest year."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('Non-empty list', () => pm.expect(body.data).to.be.an('array').that.is.not.empty);",
+                  "pm.environment.set('adventYear', body.data[0].year);"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Advent calendar of a year",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/advent-calendars?filters[year][$eq]={{adventYear}}&populate[doors][populate][poster]=true&populate[doors][populate][video]=true",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "advent-calendars"
+              ],
+              "query": [
+                {
+                  "key": "filters[year][$eq]",
+                  "value": "{{adventYear}}"
+                },
+                {
+                  "key": "populate[doors][populate][poster]",
+                  "value": "true"
+                },
+                {
+                  "key": "populate[doors][populate][video]",
+                  "value": "true"
+                }
+              ]
+            },
+            "description": "Calendar of `{{adventYear}}` with 24 doors (poster + video)."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('Admin titles are private', () => pm.expect(pm.response.text()).to.not.include('adminTitle'));",
+                  "const doors = body.data[0].doors;",
+                  "pm.test('24 doors with poster and video', () => {",
+                  "  pm.expect(doors).to.have.lengthOf(24);",
+                  "  doors.forEach((door) => {",
+                  "    pm.expect(door.poster.url).to.match(/^\\/uploads\\//);",
+                  "    pm.expect(door.video.mime).to.eql('video/mp4');",
+                  "  });",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Torschuss Challenge",
+      "description": "Golden Shot page, its voting and the registration (`migrate-to-strapi.sh goldenshot`). The registration stores an entry, adds a voting option and sends two mails: use it locally only (and only while the page is active with registration open).",
+      "item": [
+        {
+          "name": "Torschuss Challenge page",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/golden-shot?populate[image]=true&populate[resultImage]=true&populate[poll][fields][0]=year&populate[poll][fields][1]=open&populate[poll][fields][2]=closesAt",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "golden-shot"
+              ],
+              "query": [
+                {
+                  "key": "populate[image]",
+                  "value": "true"
+                },
+                {
+                  "key": "populate[resultImage]",
+                  "value": "true"
+                },
+                {
+                  "key": "populate[poll][fields][0]",
+                  "value": "year"
+                },
+                {
+                  "key": "populate[poll][fields][1]",
+                  "value": "open"
+                },
+                {
+                  "key": "populate[poll][fields][2]",
+                  "value": "closesAt"
+                }
+              ]
+            },
+            "description": "Page with image, result image and the linked voting."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const page = pm.response.json().data;",
+                  "pm.test('Has title and voting', () => {",
+                  "  pm.expect(page.title).to.be.a('string');",
+                  "  pm.expect(page.poll.year).to.match(/^\\d{4}$/);",
+                  "});",
+                  "pm.environment.set('goldenShotYear', page.poll.year);"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Participants of the voting",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/poll-options?filters[poll][type][$eq]=goldenShot&filters[poll][year][$eq]={{goldenShotYear}}&populate[image]=true&pagination[pageSize]=100",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "poll-options"
+              ],
+              "query": [
+                {
+                  "key": "filters[poll][type][$eq]",
+                  "value": "goldenShot"
+                },
+                {
+                  "key": "filters[poll][year][$eq]",
+                  "value": "{{goldenShotYear}}"
+                },
+                {
+                  "key": "populate[image]",
+                  "value": "true"
+                },
+                {
+                  "key": "pagination[pageSize]",
+                  "value": "100"
+                }
+              ]
+            },
+            "description": "Options of the Torschuss Challenge voting of `{{goldenShotYear}}`: name and photo only."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('Participants listed', () => pm.expect(body.data).to.be.an('array').that.is.not.empty);",
+                  "pm.test('No contact data and no vote counts', () => {",
+                  "  const text = pm.response.text();",
+                  "  ['email', 'phone', 'votes', 'adminTitle'].forEach((key) => pm.expect(text).to.not.include(`\"${key}\"`));",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Registration (local only)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/golden-shot-registrations/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "golden-shot-registrations",
+                "register"
+              ]
+            },
+            "description": "Multipart registration (add a `photo` file field to test the upload). 200, or 400 (invalid input/photo), 409 (registration closed), 429 (more than 5 per hour from one IP).",
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "firstName",
+                  "value": "Postman",
+                  "type": "text"
+                },
+                {
+                  "key": "lastName",
+                  "value": "Test",
+                  "type": "text"
+                },
+                {
+                  "key": "email",
+                  "value": "postman@example.com",
+                  "type": "text"
+                },
+                {
+                  "key": "phone",
+                  "value": "",
+                  "type": "text"
+                },
+                {
+                  "key": "website",
+                  "value": "",
+                  "type": "text"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Registered, closed or limited', () => pm.expect(pm.response.code).to.be.oneOf([200, 409, 429]));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Registrations are not public",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/golden-shot-registrations",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "golden-shot-registrations"
+              ]
+            },
+            "description": "Contact data is only visible in the admin."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 403', () => pm.response.to.have.status(403));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Events",
+      "description": "Event pages with registration or order (`migrate-to-strapi.sh events`): Bocciaturnier, Kleinfeldturnier, Big Darts, Entenrennen. Registrations store an entry and send two mails: local only, and only while the event is active with registration open.",
+      "item": [
+        {
+          "name": "Events",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/club-events?populate[image]=true&sort[0]=date:desc",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "club-events"
+              ],
+              "query": [
+                {
+                  "key": "populate[image]",
+                  "value": "true"
+                },
+                {
+                  "key": "sort[0]",
+                  "value": "date:desc"
+                }
+              ]
+            },
+            "description": "All events with picture (the website shows an event only while it is active)."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const body = pm.response.json();",
+                  "pm.test('Events with slug and form type', () => body.data.forEach((event) => {",
+                  "  pm.expect(event.slug).to.match(/^[a-z0-9-]+$/);",
+                  "  pm.expect(['team', 'order']).to.include(event.formType);",
+                  "}));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Event by slug",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/club-events?filters[slug][$eq]={{eventSlug}}&populate[image]=true",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "club-events"
+              ],
+              "query": [
+                {
+                  "key": "filters[slug][$eq]",
+                  "value": "{{eventSlug}}"
+                },
+                {
+                  "key": "populate[image]",
+                  "value": "true"
+                }
+              ]
+            },
+            "description": "The event `{{eventSlug}}`."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Exactly one event', () => pm.expect(pm.response.json().data).to.have.lengthOf(1));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Team registration (local only)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/club-event-registrations/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "club-event-registrations",
+                "register"
+              ]
+            },
+            "description": "Team registration for `{{eventSlug}}`: 200, or 400 (invalid), 404 (unknown event), 409 (closed), 429 (more than 5 per hour).",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"event\": \"{{eventSlug}}\",\n  \"name\": \"Postman Test\",\n  \"email\": \"postman@example.com\",\n  \"phone\": \"\",\n  \"teamName\": \"FC Postman\",\n  \"website\": \"\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Registered, closed or limited', () => pm.expect(pm.response.code).to.be.oneOf([200, 409, 429]));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Duck order (local only)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/club-event-registrations/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "club-event-registrations",
+                "register"
+              ]
+            },
+            "description": "Order for the Entenrennen (address, phone, quantity); the confirmation contains the amount and the bank details.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"event\": \"entenrennen\",\n  \"name\": \"Postman Test\",\n  \"email\": \"postman@example.com\",\n  \"phone\": \"0664 1234567\",\n  \"address\": \"Hauptplatz 1, 8510 Stainz\",\n  \"quantity\": 3,\n  \"website\": \"\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Ordered, closed or limited', () => pm.expect(pm.response.code).to.be.oneOf([200, 409, 429]));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Unknown event → 404",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/club-event-registrations/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "club-event-registrations",
+                "register"
+              ]
+            },
+            "description": "Registrations need an existing event.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"event\": \"gibt-es-nicht\",\n  \"name\": \"Postman Test\",\n  \"email\": \"postman@example.com\",\n  \"teamName\": \"FC Postman\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 404', () => pm.response.to.have.status(404));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Registrations are not public",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/club-event-registrations",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "club-event-registrations"
+              ]
+            },
+            "description": "Contact data is only visible in the admin."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 403', () => pm.response.to.have.status(403));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Legal pages",
+      "description": "Impressum and Datenschutzerklärung (`migrate-to-strapi.sh legal`).",
+      "item": [
+        {
+          "name": "Impressum",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/legal-pages?filters[slug][$eq]=impressum",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "legal-pages"
+              ],
+              "query": [
+                {
+                  "key": "filters[slug][$eq]",
+                  "value": "impressum"
+                }
+              ]
+            },
+            "description": "Legal page `impressum` (Markdown). Placeholders [[…]] must be replaced in the admin before going live."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const page = pm.response.json().data[0];",
+                  "pm.test('Page with content', () => pm.expect(page.content).to.be.a('string').that.is.not.empty);",
+                  "pm.test('No placeholders left (fails until the club data is filled in)', () => pm.expect(page.content).to.not.include('[['));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "Datenschutz",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/legal-pages?filters[slug][$eq]=datenschutz",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "legal-pages"
+              ],
+              "query": [
+                {
+                  "key": "filters[slug][$eq]",
+                  "value": "datenschutz"
+                }
+              ]
+            },
+            "description": "Legal page `datenschutz` (Markdown). Placeholders [[…]] must be replaced in the admin before going live."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "const page = pm.response.json().data[0];",
+                  "pm.test('Page with content', () => pm.expect(page.content).to.be.a('string').that.is.not.empty);",
+                  "pm.test('No placeholders left (fails until the club data is filled in)', () => pm.expect(page.content).to.not.include('[['));"
+                ]
+              }
+            }
+          ],
+          "response": []
+        }
+      ]
+    }
+  ]
+}

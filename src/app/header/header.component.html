@@ -1,299 +1,187 @@
-<mat-toolbar color="primary">
-  <mat-toolbar-row>
-    <!-- Mobile nav -->
-    <button mat-menu-item [matMenuTriggerFor]="mobile" class="mobile-toggle">
-      <mat-icon>menu</mat-icon>
+<header class="vt-header sticky top-0 z-40 border-b border-gray-200 bg-white">
+  <div class="mx-auto flex h-16 max-w-page items-center justify-between pl-4 pr-2 lg:h-20 lg:px-8">
+    <!-- Brand -->
+    <a routerLink="/home" class="flex items-center gap-3" aria-label="HV TDP Stainz – Startseite">
+      <img src="hvtdp.png" alt="" class="h-10 w-8 object-contain lg:h-12 lg:w-10" />
+      <span class="flex flex-col">
+        <span class="text-[17px] font-extrabold leading-tight text-gray-900 lg:text-lg"
+          >HV TDP Stainz</span
+        >
+        <span class="text-xs font-medium text-gray-500">Hobbyfußball seit 2014</span>
+      </span>
+    </a>
+
+    <!-- Desktop navigation -->
+    <nav
+      class="hidden items-stretch gap-1 self-stretch lg:flex"
+      aria-label="Hauptnavigation"
+      appSlidingIndicator="underline"
+      activeSelector="[aria-current='page'], [data-active='true']"
+    >
+      @for (item of mainNav; track item.path) {
+        <a
+          [routerLink]="item.path"
+          class="flex items-center px-3 text-[15px] transition-colors duration-200"
+          [class]="
+            isActive(item)
+              ? 'font-semibold text-pink-600'
+              : 'font-medium text-gray-800 hover:text-pink-600'
+          "
+          [attr.aria-current]="isActive(item) ? 'page' : null"
+          >{{ item.label }}</a
+        >
+      }
+
+      <div class="relative flex" [attr.data-active]="moreActive || moreMenuOpen ? 'true' : null">
+        <button
+          type="button"
+          class="flex items-center gap-0.5 pl-3 pr-2 text-[15px] transition-colors duration-200"
+          [class]="
+            moreActive || moreMenuOpen
+              ? 'font-semibold text-pink-600'
+              : 'font-medium text-gray-800 hover:text-pink-600'
+          "
+          [attr.aria-expanded]="moreMenuOpen"
+          aria-haspopup="true"
+          (click)="moreMenuOpen = !moreMenuOpen"
+        >
+          Mehr
+          <span
+            class="material-icons text-xl transition-transform duration-200"
+            [class.rotate-180]="moreMenuOpen"
+            >expand_more</span
+          >
+        </button>
+
+        @if (moreMenuOpen) {
+          <div
+            class="vt-nav-menu absolute right-0 top-full mt-3 flex gap-6 rounded-2xl border border-gray-100 bg-white p-5 shadow-xl"
+            data-nav-menu
+            animate.enter="animate-menu-in"
+            (animate.leave)="onMenuLeave($event, 'animate-menu-out')"
+          >
+            @for (
+              group of [
+                { title: 'Saison-Highlights', items: highlightsNav },
+                { title: 'Verein', items: clubNav },
+              ];
+              track group.title
+            ) {
+              <div class="flex w-72 flex-col gap-1">
+                <p class="px-2.5 pb-1.5 text-[13px] font-semibold text-gray-500">
+                  {{ group.title }}
+                </p>
+                @for (item of group.items; track item.path) {
+                  <a
+                    [routerLink]="item.path"
+                    class="flex items-center gap-3 rounded-xl p-2.5 transition-colors duration-200 hover:bg-gray-50"
+                    [class.bg-gray-50]="isActive(item)"
+                  >
+                    <span
+                      class="flex h-10 w-10 shrink-0 items-center justify-center rounded-[10px] bg-pink-50"
+                    >
+                      <span class="material-icons text-[22px] text-pink-600">{{ item.icon }}</span>
+                    </span>
+                    <span class="flex flex-col">
+                      <span class="text-[15px] font-semibold text-gray-900">{{ item.label }}</span>
+                      <span class="text-[13px] text-gray-500">{{ item.description }}</span>
+                    </span>
+                  </a>
+                }
+              </div>
+            }
+          </div>
+        }
+      </div>
+    </nav>
+
+    <a
+      [href]="startingElevenUrl"
+      target="_blank"
+      rel="noopener"
+      class="btn-primary hidden lg:inline-flex"
+    >
+      Starting 11 <span class="material-icons text-xl">open_in_new</span>
+    </a>
+
+    <!-- Mobile menu button -->
+    <button
+      type="button"
+      class="icon-btn lg:hidden"
+      [attr.aria-label]="mobileMenuOpen ? 'Menü schließen' : 'Menü öffnen'"
+      [attr.aria-expanded]="mobileMenuOpen"
+      (click)="toggleMobileMenu()"
+    >
+      @if (mobileMenuOpen) {
+        <span class="material-icons text-[28px] text-gray-900" animate.enter="animate-pop-in"
+          >close</span
+        >
+      } @else {
+        <span class="material-icons text-[28px] text-gray-900" animate.enter="animate-pop-in"
+          >menu</span
+        >
+      }
     </button>
+  </div>
 
-    <img class="logo" src="/assets/images/logo.gif" />
-
-    <mat-menu #mobile="matMenu">
-      <button mat-menu-item routerLink="/home" routerLinkActive="active">
-        <span class="fa fa-users fa-sm"></span> Home
-      </button>
-      <button mat-menu-item routerLink="/news" routerLinkActive="active">
-        <span class="fa fa-bookmark fa-sm"></span> News
-      </button>
-      <button mat-menu-item routerLink="/team" routerLinkActive="active">
-        <span class="fa fa-portrait fa-sm"></span> Team
-      </button>
-
-      <button mat-menu-item routerLink="/startingeleven" routerLinkActive="active">
-        <span class="fa fa-futbol fa-sm"></span> Starting 11
-      </button>
-
-      <button mat-menu-item [matMenuTriggerFor]="championship">
-        <span class="fa fa-bookmark fa-sm"></span> Liga
-      </button>
-      <mat-menu #championship="matMenu">
-        <button mat-menu-item routerLink="/championship/2026-2027">Saison 2026/2027</button>
-        <button mat-menu-item routerLink="/championship/2025-2026">Saison 2025/2026</button>
-        <button mat-menu-item routerLink="/championship/2024-2025">Saison 2024/2025</button>
-        <button mat-menu-item routerLink="/championship/2023-2024">Saison 2023/2024</button>
-        <button mat-menu-item routerLink="/championship/2022-2023">Saison 2022/2023</button>
-        <button mat-menu-item routerLink="/championship/2021-2022">Saison 2021/2022</button>
-      </mat-menu>
-
-      <button mat-menu-item [matMenuTriggerFor]="goaloftheseason">
-        <span class="fa fa-list-ol fa-sm"></span> Tor des Jahres
-      </button>
-      <mat-menu #goaloftheseason="matMenu">
-        <button mat-menu-item routerLink="/goaloftheseason/2022">Tor des Jahres 2022</button>
-        <button mat-menu-item routerLink="/goaloftheseason/2023">Tor des Jahres 2023</button>
-        <button mat-menu-item routerLink="/goaloftheseason/2024">Tor des Jahres 2024</button>
-        <button mat-menu-item routerLink="/goaloftheseason/2025">Tor des Jahres 2025</button>
-        <button mat-menu-item routerLink="/goaloftheseason/2026">Tor des Jahres 2026</button>
-      </mat-menu>
-
-      <button mat-menu-item [matMenuTriggerFor]="playeroftheseason">
-        <span class="fa fa-list-ol fa-sm"></span> Spieler des Jahres
-      </button>
-      <mat-menu #playeroftheseason="matMenu">
-        <button mat-menu-item routerLink="/playeroftheseason/2024">Spieler des Jahres 2024</button>
-        <button mat-menu-item routerLink="/playeroftheseason/2025">Spieler des Jahres 2025</button>
-        <button mat-menu-item routerLink="/playeroftheseason/2026">Spieler des Jahres 2026</button>
-      </mat-menu>
-
-      <button mat-menu-item routerLink="/membership" routerLinkActive="active">
-        <span class="fa fa-flag fa-sm"></span> Mitgliedschaft
-      </button>
-
-      <!-- <button mat-menu-item routerLink="/bigdarts" routerLinkActive="active"><span class="fa fa-futbol fa-sm"></span> Big Darts</button> -->
-      <!-- <button mat-menu-item routerLink="/entenrennen" routerLinkActive="active"><span class="fa fa-shopping-cart fa-sm"></span> Entenrennen</button> -->
-      <!-- <button mat-menu-item routerLink="/bocciaturnier" routerLinkActive="active">
-        <span class="fa fa-futbol fa-sm"></span> Bocciaturnier
-      </button> -->
-      <!-- <button mat-menu-item routerLink="/stadionfest" routerLinkActive="active">
-        <span class="fa fa-futbol fa-sm"></span> Stadionfest
-      </button> -->
-
-      <!-- <button mat-menu-item routerLink="/torschusschallenge-voting" routerLinkActive="active">
-        <span class="fa fa-futbol fa-sm"></span> Torschuss Challenge
-      </button> -->
-      <button mat-menu-item routerLink="/hallenturnier" routerLinkActive="active">
-        <span class="fa fa-futbol fa-sm"></span> Hallenturnier
-      </button>
-
-      <!-- <button mat-menu-item routerLink="/comedyhirten" routerLinkActive="active"><span class="fa fa-heart"></span> Comedyhirten</button> -->
-      <!-- <button mat-menu-item routerLink="/10-jahre-hvtdp" routerLinkActive="active"><span class="fa fa-futbol fa-sm"></span> 10-Jahresjubiläum</button> -->
-
-      <!-- <button mat-menu-item routerLink="/torschusschallenge" routerLinkActive="active">
-        <span class="fa fa-futbol fa-sm"></span> Torschuss Challenge
-      </button> -->
-
-      <button mat-menu-item [matMenuTriggerFor]="gallery">
-        <span class="fa fa-camera fa-sm"></span> Fotos
-      </button>
-      <mat-menu #gallery="matMenu">
-        <button mat-menu-item routerLink="/gallery/2026">2026</button>
-        <button mat-menu-item routerLink="/gallery/2025">2025</button>
-        <button mat-menu-item routerLink="/gallery/2024">2024</button>
-        <button mat-menu-item routerLink="/gallery/2023">2023</button>
-        <button mat-menu-item routerLink="/gallery/2022">2022</button>
-        <button mat-menu-item routerLink="/gallery/2021">2021</button>
-        <button mat-menu-item routerLink="/gallery/2019">2019</button>
-        <button mat-menu-item routerLink="/gallery/2018">2018</button>
-        <button mat-menu-item routerLink="/gallery/2015">2015</button>
-      </mat-menu>
-
-      <button mat-menu-item [matMenuTriggerFor]="videos">
-        <span class="fa fa-video fa-sm"></span> Videos
-      </button>
-      <mat-menu #videos="matMenu">
-        <button mat-menu-item routerLink="/social/2026-2027">Saison 2026/2027</button>
-        <button mat-menu-item routerLink="/social/2025-2026">Saison 2025/2026</button>
-        <button mat-menu-item routerLink="/social/2024-2025">Saison 2024/2025</button>
-        <button mat-menu-item routerLink="/social/2023-2024">Saison 2023/2024</button>
-        <button mat-menu-item routerLink="/social/2022-2023">Saison 2022/2023</button>
-        <button mat-menu-item routerLink="/social/2021-2022">Saison 2021/2022</button>
-        <button mat-menu-item routerLink="/social/2018-2019">Saison 2018/2019</button>
-        <button mat-menu-item routerLink="/social/2017-2018">Saison 2017/2018</button>
-      </mat-menu>
-
-      <button mat-menu-item routerLink="/fanshop" routerLinkActive="active">
-        <span class="fa fa-shopping-cart fa-sm"></span> Fanshop
-      </button>
-
-      <!--  <button mat-menu-item routerLink="/kleinfeldturnier" routerLinkActive="active"><span class="fa fa-futbol fa-sm"></span> Kleinfeldturnier</button> -->
-      <button mat-menu-item routerLink="/about" routerLinkActive="active">
-        <span class="fa fa-info fa-sm"></span> Über uns
-      </button>
-      <button mat-menu-item routerLink="/contact" routerLinkActive="active">
-        <span class="fa fa-info fa-sm"></span> Kontakt
-      </button>
-
-      <button mat-menu-item routerLink="/donation" routerLinkActive="active">
-        <span class="fa fa-futbol fa-sm"></span> Matchballspende
-      </button>
-      <button mat-menu-item [matMenuTriggerFor]="advent">
-        <span class="fa fa-candy-cane fa-sm"></span> Adventkalender
-      </button>
-      <mat-menu #advent="matMenu">
-        <button mat-menu-item routerLink="/advent/2021">Advent 2021</button>
-        <button mat-menu-item routerLink="/advent/2023">Advent 2023</button>
-      </mat-menu>
-
-      <button mat-menu-item routerLink="/documents" routerLinkActive="active">
-        <span class="fa fa-file fa-sm"></span> Dokumente
-      </button>
-
-      <button mat-menu-item routerLink="/hallofpapp" routerLinkActive="active">
-        <span class="fa fa-users fa-sm"></span> Hall of Papp-Fans
-      </button>
-      <button mat-menu-item routerLink="/surveys" routerLinkActive="active">
-        <span class="fa fa-list-ol fa-sm"></span> Umfragen
-      </button>
-
-      <!-- <button mat-menu-item routerLink="/halloffame" routerLinkActive="active"><span class="fa fa-award fa-sm"></span> Hall of Fame</button> -->
-    </mat-menu>
-
-    <!-- Desktop nav -->
-    <div class="desktop-nav hidden md:flex md:flex-row md:items-center md:gap-3">
-      <button mat-menu-item routerLink="/home" routerLinkActive="active">
-        <span class="fa fa-users fa-sm"></span> Home
-      </button>
-      <button mat-menu-item routerLink="/news" routerLinkActive="active">
-        <span class="fa fa-bookmark fa-sm"></span> News
-      </button>
-      <button mat-menu-item routerLink="/team" routerLinkActive="active">
-        <span class="fa fa-portrait fa-sm"></span> Team
-      </button>
-
-      <button mat-menu-item routerLink="/startingeleven" routerLinkActive="active">
-        <span class="fa fa-futbol fa-sm"></span> Starting 11
-      </button>
-
-      <button mat-menu-item [matMenuTriggerFor]="championship">
-        <span class="fa fa-bookmark fa-sm"></span> Liga
-      </button>
-      <mat-menu #championship="matMenu">
-        <button mat-menu-item routerLink="/championship/2026-2027">Saison 2026/2027</button>
-        <button mat-menu-item routerLink="/championship/2025-2026">Saison 2025/2026</button>
-        <button mat-menu-item routerLink="/championship/2024-2025">Saison 2024/2025</button>
-        <button mat-menu-item routerLink="/championship/2023-2024">Saison 2023/2024</button>
-        <button mat-menu-item routerLink="/championship/2022-2023">Saison 2022/2023</button>
-        <button mat-menu-item routerLink="/championship/2021-2022">Saison 2021/2022</button>
-      </mat-menu>
-
-      <button mat-menu-item [matMenuTriggerFor]="goaloftheseason">
-        <span class="fa fa-list-ol fa-sm"></span> Tor des Jahres
-      </button>
-      <mat-menu #goaloftheseason="matMenu">
-        <button mat-menu-item routerLink="/goaloftheseason/2022">Tor des Jahres 2022</button>
-        <button mat-menu-item routerLink="/goaloftheseason/2023">Tor des Jahres 2023</button>
-        <button mat-menu-item routerLink="/goaloftheseason/2024">Tor des Jahres 2024</button>
-        <button mat-menu-item routerLink="/goaloftheseason/2025">Tor des Jahres 2025</button>
-        <button mat-menu-item routerLink="/goaloftheseason/2026">Tor des Jahres 2026</button>
-      </mat-menu>
-
-      <button mat-menu-item [matMenuTriggerFor]="playeroftheseason">
-        <span class="fa fa-list-ol fa-sm"></span> Spieler des Jahres
-      </button>
-      <mat-menu #playeroftheseason="matMenu">
-        <button mat-menu-item routerLink="/playeroftheseason/2024">
-          Spieler des Jahres 2024
-        </button>
-        <button mat-menu-item routerLink="/playeroftheseason/2025">
-          Spieler des Jahres 2025
-        </button>
-        <button mat-menu-item routerLink="/playeroftheseason/2026">
-          Spieler des Jahres 2026
-        </button>
-      </mat-menu>
-
-      <button mat-menu-item routerLink="/membership" routerLinkActive="active">
-        <span class="fa fa-flag fa-sm"></span> Mitgliedschaft
-      </button>
-
-      <!-- <button mat-menu-item routerLink="/bigdarts" routerLinkActive="active"><span class="fa fa-futbol fa-sm"></span> Big Darts</button> -->
-      <!-- <button mat-menu-item routerLink="/entenrennen" routerLinkActive="active"><span class="fa fa-shopping-cart fa-sm"></span> Entenrennen</button> -->
-      <!-- <button mat-menu-item routerLink="/bocciaturnier" routerLinkActive="active">
-        <span class="fa fa-futbol fa-sm"></span> Bocciaturnier
-      </button> -->
-      <!-- <button mat-menu-item routerLink="/stadionfest" routerLinkActive="active">
-        <span class="fa fa-futbol fa-sm"></span> Stadionfest
-      </button> -->
-      <button mat-menu-item routerLink="/hallenturnier" routerLinkActive="active">
-        <span class="fa fa-futbol fa-sm"></span> Hallenturnier
-      </button>
-
-      <!-- <button mat-menu-item routerLink="/comedyhirten" routerLinkActive="active"><span class="fa fa-heart"></span> Comedyhirten</button> -->
-      <!-- <button mat-menu-item routerLink="/10-jahre-hvtdp" routerLinkActive="active"><span class="fa fa-futbol fa-sm"></span> 10-Jahresjubiläum</button>  -->
-      <!-- <button mat-menu-item routerLink="/torschusschallenge" routerLinkActive="active">
-        <span class="fa fa-futbol fa-sm"></span> Torschuss Challenge
-      </button> -->
-      <!-- <button mat-menu-item routerLink="/torschusschallenge-voting" routerLinkActive="active">
-        <span class="fa fa-futbol fa-sm"></span> Torschuss Challenge
-      </button> -->
-
-      <button mat-menu-item [matMenuTriggerFor]="gallery">
-        <span class="fa fa-camera fa-sm"></span> Fotos
-      </button>
-      <mat-menu #gallery="matMenu">
-        <button mat-menu-item routerLink="/gallery/2026">2026</button>
-        <button mat-menu-item routerLink="/gallery/2025">2025</button>
-        <button mat-menu-item routerLink="/gallery/2024">2024</button>
-        <button mat-menu-item routerLink="/gallery/2023">2023</button>
-        <button mat-menu-item routerLink="/gallery/2022">2022</button>
-        <button mat-menu-item routerLink="/gallery/2021">2021</button>
-        <button mat-menu-item routerLink="/gallery/2019">2019</button>
-        <button mat-menu-item routerLink="/gallery/2018">2018</button>
-        <button mat-menu-item routerLink="/gallery/2015">2015</button>
-      </mat-menu>
-
-      <button mat-menu-item [matMenuTriggerFor]="videos">
-        <span class="fa fa-video fa-sm"></span> Videos
-      </button>
-      <mat-menu #videos="matMenu">
-        <button mat-menu-item routerLink="/social/2026-2027">Saison 2026/2027</button>
-        <button mat-menu-item routerLink="/social/2025-2026">Saison 2025/2026</button>
-        <button mat-menu-item routerLink="/social/2024-2025">Saison 2024/2025</button>
-        <button mat-menu-item routerLink="/social/2023-2024">Saison 2023/2024</button>
-        <button mat-menu-item routerLink="/social/2022-2023">Saison 2022/2023</button>
-        <button mat-menu-item routerLink="/social/2021-2022">Saison 2021/2022</button>
-        <button mat-menu-item routerLink="/social/2018-2019">Saison 2018/2019</button>
-        <button mat-menu-item routerLink="/social/2017-2018">Saison 2017/2018</button>
-      </mat-menu>
-
-      <button mat-menu-item routerLink="/fanshop" routerLinkActive="active">
-        <span class="fa fa-shopping-cart fa-sm"></span> Fanshop
-      </button>
-
-      <button mat-menu-item [matMenuTriggerFor]="more"><mat-icon>more_horiz</mat-icon></button>
-
-      <mat-menu x-position="before" #more="matMenu">
-        <!--  <button mat-menu-item routerLink="/kleinfeldturnier" routerLinkActive="active"><span class="fa fa-futbol fa-sm"></span> Kleinfeldturnier</button> -->
-        <button mat-menu-item routerLink="/about" routerLinkActive="active">
-          <span class="fa fa-info fa-sm"></span> Über uns
-        </button>
-
-        <button mat-menu-item routerLink="/contact" routerLinkActive="active">
-          <span class="fa fa-info fa-sm"></span> Kontakt
-        </button>
-
-        <button mat-menu-item routerLink="/documents" routerLinkActive="active">
-          <span class="fa fa-file fa-sm"></span> Dokumente
-        </button>
-
-        <button mat-menu-item routerLink="/donation" routerLinkActive="active">
-          <span class="fa fa-futbol fa-sm"></span> Matchballspende
-        </button>
-        <button mat-menu-item [matMenuTriggerFor]="advent">
-          <span class="fa fa-candy-cane fa-sm"></span> Adventkalender
-        </button>
-        <mat-menu #advent="matMenu">
-          <button mat-menu-item routerLink="/advent/2021">Advent 2021</button>
-          <button mat-menu-item routerLink="/advent/2023">Advent 2023</button>
-        </mat-menu>
-        <button mat-menu-item routerLink="/hallofpapp" routerLinkActive="active">
-          <span class="fa fa-users fa-sm"></span> Hall of Papp-Fans
-        </button>
-        <button mat-menu-item routerLink="/surveys" routerLinkActive="active">
-          <span class="fa fa-list-ol fa-sm"></span> Umfragen
-        </button>
-
-        <!-- <button mat-menu-item routerLink="/halloffame" routerLinkActive="active"><span class="fa fa-award fa-sm"></span> Hall of Fame</button> -->
-      </mat-menu>
+  <!-- Mobile menu -->
+  @if (mobileMenuOpen) {
+    <div
+      class="vt-nav-menu fixed inset-x-0 bottom-0 top-16 overflow-y-auto bg-white lg:hidden"
+      data-nav-menu="fullscreen"
+      animate.enter="animate-drop-in"
+      (animate.leave)="onMenuLeave($event, 'animate-drop-out')"
+    >
+      <nav class="flex flex-col gap-6 px-4 pb-6 pt-4" aria-label="Mobile Navigation">
+        @for (
+          group of [
+            { title: '', items: mainNav },
+            { title: 'Saison-Highlights', items: highlightsNav },
+            { title: 'Verein', items: clubNav },
+          ];
+          track group.title
+        ) {
+          <div class="flex flex-col gap-0.5">
+            @if (group.title) {
+              <p class="px-4 pb-2 text-[13px] font-semibold text-gray-500">{{ group.title }}</p>
+            }
+            @for (item of group.items; track item.path) {
+              <a
+                [routerLink]="item.path"
+                class="flex h-14 items-center gap-3.5 rounded-xl px-4 text-[17px] font-semibold"
+                [class]="
+                  isActive(item) ? 'bg-pink-50 text-pink-700' : 'text-gray-900 hover:bg-gray-50'
+                "
+              >
+                <span
+                  class="material-icons"
+                  [class]="isActive(item) ? 'text-pink-600' : 'text-gray-500'"
+                  >{{ item.icon }}</span
+                >
+                {{ item.label }}
+              </a>
+            }
+          </div>
+        }
+      </nav>
+      <div class="flex flex-col gap-5 border-t border-gray-200 bg-gray-50 px-4 pb-8 pt-6">
+        <a [href]="startingElevenUrl" target="_blank" rel="noopener" class="btn-primary w-full">
+          Starting 11 öffnen <span class="material-icons text-xl">open_in_new</span>
+        </a>
+        <div class="flex justify-center gap-3">
+          @for (link of socialLinks; track link.href) {
+            <a
+              [href]="link.href"
+              target="_blank"
+              rel="noopener"
+              class="flex h-12 w-12 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-800"
+              [attr.aria-label]="link.label"
+            >
+              <span class="material-icons text-[22px]">{{ link.icon }}</span>
+            </a>
+          }
+        </div>
+      </div>
     </div>
-  </mat-toolbar-row>
-</mat-toolbar>
+  }
+</header>

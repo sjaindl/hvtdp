@@ -1,9 +1,9 @@
-<div #imageWrapper class="slider-image-wrapper">
+<div class="slider-image-wrapper">
   <img
     class="slider-image"
     draggable="false"
-    (click)="toggleFullscreen(imageWrapper, $event)"
+    appZoomable
     [src]="imagePath"
-    [alt]="altText || 'Image'"
+    [alt]="altText || 'Bild'"
   />
 </div>

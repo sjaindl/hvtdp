@@ -1,96 +1,97 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
-import { DeviceDetectorService } from '../../../node_modules/ngx-device-detector';
-import { HvtdpImageComponent } from '../hvtdp-image/hvtdp-image.component';
-import { MysqlService } from '../services/mysql.service';
-import { baseUrlImages } from '../shared/baseurls';
+import { ClubService } from '../services/club.service';
 import { Chef } from '../shared/chefs';
+import { FittedImageComponent } from '../ui/fitted-image/fitted-image.component';
+import { ZoomableDirective } from '../ui/image-viewer/zoomable.directive';
+import { PageIntroComponent } from '../ui/page-intro/page-intro.component';
 
 @Component({
   selector: 'app-about',
   templateUrl: './about.component.html',
-  styleUrls: ['./about.component.css'],
   standalone: true,
-  imports: [CommonModule, HvtdpImageComponent],
+  imports: [PageIntroComponent, FittedImageComponent, ZoomableDirective],
 })
 export class AboutComponent implements OnInit {
-  obmaenner: Chef[];
-  kassierer: Chef[];
-  schriftfuehrer: Chef[];
-  rechnungspruefer: Chef[];
+  private clubService = inject(ClubService);
+  private titleService = inject(Title);
+  private metaTagService = inject(Meta);
 
-  obmaennerWithoutDummy: Chef[];
-  kassiererWithoutDummy: Chef[];
-  schriftfuehrerWithoutDummy: Chef[];
-  rechnungsprueferWithoutDummy: Chef[];
+  readonly facts = [
+    { value: '2014', label: 'gegründet in Stainz' },
+    { value: 'e. V.', label: 'eingetragener Verein seit 12/2017' },
+    { value: '2020', label: 'seit dieser Saison in der STT-Meisterschaft' },
+    { value: '30+', label: 'aktive Kicker im Verein' },
+  ];
 
-  imageBaseUrl: string;
+  readonly achievements = [
+    { icon: 'emoji_events', title: '3x Meister Süd-Weststeirercup', years: '2015, 2016, 2018' },
+    {
+      icon: 'emoji_events',
+      title: '3x Kleinfeldturniersieger Leibnitz',
+      years: '2014, 2015, 2016',
+    },
+    {
+      icon: 'emoji_events',
+      title: '3x Kleinfeld-Jux-Turniersieger Freibad Stainz',
+      years: '2016, 2017, 2018',
+    },
+    {
+      icon: 'emoji_events',
+      title: '2x Turniersieger des Hobbyhallenmasters in Leibnitz',
+      years: '2015, 2016',
+    },
+    {
+      icon: 'emoji_events',
+      title: '2x Volleyball- und Boccia-Eröffnungsturniersieger',
+      years: '2016, 2017',
+    },
+    { icon: 'military_tech', title: '1x Vizemeister Süd-Weststeirercup', years: '2017' },
+    { icon: 'directions_run', title: '1x Sieger beim „Stainz in Motion AUFLAUF“', years: '2017' },
+    {
+      icon: 'emoji_events',
+      title: '1x Turniersieg beim Hallenturnier des SVU St. Stefan',
+      years: '2023',
+    },
+    {
+      icon: 'sports_soccer',
+      title: 'Testspielerfolg gegen die Kampfmannschaft des SC Stainz',
+      years: '2015',
+    },
+    { icon: 'sports_soccer', title: 'Testspiel gegen den FC Red Bull Salzburg', years: '2017' },
+    { icon: 'sports_soccer', title: 'Testspiel gegen FK Austria Wien Allstars', years: '2024' },
+    { icon: 'star', title: 'Stammtischcup Finaltag', years: '2018' },
+    { icon: 'favorite', title: 'Österreichischer Fan Meister', years: '2021' },
+  ];
 
-  isMobile = null;
+  readonly teamPhotos = [
+    ['2025', '2025_Mannschaft.jpg'],
+    ['2024', '2024_Mannschaft.jpg'],
+    ['2023', '2023_Mannschaft.jpg'],
+    ['2022', '2022_Mannschaft.jpg'],
+    ['2021', '2021_Mannschaft.jpg'],
+    ['2020', '2020_Mannschaft.jpg'],
+    ['2018/19', '2018_2019_Mannschaft.jpg'],
+    ['2017/18', '2017_2018_Mannschaft.jpg'],
+    ['2016/17', '2016_2017_Mannschaft.jpg'],
+    ['2015/16', '2015_2016_Mannschaft.jpg'],
+    ['2014', '2014_Mannschaft.jpg'],
+  ].map(([season, file]) => ({
+    season,
+    src: 'assets/images/aboutus/' + file,
+    alt: 'Mannschaftsfoto ' + season,
+  }));
 
-  constructor(
-    private mysqlService: MysqlService,
-    private titleService: Title,
-    private metaTagService: Meta,
-    private deviceService: DeviceDetectorService
-  ) {}
+  board: Chef[] = [];
 
   ngOnInit() {
-    this.checkDevice();
-    this.imageBaseUrl = baseUrlImages;
-
-    this.mysqlService.getChefs().subscribe((chefs: Chef[]) => {
-      this.obmaenner = chefs.filter((chef) => {
-        return chef.function.includes('Obmann');
-      });
-
-      this.kassierer = chefs.filter((chef) => {
-        return chef.function.includes('Kassier');
-      });
-
-      this.schriftfuehrer = chefs.filter((chef) => {
-        return chef.function.includes('Schriftführer');
-      });
-
-      this.rechnungspruefer = chefs.filter((chef) => {
-        return chef.function.includes('Rechnungsprüfer');
-      });
-
-      this.obmaennerWithoutDummy = chefs.filter((chef) => {
-        return chef.function.includes('Obmann') && chef.firstName != 'Dummy';
-      });
-
-      this.kassiererWithoutDummy = chefs.filter((chef) => {
-        return chef.function.includes('Kassier') && chef.firstName != 'Dummy';
-      });
-
-      this.schriftfuehrerWithoutDummy = chefs.filter((chef) => {
-        return chef.function.includes('Schriftführer') && chef.firstName != 'Dummy';
-      });
-
-      this.rechnungsprueferWithoutDummy = chefs.filter((chef) => {
-        return chef.function.includes('Rechnungsprüfer') && chef.firstName != 'Dummy';
-      });
-    });
+    // Sorted by the order maintained in Strapi.
+    this.clubService.getBoard().subscribe((board) => (this.board = board));
 
     this.titleService.setTitle('HV TDP Stainz: Über uns');
     this.metaTagService.updateTag({
       name: 'description',
       content: 'Informationen über den HV TDP Stainz',
     });
-
-    this.metaTagService.addTags([
-      {
-        name: 'keywords',
-        content: 'Fußballverein, Stainz, SC Stainz, Fußballverein Stainz, HVTDP, HVTDP Stainz',
-      },
-      { name: 'author', content: 'Stefan Jaindl' },
-      { charset: 'UTF-8' },
-    ]);
-  }
-
-  checkDevice() {
-    this.isMobile = this.deviceService.isMobile();
   }
 }

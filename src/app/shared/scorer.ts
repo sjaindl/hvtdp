@@ -1,6 +1,7 @@
-export class Scorer {
-  playerName: string;
+/** A row of a season's scorer table. */
+export interface Scorer {
+  name: string;
   goals: number;
-  season: string;
-  goalsDisplay: string;
+  /** Portrait of the linked player (null e.g. for "Eigentor"). */
+  imageUrl: string | null;
 }

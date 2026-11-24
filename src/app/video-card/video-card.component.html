@@ -1,20 +1,89 @@
-<article class="video-card">
-  <div class="video-frame">
-    <iframe
-      [src]="safeUrl"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-      allowfullscreen
-      referrerpolicy="strict-origin-when-cross-origin"
-      [title]="description || 'Highlight'"
-    ></iframe>
+<article
+  class="card group flex h-full flex-col overflow-hidden transition-all duration-300 ease-in-out hover:shadow-xl"
+  [class]="selected ? 'border-2 border-pink-600' : ''"
+>
+  <div class="relative aspect-video bg-gray-900">
+    @if (playing) {
+      @if (isFile) {
+        <video class="h-full w-full" [src]="videoUrl" controls autoplay playsinline></video>
+      } @else {
+        <iframe
+          class="h-full w-full"
+          [src]="playerUrl"
+          allow="
+            accelerometer;
+            autoplay;
+            clipboard-write;
+            encrypted-media;
+            gyroscope;
+            picture-in-picture;
+            web-share;
+          "
+          allowfullscreen
+          referrerpolicy="strict-origin-when-cross-origin"
+          [title]="title || 'Video'"
+        ></iframe>
+      }
+    } @else {
+      <button
+        type="button"
+        class="absolute inset-0 overflow-hidden"
+        [attr.aria-label]="'Video abspielen: ' + (title || 'Highlight')"
+        (click)="playing = true"
+      >
+        @if (thumbnail) {
+          <img [src]="thumbnail" alt="" class="card-media" loading="lazy" />
+        }
+        <span class="absolute inset-0 flex items-center justify-center">
+          <span
+            class="flex h-14 w-14 items-center justify-center rounded-full bg-white/90 shadow-md transition-transform duration-300 group-hover:scale-110"
+          >
+            <span class="material-icons text-[32px] text-pink-600">play_arrow</span>
+          </span>
+        </span>
+      </button>
+    }
   </div>
-  <div class="card-body">
-    <div class="scorer">
-      <app-hvtdp-image [imagePath]="scorerImage" [altText]="scorerName || 'Highlight'"> </app-hvtdp-image>
-      <div>
-        <p class="scorer-name">{{ scorerName || 'Highlight' }}</p>
-        <p class="scorer-meta">{{ description || 'Video-Highlight' }}</p>
+
+  @if (selectable) {
+    <button
+      type="button"
+      class="flex flex-1 items-center gap-3 p-4 text-left"
+      [class]="selected ? 'bg-pink-50' : 'bg-white'"
+      role="radio"
+      [attr.aria-checked]="selected"
+      (click)="chosen.emit()"
+    >
+      <span class="min-w-0 flex-1">
+        <span
+          class="block text-[17px] font-bold"
+          [class]="selected ? 'text-pink-700' : 'text-gray-900'"
+          >{{ title }}</span
+        >
+        <span class="block text-sm font-medium text-gray-500">{{ meta }}</span>
+      </span>
+      <span
+        class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border-2"
+        [class]="selected ? 'border-pink-600 bg-pink-600 text-white' : 'border-gray-400 bg-white'"
+      >
+        @if (selected) {
+          <span class="material-icons text-lg" animate.enter="animate-pop-in">check</span>
+        }
+      </span>
+    </button>
+  } @else {
+    <div class="flex flex-1 items-center gap-3 p-4">
+      <div class="min-w-0 flex-1">
+        <p class="text-[17px] font-bold text-gray-900">{{ title || 'Highlight' }}</p>
+        @if (meta) {
+          <p class="text-sm font-medium text-gray-500">{{ meta }}</p>
+        }
       </div>
+      @if (badge) {
+        <span class="rounded-lg bg-gray-100 px-2.5 py-1 text-sm font-bold text-gray-800">{{
+          badge
+        }}</span>
+      }
     </div>
-  </div>
+  }
 </article>

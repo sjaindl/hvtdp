@@ -1,8 +1,4 @@
-export class PappFan {
-  id: number;
+export interface PappFan {
   name: string;
-  // date: Date
-  // game: string
-  // description: string
-  imagePath: string;
+  imageUrl: string | null;
 }

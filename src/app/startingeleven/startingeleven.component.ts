@@ -1,31 +1,37 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { Title, Meta } from '@angular/platform-browser';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Meta, Title } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
+import { STARTING_ELEVEN_URL } from '../shared/seasons';
 
+const REDIRECT_DELAY_MS = 3000;
+
+/** Short interstitial before leaving for the external Starting 11 manager app. */
 @Component({
-    selector: 'app-startingeleven',
-    templateUrl: './startingeleven.component.html',
-    styleUrls: ['./startingeleven.component.css'],
-    standalone: true,
-    imports: [CommonModule]
+  selector: 'app-startingeleven',
+  templateUrl: './startingeleven.component.html',
+  styleUrls: ['./startingeleven.component.css'],
+  standalone: true,
+  imports: [RouterModule],
 })
-export class StartingelevenComponent implements OnInit {
-  constructor(private titleService: Title, private metaTagService: Meta) {}
+export class StartingelevenComponent implements OnInit, OnDestroy {
+  private titleService = inject(Title);
+  private metaTagService = inject(Meta);
+
+  readonly url = STARTING_ELEVEN_URL;
+  readonly host = new URL(STARTING_ELEVEN_URL).host;
+  readonly delaySeconds = REDIRECT_DELAY_MS / 1000;
+  private timer?: ReturnType<typeof setTimeout>;
 
   ngOnInit() {
-    this.titleService.setTitle('Starting Eleven');
+    this.titleService.setTitle('HV TDP Stainz: Starting 11');
     this.metaTagService.updateTag({
       name: 'description',
-      content: 'Starting Eleven',
+      content: 'Weiterleitung zur Starting 11 Manager-App.',
     });
+    this.timer = setTimeout(() => window.location.assign(this.url), REDIRECT_DELAY_MS);
+  }
 
-    this.metaTagService.addTags([
-      {
-        name: 'keywords',
-        content: 'Fußballverein, Stainz, SC Stainz, Fußballverein Stainz, HVTDP, HVTDP Stainz',
-      },
-      { name: 'author', content: 'Stefan Jaindl' },
-      { charset: 'UTF-8' },
-    ]);
+  ngOnDestroy() {
+    clearTimeout(this.timer);
   }
 }

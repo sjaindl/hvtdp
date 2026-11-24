@@ -1,124 +1,121 @@
-import { CommonModule } from '@angular/common';
-import { Component, HostListener, OnChanges, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatSort, MatSortModule } from '@angular/material/sort';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
-import { MysqlService } from '../services/mysql.service';
-import { MatchInfo } from '../shared/match-info';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import { EMPTY, Subject, Subscription, catchError, combineLatest, forkJoin, switchMap } from 'rxjs';
+import { ChampionshipService } from '../services/championship.service';
+import { CmsService } from '../services/cms.service';
+import { MatchGoal, MatchInfo } from '../shared/match-info';
 import { Scorer } from '../shared/scorer';
+import { Season } from '../shared/season';
+import { formatSeason } from '../shared/seasons';
 import { Standing } from '../shared/standing';
-
-// TODO: Sortierung oben-unten, Meisterschaft, Cup, Testspiele
-// Ergebnisse: Stadion + Datum weg
-
-// oben: Datum, Runde, Uhrzeit - Sortierung nach Datum
+import { ErrorUtil } from '../shared/utils/error.util';
+import { MatchOutcome, MatchUtil } from '../shared/utils/match.util';
+import { ContentSwapDirective } from '../ui/content-swap/content-swap.directive';
+import { EmptyStateComponent } from '../ui/empty-state/empty-state.component';
+import { NextMatchComponent } from '../ui/match-widgets/next-match.component';
+import { PageIntroComponent } from '../ui/page-intro/page-intro.component';
+import { SlidingIndicatorDirective } from '../ui/sliding-indicator/sliding-indicator.directive';
 
 @Component({
   selector: 'app-championship',
   templateUrl: './championship.component.html',
-  styleUrls: ['./championship.component.css'],
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatSortModule, MatButtonModule],
+  imports: [
+    RouterModule,
+    EmptyStateComponent,
+    NextMatchComponent,
+    PageIntroComponent,
+    SlidingIndicatorDirective,
+    ContentSwapDirective,
+  ],
 })
-export class ChampionshipComponent implements OnInit, OnChanges, OnDestroy {
-  dataSource: MatTableDataSource<Standing> = new MatTableDataSource<Standing>();
-  @ViewChild(MatSort, { static: false }) sort: MatSort;
+export class ChampionshipComponent implements OnInit, OnDestroy {
+  private championshipService = inject(ChampionshipService);
+  private cmsService = inject(CmsService);
+  private route = inject(ActivatedRoute);
+  private titleService = inject(Title);
+  private metaTagService = inject(Meta);
 
-  @ViewChild(MatSort) set matSort(ms: MatSort) {
-    this.sort = ms;
-    this.setDataSourceAttributes();
-  }
+  readonly formatSeason = formatSeason;
+  readonly goalsLabel = (goals: MatchGoal[]) => MatchUtil.goalsLabel(goals);
 
-  setDataSourceAttributes() {
-    this.dataSource.sort = this.sort;
-  }
+  /** Seasons from Strapi, newest first (season chips). */
+  seasons: Season[] = [];
+  season = '';
+  /** League and notes of the season shown. */
+  seasonInfo: Season | null = null;
+  standings: Standing[] = [];
+  scorers: Scorer[] = [];
+  results: MatchInfo[] = [];
+  nextMatch: MatchInfo | null = null;
+  loaded = false;
+  failed = false;
+  loading = false;
+  /** Season of the content on screen; changing it plays the content entrance animation. */
+  contentKey = '';
+  errorText = '';
 
-  displayedColumns = [
-    'place',
-    'team',
-    'games',
-    'wins',
-    'draws',
-    'losses',
-    'goalDifference',
-    'points',
-  ];
-
-  scorers: Scorer[];
-  matchInfo: MatchInfo[] = [];
-  private matchInfoBySeason = new Map<string, MatchInfo[]>();
-  seasonContent: SeasonContent;
-
-  season: string;
-
-  private sub: any;
-  expandedStanding: Standing | null = null;
-  isMobile = false;
-
-  // tableLink = "https://www.meinspielplan.de/plan/3hjrgw?box=table&title=yes#https%3A%2F%2Fsued-weststeirischercup.jimdo.com%2Fspielbetrieb%2F";
-
-  constructor(
-    private mysqlService: MysqlService,
-    private route: ActivatedRoute,
-    private titleService: Title,
-    private metaTagService: Meta
-  ) {}
+  /** Match id → news id of its report (newest report wins). */
+  private reports = new Map<number, number>();
+  /** Each request cancels the previous one, so a slow earlier season never replaces the one shown. */
+  private loads = new Subject<string>();
+  private sub?: Subscription;
+  private loadSub?: Subscription;
 
   ngOnInit() {
-    this.updateIsMobile();
-
-    if (this.route.params == null) {
-      return;
-    }
-
-    this.sub = this.route.params.subscribe((params) => {
-      this.season = params['season'];
-      console.log(' season: ' + this.season);
-      this.seasonContent = this.getSeasonContent(this.season);
-
-      this.mysqlService.getStandings().subscribe((standings) => {
-        this.dataSource.data = standings.filter((standing) => {
-          return standing.season == this.season;
-        });
-
-        this.dataSource.sort = this.sort;
-      });
-
-      this.mysqlService.getScorers().subscribe((scorers) => {
-        this.scorers = scorers
-          .filter((scorer) => {
-            return scorer.goals > 0 && scorer.season == this.season;
-          })
-          .sort((a, b) => {
-            if (a.goals == b.goals) {
-              if (a.playerName > b.playerName) return 1;
-              else return -1;
-            }
-
-            return b.goals - a.goals;
-          });
-
-        this.scorers.forEach((scorer) => {
-          scorer.goalsDisplay = '';
-          for (let _i = 0; _i < scorer.goals; _i++) {
-            scorer.goalsDisplay += '⚽';
+    // Report links are optional: without news the results just show no link.
+    this.cmsService.getNews().subscribe({
+      next: (news) => {
+        this.reports = new Map();
+        for (const item of news) {
+          if (item.matchId !== null && !this.reports.has(item.matchId)) {
+            this.reports.set(item.matchId, item.newsId);
           }
-        });
+        }
+      },
+      error: () => (this.reports = new Map()),
+    });
+
+    this.loadSub = this.loads
+      .pipe(
+        switchMap((season) =>
+          forkJoin({
+            standings: this.championshipService.getStandings(season),
+            scorers: this.championshipService.getScorers(season),
+            matches: this.championshipService.getMatches(season),
+          }).pipe(
+            catchError((error: unknown) => {
+              this.showError(error);
+              return EMPTY;
+            })
+          )
+        )
+      )
+      .subscribe(({ standings, scorers, matches }) => {
+        this.standings = standings;
+        this.scorers = scorers;
+        this.results = MatchUtil.sortNewestFirst(
+          matches.filter((match) => MatchUtil.hasScore(match))
+        );
+        this.nextMatch = MatchUtil.nextMatch(matches);
+        this.loaded = true;
+        this.loading = false;
+        this.contentKey = this.season;
       });
 
-      this.mysqlService.getMatchInfo().subscribe((matches) => {
-        this.matchInfo = matches ?? [];
-        this.matchInfoBySeason.clear();
-        console.log(this.matchInfo);
-        this.matchInfo.forEach((match) => {
-          const seasonMatches = this.matchInfoBySeason.get(match.season) ?? [];
-          seasonMatches.push(match);
-          this.matchInfoBySeason.set(match.season, seasonMatches);
-          console.log(this.matchInfoBySeason);
-        });
-      });
+    // Without a season in the URL (/championship) the newest season is shown.
+    this.sub = combineLatest([
+      this.route.params,
+      this.championshipService.getSeasons(true),
+    ]).subscribe({
+      next: ([params, seasons]) => {
+        this.seasons = seasons;
+        this.season = params['season'] ?? seasons[0]?.key ?? '';
+        this.seasonInfo = seasons.find((season) => season.key === this.season) ?? null;
+        this.load();
+      },
+      error: (error: unknown) => this.showError(error),
     });
 
     this.titleService.setTitle('HV TDP Stainz: Meisterschaft');
@@ -127,130 +124,69 @@ export class ChampionshipComponent implements OnInit, OnChanges, OnDestroy {
       content:
         'Informationen über die Situation in der Meisterschaft vom HV TDP Stainz in der STT Meisterschaft.',
     });
-
-    this.metaTagService.addTags([
-      {
-        name: 'keywords',
-        content: 'Fußballverein, Stainz, SC Stainz, Fußballverein Stainz, HVTDP, HVTDP Stainz',
-      },
-      { name: 'author', content: 'Stefan Jaindl' },
-      { charset: 'UTF-8' },
-    ]);
-  }
-
-  ngOnChanges() {
-    this.dataSource.sort = this.sort;
   }
 
   ngOnDestroy() {
-    this.sub.unsubscribe();
+    this.sub?.unsubscribe();
+    this.loadSub?.unsubscribe();
   }
 
-  get mobileStandings(): Standing[] {
-    const data = [...this.dataSource.data];
-    return this.sort ? this.dataSource.sortData(data, this.sort) : data;
-  }
-
-  getMatchesForSeason(season: string): MatchInfo[] {
-    const matches = this.matchInfoBySeason.get(season) ?? [];
-    return [...matches].sort((a, b) => (b.id ?? 0) - (a.id ?? 0));
-  }
-
-  getResultsForSeason(season: string): MatchInfo[] {
-    return this.getMatchesForSeason(season).filter((match) => this.hasScore(match));
-  }
-
-  getUpcomingForSeason(season: string): MatchInfo[] {
-    return this.getMatchesForSeason(season).filter((match) => !this.hasScore(match));
-  }
-
-  formatMatch(match: MatchInfo): string {
-    const parts: string[] = [];
-
-    if (match.matchInfo) {
-      parts.push(match.matchInfo);
+  load() {
+    if (!this.season) {
+      return;
     }
-    if (match.dateTime) {
-      parts.push(match.dateTime);
-    }
-    if (match.venue) {
-      parts.push(match.venue);
-    }
-
-    const teams = [match.homeTeam, match.awayTeam].filter(Boolean).join(' : ');
-    if (teams) {
-      if (this.hasScore(match)) {
-        parts.push(`${teams} ${match.homeScore}:${match.awayScore}`);
-      } else {
-        parts.push(teams);
-      }
-    }
-
-    const additional = (match.additionalInfo ?? '').trim();
-    if (additional) {
-      if (additional === '*') {
-        parts.push(additional);
-      } else if (additional.startsWith('(')) {
-        parts.push(additional);
-      } else {
-        parts.push(`(${additional})`);
-      }
-    }
-
-    return parts.join(' - ');
+    this.loading = true;
+    this.failed = false;
+    this.loads.next(this.season);
   }
 
-  getGoalScorers(match: MatchInfo): string {
-    return (match.goalScorer ?? '').trim();
+  /** Season notes may contain several paragraphs (blank lines). */
+  paragraphs(text: string | null | undefined): string[] {
+    return (text ?? '')
+      .split(/\n\s*\n/)
+      .map((paragraph) => paragraph.trim())
+      .filter(Boolean);
   }
 
-  private hasScore(match: MatchInfo): boolean {
-    return (
-      match.homeScore !== null &&
-      match.homeScore !== undefined &&
-      match.awayScore !== null &&
-      match.awayScore !== undefined
-    );
+  private showError(error: unknown) {
+    this.loaded = true;
+    this.loading = false;
+    this.failed = true;
+    this.errorText = ErrorUtil.message(error);
   }
 
-  @HostListener('window:resize')
-  onResize() {
-    this.updateIsMobile();
+  isOwn(team: string): boolean {
+    return MatchUtil.isOwnTeam(team);
   }
 
-  private updateIsMobile() {
-    if (typeof window === 'undefined') return;
-    this.isMobile = window.innerWidth <= 768;
+  outcome(match: MatchInfo): MatchOutcome | null {
+    return MatchUtil.outcome(match);
   }
 
-  private getSeasonContent(season: string): SeasonContent {
-    const content: Record<string, SeasonContent> = {
-      '2026-2027': {
-        upcomingTitle: 'Spieltermine',
-      },
-      '2025-2026': {
-        upcomingTitle: 'Spieltermine',
-      },
-      '2022-2023': {
-        postResults: [
-          '* Spiel wird offiziell nicht gewertet, da Gössnitz aus der Liga ausgestiegen ist.',
-        ],
-      },
-      '2021-2022': {
-        preface: [
-          'Die Plätze 1 bis 3 spielen am Ende der Saison in einem Play-off gegen die Plätze 5 bis 8 aus Liga A um den Aufstieg.',
-        ],
-      },
-    };
-
-    return {
-      ...content[season],
-    };
+  matchMeta(match: MatchInfo): string {
+    const date = MatchUtil.formatDateTime(match).split(' · ')[0];
+    return [match.label, date].filter(Boolean).join(' · ');
   }
-}
 
-interface SeasonContent {
-  upcomingTitle?: string;
-  preface?: string[];
-  postResults?: string[];
+  reportFor(match: MatchInfo): number | null {
+    return this.reports.get(match.id) ?? null;
+  }
+
+  additionalInfo(match: MatchInfo): string {
+    const info = (match.additionalInfo ?? '').trim();
+    return !info || info === '*' || info.startsWith('(') ? info : `(${info})`;
+  }
+
+  scorerInitials(name: string): string {
+    return name
+      .split(/\s+/)
+      .slice(0, 2)
+      .map((part) => part.charAt(0))
+      .join('')
+      .toUpperCase();
+  }
+
+  get standingsNote(): string {
+    return this.standings.length ? 'Aktueller Tabellenstand' : '';
+  }
 }

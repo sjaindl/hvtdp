@@ -1,0 +1,17 @@
+<p #content class="whitespace-pre-line" [class]="textClass">{{ text }}</p>
+@if (overflowing() || expanded()) {
+  <button
+    type="button"
+    class="mt-1 inline-flex min-h-[32px] items-center gap-0.5 text-[13px] font-semibold text-pink-600 hover:text-pink-700"
+    [attr.aria-expanded]="expanded()"
+    (click)="toggle()"
+  >
+    {{ expanded() ? 'Weniger anzeigen' : 'Mehr anzeigen' }}
+    <span
+      class="material-icons text-lg transition-transform duration-300"
+      [class.rotate-180]="expanded()"
+      aria-hidden="true"
+      >expand_more</span
+    >
+  </button>
+}

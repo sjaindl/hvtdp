@@ -3,41 +3,41 @@
     <div class="slider-main">
       <div
         class="slider-image-wrapper"
-        #imageWrapper
-      [ngStyle]="{
-        transform: 'translateX(' + currentTranslate + 'px)',
-        transition: cardTransition
-      }"
+        [ngStyle]="{
+          transform: 'translateX(' + currentTranslate + 'px)',
+          transition: cardTransition,
+        }"
         (mousedown)="onMouseDown($event)"
-        (mouseup)="onMouseUp($event)"
+        (mouseup)="onMouseUp()"
         (mousemove)="onMouseMove($event)"
-        (mouseleave)="onMouseLeave($event)"
+        (mouseleave)="onMouseLeave()"
         (touchstart)="onTouchStart($event)"
         (touchmove)="onTouchMove($event)"
-        (touchend)="onTouchEnd($event)"
-        (touchcancel)="onTouchEnd($event)"
-        >
+        (touchend)="onTouchEnd()"
+        (touchcancel)="onTouchEnd()"
+      >
         <img
           class="slider-image"
           draggable="false"
           (dragstart)="$event.preventDefault()"
           [src]="imagePath(currentItem)"
           [alt]="currentItem.title || 'Image'"
-          />
+        />
         <button
           type="button"
           class="slider-fullscreen-btn"
-          (click)="toggleFullscreen(imageWrapper, $event)"
-          >
-          <i class="fas fa-expand"></i>
+          aria-label="Vollbild"
+          (click)="openFullscreen($event)"
+        >
+          <span class="material-icons">fullscreen</span>
         </button>
         <button class="slider-arrow left" type="button" (click)="previous()">‹</button>
         <button class="slider-arrow right" type="button" (click)="next()">›</button>
       </div>
       <div class="slider-bottom">
-        @if (carouselItems?.length > 1 && showDots) {
+        @if (carouselItems.length > 1 && showDots) {
           <div class="slider-dots">
-            @for (item of carouselItems; track trackByIndex(i, item); let i = $index) {
+            @for (item of carouselItems; track $index; let i = $index) {
               <button
                 type="button"
                 class="dot"
@@ -55,26 +55,22 @@
           }
         </div>
         @if (currentItem.navPath) {
-          <button
-            type="button"
-            class="slider-details-btn"
-            (click)="showImageDetails(currentItem)"
-            >
+          <button type="button" class="slider-details-btn" (click)="showImageDetails(currentItem)">
             Zum Bericht
           </button>
         }
       </div>
     </div>
-    @if (carouselItems?.length > 1) {
+    @if (carouselItems.length > 1) {
       <div class="slider-thumbs">
-        @for (item of carouselItems; track trackByIndex(i, item); let i = $index) {
+        @for (item of carouselItems; track $index; let i = $index) {
           <button
             #thumbBtn
             type="button"
             class="thumb"
             [class.active]="i === currentIndex"
             (click)="goTo(i)"
-            >
+          >
             <img [src]="imagePath(item)" [alt]="item.title || 'Thumb'" />
           </button>
         }
@@ -83,7 +79,7 @@
   </div>
 }
 
-@if (carouselItems?.length === 0) {
+@if (carouselItems.length === 0) {
   <div class="slider slider-empty">
     <p>Noch keine Einträge vorhanden.</p>
   </div>

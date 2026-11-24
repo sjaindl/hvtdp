@@ -1,0 +1,61 @@
+<ng-template #team let-name="name">
+  <div class="flex w-[104px] flex-col items-center gap-2 text-center">
+    @if (isOwn(name)) {
+      <span class="flex h-14 w-14 items-center justify-center rounded-full bg-pink-50">
+        <img src="hvtdp.png" alt="" class="h-[42px] w-[34px] object-contain" />
+      </span>
+    } @else {
+      <span
+        class="flex h-14 w-14 items-center justify-center rounded-full bg-gray-100 text-base font-bold text-gray-600"
+        >{{ initials(name) }}</span
+      >
+    }
+    <span class="text-sm font-semibold leading-tight text-gray-900">{{ name }}</span>
+  </div>
+</ng-template>
+
+<article class="card flex h-full flex-col gap-5 p-5">
+  <div class="flex items-center justify-between">
+    <h2 class="text-base font-bold text-gray-900">Letztes Spiel</h2>
+    @if (outcome) {
+      <span [class]="outcome === 'Sieg' ? 'badge-dark' : 'badge-neutral'">{{ outcome }}</span>
+    }
+  </div>
+  <p class="-mt-2 text-[13px] font-medium text-gray-500">{{ meta }}</p>
+
+  <div class="flex items-center justify-between">
+    <ng-container *ngTemplateOutlet="team; context: { name: match.homeTeam }"></ng-container>
+    <div class="flex items-center gap-1.5" aria-label="Ergebnis">
+      <span
+        class="text-5xl font-extrabold leading-none"
+        [class]="isOwn(match.homeTeam) ? 'text-pink-600' : 'text-gray-900'"
+        >{{ match.homeScore }}</span
+      >
+      <span class="text-4xl font-bold leading-none text-gray-400">:</span>
+      <span
+        class="text-5xl font-extrabold leading-none"
+        [class]="isOwn(match.awayTeam) ? 'text-pink-600' : 'text-gray-900'"
+        >{{ match.awayScore }}</span
+      >
+    </div>
+    <ng-container *ngTemplateOutlet="team; context: { name: match.awayTeam }"></ng-container>
+  </div>
+
+  @if (match.goals.length) {
+    <div class="flex items-center gap-2 rounded-xl bg-gray-50 px-3.5 py-3">
+      <span class="material-icons text-lg text-gray-600">sports_soccer</span>
+      <span class="text-sm font-medium text-gray-800">{{ goalsLabel(match.goals) }}</span>
+    </div>
+  }
+
+  <div class="mt-auto flex gap-2.5">
+    @if (reportNewsId) {
+      <a [routerLink]="['/news', reportNewsId]" class="btn-primary flex-1"
+        >Spielbericht <span class="material-icons text-xl">article</span></a
+      >
+    }
+    <a [routerLink]="['/championship', match.season]" class="btn-secondary flex-1"
+      >Alle Ergebnisse</a
+    >
+  </div>
+</article>

@@ -1,40 +1,26 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef, MatDialogModule } from '@angular/material/dialog';
-import { FormGroup, FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
+import { Component, inject } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
-    selector: 'app-passworddialog',
-    templateUrl: './passworddialog.component.html',
-    styleUrls: ['./passworddialog.component.css'],
-    standalone: true,
-    imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        MatDialogModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatButtonModule
-    ]
+  selector: 'app-passworddialog',
+  templateUrl: './passworddialog.component.html',
+  standalone: true,
+  imports: [ReactiveFormsModule, MatDialogModule],
 })
-export class PassworddialogComponent implements OnInit {
-  form: FormGroup;
+export class PassworddialogComponent {
+  private formBuilder = inject(FormBuilder);
+  private dialogRef = inject<MatDialogRef<PassworddialogComponent>>(MatDialogRef);
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private dialogRef: MatDialogRef<PassworddialogComponent>
-  ) {}
+  form: FormGroup = this.formBuilder.group({
+    password: '',
+  });
 
-  ngOnInit() {
-    this.form = this.formBuilder.group({
-      password: '',
-    });
+  submit(form: FormGroup) {
+    this.dialogRef.close(`${form.value.password}`);
   }
 
-  submit(form) {
-    this.dialogRef.close(`${form.value.password}`);
+  cancel() {
+    this.dialogRef.close();
   }
 }

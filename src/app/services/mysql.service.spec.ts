@@ -1,15 +1,15 @@
-import { TestBed, inject } from '@angular/core/testing';
-
+import { TestBed } from '@angular/core/testing';
+import { provideTestDependencies } from '../../testing/test-providers';
 import { MysqlService } from './mysql.service';
 
 describe('MysqlService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [MysqlService],
+      providers: [...provideTestDependencies(), MysqlService],
     });
   });
 
-  it('should be created', inject([MysqlService], (service: MysqlService) => {
-    expect(service).toBeTruthy();
-  }));
+  it('should be created', () => {
+    expect(TestBed.inject(MysqlService)).toBeTruthy();
+  });
 });
